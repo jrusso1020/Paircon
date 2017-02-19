@@ -58,6 +58,9 @@ gem 'sqlite3'                                                     # Use SQLite3 
 # gem 'sitemap_generator'                                         # For Generating Sitemaps for Google etc.
 
 group :development, :test do
+  gem 'rdoc'                                                      # For Generating Documentation (Requires GraphViz Local Install)
+  gem 'rails-erd'                                                 # For Generating ERD Diagrams (https://github.com/voormedia/rails-erd)
+  gem 'annotate'                                                  # Adding annotations to models (http://github.com/ctran/annotate_models)
   gem 'byebug', platform: :mri                                    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'passenger', '~> 5.0.7'                                     # Web Server (Best)
   #gem 'puma', '~> 2.8.1'                                         # Web Server (Lighter)
