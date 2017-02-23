@@ -23,7 +23,8 @@ requirements = [
                 'nltk',
                 'scikit-learn',
                 'numpy',
-                'scipy'
+                'scipy',
+                'flask'
                 ]
 
 setup(
