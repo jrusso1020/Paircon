@@ -1,11 +1,12 @@
 =begin
 Author : MAHAK GARG (mg2288)
 Class to extract all the pdf links from the google scholar page or a personal web page
-TODO : Need to add functionality for personal web page
 =end
 
 require 'nokogiri'
 require 'open-uri'
+require 'pdf-reader'
+require 'docsplit'
 
 USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/51.0"
 
@@ -116,9 +117,44 @@ class PDFScrapper
     end
   end
 
+  # Using pdf-reader , no need to save pdfs, only give the output folder, but the quality is bad
+  def getAllPdfsAsText(folderName)
+    links = getPdf
+    links.each do |link|
+      begin
+        download = open(link, "User-Agent" => USER_AGENT)
+        reader = PDF::Reader.new(download)
+        filePath = folderName + "/" + link.split('/').last + ".txt"
+        File.open(filePath, "a") do |f|
+          reader.pages.each do |page|
+            f.write(page.text)
+          end
+        end
+      rescue => ex
+        puts "Could not download " + link
+      end
+
+    end
+  end
+
+  # This is using doc split, first you have to save the pdfs then convert to text
+  # Function downloadAllPdfs needs to be called first
+  def convertPdfToText(pdfFolder, txtFolder)
+    Dir.foreach(pdfFolder) do |item|
+      next if item == '.' or item == '..'
+      filepath = pdfFolder + "/" + item
+      Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
+    end
+  end
+
 end
 
 
 #d = PDFScrapper.new('https://scholar.google.com/citations?user=jsxk8vsAAAAJ&hl=en', 'google-scholar')
 d = PDFScrapper.new('http://www.cs.cornell.edu/~kilian/publications/publications.html', 'personal')
+# This is using doc split, first you have to save the pdfs then convert to text
 d.downloadAllPdfs('/home/mahak/docs')
+d.convertPdfToText('/home/mahak/docs', '/home/mahak/txts')
+
+#Using pdf-reader , no need to save pdfs, only give the output folder, but the quality is bad
+d.getAllPdfsAsText('/home/mahak/txts1')
