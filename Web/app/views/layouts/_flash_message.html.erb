@@ -1,0 +1,41 @@
+<% init_error_flash %>
+
+<div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="notification_msg_box"
+     style="display: none">
+
+  <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+    <i class="fa fa-times fa-fw cloudmerge-green"></i></button>
+  <i class="fa fa-check fa-fw cloudmerge-green"></i>
+  <span class="cloudmerge-green" id="flash_notice_message"><%= raw flash[:notice] %></span>
+</div>
+
+<div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="processing_msg_box"
+     style="display: none">
+
+  <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+    <i class="fa fa-times fa-fw cloudmerge-green"></i></button>
+  <i class="fa fa fa-circle-o-notch fa-spin fa-fw cloudmerge-green"></i>
+  <span class="cloudmerge-green"><%= 'We are currently processing your request. Please wait ...' %></span>
+</div>
+
+<div class="custom-flash-error alert alert-fixed alert-danger" id="error_message_box"
+     style="display: none">
+  <button type="submit" class="close" style="position: static; opacity: 1; font-size: 14px;">
+    <i class="fa fa-times fa-fw"></i></button>
+  <i class="fa fa-info"></i> <span id="flash_alert_message"><%= raw flash[:alert] %></span>
+</div>
+
+<script>
+    setAutoHideFlashMsg('processing_msg_box');
+    setAutoHideFlashMsg('notification_msg_box');
+    setAutoHideFlashMsg('error_message_box');
+
+    $('#notification_msg_box').css('display', '<%= flash[:notice].blank? ? 'none' : 'block' %>');
+    $('#processing_msg_box').css('display', '<%= flash[:processing].blank? ? 'none' : 'block' %>');
+    $('#error_message_box').css('display', '<%= flash[:alert].blank? ? 'none' : 'block' %>');
+</script>
+
+<% flash[:notice] = nil %>
+<% flash[:alert] = nil %>
+<% flash[:processing] = nil %>
+

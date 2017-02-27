@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="x-pjax-version" content="v123">
+  <title><%= @page_title %> - PairCon</title>
+
+  <%= favicon_link_tag 'favicon.ico' %>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="CloudMerge">
+  <meta name="author" content="CloudMerge">
+  <META Http-Equiv="Cache-Control" Content="no-cache"/>
+  <META Http-Equiv="Pragma" Content="no-cache"/>
+  <META Http-Equiv="Expires" Content="0"/>
+
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body class="focusedform primary_background_color" style="margin-top: 40px;">
+<div class="container nopadding" id="main-container" style="margin-top: -40px; width:100vw;">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <%= link_to 'Home', root_path, class: 'skip-pjax' %>
+      <%= link_to 'About', about_home_index_path, class: 'skip-pjax' %>
+      <%= link_to 'Features', features_home_index_path, class: 'skip-pjax' %>
+      LOADED ABOUT PAGE
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>

@@ -1,23 +1,514 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      user:
+        first_name: First Name
+        last_name: Last Name
+        full_name: 'Full Name'
+        email: Email
+        password: Password
+        password_confirmation: Retype Password
+    errors:
+      messages:
+        blank: "field cannot be left blank"
+      models:
+        user:
+          attributes:
+            first_name:
+              blank: Enter your first name
+            last_name:
+              blank: Enter your last name
+            email:
+              blank: Enter your email address
+              taken: This email address is already in use
+              invalid: Enter a valid email address
+              too_short: Email is too short (minimum is %{count} characters)
+              too_long: Email is too long (maximum is %{count} characters)
+        tag:
+          attributes:
+            name:
+              too_long: 'Tag is too long (maximum is %{count} characters)'
+              taken: 'Tag already exists, please give a unique name'
+              
+  date:
+    formats:
+    # Use the strftime parameters for formats.
+    # When no format has been given, it uses default.
+    # You can provide other formats here if you like!
+      default: "%e %B %Y"
+      short: "%B %Y"
+      long: "%e %B %Y"
+      text_field: '%m/%d/%Y'
+      display: 'MM/DD/YYYY'
+      datepicker: 'mm/dd/yy'
+      fullcalendar:
+        title_format:
+          month: 'MMMM yyyy'
+          week: "MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}"
+          day: 'dddd, MMM d, yyyy'
+        column_format:
+          month: 'ddd'
+          week: 'ddd M/d'
+          day: 'dddd M/d'
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, January, Feburary, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    # Used in date_select and datime_select.
+    order: [day, month, year]
+
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: about %{count} hours
+      about_x_months:
+        one: about 1 month
+        other: about %{count} months
+      about_x_years:
+        one: about 1 year
+        other: about %{count} years
+      almost_x_years:
+        one: almost 1 year
+        other: almost %{count} years
+      half_a_minute: half a minute
+      less_than_x_minutes:
+        one: less than a minute
+        other: less than %{count} minutes
+      less_than_x_seconds:
+        one: less than 1 second
+        other: less than %{count} seconds
+      over_x_years:
+        one: over 1 year
+        other: over %{count} years
+      x_days:
+        zero: 0 day
+        one: 1 day
+        other: ! '%{count} days'
+      x_minutes:
+        one: 1 minute
+        other: ! '%{count} minutes'
+      x_months:
+        one: 1 month
+        other: ! '%{count} months'
+      x_seconds:
+        one: 1 second
+        other: ! '%{count} seconds'
+
+  time:
+    formats:
+      default: "%d %b %Y %I:%M %p"
+      short: "%I %p"
+      long: "%a, %d %b %Y %I:%M %p"
+      fullcalendar:
+        axis_format: 'h(:mm)tt'
+        time_format: 'h:mm t{ - h:mm t} '
+    am: "am"
+    pm: "pm"
+
+  # Emails Begin
+  notifier:
+  user_verify_email_subject: CloudMerge Account Activation
+  delivered_via: Delivered via
+  shared_source: " through the link you shared via %{source}. "
+  email_footer: 'To change your settings for email notifications, <a href="%{href_path}">click here</a>'
+  # Emails End
+
+  # Messages Begin
+  personal_information_updated: Your personal information has been updated
+  timezone_updated_success_msg: Your time zone has been updated
+  email_password_updated: Your email address and password have been updated
+  notifications_updated: Your notifications settings have been updated
+  sure_to_del_user: Are you sure you want to delete this user?
+  user_deleted: The user has been deleted
+  user_updated: "User information has been updated"
+  user_created: Your invitation was successfully sent to %{email_address}
+  delete_status: Delete Status
+  save_msg: Your settings have been saved
+  contacts_count:
+    one: You have selected %{count} contact
+    other: You have selected %{count} contacts
+  app_msg_sent_success_msg: Your message has been successfully sent
+  incorrect_pic_format: Incorrect file format. Only gif, jpg, jpeg, and png file types are allowed
+  please_try_again: Please try again. If the problem persists, please contact <a href="mailto:%{support_email}">%{support_email}</a>
+  file_del_msg: Are you sure you want to delete this file?
+  atleast_one_option_req_msg: "At least one option is required"
+  account_not_found: "No account found"
+  email_required_field: Email field is required
+  hint_text: Please type name or email and then press enter
+  no_results_text: No results found
+  searching_text: Looking for email address...
+  invalid_token_text: Enter a valid email address
+  user_status_inactive_tooltip: "Change this user's status to inactive"
+  user_status_active_tooltip: "Change this user's status to active"
+  message_not_sent_due_to_filesize: Your message could not be sent due to file size. File size cannot be more than 1MB
+  invalid_url_msg: 'Please enter a valid URL'
+  url_protocol_not_required_msg: Please specify the valid URL without 'http://' or 'https://'
+  no_special_chars_allowed_msg: No special characters allowed
+  user_status_to_active_msg: "%{user_name} is now active and will be able to log in"
+  user_status_to_inactive_msg: "%{user_name} is now inactive and will not be able to log in"
+  invalid_msg: Invalid
+  file_uploaded_success_msg: "The file has been successfully added"
+  select_file_msg: "Please select a file"
+  user_assigned_success_msg: "User has been successfully assigned"
+  user_unassigned_success_msg: "User has been successfully unassigned"
+  user_not_found: "No user found"
+  https_access_error_msg: "Please type https:// instead of http:// before your URL in order to access this page securely"
+  server_busy_msg: "Please try after some time, server is busy"
+  error_uploading_att_file: "There was an error while uploading the attachment. Please try again"
+  supported_not_supported_format: "This format is not supported. Supported formats are doc, txt, pdf, docx, rtf, png, gif, jpg, jpeg, rar, zip, ppt, xls, xlsx"
+  invalid_email: Invalid email or password
+  email_not_found: Sorry, we couldn't find anyone with that email address
+  tag_updated: "Your tag has been successfully updated"
+  tag_deleted: " has been successfully deleted"
+  password_sent: "An email has been sent to %{email_address} with instructions on how to obtain your new password"
+  settings_updated: Your settings have been updated
+  subject_required: Subject field is required
+  message_required: Message field is required
+  invalid_email_address_msg: 'Please enter a valid email address'
+  required_field_msg: 'This field is required'
+  pls_enter_same_value_msg: 'Please enter the same value again'
+  pls_enter_at_least_characters: 'Please enter at least {0} characters'
+  error_delete_msg: "Unable to delete at this time. Please try again later."
+  confirm_disable_user_msg: "Are you sure you want to disable this user?"
+  confirm_delete_msg: "Are you sure you want to delete?"
+  tag_created: "Tag has been successfully created"
+  invalid_feed_request: "The feed request is invalid"
+  no_feed_request: "No Feed Request"
+  users_not_exist: No users exist
+  invitation_sent: "Invitation has been sent"
+  invitation_not_sent: "Invitation has not been sent"
+  pls_enter_valid_number: 'Please enter a valid number'
+  pls_enter_value_less_or_equal_max: 'Please enter a value less than or equal to {0}'
+  please_fix_errors_msg: Please fix the highlighted errors and try again
+  # Messages End
+
+  # Labels Begin
+  email: Email
+  deleting: Deleting...
+  uploading: Uploading...
+  submitting: Submitting...
+  loading: Loading...
+  all: All
+  select: Select
+  first_name: First Name
+  last_name: Last Name
+  search: Search
+  tags: Tags
+  display: Display
+  cloud: Cloud
+  list: List
+  sort_by: Sort by
+  freq: Freq
+  alpha: Alpha
+  preview: Preview
+  download: Download
+  name: Name
+  description: Description (Optional)
+  color: Color
+  first: First
+  last: Last
+  messages: Messages
+  rating: Rating
+  subject: Subject
+  applications: Applications
+  archive: Archive
+  unarchive: Unarchive
+  required_fields: Required fields
+  save: Save
+  cancel: Cancel
+  summary: Summary
+  updates_from_last: Updates from the last %{hours} hours
+  new_apps_rec: new applications received
+  dashboard: Dashboard
+  today: Today
+  day: Day
+  week: Week
+  month: Month
+  year: Year
+  from: From
+  sent_to: sent to
+  reply: Reply
+  no_new_messages: No new messages
+  submit: Submit
+  all_rights_reserved: All rights reserved
+  settings: Settings
+  general: General
+  logo: Logo
+  feedback: Feedback
+  email_required: Email field is required
+  email_incorrect: Email format is incorrect
+  first_name_required: First name field is required
+  provide_correct_values: Provide correct values and try again
+  add_new: Add New
+  untitled: "Untitled"
+  question_type: Question Type
+  single_line: Single Line Text
+  paragraph: Paragraph Text
+  multiple: Multiple Choice
+  drop_down: Drop Down
+  checkboxes: Checkboxes
+  upload_file: Upload File
+  choices: Choices
+  required_ques: Required Question
+  click_to_edit: Click to edit. Drag to reorder
+  browse_by: Browse By
+  status: Status
+  your_tags: Your Tags
+  welcome: Welcome
+  my_account: My Profile
+  sign_out: Sign out
+  send_feedback: Send Feedback
+  privacy_policy: Privacy Policy
+  address_1: Street Address 1
+  address_2: Street Address 2
+  city: City
+  state: State
+  province: Province
+  zip: Zip / Postal Code
+  country: Country
+  fax: Fax
+  edit_location: Edit Location
+  edit_tags: Edit Tag
+  update: Update
+  saved: saved
+  rec_from: wrote
+  rep_from: Reply from
+  add_a_task: Add a task
+  what_task: What is the task?
+  when_due: When is it due?
+  tomorrow: Tomorrow
+  this_week: This week
+  next_week: Next week
+  later: Later
+  specific_date: Specific Date/Time
+  set_time: Set time
+  what_time: At what time?
+  dont_time: Don't set time
+  who_responsible: Who is responsible?
+  calendar: Calendar
+  phone_numbers: Phone numbers
+  work: Work
+  change_your_pass: Change your password
+  new_pass: New Password
+  send: Send
+  contactus_info: If you have any questions about the product or you wish to request a demo, please fill in the form below and we will get in touch with you as soon as possible
+  at: at
+  web_url: "Company URL: http://"
+  late: late
+  due_today: Due Today
+  due_tomorrow: Due Tomorrow
+  due_next_week: Due Next Week
+  due_later: Due Later
+  due_this_week: Due This Week
+  finish: Finish
+  selected: Selected
+  manage_tags: Manage Tags
+  delete_tags: Delete Tag
+  detete_drive: Delete Drive
+  share_tags: Share Tag
+  save_and_continue: Save and Continue
+  previous: Previous
+  assigned_to: Assigned to
+  me: Me
+  assigned_by: Assigned by
+  completed_on: completed on
+  account: account
+  language: Language
+  optional: Optional
+  due: Due
+  due_at: "Due at "
+  due_this: "Due this "
+  due_on: "Due on "
+  note: Note
+  send_message: Send message
+  add_note: Add Note
+  content: Content
+  color: Color
+  colors: Colors
+  section: Section
+  header: Header
+  text: Text
+  titles: Titles
+  bg: Background
+  page: Page
+  years: years
+  add_question: Add Question
+  or: or
+  careers: Careers
+  your: Your
+  posted_date: Date posted
+  blog: Blog
+  for: For
+  duplicate: Clone
+  options: Options
+  file_name: File Name
+  code: Code
+  price: Price
+  email_support: E-mail Support
+  new_stage: New status
+  delete_status: Delete Status
+  move_candidates: Move Candidates
+  select_status_message: Please select a status.
+  statuses_select_first_text: -- Select Status --
+  package: Package
+  upgrading: upgrading
+  downgrading: downgrading
+  change_account_admin: Change Account Administrator
+  confirmation: confirmation
+  address: Address
+  contact_details: Contact Details
+  open: Open
+  apply: Apply
+  reset_password_verify_message: To verify your new password, please enter it once in each field below
+  set_password_verify_message: To activate your account, please set your password
+  welcome_email_message: "Welcome to CloudMerge"
+  account_page: account page
+  cc_info: Credit Card Information
+  thanks_for_using_cloudmerge: Thank you for using Cloudmerge.
+  quantity: Quantity
+  share: Share
+  show_quoted_text: '- Show quoted text -'
+  hide_quoted_text: '- Hide quoted text -'
+  size: Size
+  download_excel: Download Excel
+  download_pdf: Download PDF
+  status_pipeline: Status Pipeline
+  percentage: Percentage
+  male: MALE
+  female: FEMALE
+  no_answer: NO ANSWER
+  hired_total: Hired/Total
+  all_job: All jobs
+  sign_up_for_free: Sign Up for Free.
+  take_a_tour: Take a tour
+  cloudmerge: Cloud Merge
+  about_us: About Us
+  faq: Frequently Asked Questions
+  personal_information: Personal Information
+  my_info: My Info
+  search_now: Search Now
+  is_exactly: is exactly
+  contains: contains
+  does_not_contain: does not contain
+  is_greater_than: is greater than
+  is_greater_or_equal_to: is greater or equal to
+  is_less_than: is less than
+  is_less_than_or_equal_to: is less than or equal to
+  email_address: Email Address
+  email_updated: Email Address successfully updated.
+  displaying: Displaying
+  records: records
+  total_amount: Total amount(for all fetched records)
+  expirydate: Expiry Date
+  network: Network
+  connected_profile: Connected Profile
+  connected_page: Connected Page
+  jobs: Jobs
+  reports: Reports
+  about: About
+  press: Press
+  blog: Blog
+  privacy: Privacy
+  terms: Terms
+  help: Help
+  allow_job_publishing: Allow Job Publishing
+  advanced_search: Advanced Search
+  set_statuses_to: Set Status to...
+  contact_us: Contact Us
+  default: Default
+  personal_info: Personal Info
+  time_zone: Time Zone
+  email_password: Email & Password
+  notifications: Notifications
+  google_account: Google Account
+  google_apps: Google Apps
+  password: Password
+  rem_me: Remember me
+  forgot_pass: Forgot Your Password?
+  logging_in: Logging In...
+  already_have_account: Already have an account
+  click_here: Click here
+  confirm_password: Confirm Password
+  create_account: Create My Account
+  connect_account: Connect Account
+  xml_job_feed: XML Job Feed
+  details: Details
+  terms_of_use: Terms of Service
+  signup: Sign Up
+  free_trial_desc: For a Free %{trial_period}-Day Trial
+  signing_up_plan_desc: You're signing up for the %{account_title} plan.
+  view_other_plans: View other available plans
+  send_me_newsletter: Send me newsletter
+  create_account: Create Account
+  activate_your_account: Activate Your Account
+  thank_you_verifying_email_address: Thank you for verifying your email address.
+  company: Company
+  enter_password_to_activate_account: Please enter a password to activate your CloudMerge account.
+  activate_account: Activate Account
+  cloudmerge_copyright: © 2015 CloudMerge.
+  back_to: « back to
+  tags: Tags
+  notifications_options:
+      '0': All
+      '1': Drives
+      '2': Tags
+      '3': Files
+  last_login: Last Login
+  actions: Actions
+  edit_user: Edit User
+  back: Back
+  required_info: Required Info
+  view_all_files: View All Files
+  attach_files: Attach Files
+  delete_all_files: Delete All Files
+  remove: Remove
+  back_to_users_and_roles: Back to Users & Roles
+  user_status: User Status
+  active: Active
+  inactive: Inactive
+  already_have_account: Already have a Cloudmerge account?
+  log_in_here: Log In here.
+  ok: OK
+  view_all_notifications: View All Notifications
+  log_out: Log out
+  you_are_logged_into: "You are logged into:"
+  do_not_have_account: Don't have an account?
+  all_time: All Time
+  last_x_days: Last %{days} days
+  contact: Contact
+  support_center: Support Center
+  knowledge_base: Knowledge Base
+  contact_support: Contact Support
+  give_feedback: Give Feedback
+  disconnect: Disconnect
+  back_to_login: Back to Log In
+  reset_password: Reset Password
+  set_password: Set Password
+  saving: Saving...
+  general_information: General Information
+  sign_up_date: SignUp Date
+  last_login: Last Login
+  domain: Domain
+  top_five_tags: Top five tags
+  last_30_days_activities: "Activities within last 30 days"
+  user_full_name: My Full Name
+  user_first_name: My First Name
+  user_last_name: My Last Name
+  user_email: My Email
+  done: 'Done'
+  bulk_upload: 'Bulk Upload'
+  tags_index_desc: 'Following Tags can be associated with your Files / Folders:'
+  new_tag: Create Tag
+  close: Close
+  files: Files
+  delete: Delete
+  delete_cloud: Delete Cloud
+  cloud_desc: "To allow CloudMerge to merge a %{name} account with your CloudMerge account, please a name for drive and click the Finish button.
+    If you don't have a Box account, then click <a href='%{link}'>here</a> to register."
+  new_folder: New Folder
+  new_file: New File
+  no_new_notifications: No new notifications.
+  notification_settings: Notification settings
+  # Labels End

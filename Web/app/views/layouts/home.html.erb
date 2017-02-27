@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="x-pjax-version" content="v123">
+  <title><%= @page_title %> - PairCon</title>
+
+  <%= favicon_link_tag 'favicon.ico' %>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="CloudMerge">
+  <meta name="author" content="CloudMerge">
+  <META Http-Equiv="Cache-Control" Content="no-cache"/>
+  <META Http-Equiv="Pragma" Content="no-cache"/>
+  <META Http-Equiv="Expires" Content="0"/>
+
+  <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+</head>
+
+<body>
+<div class="container nopadding" id="main-container" >
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <%= link_to 'Home', root_path, class: 'skip-pjax' %>
+      <%= link_to 'About', about_home_index_path, class: 'skip-pjax' %>
+      <%= link_to 'Features', features_home_index_path, class: 'skip-pjax' %>
+      <% init_error_flash_for_login %>
+      <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
+           style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
+
+        <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+          <i class="fa fa-times fa-fw paircon-custom"></i></button>
+        <i class="fa fa-info fa-fw paircon-custom"></i>
+        <span class="paircon-custom"><%= raw flash[:alert] %></span>
+      </div>
+
+      <% flash[:alert] = nil %>
+    </div>
+  </div>
+  <div class="row row-vertical-align main-content-login">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="row front-text-middle-align">
+          <div class="signin_verticalcenter">
+            <div data-pjax-container id="loginbox" >
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+
+<%= javascript_tag 'enablePJAX()' %>
+
+</html>

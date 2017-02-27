@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>NextLec</title>
+    <meta http-equiv="x-pjax-version" content="v123">
+    <title><%= @page_title %> - PairCon</title>
+
+    <%= favicon_link_tag 'favicon.ico' %>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="description" content="CloudMerge">
+    <meta name="author" content="CloudMerge">
+    <META Http-Equiv="Cache-Control" Content="no-cache"/>
+    <META Http-Equiv="Pragma" Content="no-cache"/>
+    <META Http-Equiv="Expires" Content="0"/>
+
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'jquery.pjax' %>
-    <script type="text/javascript">
-        $(function(){
-            $(document).pjax('a', '[data-pjax-container]')
-        })
-    </script>
-
+    <%= javascript_tag 'initializePasswordEdit()' %>
   </head>
 
   <body>

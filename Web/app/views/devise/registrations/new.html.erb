@@ -1,0 +1,122 @@
+<% page_title('Sign Up') %>
+
+<%# cache resource do %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name),
+             :html => {:class => 'form-horizontal', id: 'new_user_registration'}) do |form| %>
+
+    <%= content_tag :div, class: 'panel-body' do %>
+        <%= content_tag :h4, class: 'text-center' do %>
+            <%= link_to 'Log in', new_session_path(resource_name), :class => 'green' %> or Sign Up to get started <br/>
+        <% end %>
+    <% end %>
+
+    <%= content_tag :a, class: 'custom-tooltip', id: 'nameTooltip' do %>
+        <%= content_tag :span, 'What\'s your name?', class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-125px' : '-330px'}" %>
+
+        <%= content_tag :div, class: 'input-group', style: 'margin-bottom:10px;width: 100%;' do %>
+            <%= content_tag :div, class: 'row' do %>
+                <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
+                    <%= content_tag :div, class: 'row' do %>
+                        <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6', style: 'padding-right: 0px;' do %>
+                            <%= content_tag :span, class: 'stacked_horizontal_input input-group', style: 'display: inline-table;padding:0' do %>
+                                <%= content_tag :span, content_tag(:i, '', class: 'fa fa-user'), class: 'input-group-addon' %>
+                                <%= form.text_field :first_name, placeholder: 'First Name', :class => 'form-control' %>
+                            <% end %>
+                        <% end %>
+                        <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6', style: 'padding-left: 5px;' do %>
+                            <%= content_tag :span, (form.text_field :last_name, placeholder: 'Last Name', class: 'form-control'), class: 'stacked_horizontal_input_2' %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <%= content_tag :a, class: 'custom-tooltip', id: 'emailTooltip' do %>
+        <%= content_tag :span, class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-210px' : '-418px'}" do %>
+            You will use this when you Login and <br/>if you ever need to reset password
+        <% end %>
+
+        <%= content_tag :div, class: 'row' do %>
+            <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
+                <%= content_tag :span, class: 'input-group', style: 'display: inline-table; margin-bottom:10px;' do %>
+                    <%= content_tag :span, content_tag(:i, '', class: 'fa fa-envelope'), class: 'input-group-addon' %>
+                    <%= form.email_field :email, placeholder: 'Email', :class => 'form-control' %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <% if is_mobile_device? %>
+        <%= content_tag :a, class: 'custom-tooltip visible-xs-block' do %>
+            <%= content_tag :span, 'Please enter your password', class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-130px' : '-260px'}" %>
+
+            <%= content_tag :div, class: 'input-group', style: 'margin-bottom:10px;width: 100%;' do %>
+                <%= content_tag :div, class: 'row' do %>
+                    <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
+                        <%= content_tag :div, class: 'row' do %>
+                            <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6', style: 'padding-right: 0px;' do %>
+                                <%= content_tag :span, class: 'stacked_horizontal_input input-group', style: 'display: inline-table;padding:0' do %>
+                                    <%= content_tag :span, content_tag(:i, '', class: 'fa fa-lock'), class: 'input-group-addon' %>
+                                    <%= form.password_field :password, autocomplete: 'off',
+                                                            placeholder: 'Password',
+                                                            :class => 'form-control' %>
+                                <% end %>
+                            <% end %>
+
+                            <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6', style: 'padding-left: 5px;' do %>
+                                <%= content_tag :span, (form.password_field :password_confirmation, placeholder: 'Confirm Password', class: 'form-control'), class: 'stacked_horizontal_input_2' %>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% else %>
+        <%= content_tag :a, class: 'custom-tooltip' do %>
+            <%= content_tag :span, class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-171px' : '-375px' }" do %>
+                Please enter your password <br/>(<%= @minimum_password_length %> characters minimum)
+            <% end %>
+
+            <%= content_tag :div, class: 'row' do %>
+                <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
+                    <%= content_tag :span, class: 'input-group', style: 'display: inline-table; margin-bottom:10px;' do %>
+                        <%= content_tag :span, content_tag(:i, '', class: 'fa fa-lock'), class: 'input-group-addon' %>
+                        <%= form.password_field :password, autocomplete: 'off',
+                                                placeholder: "Password (#{@minimum_password_length} characters minimum)",
+                                                :class => 'form-control' %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+        <%= content_tag :a, class: 'custom-tooltip' do %>
+            <%= content_tag :span, 'Please re-enter your password', class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-186px' : '-385px' }" %>
+            <%= content_tag :div, class: 'row' do %>
+                <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
+                    <%= content_tag :div, class: 'input-group', style: 'display: inline-table; margin-bottom:10px;' do %>
+                        <%= content_tag :span, content_tag(:i, '', class: 'fa fa-lock'), class: 'input-group-addon' %>
+                        <%= form.password_field :password_confirmation, placeholder: 'Confirm Password',
+                                                class: 'form-control' %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <%= content_tag :div, (form.submit 'Sign up', class: 'btn btn-block btn-cloudmerge'), class: 'form-actions clearfix' %>
+
+    <%= content_tag :div, class: 'form-actions clearfix hidden-xs', style: 'text-align: left' do %>
+        By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', 'https://www.cloudmerge.net/terms-use/' %> and that you have read our Data Use <%= link_to 'Privacy', 'https://www.cloudmerge.net/privacy-policy/' %>.
+    <% end %>
+
+    <%= content_tag :div, class: 'footer-login' do %>
+        <%= content_tag :div, 'Sign up with', class: 'pull-left text' %>
+        <%= content_tag :div, class: 'pull-right btn-social' do %>
+            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-facebook'), class: 'btn btn-facebook', href: "#{user_facebook_omniauth_authorize_path}" %>
+            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-google-plus'), class: 'btn btn-google-plus', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
+        <% end %>
+    <% end %>
+
+    <%= javascript_tag 'initializeNewRegistration()' %>
+<% end %>
+<%# end %>
