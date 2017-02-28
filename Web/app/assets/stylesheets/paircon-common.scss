@@ -1,0 +1,38 @@
+@import 'variables';
+
+h2, .h2 {
+  font-size: 29px;
+  font-weight: 300;
+}
+
+a {
+  color: $paircon-4 !important;
+
+  &:hover {
+    background-color: transparent !important;
+  }
+}
+
+.paircon-custom {
+  color: $paircon-2;
+}
+
+.custom-flash-info {
+  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+  border-radius: 5px !important;
+  //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+  transform: translate(-50%, 19px) !important;
+  border: none !important;
+  background-color: $color_mercury_approx !important;
+  padding: 8px 10px !important;
+}
+.custom-flash-error {
+  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+  border-radius: 5px !important;
+  //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+  transform: translate(-50%, 19px) !important;
+  border: none !important;
+  color: $color_monza_approx !important;
+  background-color: $color_your_pink_approx !important;
+  padding: 8px 10px !important;
+}

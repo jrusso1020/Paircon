@@ -1,4 +1,4 @@
-<% page_title('Sign In') %>
+<% page_title('Home') %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name),
              :html => {:class => 'form-horizontal', id: 'new_user_session'}) do |form| %>
@@ -25,7 +25,7 @@
         <%= content_tag :div, class: 'col-sm-12 col-xs-12 col-md-12' do %>
             <%= content_tag :div, class: 'input-group' do %>
                 <%= content_tag :span, content_tag(:i, '', class: 'fa fa-lock'), class: 'input-group-addon' %>
-                <%= form.password_field :password, :placeholder => 'Password', :class => 'form-control', :id => "password" %>
+                <%= form.password_field :password, :placeholder => 'Password', :class => 'form-control', :id => 'password' %>
             <% end %>
         <% end %>
     <% end %>
@@ -37,7 +37,7 @@
         <% end %>
 
         <%= content_tag :div, class: 'pull-right' do %>
-            <%= link_to 'Forgot password?', new_password_path(resource_name) %><br>
+            <%= link_to 'Forgot password?', recover_path %><br>
             <%#= link_to "Resend confirmation?", new_confirmation_path(resource_name) %>
         <% end %>
 

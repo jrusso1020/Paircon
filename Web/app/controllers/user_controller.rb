@@ -29,7 +29,7 @@ class UserController < ApplicationController
           unless Identity.find_by_user_id(@user.id).nil?
             sign_in @user, :bypass => true
           end
-          # format.html { redirect_to dashboard_path(), notice: "Hi #{@user.full_name.capitalize}! Welcome to Cloudmerge ... What are you waiting for? Starting merging your storage drives now ..." }
+          format.html { redirect_to dashboard_path(), notice: "Hi #{@user.full_name.capitalize}! Welcome to PairCon ... Look at upcoming research conferences and get personalized recommendations today!" }
         else
           @user.activity(:update)
           format.html { redirect_to @user, notice: 'Your personal information has been updated successfully.' }

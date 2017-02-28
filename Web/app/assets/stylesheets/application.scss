@@ -12,6 +12,7 @@
  *
  *= require jquery-ui
  *= require home/login
+ *= require paircon-home
  *= require_tree.
  */
 
@@ -24,3 +25,4 @@
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 @import 'gentelella-custom';
+@import 'paircon-common';

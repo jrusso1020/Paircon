@@ -13,7 +13,7 @@
     <%= content_tag :a, class: 'custom-tooltip', id: 'nameTooltip' do %>
         <%= content_tag :span, 'What\'s your name?', class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-125px' : '-330px'}" %>
 
-        <%= content_tag :div, class: 'input-group', style: 'margin-bottom:10px;width: 100%;' do %>
+        <%= content_tag :div, class: 'input-group', style: 'margin-bottom:0px;width: 100%;' do %>
             <%= content_tag :div, class: 'row' do %>
                 <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
                     <%= content_tag :div, class: 'row' do %>
@@ -103,10 +103,10 @@
         <% end %>
     <% end %>
 
-    <%= content_tag :div, (form.submit 'Sign up', class: 'btn btn-block btn-cloudmerge'), class: 'form-actions clearfix' %>
+    <%= content_tag :div, (form.submit 'Sign up', class: 'btn btn-block btn-paircon'), class: 'form-actions clearfix' %>
 
     <%= content_tag :div, class: 'form-actions clearfix hidden-xs', style: 'text-align: left' do %>
-        By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', 'https://www.cloudmerge.net/terms-use/' %> and that you have read our Data Use <%= link_to 'Privacy', 'https://www.cloudmerge.net/privacy-policy/' %>.
+        By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', '' %> and that you have read our Data Use <%= link_to 'Privacy', '' %>.
     <% end %>
 
     <%= content_tag :div, class: 'footer-login' do %>

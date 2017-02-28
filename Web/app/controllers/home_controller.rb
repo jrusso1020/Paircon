@@ -3,6 +3,7 @@ class HomeController < ApplicationController
   before_action :reroute
 
   def index
+    @page_title = 'Home'
   end
 
   def about
@@ -13,6 +14,16 @@ class HomeController < ApplicationController
   def features
     @page_title = 'Features'
     render layout: 'home/features', layout: false
+  end
+
+  def terms
+    @page_title = 'Terms'
+    render layout: 'home/terms', layout: false
+  end
+
+  def privacy_policy
+    @page_title = 'Privacy Policy'
+    render layout: 'home/privacy_policy', layout: false
   end
 
   def reroute

@@ -40,7 +40,6 @@
   background: none;
 }
 
-
 html {
   height: 100%;
   font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', 'Tahoma', 'Arial', 'sans-serif';
@@ -59,37 +58,6 @@ body {
   }
 }
 
-a {
-  color: $paircon-4 !important;
-
-  &:hover {
-      background-color: transparent !important;
-  }
-}
-
-.paircon-custom {
-  color: $paircon-2;
-}
-
-.custom-flash-info {
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 5px !important;
-  //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
-  transform: translate(-50%, 19px) !important;
-  border: none !important;
-  background-color: $color_mercury_approx !important;
-  padding: 8px 10px !important;
-}
-.custom-flash-error {
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
-  border-radius: 5px !important;
-  //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
-  transform: translate(-50%, 19px) !important;
-  border: none !important;
-  color: $color_monza_approx !important;
-  background-color: $color_your_pink_approx !important;
-  padding: 8px 10px !important;
-}
 .full-width {
   width: 100%;
 }
@@ -2949,6 +2917,7 @@ span {
     border-left: 2px solid $color_cinnabar_approx;
   }
 }
+
 p {
   &.parsley-success {
     color: $color_hippie_green_approx;
