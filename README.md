@@ -1,4 +1,15 @@
 # PairCon (Conference Papers)
+## Working in Development Environment:
+
+To run the application locally, you are required to edit Hosts (```/etc/hosts```) file and add the following:
+```
+127.0.0.1 www.devpaircon.com
+127.0.0.1 devpaircon.com
+127.0.0.1 app.devpaircon.com
+```
+
+Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com```
+
 ## Postgres:
 
 The application is setup to work with Postgres. After installing postgres, you are required to do the following:
@@ -11,6 +22,7 @@ sudo su - postgres
 ```
 psql
 ```
+
 #### Create a database user
 ```
 create role paircon with createdb login password 'paircon';
