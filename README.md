@@ -8,8 +8,6 @@ To run the application locally, you are required to edit Hosts (```/etc/hosts```
 127.0.0.1 app.devpaircon.com
 ```
 
-Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com```
-
 ## Postgres:
 
 The application is setup to work with Postgres. After installing postgres, you are required to do the following:
@@ -49,3 +47,14 @@ local   all             paircon                                 md5
 ```
 sudo service postgresql restart
 ```
+
+## Running Rails Application (Web Folder)
+To start the server use the following commands
+```
+bundle install
+rake db:create --is required once
+rake db:migrate
+rails s
+```
+
+Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com``` to open the application
