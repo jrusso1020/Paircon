@@ -1,8 +1,8 @@
 #This file is used to keep settings that may required to be changed in
 #different environments ie staging, production.
 
-production_environment: 'paircon.com'
-development_environment: 'devparicon.com:3000'
+production_environment: 'https://www.paircon.com'
+development_environment: 'http://wwwdevparicon.com:3000'
 product_name: 'PairCon'
 product_url: 'https://www.paircon.com'
 

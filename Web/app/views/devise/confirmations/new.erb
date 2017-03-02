@@ -5,7 +5,7 @@
 
     <%= content_tag :div, class: 'panel-body' do %>
         <%= content_tag :h2, 'Resend Instructions', style: 'margin-bottom: 25px;' %>
-        <%= content_tag :p, 'Enter your e-mail address below and we will send you instructions on how to verify your CloudMerge account.', style: 'margin-top:-20px;' %>
+        <%= content_tag :p, 'Enter your e-mail address below and we will send you instructions on how to verify your PairCon account.', style: 'margin-top:-20px;' %>
     <% end %>
 
     <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
@@ -16,6 +16,6 @@
     <%= content_tag :div, class: 'form-actions clearfix' do %>
         <%= content_tag :div, link_to('Click to Login', new_session_path(resource_name)), class: 'pull-left' %>
         <%= content_tag :div, link_to('Sign Up', new_registration_path(resource_name)), class: 'pull-right' %>
-        <%= f.submit 'Resend Verification Instructions', :class => 'btn btn-block btn-cloudmerge' %>
+        <%= f.submit 'Resend Verification Instructions', :class => 'btn btn-block btn-paircon' %>
     <% end %>
 <% end %>

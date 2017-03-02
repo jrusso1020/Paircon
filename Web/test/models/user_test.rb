@@ -22,9 +22,9 @@
 # *first_name*::              <tt>string(20)</tt>
 # *last_name*::               <tt>string(20)</tt>
 # *default_lang*::            <tt>string, default("en")</tt>
-# *is_deleted*::              <tt>boolean, default("f")</tt>
-# *is_active*::               <tt>boolean, default("f")</tt>
-# *is_app_init*::             <tt>boolean, default("f")</tt>
+# *is_deleted*::              <tt>boolean, default("false")</tt>
+# *is_active*::               <tt>boolean, default("false")</tt>
+# *is_app_init*::             <tt>boolean, default("false")</tt>
 # *time_zone_name*::          <tt>string</tt>
 # *last_messages_read*::      <tt>datetime</tt>
 # *last_notifications_read*:: <tt>datetime</tt>
@@ -34,7 +34,6 @@
 #  index_users_on_confirmation_token    (confirmation_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  sqlite_autoindex_users_1             (id) UNIQUE
 #--
 # == Schema Information End
 #++

@@ -1,1 +1,1 @@
-//= require common/jquery.pjax
+//= require_tree .

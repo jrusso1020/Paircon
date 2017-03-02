@@ -51,7 +51,6 @@ function enablePJAX() {
         getViewportHeight();
         switchContainer();
     });
-
 }
 
 // For centering login form

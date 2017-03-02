@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20170225051651) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "identities", force: :cascade do |t|
     t.string   "user_id",    limit: 30
     t.string   "provider"
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 20170225051651) do
     t.datetime "updated_at",            null: false
   end
 
-  create_table "users", id: :string, limit: 30, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                              default: "",    null: false
     t.string   "encrypted_password",                 default: "",    null: false
     t.string   "reset_password_token"
@@ -47,10 +50,9 @@ ActiveRecord::Schema.define(version: 20170225051651) do
     t.string   "time_zone_name"
     t.datetime "last_messages_read"
     t.datetime "last_notifications_read"
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["id"], name: "sqlite_autoindex_users_1", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
 end

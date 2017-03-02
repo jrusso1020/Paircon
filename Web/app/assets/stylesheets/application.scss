@@ -11,18 +11,18 @@
  * It is generally better to create a new file per style scope.
  *
  *= require jquery-ui
- *= require home/login
- *= require paircon-home
- *= require_tree.
+ *= require home/index
+ *= require common/index
  */
 
-@import 'compass';
 @import 'gentelella';
+@import 'compass';
 @import 'googleFonts';
 @import 'variables';
 @import 'mixins';
 @import 'bootstrap';
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
-@import 'gentelella-custom';
 @import 'paircon-common';
+@import 'paircon-home';
+@import 'gentelella-custom';

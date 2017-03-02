@@ -2,6 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+/* ********* SIGN UP **********/
+.main_container .top_nav {
+  margin-left: 0px !important;
+}
+
 /* ********* ERROR ***********/
 .error-small-text {
   color: #A81515;
@@ -181,3 +186,26 @@ span.callout {
   bottom: -20px;
   border-top: 10px solid #E6E7E8;
 }
+
+.navbar-paircon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2px !important;
+  margin-top: 5px;
+}
+
+.navbar-image {
+  height: 50px;
+  margin: auto;
+}
+
+.navbar-right {
+  width: initial !important;
+}
+
+.navbar-user {
+  position: fixed;
+  right: 0;
+  margin-top: -5px !important;
+}
+

@@ -13,15 +13,14 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require bootstrap
 //= require turbolinks
-
+//
 //= require i18n
 //= require i18n/translations
-
-//= require gentelella
 //= require gentelella-custom
-//= require bootstrap
-//= require common
-//= require home
 
-//= require_tree .
+//= require home
+//= require common
+//= require paircon-common
+//= require paircon-home

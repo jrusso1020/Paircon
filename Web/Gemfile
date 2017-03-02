@@ -37,7 +37,7 @@ end
 
 # Server Related
 gem 'rails', '~> 5.0.1'                                           # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'sqlite3'                                                     # Use SQLite3 as the database for Active Record
+gem 'pg'                                                          # Use Postgres as the database for Active Record
 # gem 'capistrano'                                                 # Auto Deploy Projects
 
 # Authorization

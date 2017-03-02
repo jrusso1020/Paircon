@@ -1,1 +1,1 @@
-//= require home/jquery.validate.min
+//= require_tree .
