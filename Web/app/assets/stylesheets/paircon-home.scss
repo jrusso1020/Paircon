@@ -1,0 +1,252 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'variables';
+
+/* ********* SIGN UP **********/
+.main_container .top_nav {
+  margin-left: 0px !important;
+}
+
+/* ********* ERROR ***********/
+.error-small-text {
+  color: #A81515;
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 3px !important;
+  float: right;
+  margin: 0px;
+  padding: 0px;
+  position: absolute;
+  margin-bottom: 0px;
+  display: block;
+}
+
+.error-message-with-label {
+  @extend .error-small-text;
+  right: 0;
+  top: 0;
+}
+
+.error-message-no-label {
+  @extend .error-small-text;
+  right: 23px;
+  top: -17px;
+}
+
+.stacked_horizontal_input .error-small-text {
+  margin-right: -22px;
+}
+
+.stacked_horizontal_input_2 .error-small-text {
+  margin-right: -9px;
+}
+
+
+/* ********* CUSTOM TOOLTIP ********* */
+a.custom-tooltip {
+  outline: none;
+  cursor: auto;
+}
+
+a.custom-tooltip strong {
+  line-height: 30px;
+}
+
+a.custom-tooltip .flash-message {
+  opacity: 1;
+  color: #258D94;
+  border: 1px solid #E6E7E8;
+  background: #E6E7E8;
+}
+
+a.custom-tooltip:hover {
+  text-decoration: none;
+}
+
+a.custom-tooltip .step-signup-tooltip,
+a.custom-tooltip .login-tooltip-span,
+a.custom-tooltip .flash-message,
+a.custom-tooltip .hover-tooltip {
+  z-index: 1000;
+  padding: 12px 18px;
+  line-height: 16px;
+  border-radius: 4px;
+  display: inline-table;
+  position: fixed;
+  //box-shadow: 0px 10px 18px #CCC;
+  transition: opacity 500ms;
+  -moz-transition: opacity 500ms;
+  -o-transition: opacity 0ms;
+  -webkit-transition: opacity 0ms;
+}
+
+a.custom-tooltip .step-signup-tooltip,
+a.custom-tooltip .login-tooltip-span,
+a.custom-tooltip .hover-tooltip {
+  opacity: 0;
+}
+
+button.hover-text:hover + span.hover-tooltip {
+  opacity: 1;
+}
+
+a.custom-tooltip .hover-tooltip,
+a.custom-tooltip .step-signup-tooltip,
+a.custom-tooltip .login-tooltip-span {
+  margin-top: -4px;
+  max-width: 260px;
+  color: $paircon-3;
+  border: 1px solid #E6E7E8;
+  background: #E6E7E8;
+}
+
+.step-signup-tooltip {
+  position: fixed !important;
+}
+
+a.custom-tooltip .login-tooltip-span {
+  max-width: initial !important;
+}
+
+a.custom-tooltip .hover-tooltip {
+  margin-top: 8px !important;
+  margin-left: 40px !important;
+  position: absolute;
+  font-size: 12px;
+}
+
+a.custom-tooltip .step-signup-tooltip {
+  margin-left: 0px;
+  position: absolute;
+  font-size: 12px;
+}
+
+a.custom-tooltip .login-tooltip-span {
+  margin-left: 0px;
+  font-size: 12px;
+}
+
+a.custom-tooltip .flash-message {
+  margin-left: 93px;
+  margin-top: -26px;
+  display: inline-table;
+}
+
+span.callout {
+  float: left;
+}
+
+span.callout {
+  background-color: #E6E7E8;
+  background-image: -moz-linear-gradient(top, #E6E7E8, #E6E7E8);
+  background-position: center;
+  position: relative;
+  color: #ccc;
+  padding: 10px;
+  border-radius: 3px;
+  min-height: 50px;
+}
+
+.callout::before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  border: 0.8em solid transparent;
+  position: absolute;
+}
+
+.callout.top::before {
+  left: 45%;
+  bottom: -20px;
+  border-top: 10px solid #E6E7E8;
+}
+
+.callout.bottom::before {
+  left: 45%;
+  top: -19px;
+  border-bottom: 10px solid #E6E7E8;
+}
+
+.callout.left::before {
+  right: -19px;
+  top: 25%;
+  border-left: 10px solid #E6E7E8;
+}
+
+.callout.right::before {
+  left: -20px;
+  top: 25%;
+  border-right: 10px solid #E6E7E8;
+}
+
+.callout.top-left::before {
+  left: 7px;
+  bottom: -20px;
+  border-top: 10px solid #E6E7E8;
+}
+
+.callout.top-right::before {
+  right: 7px;
+  bottom: -20px;
+  border-top: 10px solid #E6E7E8;
+}
+
+.navbar-paircon {
+  display: flex;
+  margin-bottom: 2px !important;
+  margin-top: 5px;
+}
+
+.navbar-image {
+  height: 50px;
+  margin: auto;
+}
+
+.navbar-right {
+  width: initial !important;
+}
+
+.navbar-user {
+  position: absolute;
+  right: 0;
+  margin-top: -5px !important;
+}
+
+.wizard_steps {
+  padding-left: 0px;
+  margin-bottom: 0px !important;
+}
+
+.stepContainer {
+  overflow-x: inherit !important;
+}
+
+.stepContainer2 {
+  height: 100% !important;
+}
+
+.x_content {
+  height: 100%;
+}
+
+.actionBar {
+  position: absolute;
+  bottom: 0;
+}
+
+.user_registration_form {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 50px;
+}
+
+.signup-input-label {
+  margin-top: 30px;
+}
+
+.signup-row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}

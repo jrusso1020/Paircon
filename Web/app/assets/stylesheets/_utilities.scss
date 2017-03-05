@@ -1,0 +1,42 @@
+// Importing utility classes from bootstrap
+@import 'bootstrap/utilities';
+
+
+// Custom utility classes
+//
+// Text truncate
+.text-truncate { @include text-truncate(); }
+
+.strong { font-weight: bold; }
+.upcase { text-transform: uppercase; }
+
+.brand-facebook { color: $brand-facebook; }
+.brand-twitter { color: $brand-twitter; }
+.brand-linkedin { color: $brand-linkedin; }
+.brand-googleplus { color: $brand-googleplus; }
+
+// Clearing floats
+.clear-floats { float: none !important; }
+
+// Disables any element
+.disabled {
+    cursor: default;
+    opacity: .65;
+    pointer-events: none;
+    @include box-shadow(none);
+}
+
+// Make an element inline block
+.inline-block { display: inline-block; }
+
+// Helper classes for 60fps scrolling
+.enable-hover { pointer-events: auto; }
+
+.disable-hover {
+    &,
+    * { pointer-events: none !important; }
+}
+
+.cursor-hand { cursor: pointer !important; }
+
+.cursor-copy { cursor: copy !important; }

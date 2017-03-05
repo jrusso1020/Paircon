@@ -1,0 +1,54 @@
+<% page_title('Home') %>
+
+<%= form_for(resource, as: resource_name, url: session_path(resource_name),
+             :html => {:class => 'form-horizontal', id: 'new_user_session'}) do |form| %>
+
+    <%= content_tag :div, class: 'panel-body' do %>
+        <%= content_tag :h4, class: 'text-center' do %>
+            Log in to get started or
+            <% if devise_mapping.registerable? && controller_name != 'registrations' %>
+                <%= link_to 'Sign up', new_registration_path(resource_name, anchor: 'login') %><br/>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <%= content_tag :div, class: 'row' do %>
+        <%= content_tag :div, class: 'col-sm-12 col-xs-12 col-md-12' do %>
+            <%= content_tag :div, class: 'input-group' do %>
+                <%= content_tag :span, content_tag(:i, '', class: 'fa fa-user'), class: 'input-group-addon' %>
+                <%= form.email_field :email, :placeholder => 'Email', :class => 'form-control', id: 'username', autocomplete: false %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+    <%= content_tag :div, class: 'row', style: 'margin-top: -10px;' do %>
+        <%= content_tag :div, class: 'col-sm-12 col-xs-12 col-md-12' do %>
+            <%= content_tag :div, class: 'input-group' do %>
+                <%= content_tag :span, content_tag(:i, '', class: 'fa fa-lock'), class: 'input-group-addon' %>
+                <%= form.password_field :password, :placeholder => 'Password', :class => 'form-control', :id => 'password' %>
+            <% end %>
+        <% end %>
+    <% end %>
+
+
+    <%= content_tag :div, class: 'form-actions clearfix' do %>
+        <%= content_tag :div, class: 'pull-left' do %>
+            <%= form.check_box :remember_me, :class => 'checkbox-center' %> Remember Me
+        <% end %>
+
+        <%= content_tag :div, class: 'pull-right' do %>
+            <%= link_to 'Forgot password?', recover_path(anchor: 'login') %><br>
+            <%#= link_to "Resend confirmation?", new_confirmation_path(resource_name) %>
+        <% end %>
+
+        <%= form.submit 'Login', :class => 'btn btn-block btn-paircon' %>
+    <% end %>
+
+    <%= content_tag :div, class: 'footer-login' do %>
+        <%= content_tag :div, 'Login with', class: 'pull-left text' %>
+        <%= content_tag :div, class: 'pull-right btn-social' do %>
+            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-facebook'), class: 'btn btn-facebook', href: "#{user_facebook_omniauth_authorize_path}" %>
+            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-google-plus'), class: 'btn btn-google-plus', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
+        <% end %>
+    <% end %>
+<% end %>

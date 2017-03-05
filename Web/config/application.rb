@@ -6,24 +6,18 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module NextLec
+module PairCon
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-    PRODUCTION_HOSTNAME = "localhost"
-
-    MAIL_ADDRESS = ""
-    MAIL_PORT = 587
-    MAIL_DOMAIN = ""
-    MAIL_USERNAME = ""
-    MAIL_PASSWORD = ""
+    local_settings = YAML.load_file("#{Rails.root}/config/local_settings.yml")
 
     # Custom directories with classes and modules you want to be auto loadable.
     config.autoload_paths += %W(#{config.root}/lib)
 
     # Configure the default encoding used in templates for Ruby
-    config.encoding = "utf-8"
+    config.encoding = 'utf-8'
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation]
@@ -37,11 +31,11 @@ module NextLec
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    config.time_zone = "UTC"
+    config.time_zone = 'UTC'
     config.log_level = :debug
 
     config.before_initialize do
-      require File.join(Rails.root, 'config', 'constants.rb')
+      require File.join(Rails.root, 'config', 'paircon_constants.rb')
     end
 
     # Mailer Settings
@@ -50,16 +44,16 @@ module NextLec
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-        :address => MAIL_ADDRESS,
-        :port => MAIL_PORT,
-        :domain => MAIL_DOMAIN,
+        :address => local_settings['mail_address'],
+        :port => local_settings['mail_port'],
+        :domain => local_settings['mail_domain'],
         :authentication => :plain,
-        :user_name => MAIL_USERNAME,
-        :password => MAIL_PASSWORD,
+        :user_name => local_settings['mail_username'],
+        :password => local_settings['mail_password'],
         :enable_starttls_auto => true,
-        :openssl_verify_mode => "none"
+        :openssl_verify_mode => 'none'
     }
 
-
+    config.i18n.enforce_available_locales = false
   end
 end

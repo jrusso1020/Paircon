@@ -1,0 +1,59 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+en:
+  devise:
+    confirmations:
+      confirmed: "Your account was successfully confirmed. Please login to continue."
+      send_instructions: "You will receive an email with instructions about how to confirm your account in a few minutes. Please check your Junk folder as your mail could have been marked as spam."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions about how to confirm your account in a few minutes."
+    failure:
+      already_authenticated: ''
+      inactive: "Your account is inactive or your payment is outstanding. To continue use of the service please ask the account owner of your company to log in and make your account active or complete the billing information."
+      invalid: "Invalid email or password. Please try again ..."
+      invalid_token: "Invalid authentication token."
+      locked: "Your account is locked."
+      not_found_in_database: "Invalid email or password. Please try again ..."
+      timeout: ""
+      unauthenticated: ""
+      unconfirmed: "You are pending email verification for your account. Click<strong><span style='cursor: pointer' onclick='window.location=\"users/confirmation/new\"' target='_blank'>here</span></strong> to resend verification email. "
+    mailer:
+      confirmation_instructions:
+        subject: "Complete Your PairCon Sign Up"
+      reset_password_instructions:
+        subject: "Reset Your Password"
+      unlock_instructions:
+        subject: "Unlock Instructions"
+    omniauth_callbacks:
+      failure: "Unable to authenticate you as access has been denied. Please try again ..."
+      success: ""
+    password_resets:
+      no_token: "You can't access this page without coming from a password reset email. If you arrived through a password reset email, please make sure you used the complete URL provided."
+      send_instructions: "You will receive an email with instructions about how to reset your password in a few minutes. Please check your Junk folder as your mail could have been marked as spam."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password was changed successfully. You are now logged in."
+      updated_not_active: "Your password was changed successfully."
+    registrations:
+      destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please open the link to activate your account."
+      update_needs_confirmation: "Your account was successfully updated, but we need to verify your new email address. Please check your email and click on the confirmation link to complete the verification."
+      updated: "Your account was updated successfully."
+    sessions:
+      signed_in: ""
+      signed_out: ""
+    unlocks:
+      send_instructions: "You will receive an email with instructions about how to unlock your account in a few minutes. Please check your Junk folder as your mail could have been marked as spam."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions about how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please log in to continue."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found. Please try again ..."
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"

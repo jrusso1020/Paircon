@@ -1,0 +1,41 @@
+#This file is used to keep settings that may required to be changed in
+#different environments ie staging, production.
+
+production_environment: 'https://www.paircon.com'
+development_environment: 'http://wwwdevparicon.com:3000'
+product_name: 'PairCon'
+product_url: 'https://www.paircon.com'
+
+# Google
+google_api_client_id: ''
+google_api_client_secret: ''
+
+# Facebook
+facebook_app_id: ''
+facebook_app_secret: ''
+
+# Mail
+mail_address: ''
+mail_port: 587
+mail_domain: ''
+mail_username: ''
+mail_password: ''
+
+# Email addresses
+contact_us_recipients: 'support@paircon.com'
+support_email: 'support@paircon.com'
+exception_recipients: 'support@paircon.com'
+exception_sender: 'support@paircon.com'
+email_prefix: '[PairCon]:'
+long_support_email: 'support@paircon.com'
+feed_back_recipients: 'support@paircon.com'
+paypal_invoice_recipients: 'support@paircon.com'
+billing_recipients: 'support@paircon.com'
+notification_email: "PairCon <noreply@paircon.com>"
+marketing_email: 'support@paircon.com'
+
+# Others
+privacy_url: ''
+terms_url: ''
+feedbacK_url: ''
+help_url: ''

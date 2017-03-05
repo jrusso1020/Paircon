@@ -1,0 +1,40 @@
+
+@import 'bootstrap/mixins';
+
+@mixin text-truncate() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+@mixin breakpoint($point) {
+  // most laptops and above
+  @if $point == screen-lg {
+    @media (min-width: $screen-lg) { @content; }
+  }
+  // tablet sizes
+  @else if $point == screen-md {
+    @media (min-width: $screen-md) { @content; }
+  }
+  // phablets
+  @else if $point == screen-sm {
+    @media (min-width: $screen-sm) { @content; }
+  }
+  // targeting mobile resolutions
+  @else if $point == screen-xs {
+    @media (max-width: $screen-xs) { @content; }
+  }
+}
+
+// Text Colors
+
+.fa-white { color: $white; }
+.fa-green { color: lighten($green, 10%); }
+.fa-red  { color: $red; }
+.fa-blue { color: $blue; }
+.fa-gray { color: $gray-light; }
+.fa-orange { color: $orange; }
+.fa-yellow { color: $yellow; }
+.fa-blue-dark { color: $blue-dark; }
+.fa-gray-light { color: $gray-lighter; }
