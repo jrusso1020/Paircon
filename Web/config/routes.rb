@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
-
+    post '/action_page' , to: 'users#submit_url'
   end
 
   resources :home, path: '' do
@@ -61,7 +61,6 @@ Rails.application.routes.draw do
   end
 
   get '/user/:action/(:id)', controller: 'users'
-
   get '/auth/failure' => 'application#auth_failure', as: :auth_failure
   get '*path' => 'application#not_found', as: :not_found
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -1,1 +1,8 @@
 <a id="logout_link" rel="nofollow" data-method="delete" href="<%= destroy_user_session_url(:protocol => "#{Rails.env.production? ? 'https://' : 'http://'}") %>">Logout</a>
+
+<%= form_tag("/action_page", method: "post") do %>
+    <%= label_tag(:q, "Enter URL:") %>
+    <%= text_field_tag(:q) %>
+    <%= submit_tag("Submit") %>
+<% end %>
+

@@ -148,13 +148,3 @@ class PDFScrapper
   end
 
 end
-
-
-#d = PDFScrapper.new('https://scholar.google.com/citations?user=jsxk8vsAAAAJ&hl=en', 'google-scholar')
-d = PDFScrapper.new('http://www.cs.cornell.edu/~kilian/publications/publications.html', 'personal')
-# This is using doc split, first you have to save the pdfs then convert to text
-d.downloadAllPdfs('/home/mahak/docs')
-d.convertPdfToText('/home/mahak/docs', '/home/mahak/txts')
-
-#Using pdf-reader , no need to save pdfs, only give the output folder, but the quality is bad
-d.getAllPdfsAsText('/home/mahak/txts1')
