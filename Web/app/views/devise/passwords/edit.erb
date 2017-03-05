@@ -1,0 +1,28 @@
+<% page_title('Recover Password') %>
+
+<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :put, :class => 'form-horizontal', id: 'edit_user_password'}) do |form| %>
+    <%= form.hidden_field :reset_password_token %>
+
+    <%= content_tag :div, class: 'panel-body' do %>
+        <%= content_tag :h2, 'Password Recovery', style: 'margin-bottom: 25px;' %>
+        <%= content_tag :p, 'Enter your new password below and we will set it for you.', style: 'margin-top:-20px' %>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-bottom:10px;' do %>
+        <%= content_tag :span, content_tag(:i, '', class: 'fa fa-lock'), class: 'input-group-addon' %>
+        <%= form.password_field :password, autofocus: true, placeholder: 'New Password', autocomplete: 'off', class: 'form-control' %>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-bottom:10px;' do %>
+        <%= content_tag :span, content_tag(:i, '', class: 'fa fa-lock'), class: 'input-group-addon' %>
+        <%= form.password_field :password_confirmation, placeholder: 'Confirm Password', autocomplete: 'off', :class => 'form-control' %>
+    <% end %>
+
+    <%= content_tag :div, class: 'form-actions clearfix' do %>
+        <%= content_tag :div, link_to('Click to Login', new_session_path(resource_name)), class: 'pull-left' %>
+        <%= content_tag :div, link_to('Resend Password Instructions', new_password_path(resource_name)), class: 'pull-right' %>
+        <%= form.submit 'Change my password', :class => 'btn btn-block btn-paircon' %>
+    <% end %>
+<% end %>
+
+<%= javascript_tag 'initializePasswordEdit()' %>

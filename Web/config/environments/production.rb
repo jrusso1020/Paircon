@@ -1,5 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  local_settings = YAML.load_file("#{Rails.root}/config/local_settings.yml")
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -77,7 +78,7 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  config.action_mailer.default_url_options = { :host => PRODUCTION_HOSTNAME}
+  config.action_mailer.default_url_options = { :host => local_settings['production_environment']}
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
