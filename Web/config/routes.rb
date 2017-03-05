@@ -28,7 +28,6 @@ Rails.application.routes.draw do
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
-
   end
 
   resources :home, path: '' do

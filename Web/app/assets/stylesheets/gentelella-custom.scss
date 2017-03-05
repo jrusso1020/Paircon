@@ -3058,10 +3058,6 @@ textarea {
   background: $color_gallery_approx;
 }
 
-.btn-paircon {
-  @include button-variant(#fff, $paircon-2, $paircon-3);
-}
-
 .btn-success {
   background: $color_keppel_approx;
   border: 1px solid $color_niagara_approx;
