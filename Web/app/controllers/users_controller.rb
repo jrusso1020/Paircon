@@ -15,18 +15,18 @@ class UsersController < ApplicationController
 
   def submit_url
     userid = current_user.id
-    if !params[:q].blank?
+    if !params["#{userid}"][:url].blank?
       pdf_folder = "#{Rails.root}/public/docs/pdfs/#{userid}"
       FileUtils::mkdir_p pdf_folder
       txt_folder = "#{Rails.root}/public/docs/txt/#{userid}"
       FileUtils::mkdir_p txt_folder
-      q = params[:q]
+      q = params[:url]
       current_user.url = q
       current_user.save!(validate: false)
       scrapper = PDFScrapper.new(q, 'personal')
       scrapper.downloadAllPdfs(pdf_folder)
       scrapper.convertPdfToText(pdf_folder, txt_folder)
-      render text: 'Processing the URL Complete'
+      render text: 'Completed the processing of the URL'
     end
   end
 
