@@ -9,15 +9,21 @@ Rails.application.routes.draw do
          request.subdomain =~ /^www$/i && request.query_parameters.blank?
        }
 
-  root to: 'home#index', as: :dashboard
-
   devise_for :users, path: '', path_names: { sign_in: 'login', sign_up: 'register', sign_out: 'logout'}, controllers: {
       omniauth_callbacks: 'users/omniauth_callbacks',
       registrations: 'users/registrations'
   }, skip: [:sessions]
 
   devise_scope :user do
-    get 'login/(:id)', to: 'devise/sessions#new', as: :new_user_session
+    authenticated :user do
+      root 'home#index', as: :dashboard
+    end
+
+    unauthenticated do
+      root 'devise/sessions#new', as: :new_user_session
+    end
+
+    # get 'login/(:id)', to: 'devise/sessions#new', as: :new_user_session
 
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'

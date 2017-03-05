@@ -14,8 +14,8 @@
     <% end %>
 
     <%= content_tag :div, class: 'form-actions clearfix' do %>
-        <%= content_tag :div, link_to('Click to Login', new_session_path(resource_name)), class: 'pull-left' %>
-        <%= content_tag :div, link_to('Sign Up', new_registration_path(resource_name)), class: 'pull-right' %>
+        <%= content_tag :div, link_to('Click to Login', new_session_path(resource_name, anchor: 'login')), class: 'pull-left' %>
+        <%= content_tag :div, link_to('Sign Up', new_registration_path(resource_name, anchor: 'login')), class: 'pull-right' %>
         <%= form.submit 'Reset Password', :class => 'btn btn-block btn-paircon' %>
     <% end %>
 <% end %>

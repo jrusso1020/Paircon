@@ -3,7 +3,7 @@
 /****************************************/
 function enablePJAX() {
     $.pjax.defaults.timeout = 2000;
-    $(document).pjax("a:not('.skip-pjax')", '[data-pjax-container]')
+    $(document).pjax("a:not([data-no-pjax])", '[data-pjax-container]')
     var animationSpeed = 0;
 
     $(document).on('pjax:complete', function () {

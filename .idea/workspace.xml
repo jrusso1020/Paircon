@@ -2,17 +2,68 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23003446-43a3-4f03-8dfd-4abe29aaf83b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/LICENSE" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/about.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/bg-banner.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/bg-banner02.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/bg.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/blog01.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/blog02.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/blog03.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/blog04.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/male.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/port01.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/port02.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/port03.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/port04.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/port05.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/port06.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/ser01.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/ser02.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/ser03.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/ser04.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/images/home/thumb.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/javascripts/home-layout.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/assets/stylesheets/home-layout.scss" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/app/views/layouts/home/_header.erb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/baker_theme.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/jquery.bxslider.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/jquery.easing.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/wow.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/animate.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_bootstrap.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_theme.scss" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/jquery.bxslider.css" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/app/views/home/about.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/app/views/home/features.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/app/views/home/privacy_policy.erb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/app/views/home/terms.erb" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Web/app/assets/javascripts/application.js" afterPath="$PROJECT_DIR$/Web/app/assets/javascripts/application-layout.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Web/app/assets/stylesheets/application.scss" afterPath="$PROJECT_DIR$/Web/app/assets/stylesheets/application-layout.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Conference-Papers.iml" afterPath="$PROJECT_DIR$/.idea/Conference-Papers.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-common.js.erb" afterPath="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-common.js.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-home.js.erb" afterPath="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-home.js.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-user.js.erb" afterPath="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-user.js.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-home.scss" afterPath="$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-home.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/controllers/home_controller.rb" afterPath="$PROJECT_DIR$/Web/app/controllers/home_controller.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/views/devise/passwords/new.erb" afterPath="$PROJECT_DIR$/Web/app/views/devise/passwords/new.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/views/devise/registrations/new.erb" afterPath="$PROJECT_DIR$/Web/app/views/devise/registrations/new.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/views/devise/sessions/new.erb" afterPath="$PROJECT_DIR$/Web/app/views/devise/sessions/new.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/views/home/index.erb" afterPath="$PROJECT_DIR$/Web/app/views/home/index.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/views/layouts/application/_header.erb" afterPath="$PROJECT_DIR$/Web/app/views/layouts/application/_header.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/app/views/layouts/home.erb" afterPath="$PROJECT_DIR$/Web/app/views/layouts/home.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/config/initializers/assets.rb" afterPath="$PROJECT_DIR$/Web/config/initializers/assets.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/config/routes.rb" afterPath="$PROJECT_DIR$/Web/config/routes.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/index.js" afterPath="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/index.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../cappucino_rails/app/assets/javascripts/answers.coffee" afterPath="$PROJECT_DIR$/../cappucino_rails/app/assets/javascripts/answers.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../cappucino_rails/app/assets/javascripts/courses.coffee" afterPath="$PROJECT_DIR$/../cappucino_rails/app/assets/javascripts/courses.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../cloudmerge-rails-web/app/views/layouts/sign_up.html.erb" afterPath="$PROJECT_DIR$/../cloudmerge-rails-web/app/views/layouts/sign_up.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/cloudmerge/dashboard.css.scss" afterPath="$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/cloudmerge/dashboard.css.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gentelella-rails-demo/Gemfile" afterPath="$PROJECT_DIR$/../gentelella-rails-demo/Gemfile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gentelella-rails-demo/Gemfile.lock" afterPath="$PROJECT_DIR$/../gentelella-rails-demo/Gemfile.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gentelella-rails-demo/app/assets/stylesheets/gentelella-custom.scss" afterPath="$PROJECT_DIR$/../gentelella-rails-demo/app/assets/stylesheets/gentelella-custom.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gentelella-rails-demo/app/views/static/form_advanced.erb" afterPath="$PROJECT_DIR$/../gentelella-rails-demo/app/views/static/form_advanced.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gentelella-rails-demo/config/database.yml" afterPath="$PROJECT_DIR$/../gentelella-rails-demo/config/database.yml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,24 +93,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>btn-primary</find>
-      <find>&amp;hover</find>
-      <find>#fff</find>
-      <find>primary</find>
-      <find>next</find>
-      <find>stepcontainer</find>
-      <find>forward</find>
-      <find>fadeIn</find>
-      <find>btn-dark</find>
-      <find>fixH</find>
-      <find>_step</find>
-      <find>onLeaveStep</find>
-      <find>if function</find>
-      <find>onShowStep</find>
-      <find>onResize</find>
-      <find>elmStepContainer</find>
-      <find>defaultHei</find>
-      <find>update</find>
       <find>defaultH</find>
       <find>fixHei</find>
       <find>height</find>
@@ -72,6 +105,24 @@
       <find>displ</find>
       <find>wizar</find>
       <find>x_</find>
+      <find>&quot;home/</find>
+      <find>assets</find>
+      <find>img/</find>
+      <find>home/</find>
+      <find>asset-</find>
+      <find>signup</find>
+      <find>asset_url</find>
+      <find>asset-url</find>
+      <find>ur-</find>
+      <find>url(</find>
+      <find>o,age</find>
+      <find>hash</find>
+      <find>animated</find>
+      <find>feature</find>
+      <find>overlay-detail</find>
+      <find>body</find>
+      <find>forgot</find>
+      <find>font-family</find>
     </findStrings>
     <replaceStrings>
       <replace>user_google_oauth2_omniauth_authorize()</replace>
@@ -81,6 +132,9 @@
       <replace>PairCon</replace>
       <replace>paircon-custom</replace>
       <replace>user/</replace>
+      <replace>home/</replace>
+      <replace>&quot;&lt;%= asset_path '</replace>
+      <replace>image_url</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/Web/app</dir>
@@ -93,23 +147,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Web/app/views/home/terms.erb" />
-        <option value="$PROJECT_DIR$/Web/app/views/layouts/application.erb" />
-        <option value="$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/cloudmerge/dashboard.css.scss" />
-        <option value="$PROJECT_DIR$/../gentelella-rails-demo/app/views/static/index.erb" />
-        <option value="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-common.js" />
-        <option value="$PROJECT_DIR$/Web/app/views/layouts/application/_header.erb" />
-        <option value="$PROJECT_DIR$/../gentelella-rails-demo/app/assets/javascripts/gentelella-custom.js" />
-        <option value="$PROJECT_DIR$/../gentelella-rails-demo/config/environments/production.rb" />
-        <option value="$USER_HOME$/.rvm/gems/ruby-2.4.0/gems/gentelella-rails-0.1.2/assets/javascripts/gentelella.coffee" />
-        <option value="$PROJECT_DIR$/Web/vendor/assets/javascripts/common/jquery.smartwizard.js" />
-        <option value="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/index.js" />
-        <option value="$PROJECT_DIR$/Web/vendor/assets/javascripts/common/index.js" />
-        <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/index.css" />
-        <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/index.scss" />
-        <option value="$PROJECT_DIR$/Web/app/assets/javascripts/gentelella-custom.js" />
         <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/smartwizard.css" />
-        <option value="$PROJECT_DIR$/Web/app/views/devise/sessions/new.erb" />
         <option value="$PROJECT_DIR$/Web/config/local_settings.yml" />
         <option value="$PROJECT_DIR$/Web/lib/paircon_config.rb" />
         <option value="$PROJECT_DIR$/Web/app/services/identifier.rb" />
@@ -119,31 +157,47 @@
         <option value="$PROJECT_DIR$/Web/Gemfile" />
         <option value="$PROJECT_DIR$/Web/app/models/user.rb" />
         <option value="$PROJECT_DIR$/Web/db/migrate/20170302175813_add_gender_to_users.rb" />
-        <option value="$PROJECT_DIR$/Web/config/routes.rb" />
-        <option value="$PROJECT_DIR$/Web/app/controllers/home_controller.rb" />
         <option value="$PROJECT_DIR$/Web/app/controllers/application_controller.rb" />
-        <option value="$PROJECT_DIR$/Web/app/views/devise/registrations/new.erb" />
         <option value="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-home.js" />
-        <option value="$PROJECT_DIR$/Web/config/initializers/assets.rb" />
-        <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/application.scss" />
-        <option value="$PROJECT_DIR$/Web/app/assets/javascripts/application.js" />
         <option value="$PROJECT_DIR$/Web/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/_variables.scss" />
-        <option value="$PROJECT_DIR$/Web/app/views/layouts/home.erb" />
-        <option value="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-common.js.erb" />
         <option value="$PROJECT_DIR$/Web/app/views/layouts/application/_footer.erb" />
         <option value="$PROJECT_DIR$/../gentelella-rails-demo/app/assets/stylesheets/gentelella-custom.scss" />
         <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/common/image-crop.scss" />
         <option value="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/jquery.smartwizard.js" />
         <option value="$PROJECT_DIR$/Web/app/views/layouts/application/_signup_top_nav.erb" />
         <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/gentelella-custom.scss" />
-        <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-home.scss" />
         <option value="$PROJECT_DIR$/../cloudmerge-rails-web/app/views/layouts/sign_up.html.erb" />
         <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-common.scss" />
-        <option value="$PROJECT_DIR$/Web/app/views/layouts/sign_up.erb" />
         <option value="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-home.js.erb" />
         <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_theme.css" />
+        <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_theme.css.erb" />
+        <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_theme.scss.erb" />
+        <option value="$PROJECT_DIR$/Web/app/assets/javascripts/application.js" />
+        <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/application.scss" />
+        <option value="$PROJECT_DIR$/Web/app/views/layouts/sign_up.erb" />
+        <option value="$PROJECT_DIR$/Web/app/views/layouts/home/_header.erb" />
+        <option value="$PROJECT_DIR$/Web/app/views/layouts/application/_header.erb" />
+        <option value="$PROJECT_DIR$/Web/config/routes.rb" />
+        <option value="$PROJECT_DIR$/Web/config/initializers/assets.rb" />
+        <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-home.scss" />
+        <option value="$PROJECT_DIR$/Web/app/assets/javascripts/home-layout.js" />
+        <option value="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/index.js" />
+        <option value="$PROJECT_DIR$/Web/app/views/home/index.erb" />
+        <option value="$PROJECT_DIR$/Web/vendor/assets/javascripts/home/baker_theme.js" />
+        <option value="$PROJECT_DIR$/Web/app/views/home/about.erb" />
+        <option value="$PROJECT_DIR$/Web/app/views/home/features.erb" />
+        <option value="$PROJECT_DIR$/Web/app/views/home/privacy_policy.erb" />
+        <option value="$PROJECT_DIR$/Web/app/controllers/home_controller.rb" />
+        <option value="$PROJECT_DIR$/Web/app/assets/stylesheets/home-layout.scss" />
+        <option value="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_theme.scss" />
+        <option value="$PROJECT_DIR$/Web/app/views/layouts/home.erb" />
+        <option value="$PROJECT_DIR$/Web/app/assets/javascripts/paircon-common.js.erb" />
+        <option value="$PROJECT_DIR$/Web/app/views/devise/registrations/new.erb" />
+        <option value="$PROJECT_DIR$/Web/app/views/devise/passwords/new.erb" />
+        <option value="$PROJECT_DIR$/Web/app/views/devise/sessions/new.erb" />
       </list>
     </option>
   </component>
@@ -209,20 +263,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conference-Papers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conference-Papers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="RailsProjectView" />
@@ -235,26 +275,26 @@
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="js-jscs-nodeInterpreter" value="/usr/local/bin/node" />
-    <property name="SearchEverywhereHistoryKey" value="sign&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/views/layouts/sign_up.html.erb&#10;gentel&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;js&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/vendor/assets/javascripts/home/jquery.smartwizard.js&#10;signup&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_signup_top_nav.erb&#10;sig&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/sign_up.erb&#10;image&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/vendor/assets/stylesheets/common/image-crop.scss&#10;ge&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;footer&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;common&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-common.js.erb&#10;paircon-com&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-common.js.erb&#10;home&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/home.erb&#10;paircon-&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-common.js.erb&#10;gen&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;paircon&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/paircon-home.scss&#10;new&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/devise/registrations/new.erb&#10;foo&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;_foot&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;footer.&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;home.er&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-home.js.erb&#10;dropdown-menu dropdown-usermenu pull-right&#9;null&#9;null&#10;user&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/controllers/users_controller.rb&#10;user.rb&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/models/user.rb&#10;application.js&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/application.js&#10;applicat&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/application.scss&#10;application.css&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/assets/stylesheets/application.css.scss&#10;gem&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/Gemfile&#10;assets&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/config/initializers/assets.rb&#10;assets.rb&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/config/initializers/assets.rb&#10;paircon-home&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-home.js&#10;home.&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/home.erb&#10;application.scss&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/application.scss&#10;appli&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application.erb&#10;gente&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;paircon-comm&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/paircon-common.scss&#10;sign_up&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/views/layouts/sign_up.html.erb&#10;application&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/controllers/application_controller.rb&#10;users&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/controllers/users_controller.rb&#10;home_contr&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/controllers/home_controller.rb&#10;Sign_up&#9;FILE&#9;file:///home/mutahir/Work/cappucino_rails/app/views/layouts/sign_up.html.erb&#10;routes&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/config/routes.rb&#10;appl&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/controllers/application_controller.rb&#10;home_control&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/controllers/home_controller.rb&#10;users_contr&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/controllers/users_controller.rb&#10;gemfile&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/Gemfile&#10;loca&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/config/local_settings.yml&#10;user_help&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/helpers/user_helper.rb&#10;validat&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/assets/javascripts/validations.js&#10;confi&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/lib/paircon_config.rb&#10;pairconconfi&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/lib/paircon_config.rb&#10;_&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_signup_top_nav.erb" />
+    <property name="SearchEverywhereHistoryKey" value="new&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/devise/sessions/new.erb&#10;baker&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/vendor/assets/stylesheets/home/baker_theme.scss&#10;gente&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;application-&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/application-layout.scss&#10;appli&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/assets/stylesheets/application.css.scss&#10;home&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/home-layout.scss&#10;homecontrol&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/controllers/home_controller.rb&#10;ind&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/home/index.erb&#10;index&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/home/index.erb&#10;index.html&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/index.html&#10;sign&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_signup_top_nav.erb&#10;header&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/home/_header.erb&#10;home-l&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/home-layout.scss&#10;home.&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/home-layout.js&#10;paircon&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/paircon-home.scss&#10;home-&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/home-layout.scss&#10;assets&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/config/initializers/assets.rb&#10;routes&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/config/routes.rb&#10;home-layout&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/home-layout.js&#10;assets.&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/config/initializers/assets.rb&#10;application.js&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/application.js&#10;applic&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/assets/javascripts/application.js&#10;font&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/vendor/assets/stylesheets/avant/font-awesome.css.scss.erb&#10;dashboard&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/vendor/assets/stylesheets/cloudmerge/dashboard.css.scss&#10;font-awe&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/vendor/assets/stylesheets/avant/font-awesome.css.scss.erb&#10;common&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-common.js.erb&#10;pjax&#9;FILE&#9;file:///home/mutahir/.rvm/gems/ruby-2.4.0/gems/rack-pjax-1.0.0/lib/rack/pjax.rb&#10;applicat&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/application.js&#10;application&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/assets/stylesheets/application.css.scss&#10;gentel&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;js&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/vendor/assets/javascripts/home/jquery.smartwizard.js&#10;signup&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_signup_top_nav.erb&#10;sig&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/sign_up.erb&#10;image&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/vendor/assets/stylesheets/common/image-crop.scss&#10;ge&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;footer&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;paircon-com&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-common.js.erb&#10;paircon-&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-common.js.erb&#10;gen&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/stylesheets/gentelella-custom.scss&#10;foo&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;_foot&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;footer.&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/views/layouts/application/_footer.erb&#10;home.er&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-home.js.erb&#10;dropdown-menu dropdown-usermenu pull-right&#9;null&#9;null&#10;user&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/controllers/users_controller.rb&#10;user.rb&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/models/user.rb&#10;application.css&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/app/assets/stylesheets/application.css.scss&#10;gem&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/Gemfile&#10;assets.rb&#9;FILE&#9;file:///home/mutahir/Work/cloudmerge-rails-web/config/initializers/assets.rb&#10;paircon-home&#9;FILE&#9;file:///home/mutahir/Work/Conference-Papers/Web/app/assets/javascripts/paircon-home.js" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.ruby.settings.RubyActiveModuleSdkConfigurable" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="project.settings.patched" value="true" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Web/app/assets/images" />
-      <recent name="$PROJECT_DIR$/Web/vendor/assets/stylesheets/common" />
-      <recent name="$PROJECT_DIR$/Web/vendor/assets/javascripts/common" />
-      <recent name="$PROJECT_DIR$/Web/vendor/assets/javascripts/home" />
-      <recent name="$PROJECT_DIR$/Web/app/assets/stylesheets" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Web/vendor/assets/javascripts/home" />
       <recent name="$PROJECT_DIR$/Web/app/views/layouts/application" />
+      <recent name="$PROJECT_DIR$/Web/app/assets/images" />
+      <recent name="$PROJECT_DIR$/Web/vendor/assets/javascripts/home" />
       <recent name="$PROJECT_DIR$/Web/app/views/layouts" />
       <recent name="$PROJECT_DIR$/Web/app/views/layouts/home" />
-      <recent name="$PROJECT_DIR$/Web/app/views/home" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Web/vendor/assets/javascripts/home" />
+      <recent name="$PROJECT_DIR$/Web/vendor/assets/stylesheets/home" />
+      <recent name="$PROJECT_DIR$/Web/app/views/layouts/home" />
+      <recent name="$PROJECT_DIR$/Web/app/assets/javascripts" />
+      <recent name="$PROJECT_DIR$/Web/app/assets/stylesheets" />
     </key>
   </component>
   <component name="RunManager">
@@ -453,12 +493,12 @@
       <workItem from="1488565389982" duration="3000" />
       <workItem from="1488591220345" duration="1200000" />
       <workItem from="1488647143963" duration="28486000" />
-      <workItem from="1488677787860" duration="419000" />
+      <workItem from="1488677787860" duration="11164000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137722000" />
+    <option name="totallyTimeSpent" value="148467000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="24" width="1871" height="1056" extended-state="6" />
@@ -468,6 +508,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31082425" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30685204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32969216" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -480,7 +521,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30685204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -497,280 +537,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../cappucino_rails/app/models/user.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-67">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/db/migrate/20150117082623_add_columns_to_users.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="17" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/db/migrate/20170302175813_add_gender_to_users.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/users/delete.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/views/users/delete.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-292">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/views/users/_recaptcha.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/home/index.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cappucino_rails/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cappucino_rails/app/views/layouts/sign_up.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="100" column="92" lean-forward="true" selection-start-line="100" selection-start-column="92" selection-end-line="100" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cappucino_rails/app/views/devise/registrations/new.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/config/routes.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/controllers/home_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/models/user.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="71" column="14" lean-forward="true" selection-start-line="71" selection-start-column="14" selection-end-line="71" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/controllers/home_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="15" lean-forward="true" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/controllers/application_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cappucino_rails/app/controllers/concerns/application_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1651">
-          <caret line="20" column="66" lean-forward="true" selection-start-line="20" selection-start-column="66" selection-end-line="20" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/application.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/javascripts/home/phone-codes.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-198">
-          <caret line="22" column="51" lean-forward="true" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/config/initializers/assets.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/config/initializers/assets.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="75" lean-forward="false" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/Gemfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="40" column="89" lean-forward="true" selection-start-line="40" selection-start-column="89" selection-end-line="40" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/application.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="4" lean-forward="false" selection-start-line="30" selection-start-column="4" selection-end-line="30" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/assets/stylesheets/application.css.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="35" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/assets/javascripts/application.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="35" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="17" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/javascripts/thirdparty/load-image.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="478" lean-forward="false" selection-start-line="0" selection-start-column="478" selection-end-line="0" selection-end-column="478" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/javascripts/common/image-crop.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="37" column="29" lean-forward="true" selection-start-line="37" selection-start-column="29" selection-end-line="37" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/stylesheets/common/index.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/assets/javascripts/application.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/assets/javascripts/validations.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1440">
-          <caret line="80" column="10" lean-forward="false" selection-start-line="80" selection-start-column="10" selection-end-line="80" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/models/user.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="24" lean-forward="false" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/javascripts/jquery_plugins/jquery.validate.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="60" column="11" lean-forward="false" selection-start-line="60" selection-start-column="11" selection-end-line="60" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/controllers/users_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="167" column="20" lean-forward="false" selection-start-line="167" selection-start-column="12" selection-end-line="167" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/devise/registrations/new.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="91" column="12" lean-forward="true" selection-start-line="91" selection-start-column="12" selection-end-line="91" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/_variables.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="1020" column="1" lean-forward="false" selection-start-line="1020" selection-start-column="1" selection-end-line="1020" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/home.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="29" column="47" lean-forward="false" selection-start-line="29" selection-start-column="47" selection-end-line="29" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/assets/javascripts/paircon-common.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="56" column="0" lean-forward="false" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/application/_footer.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="15" lean-forward="false" selection-start-line="0" selection-start-column="15" selection-end-line="0" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gentelella-rails-demo/app/assets/stylesheets/gentelella-custom.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="1240" column="13" lean-forward="false" selection-start-line="1240" selection-start-column="13" selection-end-line="1240" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Web/vendor/assets/stylesheets/common/image-crop.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="337">
@@ -785,60 +551,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/application/_signup_top_nav.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="143" lean-forward="false" selection-start-line="5" selection-start-column="143" selection-end-line="5" selection-end-column="143" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Web/app/assets/images/spinner.gif">
       <provider selected="true" editor-type-id="images">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/gentelella-custom.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-347">
-          <caret line="4905" column="0" lean-forward="false" selection-start-line="4905" selection-start-column="0" selection-end-line="4905" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/views/layouts/sign_up.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="547" column="62" lean-forward="false" selection-start-line="547" selection-start-column="62" selection-end-line="547" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-home.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4500">
-          <caret line="250" column="1" lean-forward="false" selection-start-line="250" selection-start-column="1" selection-end-line="250" selection-end-column="1" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-common.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="522">
           <caret line="29" column="16" lean-forward="false" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/sign_up.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="26" column="67" lean-forward="false" selection-start-line="26" selection-start-column="67" selection-end-line="26" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Web/app/assets/javascripts/paircon-home.js.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2430">
-          <caret line="135" column="34" lean-forward="false" selection-start-line="135" selection-start-column="34" selection-end-line="135" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -853,8 +574,374 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        <state relative-caret-position="198">
+          <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/home/terms.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/index.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="3" lean-forward="true" selection-start-line="2" selection-start-column="3" selection-end-line="2" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/animate.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.4.0/gems/rack-pjax-1.0.0/lib/rack/pjax.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/javascripts/paircon-home.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2430">
+          <caret line="135" column="34" lean-forward="false" selection-start-line="135" selection-start-column="34" selection-end-line="135" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/cloudmerge/dashboard.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="590" column="10" lean-forward="false" selection-start-line="590" selection-start-column="10" selection-end-line="590" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rvm/gems/ruby-2.4.0/gems/sprockets-3.7.1/lib/sprockets/sass_processor.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="207" column="10" lean-forward="false" selection-start-line="207" selection-start-column="10" selection-end-line="207" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/avant/glyphicons.css.scss.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="10" lean-forward="false" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/avant/font-awesome.css.scss.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="15" lean-forward="false" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/javascripts/application-layout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="2" lean-forward="false" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/assets/javascripts/application.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/application.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/config/initializers/assets.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_bootstrap.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="66" column="19" lean-forward="false" selection-start-line="66" selection-start-column="19" selection-end-line="66" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/sign_up.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="26" column="44" lean-forward="false" selection-start-line="26" selection-start-column="38" selection-end-line="26" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/application/_header.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cappucino_rails/app/views/layouts/sign_up.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1270">
+          <caret line="347" column="0" lean-forward="true" selection-start-line="347" selection-start-column="0" selection-end-line="347" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/config/initializers/assets.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="154" lean-forward="false" selection-start-line="13" selection-start-column="154" selection-end-line="13" selection-end-column="154" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/javascripts/home/baker_bootstrap.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/config/routes.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/views/layouts/sign_up.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="683" column="39" lean-forward="false" selection-start-line="683" selection-start-column="39" selection-end-line="683" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/home/_header.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/javascripts/home-layout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="2" lean-forward="true" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/javascripts/home/wow.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="15" column="7" lean-forward="true" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/home/index.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="171" lean-forward="false" selection-start-line="0" selection-start-column="171" selection-end-line="0" selection-end-column="171" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/application/_signup_top_nav.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="13" column="60" lean-forward="false" selection-start-line="13" selection-start-column="60" selection-end-line="13" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/javascripts/home/baker_theme.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/home/about.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/home/features.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="38" lean-forward="false" selection-start-line="0" selection-start-column="38" selection-end-line="0" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/home/privacy_policy.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/controllers/home_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="35" lean-forward="false" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../cloudmerge-rails-web/app/assets/stylesheets/application.css.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="35" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/application-layout.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="30" column="31" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="30" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/paircon-home.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="19" lean-forward="false" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/home-layout.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/stylesheets/gentelella-custom.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/stylesheets/home/baker_theme.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="15" lean-forward="false" selection-start-line="22" selection-start-column="15" selection-end-line="22" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/vendor/assets/javascripts/home/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/assets/javascripts/paircon-common.js.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="25" column="57" lean-forward="false" selection-start-line="25" selection-start-column="57" selection-end-line="25" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/devise/registrations/new.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="7" lean-forward="false" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/devise/passwords/new.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/layouts/home.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="357" column="18" lean-forward="true" selection-start-line="357" selection-start-column="18" selection-end-line="357" selection-end-column="18" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#0;n#div#0;n#div#0;n#div#0;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#0;n#div#1;n#div#0;n#section#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Web/app/views/devise/sessions/new.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="34" column="54" lean-forward="true" selection-start-line="34" selection-start-column="54" selection-end-line="34" selection-end-column="54" />
           <folding />
         </state>
       </provider>
