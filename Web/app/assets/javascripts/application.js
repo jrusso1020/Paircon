@@ -20,6 +20,8 @@
 //= require i18n/translations
 //= require gentelella-custom
 
+//= require jquery-fileupload/basic
+
 //= require home
 //= require common
 //= require paircon-common

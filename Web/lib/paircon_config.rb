@@ -72,6 +72,16 @@ class PairConConfig
           password: local_settings['mail_password']
       }
     end
+
+    def url
+      {
+          privacy: local_settings['privacy_url'],
+          terms: local_settings['terms_url'],
+          feedback: local_settings['feedback_url'],
+          help: local_settings['help_url'],
+
+      }
+    end
     
   end
 end

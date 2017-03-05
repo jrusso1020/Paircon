@@ -1,11 +1,14 @@
 @import 'variables';
 
 h2, .h2 {
-  font-size: 29px;
-  font-weight: 300;
+  font-size: 32px !important;
 }
 
-a {
+h1, h2, h3, h4, h5 {
+  font-weight: 200;
+}
+
+a:not(.btn) {
   //color: $paircon-4 !important;
 
   &:hover {
@@ -13,11 +16,52 @@ a {
   }
 }
 
-.paircon-custom {
-  color: $paircon-2;
+footer {
+  padding: 10px !important;
+}
+
+.footer_fixed footer {
+  height: 40px;
+  position: inherit !important;
+  overflow: hidden;
+}
+
+.display-flex {
+  display: flex ;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.display-flex-column {
+  @extend .display-flex;
+  flex-flow: column;
+}
+
+.display-flex-row {
+  @extend .display-flex;
+  flex-flow: row;
+}
+
+.flex-y-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 0px !important;
+}
+
+.flex-autoresize-middle {
+  @extend .flex-grow;
+  flex: 1;
+}
+
+.main_container {
+  height: 100vh;
+  @extend .display-flex-column;
 }
 
 .custom-flash-info {
+  position: fixed;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 5px !important;
   //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
@@ -35,4 +79,27 @@ a {
   color: $color_monza_approx !important;
   background-color: $color_your_pink_approx !important;
   padding: 8px 10px !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.dropzone {
+  min-height: inherit !important;
+}
+
+.paircon-custom {
+  color: $paircon-2;
+}
+
+.btn-paircon .btn-primary{
+  &:hover {
+    color: initial !important;
+  }
+}
+
+.center-image {
+  display: block;
+  margin: auto;
 }

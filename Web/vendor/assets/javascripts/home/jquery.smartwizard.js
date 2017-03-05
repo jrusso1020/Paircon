@@ -18,7 +18,7 @@ function SmartWizard(target, options) {
     this.steps        = $(target).children("ul").children("li").children("a"); // Get all anchors
     this.contentWidth = 0;
     this.msgBox = $('<div class="msgBox"><div class="content"></div><a href="#" class="close">X</a></div>');
-    this.elmStepContainer = $('<div></div>').addClass("stepContainer");
+    this.elmStepContainer = $('<div></div>').addClass("stepContainer2");
     this.loader = $('<div>Loading</div>').addClass("loader");
     this.buttons = {
         next : $('<a>'+options.labelNext+'</a>').attr("href","#").addClass("buttonNext"),
@@ -218,7 +218,7 @@ function SmartWizard(target, options) {
                 }
             }
         }
-        $this.elmStepContainer.height(_step($this, selStep).outerHeight());
+        // $this.elmStepContainer.height(_step($this, selStep).outerHeight());
         var prevCurStepIdx = $this.curStepIdx;
         $this.curStepIdx =  stepIdx;
         if ($this.options.transitionEffect == 'slide'){

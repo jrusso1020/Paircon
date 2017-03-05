@@ -95,9 +95,13 @@ a.custom-tooltip .step-signup-tooltip,
 a.custom-tooltip .login-tooltip-span {
   margin-top: -4px;
   max-width: 260px;
-  color: #258D94;
+  color: $paircon-3;
   border: 1px solid #E6E7E8;
   background: #E6E7E8;
+}
+
+.step-signup-tooltip {
+  position: fixed !important;
 }
 
 a.custom-tooltip .login-tooltip-span {
@@ -189,7 +193,6 @@ span.callout {
 
 .navbar-paircon {
   display: flex;
-  justify-content: center;
   margin-bottom: 2px !important;
   margin-top: 5px;
 }
@@ -204,8 +207,45 @@ span.callout {
 }
 
 .navbar-user {
-  position: fixed;
+  position: absolute;
   right: 0;
   margin-top: -5px !important;
 }
 
+.wizard_steps {
+  padding-left: 0px;
+  margin-bottom: 0px !important;
+}
+
+.stepContainer {
+  overflow-x: inherit !important;
+}
+
+.stepContainer2 {
+  height: 100% !important;
+}
+
+.x_content {
+  height: 100%;
+}
+
+.actionBar {
+  position: absolute;
+  bottom: 0;
+}
+
+.user_registration_form {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 50px;
+}
+
+.signup-input-label {
+  margin-top: 30px;
+}
+
+.signup-row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}

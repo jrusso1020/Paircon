@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
-  # before_filter :authenticate_user!
-  before_action :reroute
+  before_action :authenticate_user!, only: :index
+  # before_action :reroute
 
   def index
   end
@@ -21,9 +21,9 @@ class HomeController < ApplicationController
     render layout: 'home/privacy_policy', layout: false
   end
 
-  def reroute
-    if user_signed_in?
-      # re route to app
-    end
-  end
+  # def reroute
+  #   if user_signed_in?
+  #     # re route to app
+  #   end
+  # end
 end

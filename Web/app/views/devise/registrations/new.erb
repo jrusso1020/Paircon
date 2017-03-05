@@ -6,7 +6,7 @@
 
     <%= content_tag :div, class: 'panel-body' do %>
         <%= content_tag :h4, class: 'text-center' do %>
-            <%= link_to 'Log in', new_session_path(resource_name), :class => 'green' %> or Sign Up to get started <br/>
+            <%= link_to 'Log in', new_session_path(resource_name) %> or Sign Up to get started <br/>
         <% end %>
     <% end %>
 
@@ -106,7 +106,7 @@
     <%= content_tag :div, (form.submit 'Sign up', class: 'btn btn-block btn-paircon'), class: 'form-actions clearfix' %>
 
     <%= content_tag :div, class: 'form-actions clearfix hidden-xs', style: 'text-align: left' do %>
-        By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', '' %> and that you have read our Data Use <%= link_to 'Privacy', '' %>.
+        By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', PairConConfig::url['terms'] %> and that you have read our Data Use <%= link_to 'Privacy', PairConConfig::url['privacy'] %>.
     <% end %>
 
     <%= content_tag :div, class: 'footer-login' do %>

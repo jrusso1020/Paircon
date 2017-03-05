@@ -9,26 +9,48 @@ Rails.application.routes.draw do
          request.subdomain =~ /^www$/i && request.query_parameters.blank?
        }
 
-  devise_for :user, path: '', path_names: { sign_in: 'login', sign_up: 'register', sign_out: 'logout'}, controllers: {
-      omniauth_callbacks: 'user/omniauth_callback',
-      registrations: 'user/registration'
+  root to: 'home#index', as: :dashboard
+
+  devise_for :users, path: '', path_names: { sign_in: 'login', sign_up: 'register', sign_out: 'logout'}, controllers: {
+      omniauth_callbacks: 'users/omniauth_callbacks',
+      registrations: 'users/registrations'
   }, skip: [:sessions]
 
   devise_scope :user do
-    root to: 'devise/sessions#new', as: :new_user_session
+    get 'login/(:id)', to: 'devise/sessions#new', as: :new_user_session
 
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
+
   end
 
   resources :home, path: '' do
     collection do
-      get :home
       get :about
       get :features
       get :terms
       get :privacy_policy
+    end
+  end
+
+
+  resources :users, except: [:index] do
+    member do
+      get :delete
+      get :change_active_status
+      get :email_password
+      post :update_email_password
+      get :timezone
+      post :save_logo
+      post :destroy_logo
+      # put :update_flags
+      # put :update_prefs
+      delete :delete_account
+    end
+
+    collection do
+      get :validation
     end
   end
 

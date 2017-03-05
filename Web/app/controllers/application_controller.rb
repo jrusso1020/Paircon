@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit({roles: []}, :email, :password, :password_confirmation) }
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit({roles: []}, :email, :password, :password_confirmation, :first_name, :last_name) }
   end
 
   def not_found
@@ -61,6 +61,10 @@ class ApplicationController < ActionController::Base
 
   def layout
     request.xhr? ? false : 'application'
+  end
+
+  def current_page
+    "#{params[:controller]}_#{params[:action]}"
   end
 
   def set_locale

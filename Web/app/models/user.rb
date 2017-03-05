@@ -47,7 +47,10 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :password, confirmation: true
 
-  has_many :identities, :dependent => :destroy
+  has_many :identities, dependent: :destroy
+
+  has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}, default_url: 'Male.jpg'
+  validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
 
   before_create :init_user_id
 

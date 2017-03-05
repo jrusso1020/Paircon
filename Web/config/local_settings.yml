@@ -33,3 +33,9 @@ paypal_invoice_recipients: 'support@paircon.com'
 billing_recipients: 'support@paircon.com'
 notification_email: "PairCon <noreply@paircon.com>"
 marketing_email: 'support@paircon.com'
+
+# Others
+privacy_url: ''
+terms_url: ''
+feedbacK_url: ''
+help_url: ''
