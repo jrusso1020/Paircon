@@ -1,5 +1,7 @@
 import nltk, string
+import glob
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import linear_kernel
 
 class Cosine_Similiarity:
   """
@@ -26,12 +28,58 @@ class Cosine_Similiarity:
     """
     return self.stem_tokens(nltk.word_tokenize(text.lower().translate(self.punctuation_dict)))
 
-  def compute_cosine_sim(self, paper_body1, paper_body2):
+  def compute_cosine_sim(self, user_dir, conference_dir, k):
     """
     compute the conside similiarity between two documents after being tokenized
-    PARAMS: paper_body1 = the body of text for a user's academic paper
-            paper_body2 = the body of text for a conference's academic paper
+    PARAMS: user_dir = the absolute path to a directory containing the text versions of all a users documents
+            conference_dir = the absolute path to a directory contaiing the text versoins of all a conference documents
+            k = number of similiar documents to return
     RETURNS: a value which is the cosine similiarity of two academic papers
     """
-    tf_idf = self.tfidf_vectorizer.fit_transform([paper_body1, paper_body2])
-    return ((tf_idf * tf_idf.T).A)[0,1]
+    # save all text into documents
+    user_docs = glob.glob(user_dir + "/*.txt")
+    user_papers = []
+    for doc in user_docs:
+      with open(doc, 'r') as my_file:
+        user_papers.append(my_file.read())
+
+    conference_docs = glob.glob(conference_dir + "/*.txt")
+    conference_papers = []
+    for doc in conference_docs:
+      with open(doc, 'r') as my_file:
+        conference_papers.append(my_file)
+
+    # change to numpy arrays for list indexing
+    user_docs = np.array(user_docs)
+    user_papers = np.array(user_papers)
+    conference_docs = np.array(conference_docs)
+    conference_papers = np.array(conference_papers)
+
+    # create tf idf vectors for user papers and conference papers
+    tf_idf_user = self.tfidf_vectorizer.fit_transform(user_papers)
+    tf_idf_conference = self.tfidf_vectorizer.fit_transform(conference_papers)
+
+    # compute consine similiarity
+    cosine_sim = linear_kernel(tf_idf_user, tf_idf_conference)
+
+    # get the indices and scores for the most similiar user paper to each conference paper
+    indices_top_docs = np.argsort(cosine_sim, axis=0)[:-2:-1].flatten()
+    scores_top_docs = np.sort(cosine_sim, axis=0)[:-2:-1].flatten()
+
+    # get the top k indices from the most similiar papers and only use those
+    top_k = np.argsort(scores_top_docs)[:-(k+1):-1]
+
+    # get the file names for the top k user and conference papers
+    top_k_users = user_docs[indices_top_docs[top_k]]
+    top_k_papers = conference_docs[top_k]
+
+    results = {}
+    for idx in range(k):
+      results[str(idx+1)] = {'user_paper': top_k_users[idx],
+                      'conference_paper': top_k_papers[idx],
+                      'score': scores_top_docs[top_k[idx]]}
+
+    return results
+
+
+    
