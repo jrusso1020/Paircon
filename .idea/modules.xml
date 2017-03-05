@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Conference-Papers.iml" filepath="$PROJECT_DIR$/.idea/Conference-Papers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../cappucino_rails/.idea/cappucino_rails.iml" filepath="$PROJECT_DIR$/../cappucino_rails/.idea/cappucino_rails.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../cloudmerge-rails-web/.idea/cloudmerge-rails-web.iml" filepath="$PROJECT_DIR$/../cloudmerge-rails-web/.idea/cloudmerge-rails-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gentelella-rails-demo/.idea/gentelella-rails-demo.iml" filepath="$PROJECT_DIR$/../gentelella-rails-demo/.idea/gentelella-rails-demo.iml" />
     </modules>
   </component>
 </project>

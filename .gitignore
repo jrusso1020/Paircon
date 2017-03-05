@@ -8,6 +8,7 @@ capybara-*.html
 /public/system
 /coverage/
 /spec/tmp
+.idea/
 **.orig
 rerun.txt
 pickle-email-*.html
@@ -40,3 +41,4 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+Web/public/logo/
