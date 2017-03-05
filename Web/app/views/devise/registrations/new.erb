@@ -1,6 +1,6 @@
 <% page_title('Sign Up') %>
 
-<%# cache resource do %>
+
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
              :html => {:class => 'form-horizontal', id: 'new_user_registration'}) do |form| %>
 
@@ -11,9 +11,8 @@
     <% end %>
 
     <%= content_tag :a, class: 'custom-tooltip', id: 'nameTooltip' do %>
-        <%= content_tag :span, 'What\'s your name?', class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-125px' : '-330px'}" %>
 
-        <%= content_tag :div, class: 'input-group', style: 'margin-bottom:0px;width: 100%;' do %>
+        <%= content_tag :div, class: 'input-group', style: 'margin-bottom:5px; width: 100%;' do %>
             <%= content_tag :div, class: 'row' do %>
                 <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
                     <%= content_tag :div, class: 'row' do %>
@@ -33,10 +32,6 @@
     <% end %>
 
     <%= content_tag :a, class: 'custom-tooltip', id: 'emailTooltip' do %>
-        <%= content_tag :span, class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-210px' : '-418px'}" do %>
-            You will use this when you Login and <br/>if you ever need to reset password
-        <% end %>
-
         <%= content_tag :div, class: 'row' do %>
             <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
                 <%= content_tag :span, class: 'input-group', style: 'display: inline-table; margin-bottom:10px;' do %>
@@ -49,8 +44,6 @@
 
     <% if is_mobile_device? %>
         <%= content_tag :a, class: 'custom-tooltip visible-xs-block' do %>
-            <%= content_tag :span, 'Please enter your password', class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-130px' : '-260px'}" %>
-
             <%= content_tag :div, class: 'input-group', style: 'margin-bottom:10px;width: 100%;' do %>
                 <%= content_tag :div, class: 'row' do %>
                     <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
@@ -74,10 +67,6 @@
         <% end %>
     <% else %>
         <%= content_tag :a, class: 'custom-tooltip' do %>
-            <%= content_tag :span, class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-171px' : '-375px' }" do %>
-                Please enter your password <br/>(<%= @minimum_password_length %> characters minimum)
-            <% end %>
-
             <%= content_tag :div, class: 'row' do %>
                 <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
                     <%= content_tag :span, class: 'input-group', style: 'display: inline-table; margin-bottom:10px;' do %>
@@ -90,7 +79,6 @@
             <% end %>
         <% end %>
         <%= content_tag :a, class: 'custom-tooltip' do %>
-            <%= content_tag :span, 'Please re-enter your password', class: 'login-tooltip-span callout left hidden-xs', style: "margin-left: #{browser.firefox? ? '-186px' : '-385px' }" %>
             <%= content_tag :div, class: 'row' do %>
                 <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
                     <%= content_tag :div, class: 'input-group', style: 'display: inline-table; margin-bottom:10px;' do %>
@@ -112,11 +100,9 @@
     <%= content_tag :div, class: 'footer-login' do %>
         <%= content_tag :div, 'Sign up with', class: 'pull-left text' %>
         <%= content_tag :div, class: 'pull-right btn-social' do %>
-            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-facebook'), class: 'btn btn-facebook', href: "#{user_facebook_omniauth_authorize_path}" %>
+            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-facebook'), class: 'btn btn-facebook btn-footer-social', href: "#{user_facebook_omniauth_authorize_path}" %>
             <%= content_tag :a, content_tag(:i, '', class: 'fa fa-google-plus'), class: 'btn btn-google-plus', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
         <% end %>
     <% end %>
 
-    <%= javascript_tag 'initializeNewRegistration()' %>
 <% end %>
-<%# end %>
