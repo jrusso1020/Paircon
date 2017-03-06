@@ -2,6 +2,7 @@ import nltk, string
 import glob
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
+import numpy as np
 
 class Cosine_Similiarity:
   """
@@ -47,20 +48,20 @@ class Cosine_Similiarity:
     conference_papers = []
     for doc in conference_docs:
       with open(doc, 'r') as my_file:
-        conference_papers.append(my_file)
+        conference_papers.append(my_file.read())
 
     # change to numpy arrays for list indexing
+    both_papers = np.array(user_papers + conference_papers)
     user_docs = np.array(user_docs)
     user_papers = np.array(user_papers)
     conference_docs = np.array(conference_docs)
     conference_papers = np.array(conference_papers)
 
     # create tf idf vectors for user papers and conference papers
-    tf_idf_user = self.tfidf_vectorizer.fit_transform(user_papers)
-    tf_idf_conference = self.tfidf_vectorizer.fit_transform(conference_papers)
+    tf_idf = self.tfidf_vectorizer.fit_transform(both_papers)
 
     # compute consine similiarity
-    cosine_sim = linear_kernel(tf_idf_user, tf_idf_conference)
+    cosine_sim = linear_kernel(tf_idf[0:len(user_papers)], tf_idf[len(user_papers):])
 
     # get the indices and scores for the most similiar user paper to each conference paper
     indices_top_docs = np.argsort(cosine_sim, axis=0)[:-2:-1].flatten()
