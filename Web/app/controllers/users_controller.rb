@@ -14,13 +14,13 @@ class UsersController < ApplicationController
   end
 
   def submit_url
-    userid = current_user.id
+    userid = params[:id]
     if !params["#{userid}"][:url].blank?
       pdf_folder = "#{Rails.root}/public/docs/pdfs/#{userid}"
       FileUtils::mkdir_p pdf_folder
       txt_folder = "#{Rails.root}/public/docs/txt/#{userid}"
       FileUtils::mkdir_p txt_folder
-      q = params[:url]
+      q = params["#{userid}"][:url]
       current_user.url = q
       current_user.save!(validate: false)
       scrapper = PDFScrapper.new(q, 'personal')
