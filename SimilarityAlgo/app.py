@@ -12,7 +12,7 @@ def compare_papers():
   if request.headers['Content-Type'] == 'application/json':
     data = request.get_json()
     print(type(data))
-    similiarities = Cosine_Similiarity().compute_cosine_sim(data["user_dir"], data["conference_dir"])
+    similiarities = Cosine_Similiarity().compute_cosine_sim(data["user_dir"], data["conference_dir"], data["k"])
     resp = jsonify(similiarities)
     resp.status_code = 200
 
