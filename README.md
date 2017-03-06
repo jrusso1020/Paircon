@@ -70,6 +70,13 @@ To install all packages and clean up the directory afterwards do
 python setup.py install
 python setup.py clean
 ```
+
+Then to run do
+```
+python app.py
+```
+This will run the app at 127.0.0.1:5000
+
 #### Sending POST requests
 Requires content of POST request to be `application/json`
 JSON object must look like so
