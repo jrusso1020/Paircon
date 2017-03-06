@@ -3,7 +3,7 @@ from sim_algo_v1 import *
 
 app = Flask(__name__)
 
-@app.route('/similiarity/v1/compare', methods = ['GET'])
+@app.route('/similiarity/v1/compare', methods = ['POST'])
 def compare_papers():
   """
   Method to compare two papers and return their similiarity score
