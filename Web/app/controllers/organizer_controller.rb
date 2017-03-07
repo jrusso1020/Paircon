@@ -1,2 +1,0 @@
-class OrganizerController < ApplicationController
-end
