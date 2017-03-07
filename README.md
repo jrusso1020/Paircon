@@ -60,11 +60,10 @@ rails s
 Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com``` to open the application
 
 ## Running Flask Application (SimiliarityAlgo Folder)
-developed using python 3.6
-Also recommmend using anaconda or another virtual environment
+This has been developed using python 3.6. You are recommended to use Anaconda or another virtual environment
 
-make sure you have a fortran compiler installed
-on macs you can use `brew install gcc` to accomplish this
+Make sure you have a fortran compiler installed. On Mac, you can use `brew install gcc` to accomplish this. 
+
 To install all packages and clean up the directory afterwards do
 ```
 python setup.py install
@@ -75,11 +74,13 @@ Then to run do
 ```
 python app.py
 ```
+
 This will run the app at 127.0.0.1:5000
 
 #### Sending POST requests
 Requires content of POST request to be `application/json`
-JSON object must look like so
+
+JSON object must look like:
 ```
 {"user_dir" : "absolute/path/to/user_txts", "conference_dir" : "absolute/path/to/conference_txts", "k" : (number of most similiar documents to return)}
 ```
@@ -90,5 +91,3 @@ The server will then return a JSON object like so
 ...,
 "k" : {"user_paper" : "absolute/path/to/user_txt", "conference_paper" : "absolute/path/to/conference_txt", "score" : (similiarity score 0-1.0)}}
 ```
-
-
