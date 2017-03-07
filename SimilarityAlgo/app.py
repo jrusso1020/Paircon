@@ -3,7 +3,7 @@ from sim_algo_v1 import *
 
 app = Flask(__name__)
 
-@app.route('/similiarity/v1/compare', methods = ['GET'])
+@app.route('/similiarity/v1/compare', methods = ['POST'])
 def compare_papers():
   """
   Method to compare two papers and return their similiarity score
@@ -12,7 +12,7 @@ def compare_papers():
   if request.headers['Content-Type'] == 'application/json':
     data = request.get_json()
     print(type(data))
-    similiarities = Cosine_Similiarity().compute_cosine_sim(data["user_dir"], data["conference_dir"])
+    similiarities = Cosine_Similiarity().compute_cosine_sim(data["user_dir"], data["conference_dir"], data["k"])
     resp = jsonify(similiarities)
     resp.status_code = 200
 
