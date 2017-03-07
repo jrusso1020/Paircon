@@ -22,11 +22,6 @@ function initializePasswordEdit() {
 /****************************************/
 //------------REGISTRATION--------------//
 /****************************************/
-function initializeNewRegistration() {
-    $('.form-control').focus(function () {$(this).closest('a.custom-tooltip').children().first().css('opacity', '1.0'); });
-    $('.form-control').blur(function () { $(this).closest('a.custom-tooltip').children().first().css('opacity', '0.0'); });
-}
-
 function initSignup() {
 
     initSignUpValidation();
