@@ -1,5 +1,6 @@
 require 'base64'
-
+require 'scrapper/pdf_scrapper'
+require 'fileutils'
 class UsersController < ApplicationController
   before_action :check_session, :only => [:show]
   before_action :authenticate_user!, except: [:validation]
@@ -10,6 +11,23 @@ class UsersController < ApplicationController
   end
 
   def show
+  end
+
+  def submit_url
+    userid = params[:id]
+    if !params["#{userid}"][:url].blank?
+      pdf_folder = "#{Rails.root}/public/docs/pdfs/#{userid}"
+      FileUtils::mkdir_p pdf_folder
+      txt_folder = "#{Rails.root}/public/docs/txt/#{userid}"
+      FileUtils::mkdir_p txt_folder
+      q = params["#{userid}"][:url]
+      current_user.url = q
+      current_user.save!(validate: false)
+      scrapper = PDFScrapper.new(q, 'personal')
+      scrapper.downloadAllPdfs(pdf_folder)
+      scrapper.convertPdfToText(pdf_folder, txt_folder)
+      render text: 'Completed the processing of the URL'
+    end
   end
 
   def edit

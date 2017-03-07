@@ -31,6 +31,7 @@ group :assets do
   gem 'therubyracer', platforms: :ruby                            # Execute Javascript in Ruby
 end
 
+
 ########################
 ###### BACK END #######
 ########################
@@ -50,6 +51,10 @@ gem 'omniauth-facebook'                                           # For login fr
 
 # Cache
 # gem 'dalli'                                                     # For caching
+
+#pdf scrapper
+gem 'pdf-reader'
+gem 'docsplit'
 
 # Utility
 gem 'i18n-js', '>= 3.0.0.rc11'
