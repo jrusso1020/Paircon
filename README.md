@@ -8,7 +8,11 @@ To run the application locally, you are required to edit Hosts (```/etc/hosts```
 127.0.0.1 app.devpaircon.com
 ```
 
+On Mac: [instructions to edit (```/etc/hosts```)](http://www.imore.com/how-edit-your-macs-hosts-file-and-why-you-would-want)
+
 ## Postgres:
+
+On Mac: [instructions to install Postgres](https://launchschool.com/blog/how-to-install-postgresql-on-a-mac)
 
 The application is setup to work with Postgres. After installing postgres, you are required to do the following:
 
@@ -29,6 +33,10 @@ create role paircon with createdb login password 'paircon';
 ```
 vim /etc/postgresql/<version>/main/pg_hba.conf
 ```
+If using Mac: find the of hba.conf file instead. In PSQL, type
+```
+SHOW hba_file;
+```
 
 and replace
 
@@ -42,6 +50,7 @@ to
 local   all             postgres                                md5
 local   all             paircon                                 md5
 ```
+If using Mac, just add these two lines to the file. 
 
 #### Restart Service
 ```
