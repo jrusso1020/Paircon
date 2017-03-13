@@ -59,7 +59,7 @@ gem 'docsplit'
 # Utility
 gem 'i18n-js', '>= 3.0.0.rc11'
 gem 'hashie'                                                      # Getting hashes
-# gem 'rack-cors'                                                 # Handling Cross Origin Requests
+gem 'rack-cors'                                                   # Handling Cross Origin Requests
 gem 'paperclip'                                                   # File attachement
 gem 'jquery-fileupload-rails'                                     # Uploading images / files
 # gem 'public_activity'                                           # For Notifications
@@ -79,8 +79,8 @@ end
 
 group :development do
   gem 'web-console', '>= 3.3.0'                                   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'ruby-lint'                                                 # For Detecting any mistakes in Ruby Code
   gem 'bullet'                                                    # For Avoiding N+1 Queries

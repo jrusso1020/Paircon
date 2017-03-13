@@ -8,7 +8,7 @@ capybara-*.html
 /public/system
 /coverage/
 /spec/tmp
-.idea/*
+.idea/
 **.orig
 rerun.txt
 pickle-email-*.html
@@ -41,3 +41,11 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+/Web/public/system/
+/Web/public/docs/
+/SimilarityAlgo/similiarity_algo.egg-info/
+/SimilarityAlgo/build/
+/SimilarityAlgo/.eggs/
+/SimilarityAlgo/dist/
+/SimilarityAlgo/.idea/
+/Web/Gemfile.lock
