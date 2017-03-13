@@ -8,7 +8,7 @@ capybara-*.html
 /public/system
 /coverage/
 /spec/tmp
-.idea/*
+.idea/
 **.orig
 rerun.txt
 pickle-email-*.html
@@ -48,3 +48,4 @@ bower.json
 /SimilarityAlgo/.eggs/
 /SimilarityAlgo/dist/
 /SimilarityAlgo/.idea/
+/Web/Gemfile.lock

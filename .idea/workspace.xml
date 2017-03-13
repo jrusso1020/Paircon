@@ -2,149 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="23003446-43a3-4f03-8dfd-4abe29aaf83b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SimilarityAlgo/readme.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/SimilarityAlgo/requirements.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/0902.2206" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/1105.0972v1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/1409.1976v1.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/1504.04788v1.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/1512.05469.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/171.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/498_icmlpaper.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/5871-bayesian-active-model-selection-with-an-application-to-automated-audiometry.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/5997-fast-distributed-k-center-clustering-with-outliers-on-massive-data.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/6139-supervised-word-movers-distance.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/AAAI-14.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/AAAI06-280.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/Attenberg-etal-VBNov09.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/FFD.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/GOEH.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/GardnerUAI2015.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/ICML2013_CSTC.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/ICML2013_MCF.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/NIPS2005_0265.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/Paper1223kedem_nips2012_suppl.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/Slaney2008-MusicSimilarityMetricsISMIR.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/UnsupervisedRankingACMMM09July24.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/aaai13-latebreak.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/aaai15_sven.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/ceas2009-paper-11.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/chen15c.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/chilmnn.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/coda_nips2011.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/costsensitive.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/ctfp6043-weinberger.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/deepmsda.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/dissertation.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/fr819-tyreeA.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/gardner14.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/gbfs.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/greedymiser.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/icml2008a.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/icml2013_chen13e.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/icml2013_xu13b.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/ipsi2011.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/jmlr08_lmnn.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/kusner14.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/learning_kernel04.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/lewisj-OceanMapping.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/mllp.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/mohan11a.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/msdaJMLR.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/msda_dm.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/msdadomain.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/mtlmnn_nips2010.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/multiboost2010.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/nips04.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/nips2006.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/patchmvu.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/private_GP.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/smdr_ssl05.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/spm2010.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/ssi-cikm.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/ssi-ir.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/stochastictriplet.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/taxo_nips.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/weinberger07a.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/wmd_metric.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/wmd_supplementary.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/wsmc2009-specificity.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/pdfs/b6facade9535bd110c70eaf3d33595/xu14a.pdf" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/0902.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/1105.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/1409.1976v1.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/1504.04788v1.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/1512.05469.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/171.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/498_icmlpaper.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/5871-bayesian-active-model-selection-with-an-application-to-automated-audiometry.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/5997-fast-distributed-k-center-clustering-with-outliers-on-massive-data.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/6139-supervised-word-movers-distance.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/AAAI-14.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/AAAI06-280.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/Attenberg-etal-VBNov09.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/FFD.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/GOEH.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/GardnerUAI2015.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/ICML2013_CSTC.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/ICML2013_MCF.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/NIPS2005_0265.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/Paper1223kedem_nips2012_suppl.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/Slaney2008-MusicSimilarityMetricsISMIR.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/UnsupervisedRankingACMMM09July24.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/aaai13-latebreak.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/aaai15_sven.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/ceas2009-paper-11.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/chen15c.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/chilmnn.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/coda_nips2011.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/costsensitive.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/ctfp6043-weinberger.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/deepmsda.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/dissertation.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/fr819-tyreeA.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/gardner14.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/gbfs.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/greedymiser.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/icml2008a.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/icml2013_chen13e.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/icml2013_xu13b.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/ipsi2011.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/jmlr08_lmnn.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/kusner14.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/learning_kernel04.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/lewisj-OceanMapping.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/mllp.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/mohan11a.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/msdaJMLR.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/msda_dm.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/msdadomain.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/mtlmnn_nips2010.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/multiboost2010.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/nips04.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/nips2006.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/patchmvu.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/private_GP.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/smdr_ssl05.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/spm2010.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/ssi-cikm.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/ssi-ir.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/stochastictriplet.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/taxo_nips.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/weinberger07a.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/wmd_metric.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/wmd_supplementary.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/wsmc2009-specificity.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/docs/txt/b6facade9535bd110c70eaf3d33595/xu14a.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/system/users/logos/b6f/aca/de9/medium/image.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/system/users/logos/b6f/aca/de9/original/image.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Web/public/system/users/logos/b6f/aca/de9/thumb/image.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/Conference-Papers.iml" afterPath="$PROJECT_DIR$/.idea/Conference-Papers.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimilarityAlgo/app.py" afterPath="$PROJECT_DIR$/SimilarityAlgo/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SimilarityAlgo/setup.py" afterPath="$PROJECT_DIR$/SimilarityAlgo/setup.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../cloudmerge-rails-web/app/views/layouts/sign_up.html.erb" afterPath="$PROJECT_DIR$/../cloudmerge-rails-web/app/views/layouts/sign_up.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/cloudmerge/dashboard.css.scss" afterPath="$PROJECT_DIR$/../cloudmerge-rails-web/vendor/assets/stylesheets/cloudmerge/dashboard.css.scss" />
     </list>
@@ -175,8 +34,8 @@
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+            <state relative-caret-position="396">
+              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -410,38 +269,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conference-Papers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conference-Papers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conference-Papers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Conference-Papers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SimilarityAlgo" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -687,18 +514,18 @@
       <workItem from="1489328596087" duration="947000" />
       <workItem from="1489364263695" duration="4544000" />
       <workItem from="1489371804654" duration="8000" />
-      <workItem from="1489372311797" duration="4762000" />
+      <workItem from="1489372311797" duration="4876000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="172121000" />
+    <option name="totallyTimeSpent" value="172235000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="49" y="24" width="1871" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09192945" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09192945" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31082425" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1076,8 +903,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="7" lean-forward="true" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+        <state relative-caret-position="396">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>
