@@ -19,3 +19,29 @@
     <% end %>
 <% end %>
 
+<button id="getResult">Get Result or machine learning</button>
+
+<script>
+  $('#getResult').click(function() {
+      var data = {
+          user_dir: '<%= "#{Rails.root}/public/conference_papers" %>',
+          conference_dir: '<%= "#{Rails.root}/public/conference_papers" %>',
+          k: 3
+      };
+
+      $.ajax({
+          type: 'POST',
+          url: '<%= "#{PairConConfig.recommendation_system_domain}/similiarity/v1/compare" %>',
+          data: JSON.stringify(data),
+          dataType: "json",
+          contentType: "application/json",
+          success: function (text, status, xhr) {
+              showNotificationMsg(text);
+          },
+          error: function (xhr, status, text) {
+              showErrorMsg(xhr.responseText);
+          }
+
+      });
+  });
+</script>

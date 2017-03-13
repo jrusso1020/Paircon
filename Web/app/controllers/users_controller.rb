@@ -26,8 +26,11 @@ class UsersController < ApplicationController
       scrapper = PDFScrapper.new(q, 'personal')
       scrapper.downloadAllPdfs(pdf_folder)
       scrapper.convertPdfToText(pdf_folder, txt_folder)
-      render text: 'Completed the processing of the URL'
+
+      flash[:notice] = 'Password has been updated succesfully. '
     end
+
+    redirect_to :back
   end
 
   def edit
@@ -185,4 +188,5 @@ class UsersController < ApplicationController
     # Notifier.startup_instructions(current_user).deliver_later
     # @user.activity(:create)
   end
+
 end

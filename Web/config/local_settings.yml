@@ -5,6 +5,7 @@ production_environment: 'https://www.paircon.com'
 development_environment: 'http://wwwdevparicon.com:3000'
 product_name: 'PairCon'
 product_url: 'https://www.paircon.com'
+machine_learning_development_api_url: 'http://127.0.0.1:5000'
 
 # Google
 google_api_client_id: ''

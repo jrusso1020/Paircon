@@ -59,7 +59,7 @@ gem 'docsplit'
 # Utility
 gem 'i18n-js', '>= 3.0.0.rc11'
 gem 'hashie'                                                      # Getting hashes
-# gem 'rack-cors'                                                 # Handling Cross Origin Requests
+gem 'rack-cors'                                                   # Handling Cross Origin Requests
 gem 'paperclip'                                                   # File attachement
 gem 'jquery-fileupload-rails'                                     # Uploading images / files
 # gem 'public_activity'                                           # For Notifications

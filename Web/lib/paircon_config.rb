@@ -12,7 +12,16 @@ class PairConConfig
       end
       root_domain
     end
-    
+
+    def recommendation_system_domain
+      if Rails.env.development?
+        recommendation_system_domain = local_settings['machine_learning_development_api_url']
+      else
+        recommendation_system_domain = local_settings['machine_learning_production_api_url']
+      end
+      recommendation_system_domain
+    end
+
     def product_name
       local_settings['product_name']
     end
