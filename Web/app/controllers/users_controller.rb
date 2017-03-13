@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   def show
   end
 
+  # This function will be removed at a later stage and update command will be used
   def submit_url
     if !params[:url].blank?
       pdf_folder = current_user.get_pdf_folder_path
@@ -26,7 +27,7 @@ class UsersController < ApplicationController
       scrapper.downloadAllPdfs(pdf_folder)
       scrapper.convertPdfToText(pdf_folder, txt_folder)
 
-      flash[:notice] = 'Password has been updated succesfully. '
+      flash[:notice] = 'Your personal URL has been updated successfully'
     end
 
     redirect_back(fallback_location: :back)
