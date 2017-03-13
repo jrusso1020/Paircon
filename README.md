@@ -76,10 +76,9 @@ PairCon highly relies on background services to provide async behavior while dow
 The system uses Redis along with Sideqik. You will be required to do the following:
 
 #### Install Redis
-#####Ubuntu:
-https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
-#####Mac:
-https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298#.pdgap142h
+#####[instructions to install on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04)
+#####[instructions to install on Mac](https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298#.pdgap142h)
+
 #### Run Redis Server
 You can setup redis as a service or execute ```redis-server``` to start a redis instace. 
 #### Run Sidekiq
