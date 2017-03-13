@@ -41,3 +41,10 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+/Web/public/system/
+/Web/public/docs/
+/SimilarityAlgo/similiarity_algo.egg-info/
+/SimilarityAlgo/build/
+/SimilarityAlgo/.eggs/
+/SimilarityAlgo/dist/
+/SimilarityAlgo/.idea/

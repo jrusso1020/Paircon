@@ -24,8 +24,12 @@ requirements = [
                 'scikit-learn',
                 'numpy',
                 'scipy',
-                'flask'
+                'flask',
+                'flask-cors'
                 ]
+
+
+
 
 setup(
     name="similiarity_algo",
