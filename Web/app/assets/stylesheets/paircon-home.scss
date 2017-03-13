@@ -250,3 +250,65 @@ span.callout {
   margin-left: 0px !important;
   margin-right: 0px !important;
 }
+
+
+/***********************************
+************************************
+Header
+************************************
+***********************************/
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+  color: #0AC0F3;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+  background-color: transparent;
+  color: #0AC0F3;
+}
+.header {
+  background: image_url('home/conference-pic.jpg') no-repeat fixed;
+  background-size: cover;
+  min-height: 650px;
+  position: relative;
+}
+.btn-download {
+  background-color: #0AC0F3;
+}
+
+.btn-more, .btn-more:focus {
+  margin-left: 15px;
+  border: 1px solid #0AC0F3;
+  color: #0AC0F3;
+}
+
+.btn-more:hover {
+  background: #0AC0F3;
+  color: #fff;
+}
+.logo-dec{
+  color: #0AC0F3;
+}
+/***********************************
+************************************
+About
+************************************
+***********************************/
+
+.centered-icon{
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.navy-text{
+  color: #2C314A;
+}
+.bottom-line {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  border: 0;
+  border-top: 0px;
+  height: 3px;
+  width: 40px;
+  background-color: #0AC0F3;
+}
