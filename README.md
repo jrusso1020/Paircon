@@ -68,6 +68,7 @@ rails s
 
 Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com``` to open the application
 
+
 ## Running Flask Application (SimiliarityAlgo Folder)
 This has been developed using python 3.6. You are recommended to use Anaconda or another virtual environment. You can also run this on Python 2.7. 
 
@@ -99,4 +100,15 @@ The server will then return a JSON object like so
 {"1" : {"user_paper" : "absolute/path/to/user_txt", "conference_paper" : "absolute/path/to/conference_txt", "score" : (similiarity score 0-1.0)},
 ...,
 "k" : {"user_paper" : "absolute/path/to/user_txt", "conference_paper" : "absolute/path/to/conference_txt", "score" : (similiarity score 0-1.0)}}
+```
+
+## Running All the Apps and Postgres
+globally install the gem foreman
+```
+gem install foreman
+```
+
+from the root directory `/Conference-Papers` run the command
+```
+foreman s
 ```
