@@ -1,4 +1,15 @@
 # PairCon (Conference Papers)
+## Running All the Apps and Postgres (Optional)
+globally install the gem foreman
+```
+gem install foreman
+```
+
+from the root directory `/Conference-Papers` run the command
+```
+foreman s
+```
+
 ## Working in Development Environment:
 
 To run the application locally, you are required to edit Hosts (```/etc/hosts```) file and add the following:
@@ -100,15 +111,4 @@ The server will then return a JSON object like so
 {"1" : {"user_paper" : "absolute/path/to/user_txt", "conference_paper" : "absolute/path/to/conference_txt", "score" : (similiarity score 0-1.0)},
 ...,
 "k" : {"user_paper" : "absolute/path/to/user_txt", "conference_paper" : "absolute/path/to/conference_txt", "score" : (similiarity score 0-1.0)}}
-```
-
-## Running All the Apps and Postgres
-globally install the gem foreman
-```
-gem install foreman
-```
-
-from the root directory `/Conference-Papers` run the command
-```
-foreman s
 ```
