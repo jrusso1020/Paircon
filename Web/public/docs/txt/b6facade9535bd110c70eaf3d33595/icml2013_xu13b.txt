@@ -1,0 +1,1214 @@
+Anytime Representation Learning
+
+Zhixiang (Eddie) Xu1
+xuzx@cse.wustl.edu
+Matt J. Kusner1
+mkusner@wustl.edu
+Gao Huang2
+huang-g09@mails.tsinghua.edu.cn
+Kilian Q. Weinberger1
+kilian@wustl.edu
+1
+Washington University, One Brookings Dr., St. Louis, MO 63130 USA
+2
+Tsinghua University, Beijing, China
+
+Abstract
+Evaluation cost during test-time is becoming
+increasingly important as many real-world
+applications need fast evaluation (e.g. web
+search engines, email spam filtering) or use
+expensive features (e.g. medical diagnosis).
+We introduce Anytime Feature Representations (AFR), a novel algorithm that explicitly addresses this trade-off in the data representation rather than in the classifier. This
+enables us to turn conventional classifiers,
+in particular Support Vector Machines, into
+test-time cost sensitive anytime classifiers—
+combining the advantages of anytime learning and large-margin classification.
+
+1. Introduction
+Machine learning algorithms have been successfully deployed into many real-world applications, such as websearch engines (Zheng et al., 2008; Mohan et al., 2011)
+and email spam filters (Weinberger et al., 2009). Traditionally, the focus of machine learning algorithms is
+to train classifiers with maximum accuracy—a trend
+that made Support Vector Machines (SVM) (Cortes
+& Vapnik, 1995) very popular because of their strong
+generalization properties. However, in large scale
+industrial-sized applications, it can be as important to
+keep the test-time CPU cost within budget. Further,
+in medical applications, features can correspond to
+costly examinations, which should only be performed
+when necessary (here cost may denote actual currency
+or patient agony). Carefully balancing this trade-off
+between accuracy and test-time cost introduces new
+challenges for machine learning.
+Proceedings of the 30 th International Conference on Machine Learning, Atlanta, Georgia, USA, 2013. JMLR:
+W&CP volume 28. Copyright 2013 by the author(s).
+
+Specifically, this test-time cost consists of (a) the CPU
+cost of evaluating a classifier and (b) the (CPU or monetary) cost of extracting corresponding features. We
+explicitly focus on the common scenario where the feature extraction cost is dominant and can vary drastically across different features, e.g. web-search ranking (Chen et al., 2012), email spam filtering (Dredze
+et al., 2007; Pujara et al., 2011), health-care applications (Raykar et al., 2010), image classification (Gao
+& Koller, 2011a).
+We adopt the anytime classification setting (Grubb &
+Bagnell, 2012). Here, classifiers extract features ondemand during test-time and can be queried at any
+point to return the current best prediction. This may
+happen when the cost budget is exhausted, the classifier is believed to be sufficiently accurate or the prediction is needed urgently (e.g. in time-sensitive applications such as pedestrian detection (Gavrila, 2000)).
+Different from previous settings in budgeted learning,
+the cost budget is explicitly unknown during test-time.
+Prior work addresses anytime classification primarily
+with additive ensembles, obtained through boosted
+classifiers (Viola & Jones, 2004; Grubb & Bagnell,
+2011). Here, the prediction is refined through an increasing number of weak learners and can naturally be
+interrupted at any time to obtain the current classification estimate. Anytime adaptations of other classification algorithms where early querying of the evaluation function is not as natural—such as the popular
+SVM—have until now remained an open problem.
+In this paper, we address this setting with a novel
+approach to budgeted learning. In contrast to most
+previous work we learn an additive anytime representation. During test-time, an input is mapped into a
+feature space with multiple stages: each stage refines
+the data representation and is accompanied by its own
+SVM classifier, but adds extra cost in terms of feature
+extraction. We show that the SVM classifiers and the
+
+Anytime Representation Learning
+
+cost-sensitive anytime representations can be learned
+jointly in a single optimization.
+Our method, Anytime Feature Representations
+(AFR), is the first to incorporate anytime learning
+into large margin classifiers—combining the benefits of
+both learning frameworks. On two real world benchmark data sets our anytime AFR out-performs or
+matches the performance of the Greedy Miser (Xu
+et al., 2012), a state-of-the-art cost-sensitive algorithm
+which is trained with a known test budget.
+
+2. Related Work
+Controlling test-time cost is often performed with classifier cascades (mostly for binary classification) (Viola & Jones, 2004; Lefakis & Fleuret, 2010; Saberian
+& Vasconcelos, 2010; Pujara et al., 2011; Wang &
+Saligrama, 2012). In these cascades, several classifiers
+are ordered into a sequence of stages. Each classifier can either (a) reject inputs and predict them, or
+(b) pass them on to the next stage. This decision is
+based on the current prediction of an input. The cascades can be learned with boosting (Viola & Jones,
+2004; Freund & Schapire, 1995), clever sampling (Pujara et al., 2011), or can be obtained by inserting earlyexits (Cambazoglu et al., 2010) into preexisting stagewise classifiers (Friedman, 2001).
+One can extend the cascade to tree-based structures
+to naturally incorporate decisions about feature extraction with respect to some cost budget (Xu et al.,
+2013; Busa-Fekete et al., 2012). Notably, Busa-Fekete
+et al. (2012) use a Markov decision process to construct a directed acyclic graph to select features for
+different instances during test-time. One limitation of
+these cascade and tree-structured techniques is that a
+cost budget must be specified prior to test-time. Gao
+& Koller (2011a) use locally weighted regression during test-time to predict and extract the features with
+maximum information gain. Different from our algorithm, their model is learned during test-time.
+Saberian & Vasconcelos (2010); Chen et al. (2012); Xu
+et al. (2013) all learn classifiers from weak learners.
+Their approaches perform two separate optimizations:
+They first train weak learners and then re-order and
+re-weight them to balance their accuracy and cost. As
+a result, the final classifier has worse accuracy vs. cost
+trade-offs than our jointly optimized approach.
+The Forgetron (Dekel et al., 2008) introduces a clever
+modification of the kernelized perceptron to stay
+within a pre-defined memory budget. Gao & Koller
+(2011b) introduce a framework to boost large-margin
+loss functions. Different from our work, they focus
+
+on learning a classifier and an output-coding matrix
+simultaneously as opposed to learning a feature representation (they use the original features), and they
+do not address the test-time budgeted learning scenario. Kedem et al. (2012) learn a feature representation with gradient boosted trees (Friedman, 2001)—
+however, with a different objective (for nearest neighbor classification) and without any cost consideration.
+Grubb & Bagnell (2010) combine gradient boosting
+and neural networks through back-propagation. Their
+approach shares a similar structure with ours, as our
+algorithm can be regarded as a two layer neural network, where the first layer is non-linear decision trees
+and the second layer a large margin classifier. However, different from ours, their approach focuses on
+avoiding local minima and does not aim to reduce testtime cost.
+
+3. Background
+Let the training data consist of input vectors
+{x1 , . . . , xn } ∈ Rd with corresponding discrete class
+labels {y1 , . . . , yn } ∈ {+1, −1} (the extension to multiclass is straightforward and described in section 5). We
+assume that during test-time, features are computed
+on-demand, and each feature θ has an extraction cost
+cθ > 0 when it is extracted for the first time. Since feature values can be efficiently cached, subsequent usage
+of an already-extracted feature is free.
+Our algorithm consists of two jointly integrated parts,
+classification and representation learning. For the former we use support vector machines (Cortes & Vapnik,
+1995) and for the latter we use the Greedy Miser (Xu
+et al., 2012), a variant of gradient boosting (Friedman,
+2001). In the following, we provide a brief overview of
+all three algorithms.
+Support Vector Machines (SVMs). Let φ denote
+a mapping that transforms inputs xi into feature vectors φ(xi ). Further, we define a weight vector w and
+bias b. SVMs learn a maximum margin separating hyperplane by solving a constrained optimization problem,
+n
+
+min
+w,b
+
+1 X
+1 >
+w w+ C
+[1 − yi (w> φ(xi ) + b)]2+ , (1)
+2
+2
+i
+
+where constant C is the regularization trade-off hyperparameter, and [a]+ = max(a, 0). The squared hingeloss penalty guarantees differentiability of (1), and
+simplifies the derivation in section 4. A test input is
+classified by the sign of the SVM predicting function
+f [φ(xj )] = w> φ(xj ) + b.
+
+(2)
+
+Anytime Representation Learning
+
+Gradient Boosted Trees (GBRT). Given a continuous and differentiable loss function L, GBRT (Friedman, 2001) learns an additive classifier H T (x) =
+PT
+t
+T
+t
+t=1 ηt h (x) that minimizes L(H ). Each h ∈ H is
+a limited depth regression tree (Breiman, 1984) (also
+referred to as a weak learner ) added to the current
+classifier at iteration t, with learning rate ηt ≥ 0. The
+weak learner ht is selected to minimize the function
+L(H t−1 + ηt ht ). This is achieved by approximating
+the negative gradient of L w.r.t. the current H t−1 :
+ht = argmin
+ht ∈H
+
+X
+i
+
+−
+
+∂L
+∂H t−1 (xi )
+
+2
+− ht (xi ) .
+
+(3)
+
+The greedy CART algorithm (Breiman, 1984) finds
+an approximate solution to (3). Consequently, ht can
+∂L
+be obtained by supplying − ∂H t−1
+(xi ) as the regression
+targets for all inputs xi to an off-the-shelf CART implementation (Tyree et al., 2011).
+Greedy Miser. Recently, Xu et al. (2012) introduced
+the Greedy Miser, which incorporates feature cost into
+gradient boosting. Let cf (H) denote the test-time feature extraction cost of a gradient boosted tree ensemble H and ce (H) denote the CPU time to evaluate all
+trees3 . Let Bf , Be > 0 be corresponding finite cost
+budgets. The Greedy Miser solves the following optimization problem:
+min L(H), s.t. ce (H) ≤ Be and cf (H) ≤ Bf ,
+H
+
+(4)
+
+where L is continuous and differentiable. To formalize the feature cost, they define an auxiliary function
+Fθ (ht ) ∈ {0, 1} indicating if feature θ is used in tree
+ht for the first time, (i.e. Fθ (ht ) = 1). The authors
+show that by incrementally selecting ht according to
+min
+t
+
+h ∈H
+
+X
+i
+
+−
+
+2 X
+∂L
+t
+−h
+(x
+)
++λ
+Fθ (ht )cθ , (5)
+i
+∂H t−1 (xi )
+θ
+
+the constrained optimization problem in eq. (4) is
+(approximately) minimized up to a local minimum
+(stronger guarantees exist if L is convex). Here, λ
+trades off the classification loss with the feature extraction cost (enforcing budget Bf ) and the maximum
+number of iterations limits the tree evaluation cost (enforcing budget Be ).
+
+4. SVM on a Test-time Budget
+As a lead-up to Anytime Feature Representations,
+we formulate the learning of the feature representa-
+
+tion mapping φ : Rd → RS and the SVM classifier (w, b) such that the costs of the final classification cf (f [φ(x)]), ce (f [φ(x)]) are within cost budgets
+Bf , Be . In the following section we extend this formulation to an anytime setting, where Bf and Be are
+unknown and the user can interrupt the classifier at
+any time. As the SVM classifier is linear, we consider its evaluation free during test-time and the cost
+ce originates entirely from the computation of φ(x).
+Boosted representation. We learn a representation with a variant of the boosting trick (Trzcinski
+et al., 2012; Chapelle et al., 2011). To differentiate the
+original features x and the new feature representation
+φ(x), we refer only to original features as “features”,
+and the components of the new representation as “dimensions”. In particular, we learn a representation
+φ(x) ∈ RS through the mapping function φ, where
+S is the total number of dimensions of our new representation. Each dimension s of φ(x) (denoted [φ]s )
+PT
+is a gradient boosted classifier, i.e. [φ]s = η t=0 hts .
+Specifically, each hts is a limited depth regression tree.
+For each dimension s, we initialize [φ]s with the sth
+tree obtained from running the Greedy Miser for S
+iterations with a very small feature budget Bf . Subsequent trees are learned as described in the following.
+During classification, the SVM weight vector w assigns
+a weight ws to each dimension [φ]s .
+Train/Validation Split. As we learn the feature representation φ and the classifier w, b jointly, overfitting
+is a concern, and we carefully address it in our learning setup. Usually, overfitting in SVMs can be overcome by setting the regularization trade-off parameter C carefully with cross-validation. In our setting,
+however, the representation changes and the hyperparameter C needs to be adjusted correspondingly. We
+suggest a more principled setup, inspired by Chapelle
+et al. (2002), and also learn the hyper-parameter C.
+To avoid trivial solutions, we divide our training data
+into two equally-sized parts, which we refer to as training and validation sets, T and V. The representation
+is learned on both sets, whereas the classifier w, b is
+trained only on T , and the hyper-parameter is tuned
+for V. We further split the validation set into validation V and a held-out set O in a 80/20 split. The
+held-out set O is used for early-stopping.
+Nested optimization. We define a loss function that
+approximates the 0-1 loss on the validation set V,
+
+
+X
+LV (φ; w, b) =
+βyi σ f (φ(xi )) ,
+(6)
+xi ∈V
+
+3
+
+Note that both costs can be in different units. Also, it
+is possible to set ce (H) = 0 for all H. We set the evaluation
+cost of a single tree to 1 cost unit.
+
+1
+1+eaz
+
+is a soft approximation of the
+where σ(z) =
+sign(·) step function (we use a = 5 throughout, similar
+
+Anytime Representation Learning
+
+to Chapelle et al. (2002)) and βyi > 0 denotes a class
+specific weight to address potential class imbalance.
+f (·) is the SVM predicting function defined in (2). The
+classifier parameters (w, b) are assumed to be the optimal solution of (1) for the training set T . We can
+express this relation as a nested optimization problem
+(in terms of the SVM parameters w, b) and incorporate
+our test-time budgets Be , Bf :
+min LV (φ, w, b) s.t. ce (φ) ≤ Be and cf (φ) ≤ Bf (7)
+φ,C
+
+n
+
+1 X
+1
+min kwk2 + C
+βyi [1 − yi (w> φ(xi ) + b)]2+ .
+w,b 2
+2
+i
+According to Theorem 4.1 in Bonnans & Shapiro
+(1998), LV is continuous and differentiable based on
+the uniqueness of the optimal solution w∗ , b∗ . This is
+a sufficient prerequisite for being able to solve LV via
+the Greedy Miser (5), and since the constraints in (7)
+are analogous to (4), we can optimize it accordingly.
+Tree building. The optimization (7) is essentially
+solved by a modified version of gradient descent, updating φ and C. Specifically, for fast computation,
+we update one dimension [φ]s at a time, as we can utilize the previous learned tree in the same dimension to
+speed up computation for the next tree (Tyree et al.,
+∂LV
+V
+and ∂L
+2011). The computation of ∂[φ]
+∂C is described
+s
+in detail in section 4.2. At each iteration, the tree hts is
+selected to trade-off the gradient fit of the loss function
+LV with the feature cost of the tree,
+2 X
+X
+∂LV
+t
+min
+−
+−
+h
+(x
+)
++λ
+Fθ (hts )cθ . (8)
+i
+s
+hts
+∂[φ]
+(x
+)
+s
+i
+i
+θ
+
+hts
+
+We use the learned tree
+to update the representation [φ]s = [φ]s + ηhts . At the same time, the variable
+C is updated with small gradient steps.
+4.1. Anytime Feature Representations
+Minimizing (7) results in a cost-sensitive SVM (w, b)
+that uses a feature representation φ(x) to make classifications within test-time budgets Bf , Be . In the anytime learning setting, however, the test-time budgets
+are unknown. Instead, the user can interrupt the test
+evaluation at any time.
+Anytime parameters. We refer to our approach
+as Anytime Feature Representations (AFR) and Algorithm 1 summarizes the individual steps of AFR in
+pseudo-code. We obtain an anytime setting by steadily
+increasing Be and Bf until the cost constraint has no
+effect on the optimal solution. In practice, the tree
+budget (Be ) increase is enforced by adding one tree
+hts at a time (where t ranges from 1 to T ). The feature budget Bf is enforced by the parameter λ in (8).
+
+Algorithm 1 AFR in pseudo-code.
+1: Initialize λ = λ0 , s0 = 1
+2: while λ >  do
+>
+3:
+Initialize φ = [h0s0 (·), . . . , h0s0 +S (·)] with (5).
+4:
+for s = s0 to s0 + S do
+5:
+for t = 1 to T do
+6:
+Train an SVM using φ to obtain w and b.
+7:
+If accuracy on O has increased, continue.
+∂LV
+V
+8:
+Compute gradients ∂[φ]
+and ∂L
+∂C
+s
+V
+9:
+Update C = C − γ ∂L
+∂C
+10:
+Call CART with impurity (8) to obtain hts
+P
+∂LV
+11:
+Stop if i hts (xi ) ∂[φ]
+<0
+s (xi )
+12:
+Update [φ]s = [φ]s + ηhts .
+13:
+end for
+14:
+end for
+15:
+λ := λ/2 and s0 + = S.
+16: end while
+
+Anytime Representation
+
++
+···
++ hT1 −1 (x) + hT1 (x)
++ ht2 (x) +
+···
++ hT2 (x)
+..
+..
+..
+.
+.
+.
+1
+t
+T
++ hs (x) +
+···
++ hs (x) +
+···
++ hs (x)
+..
+..
+..
+..
+..
+.
+.
+.
+.
+.
+0
+1
+2
+T
+[φ]S = hS (x) + hS (x) + hS (x) +
+···
++
+···
++ hS (x)
+[φ]1 = h01 (x)
+[φ]2 = h02 (x)
+..
+..
+.
+.
+0
+[φ]s = hs (x)
+..
+..
+.
+.
+
+h11 (x)
+h12 (x)
+..
+.
+
++
++
+
++
++
+
+···
+···
+..
+.
+
+weak
+learner
+
+new
+feature
+
+Cost
+Features
+
+θ1
+
+θ1 ∪ θ2
+
+θ1 ∪ θ2 ∪ · · · ∪ θi
+
+θ1 ∪ · · · ∪ θF
+
+Figure 1. A schematic layout of Anytime Feature Representations. Different shaded areas indicate representations
+of different costs, the darker the costlier. During training
+time, SVM parameters w, b are saved every time a new
+feature θi is extracted. During test-time, under budgets
+Be , Bf , we use the most expensive triplet (φk , wk , bk ) with
+cost ce (φk ) ≤ Be and cf (φk ) ≤ Bf .
+
+As the feature cost is dominant, we slowly decrease λ
+(starting from some high value λ0 ). For each intermediate value of λ we learn S dimensions of φ(x) (each
+dimension consisting of T trees). Whenever all S dimensions are learned, λ is divided by a factor of 2 and
+an additional S dimensions of φ(x) are learned and
+concatenated to the existing representation.
+Whenever a new feature is extracted by a tree hts ,
+the cost increases substantially. Therefore we store
+the learned representation mapping function and the
+learned SVM parameters whenever a new feature
+is extracted. We overload φf to denote the representation learned with feature f th extracted, and
+wf , bf as the corresponding SVM parameters. Storing these parameters results in a series of triplets
+(φ1 , w1 , b1 ) . . . (φF , wF , bF ) of increasing cost, i.e.
+c(φ1 ) ≤ · · · ≤ c(φF ) (where F is the total number
+of extracted features). Note that we save the map-
+
+Anytime Representation Learning
+
+ping function φ, rather than the representation of each
+training input φ(x).
+Evaluation. During test time, the classifier may be
+stopped during the extraction of the f +1th feature, because the feature budget Bf (unknown during training
+time) has been reached. In this case, to make a prediction, we sum the previously-learned
+Prepresentations
+f
+generated by the first f features wf> k=1 φk (x) + bf .
+This approach is schematically depicted in figure 1.
+Early-stopping. Updating each dimension with a
+fixed number of T trees may lead to overfitting. We
+apply early-stopping by evaluating the prediction accuracy on the hold-out set O. We stop adding trees
+to each dimension whenever this accuracy decreases.
+Algorithm (1) details all steps of our algorithm.
+4.2. Optimization
+Updating feature representation φ(x) requires computing the gradient of the loss function LV w.r.t. φ(x) as
+stated in eq. (8). In this section we explain how to
+compute the necessary gradients efficiently.
+Gradient w.r.t. φ(x). We use the chain rule to
+compute the derivative of LV w.r.t. each dimension
+[φ]s ,
+∂LV ∂f
+∂LV
+=
+,
+∂[φ]s
+∂f ∂[φ]s
+
+(9)
+
+where f is the prediction function in eq. (2). As changing [φ]s not only affects the validation data, but also
+the representation of the training set, w and b are also
+functions of [φ]s . The derivative of f w.r.t. the representation of the training inputs, [φ]s ∈ T is
+ ∂w >
+∂f
+∂b
+=
+φV +
+,
+∂[φ]s
+∂[φ]s
+∂[φ]s
+
+(10)
+
+where we denote all validation inputs by φV . For validation inputs, the derivative w.r.t. [φ]s ∈ V is
+∂f
+∂φV
+= w>
+.
+∂[φ]s
+∂[φ]s
+
+(11)
+
+Note that with |T | training inputs and |V| validation
+inputs, the gradient consists of |T | + |V| components.
+
+∂w
+In order to compute the remaining derivatives ∂[φ]
+s
+∂b
+and ∂[φ]
+we
+will
+express
+w
+and
+b
+in
+closed-form
+w.r.t.
+s
+[φ]s . First, let us define the contribution to the loss of
+input xi as ξi = [1−yi (w∗ > φ(xi )+b∗ )]+ . The optimal
+value w∗ , b∗ is only affected by support vectors (inputs
+with ξi > 0). Without loss of generality, let us assume that those inputs are the first m in our ordering,
+x1 , . . . , xm . We remove all non-support vectors, and
+
+b = [y1 φ1 , . . . , yn φn ], and ξ = [ξ1 , . . . , ξn ]> .
+let Φ
+m
+m
+m
+We also define a diagonal matrix Λ ∈ Rnm ×nm whose
+diagonal elements are class weight Λii = βyi . We can
+then rewrite the nested SVM optimization problem
+within (7) in matrix form:
+min L =
+w,b
+
+C
+1 T
+>
+b
+b
+w w+ (1−w> Φ−by)
+Λ(1−w> Φ−by).
+2
+2
+
+As this objective is convex, we can obtain the optimal
+∂L
+solution of w, b by setting ∂w
+and ∂L
+∂b to zero:
+∂L
+b
+b > w − by> ) = 0.
+= 0 =⇒ w − C ΦΛ(1
+−Φ
+∂w
+∂L
+b > w − by> ) = 0.
+= 0 =⇒ −yΛ(1 − Φ
+∂b
+By re-arranging the above equations, we can express
+them as a matrix equality,
+"
+#
+
+ 
+I
+b Φ
+b > ΦΛy
+b >
+b
++
+ΦΛ
+w
+ΦΛ1
+C
+=
+.
+b>
+b
+yΛ1
+yΛΦ
+yΛy>
+|
+{z
+}
+|
+{z
+}
+z
+
+M
+
+We absorb the coefficients on the left-hand side into
+a design matrix M ∈ Rd+1×d+1 , and right-hand side
+into a vector z ∈ Rd+1 . Consequently, we can express w and b as a function of M−1 and z, and derive
+their derivatives w.r.t. [φ]s from the matrix inverse
+rule (Petersen & Pedersen, 2008), leading to
+
+
+
+∂[w> , b]>
+∂z
+∂M
+w
+−1
+=M
+−
+(12)
+b
+∂[φi ]s
+∂[φi ]s
+∂[φi ]s
+∂M
+, we note that the
+To compute the derivatives ∂[φ]
+s
+upper left block of M is a d × d inner product matrix
+scaled by Λ and translated by CI , and we obtain the
+derivative w.r.t. each element of the upper left block,
+(
+b Φ
+b > )rs
+∂( CI + ΦΛ
+βyi [φ]r (xi )
+if r 6= s,
+=
+∂[φ]s (xi )
+2βyi [φ]s (xi )
+if r = s.
+>
+
+∂ ΦΛy
+The remaining derivatives are ∂[φ]
+= βyi and
+s (xi )
+∂z
+>
+d+1
+=
+[0,
+.
+.
+.
+,
+y
+β
+,
+.
+.
+.
+,
+0]
+∈
+R
+.
+To
+complete
+i yi
+[φ]s (xi )
+the chain rule in eq. (9), we also need
+b
+
+∂LV
+= −yi σ(yi f [φ(xi )])(1 − σ(yi f [φ(xi )])).
+∂f
+
+(13)
+
+Combining eqs. (10), (11), (12) and (13) completes the
+∂LV
+gradient ∂[φ]
+.
+s
+∂f
+Gradient w.r.t. C. The derivative ∂C
+is very similar
+∂f
+∂M
+to ∂[φ]s , the difference being in ∂C , which only has
+non-zero value on diagonal elements,
+(
+− C12 if s = r ∧ r 6= m + 1,
+∂Mrs
+=
+(14)
+∂C
+0
+otherwise.
+
+Anytime Representation Learning
+Yahoo Learning to Rank
+
+Although computing the derivative requires the inversion of matrix M, M is only a (d + 1) × (d + 1) matrix. Because our algorithm converges after generating
+a few (d ≈ 100) dimensions, the inverse operation is
+not computationally intensive.
+
+We evaluate our algorithm on a synthetic data set in
+order to demonstrate the AFR learning approach, as
+well as two benchmark data sets from very different domains: the Yahoo! Learning to Rank Challenge data
+set (Chapelle & Chang, 2011) and the Scene 15 recognition data set from Lazebnik et al. (2006).
+Synthetic data. To visualize the learned anytime
+feature representation, we construct a synthetic data
+set as follows. We generate n = 1000 points (640
+for training/validation and 360 for testing) uniformly
+sampled from four different regions of two-dimensional
+space (as shown in figure 2, left). Each point is labeled to be in class 1 or class 2 according to the
+XOR rule. These points are then randomly-projected
+into a ten-dimensional feature space (not shown).
+Each of these ten features is assigned an extraction
+cost: {1, 1, 1, 2, 5, 15, 25, 70, 100, 1000}. Correspondingly, each feature θ has zero-mean Gaussian noise
+added to it, with variance c1θ (where cθ is the cost of
+feature θ). As such, cheap features are poorly representative of the classes while more expensive features
+more accurately distinguish the two classes. To highlight the feature-selection capabilities of our technique
+we set the evaluation cost ce to 0. Using this data,
+we constrain the algorithm to learn a two-dimensional
+anytime representation (i.e. φ(x) ∈ R2 ).
+The center portion of figure 2 shows the anytime representations of testing points for various test-time budgets, as well as the learned hyperplane (black line),
+margins (gray lines) and classification accuracies. As
+the allowed feature cost budget is increased, AFR
+steadily adjusts the representation and classifier to
+better distinguish the two classes. Using a small set of
+features (cost = 95) AFR can achieve nearly perfect
+test accuracy and using all features AFR fully separates the test data.
+The rightmost part of figure 2 shows how the learned
+SVM classifier changes as the representation changes.
+The coefficients of the hyperplane w = [w1 , w2 ]> initially change drastically to appropriately weight the
+AFR features, then decrease gradually as more weak
+learners are added to φ. Throughout, the hyperparameter C is also optimized.
+Yahoo Learning to Rank. The Yahoo! Learn-
+
+0.16
+0.15
+
+Precision @ 5
+
+5. Results
+
+0.17
+
+0.14
+0.13
+0.12
+0.11
+0
+
+Linear SVM
+GBRT squared hinge loss (Friedman, 2001)
+GBRT squared loss (Friedman, 2001)
+Early−exit s=0.1 (Cambazoglu et. al. 2010)
+Early−exit s=0.3 (Cambazoglu et. al. 2010)
+Cronus (Chen et. al. 2012)
+Greedy Miser (Xu et. al. 2012)
+AFR
+2000 4000 6000 8000 10000 12000 14000 16000 18000
+
+Cost
+
+Figure 3. The accuracy/cost trade-off curves for a number
+of state-of-the-art algorithms on the Yahoo! Learning to
+Rank Challenge data set. The cost is measured in units of
+the time required to evaluate one weak learner.
+
+ing to Rank Challenge data set consists of querydocument instance pairs, with labels having values
+from {0, 1, 2, 3, 4}, where 4 means the document is
+perfectly relevant to the query and 0 means it is irrelevant. Following the steps of Chen et al. (2012), we
+transform the data into a binary classification problem
+by distinguishing purely between relevant (yi ≥ 3) and
+irrelevant (yi < 3) documents. The resulting labels are
+yi ∈ {+1, −1}. The total binarized data set contains
+2000, 2002, and 2001 training, validation and testing queries and 20258, 20258, 26256 query-document
+instances respectively. As in Chen et al. (2012) we
+replicate each negative, irrelevant instance 10 times to
+simulate the scenario where only a few documents out
+of hundreds of thousands of candidate documents are
+highly relevant. Indeed in real world applications, the
+distribution of the two classes is often very skewed,
+with vastly more negative examples presented.
+Each input contains 519 features, and the
+feature
+extraction
+costs
+are
+in
+the
+set
+{1, 5, 10, 20, 50, 100, 150, 200}. The unit of cost is
+the time required to evaluate one limited-depth
+regression tree ht (·), thus the evaluation cost ce is set
+to 1. To evaluate the cost-accuracy performance, we
+follow the typical convention for a binary ranking data
+set and use the Precision@5 metric. This counts how
+many documents are relevant in the top 5 retrieved
+documents for each query.
+In order to address the label inbalance, we add a multiplicative weight to the loss of all positive examples,
+β+ , which is set by cross validation (β+ = 2). We set
+the hyper-parameters to T = 10, S = 20 and λ0 = 10. As
+the algorithm is by design fairly insensitive to hyperparameters, this setting was determined without needing to search through (T, S, λ0 ) space.
+
+Anytime Representation Learning
+Test Data
+
+Anytime Representation
+
+SVM parameters
+12
+
+w1
+w2
+
+10
+
+decision boundary
+
+b
+C
+
+8
+
+6
+
+class 1
+
+class 2
+
+4
+
+margin
+
+2
+
+0
+
+Train 0.82
+Val. 0.82 Cost 5
+Test 0.76
+
+Train 0.89
+Val. 0.90 Cost 25
+Test 0.84
+
+Train 0.99
+Val. 0.99 Cost 95
+Test 0.98
+
+Train
+Val.
+Test
+
+1.0
+1.0 Cost 1220
+1.0
+
+20
+
+40
+
+60
+
+80
+
+100
+
+120
+
+140
+
+Iterations
+
+Figure 2. A demonstration of our method on a synthetic data set (shown at left). As the feature representation is allowed
+to use more expensive features, AFR can better distinguish the test data of the two classes. At the bottom of each
+representation is the classification accuracies of the training/validation/testing data and the cost of the representation.
+The rightmost plot shows the values of SVM parameters w, b and hyper-parameter C at each iteration.
+
+Comparison. The most basic baseline is GBRT without cost consideration. We apply GBRT using two
+different loss functions: the squared loss and the unregularized squared hinge loss. In total we train 2000
+trees. We plot the cost and accuracy curves of GBRT
+by adding 10 trees at a time. In addition to this additive classifier, we show the results of a linear SVM
+applied to the original features as well.
+We also compare against current state-of-the-art competing algorithms. We include Early-Exit (Cambazoglu et al., 2010), which is based on GBRT. It
+short-circuits the evaluation of lower ranked and unpromising documents at test-time, based on some
+threshold s (we show s = 0.1, 0.3), reducing the overall test-time cost. Cronus (Chen et al., 2012) improves over Early-Exit by reweighing and re-ordering
+the learned trees into a feature-cost sensitive cascade
+structure. We show results of a cascade with a maximum of 10 nodes. All of its hyper-parameters (cascade length, keep ratio, discount, early-stopping) were
+set based on the validation set. We generate the
+cost/accuracy curve by varying the trade-off parameter λ, in their paper. Finally, we compare against
+Greedy Miser (Xu et al., 2012) trained using the unregularized squared hinge loss. The cost/accuracy
+curve is generated by re-training the algorithm with
+different cost/accuracy trade-off parameters λ. We
+also use the validation set to select the best number of
+trees needed for each λ.
+Figure 3 shows the performance of all algorithms. Although the linear SVM uses all features to make costinsensitive predictions, it achieves a relatively poor
+result on this ranking data set, due to the limited
+power of a linear decision boundary on the original
+feature space. This trend has previously been observed in Chapelle & Chang (2011). GBRT with un-
+
+regularized squared hinge loss and squared loss achieve
+peak accuracy after using a significant amount of the
+feature set. Early-Exit only provides limited improvement over GBRT when the budget is low. This is
+primarily because, in this case, the test-time cost is
+dominated by feature extraction rather than the evaluation cost. Cronus improves over Early-Exit significantly due to its automatic stage reweighing and reordering. However, its power is still limited by its feature representation, which is not cost-sensitive. AFR
+out-performs the best performance of Greedy Miser
+for a variety of cost budgets. Different from Greedy
+Miser, which must be re-trained for different budgets
+along the cost/accuracy trade-off curve (each resulting
+in a different model), AFR consists of a single model
+which can be halted at any point along its curve—
+providing a state-of-the-art anytime classifier. It is
+noteworthy that AFR obtains the highest test-scores
+overall, which might be attributed to the better generalization of large-margin classifiers.
+Scene recognition. The second data set we experiment with is from the image domain. The scene 15
+(Lazebnik et al., 2006) data set contains 4485 images
+from 15 scene classes. The task is to classify the scene
+in each image. Following the procedure use by Li et al.
+(2010); Lazebnik et al. (2006), we construct the training set by selecting 100 images from each class, and
+leave the remaining 2865 images for testing. We extract a variety of vision features from Xiao et al. (2010)
+with very different computational costs: GIST, spatial
+HOG, Local Binary Pattern (LBP), self-similarity, texton histogram, geometric texton, geometric color, and
+Object Bank (Li et al., 2010). As mentioned by the
+authors of Object Bank, each object detector works
+independently. Therefore we apply 177 object detectors to each image, and treat each of them as independent descriptors. In total, we have 184 different image
+
+Anytime Representation Learning
+Scene 15
+0.8
+0.75
+
+Accuracy
+
+0.7
+0.65
+0.6
+
+GBRT squared hinge loss (Friedman, 2001)
+GBRT logistic loss (Friedman, 2001)
+SVM linear kernel
+Early−Exit
+Greedy Miser (Xu et. al. 2012)
+AFR
+
+0.55
+0.5
+0.45
+0
+
+5
+
+10
+
+15
+
+Cost
+
+20
+
+25
+
+30
+
+35
+
+Figure 4. The accuracy/cost performance trade-off for different algorithms on the Scene 15 multi-class scene recognition problem. The cost is in units of CPU time.
+
+descriptors, and the total number of resulting raw features is 76187. The feature extraction cost is the actual CPU time to compute each feature on a desktop
+with dual 6-core Intel i7 CPUs with 2.66GHz, ranging
+from 0.037s (Object Bank) to 9.282s (geometric texton). Since computing each type of image descriptor
+results in a group of features, as long as any of the features in a descriptor is requested, we extract the entire
+descriptor. Thus, subsequent requests for features in
+that descriptor are free.
+We train 15 one-vs-all classifiers, and learn the feature representation mapping φ, the SVM parameters
+(w,b,C) for each classifier separately. Since each descriptor is free once extracted, we also set the descriptor cost to zero whenever it is use by one of the 15
+classifiers. To overcome the problem of different decision value scales resulting from different one-vs-all
+classifiers, we use Platt scaling (Platt, 1999) to rescale each classifier prediction within [0, 1].4 We use
+the same hyper-parameters as the Yahoo! data set,
+except we set λ0 = 210 , as the unit of cost in scene15
+is much smaller.
+Figure 4 demonstrates the cost/accuracy performance
+of several current state-of-the-art techniques and our
+algorithm.
+The GBRT-based algorithms include
+GBRT using the logistic loss and the squared loss,
+where we use Platt scaling for the hinge loss variant
+to cope with the scaling problem. We generate the
+curve by adding 10 trees at a time. Although these
+two methods achieve high accuracy, their costs are
+
+also significantly higher due to their cost-insensitive
+nature. We also evaluate a linear SVM. Because it is
+only able to learn a linear decision boundary on the
+original feature space, it has a lower accuracy than
+the GBRT-based techniques for a given cost. For costsensitive methods, we first evaluate Early-Exit. As
+this is a multi-class classification problem, we introduce an early-exit every 10 trees, and we remove test
+inputs after platt-scaling results in a score greater
+than a threshold s. We plot the curve by varying
+s. Since Early-Exit lacks the capability to automatically pick expensive and accurate features early-on,
+its improvement is very limited. For Greedy Miser,
+we split the training data into 75/25 and use the
+smaller subset as validation to set the number of trees.
+We use un-regularized squared hinge-loss with different values of the cost/accuracy trade-off parameter
+λ ∈ {40 , 41 , 42 , 43 , 44 , 45 }. Greedy Miser performs better than the previous baselines, and our approach consistently matches it, save one setting. Our method
+AFR generates a smoother budget curve, and can be
+stopped anytime to provide predictions at test-time.
+
+6. Discussion
+To our knowledge, we provide the first learning algorithm for cost-sensitive anytime feature representations. Our results are highly encouraging, in particular AFR matches or even outperforms the results of
+the current best cost-sensitive classifiers, which must
+be provided with knowledge about the exact test-time
+budget during training.
+Addressing the anytime classification setting in a principled fashion has high impact potential in several
+ways: i) reducing the cost required for the average case
+frees up more resources for the rare difficult cases—
+thus improving accuracy; ii) decreasing computational
+demands of massive industrial computations can substantially reduce energy consumption and greenhouse
+emissions; iii) classifier querying enables time-sensitive
+applications like pedestrian detection in cars with inherent accuracy/urgency trade-offs.
+Learning anytime representations adds new flexibility
+towards the choice of classifier and the learning setting and may enable new use cases and application
+areas. As future work, we plan to focus on incorporating other classification frameworks and apply our
+setting to critical applications such as real-time pedestrian detection and medical applications.
+
+4
+
+Platt scaling makes SVM predictions interpretable as
+probabilities. This can also be use to monitor the confidence threshold of the anytime classifiers to stop evaluation when a confidence threshold is met (e.g. in medical
+applications to avoid further costly feature extraction).
+
+Acknowledgements KQW, ZX, and MK are supported by NIH grant U01 1U01NS073457-01 and NSF
+grants 1149882 and 1137211. The authors thank Stephen
+W. Tyree for clarifying discussions and suggestions.
+
+Anytime Representation Learning
+
+References
+Bonnans, J Frédéric and Shapiro, Alexander. Optimization
+problems with perturbations: A guided tour. SIAM review, 40(2):228–264, 1998.
+Breiman, L. Classification and regression trees. Chapman
+& Hall/CRC, 1984.
+Busa-Fekete, R., Benbouzid, D., Kégl, B., et al. Fast classification using sparse decision dags. In ICML, 2012.
+Cambazoglu, B.B., Zaragoza, H., Chapelle, O., Chen, J.,
+Liao, C., Zheng, Z., and Degenhardt, J. Early exit optimizations for additive machine learned ranking systems.
+In WSDM’3, pp. 411–420, 2010.
+Chapelle, O. and Chang, Y. Yahoo! learning to rank challenge overview. In JMLR: Workshop and Conference
+Proceedings, volume 14, pp. 1–24, 2011.
+Chapelle, O., Vapnik, V., Bousquet, O., and Mukherjee,
+S. Choosing multiple parameters for support vector machines. Machine Learning, 46(1):131–159, 2002.
+Chapelle, O., Shivaswamy, P., Vadrevu, S., Weinberger, K.,
+Zhang, Y., and Tseng, B. Boosted multi-task learning.
+Machine learning, 85(1):149–173, 2011.
+Chen, M., Xu, Z., Weinberger, K. Q., and Chapelle, O.
+Classifier cascade for minimizing feature evaluation cost.
+In AISTATS, 2012.
+Cortes, C. and Vapnik, V. Support-vector networks. Machine learning, 20(3):273–297, 1995.
+Dekel, Ofer, Shalev-Shwartz, Shai, and Singer, Yoram. The
+forgetron: A kernel-based perceptron on a budget. SIAM
+Journal on Computing, 37(5):1342–1372, 2008.
+Dredze, M., Gevaryahu, R., and Elias-Bachrach, A. Learning fast classifiers for image spam. In proceedings of the
+Conference on Email and Anti-Spam (CEAS), 2007.
+Freund, Y. and Schapire, R. A desicion-theoretic generalization of on-line learning and an application to
+boosting. In Computational learning theory, pp. 23–37.
+Springer, 1995.
+Friedman, J.H. Greedy function approximation: a gradient
+boosting machine. The Annals of Statistics, pp. 1189–
+1232, 2001.
+Gao, T. and Koller, D. Active classification based on value
+of classifier. In NIPS, pp. 1062–1070. 2011a.
+Gao, Tianshi and Koller, Daphne. Multiclass boosting with
+hinge loss based on output coding. ICML ’11, pp. 569–
+576, 2011b.
+Gavrila, D. Pedestrian detection from a moving vehicle.
+ECCV 2000, pp. 37–49, 2000.
+Grubb, A. and Bagnell, J. A. Speedboost: Anytime prediction with uniform near-optimality. In AISTATS, 2012.
+Grubb, A. and Bagnell, J.A.
+Generalized boosting
+algorithms for convex optimization. arXiv preprint
+arXiv:1105.2054, 2011.
+Grubb, Alexander and Bagnell, J Andrew. Boosted backpropagation learning for training deep modular networks. In Proceedings of the International Conference
+on Machine Learning (27th ICML), 2010.
+Kedem, Dor, Tyree, Stephen, Weinberger, Kilian Q., Sha,
+
+Fei, and Lanckriet, Gert. Non-linear metric learning. In
+NIPS, pp. 2582–2590. 2012.
+Lazebnik, S., Schmid, C., and Ponce, J. Beyond bags of
+features: Spatial pyramid matching for recognizing natural scene categories. In CVPR, pp. 2169–2178, 2006.
+Lefakis, L. and Fleuret, F. Joint cascade optimization using
+a product of boosted classifiers. In NIPS, pp. 1315–1323.
+2010.
+Li, L.J., Su, H., Xing, E.P., and Fei-Fei, L. Object bank:
+A high-level image representation for scene classification
+and semantic feature sparsification. NIPS, 2010.
+Mohan, A., Chen, Z., and Weinberger, K. Q. Websearch ranking with initialized gradient boosted regression trees. JMLR: Workshop and Conference Proceedings, 14:77–89, 2011.
+Petersen, K. B. and Pedersen, M. S. The matrix cookbook,
+Oct 2008.
+Platt, J.C. Fast training of support vector machines using
+sequential minimal optimization. 1999.
+Pujara, J., Daumé III, H., and Getoor, L. Using classifier cascades for scalable e-mail classification. In CEAS,
+2011.
+Raykar, V.C., Krishnapuram, B., and Yu, S. Designing
+efficient cascaded classifiers: tradeoff between accuracy
+and cost. In ACM SIGKDD, pp. 853–860, 2010.
+Saberian, M. and Vasconcelos, N. Boosting classifier cascades. In NIPS, pp. 2047–2055. 2010.
+Trzcinski, Tomasz, Christoudias, Mario, Lepetit, Vincent,
+and Fua, Pascal. Learning image descriptors with the
+boosting-trick. In NIPS, pp. 278–286. 2012.
+Tyree, S., Weinberger, K.Q., Agrawal, K., and Paykin, J.
+Parallel boosted regression trees for web search ranking.
+In WWW, pp. 387–396. ACM, 2011.
+Viola, P. and Jones, M.J. Robust real-time face detection.
+IJCV, 57(2):137–154, 2004.
+Wang, J. and Saligrama, V. Local supervised learning
+through space partitioning. In NIPS, pp. 91–99, 2012.
+Weinberger, K.Q., Dasgupta, A., Langford, J., Smola, A.,
+and Attenberg, J. Feature hashing for large scale multitask learning. In ICML, pp. 1113–1120, 2009.
+Xiao, Jianxiong, Hays, James, Ehinger, Krista A, Oliva,
+Aude, and Torralba, Antonio. Sun database: Largescale scene recognition from abbey to zoo. In CVPR,
+pp. 3485–3492. IEEE, 2010.
+Xu, Z., Weinberger, K.Q., and Chapelle, O. The greedy
+miser: Learning under test-time budgets. In ICML, pp.
+1175–1182, 2012.
+Xu, Zhixiang, Kusner, Matt J., Weinberger, Kilian Q., and
+Chen, Minmin. Cost-sensitive tree of classifiers. In Dasgupta, Sanjoy and McAllester, David (eds.), ICML ’13,
+pp. to appear, 2013.
+Zheng, Z., Zha, H., Zhang, T., Chapelle, O., Chen, K., and
+Sun, G. A general boosting method and its application
+to learning ranking functions for web search. In NIPS,
+pp. 1697–1704. Cambridge, MA, 2008.
+
+

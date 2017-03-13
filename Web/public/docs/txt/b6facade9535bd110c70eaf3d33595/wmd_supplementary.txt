@@ -1,0 +1,132 @@
+Supplementary Material for
+Differentially Private Bayesian Optimization
+
+Matt J. Kusner
+Jacob R. Gardner
+Roman Garnett
+Kilian Q. Weinberger
+Washington University in St. Louis, 1 Brookings Dr., St. Louis, MO 63130
+
+Here we give the omitted proofs of intermediate results
+left out of the main paper.
+
+With observation noise
+Proof of Corollary 1.
+Let V, V 0 be neighboring
+datasets. Let E denote the event that the global sensitivity bound of Theorem 1 holds. Thus, Pr[E] ≥ 1 − δ.
+If E holds, drawing
+p λ̃ with probability proportional to
+exp(µT (λ)/(4 βT +1 + 2c)) is -differentially private
+by the privacy guarantee of the exponential mechanism
+(McSherry & Talwar, 2007). Specifically, the inequality holds: Pr[A(V) = λ̃(T ) |E] ≤ e Pr[A(V 0 ) = λ̃|E].
+We demonstrate this implies (, δ)-differential privacy,
+
+et al., 2012) with probability at least 1 − 2δ . Observe
+the similarity of the above expression to eq. (6) (with
+maxt≤T f (λt ) replaced with f (λT )). In fact, the remainder of this proof follows in nearly the same way
+as the proof of Theorem 3. The only differences are
+(a) we use f (λT ) instead of the max term, (b) we use
+the regret bound of de Freitas et al. (2012) and, (c) we
+need not bound the maximum v as there is no noise.
+
+Proof of Corollary 3. Given the sensitivity bound of
+Theorem 5, the proof follows in the same way as the
+proof of Corollary 2, where E is the event that Theorem 5 holds.
+
+Proof of Theorem 6. For a random variable Z ∼
+Lap(b), recall that Pr[|Z| ≤ ab] = 1 − e−a . There˜
+fore, as defined
+ in Algorithm 2, |f − f (λT )| ≤ ab for
+
+Pr[A(V) = λ̃]
+≤ Pr[A(V) = λ̃|E]Pr[E] + 1 − Pr[E]
+
+mkusner@wustl.edu
+gardner.jake@wustl.edu
+garnett@wustl.edu
+kilian@wustl.edu
+
+
+
+Ω
+
+
+c
+
+
+with probability 1 − e−a . Note that,
+
+≤ e Pr[A(V 0 ) = λ̃|E]Pr[E] + δ
+
+b =
+
+≤ e Pr[A(V 0 ) = λ̃, E] + δ
+
+similar to eq. (7), we have for the noise-free setting,
+ab ≥ f (λT ) − f˜ ≥ (f (λ∗ ) − Ω) − f˜
+
+≤ e Pr[A(V 0 ) = λ̃] + δ.
+
+Proof of Corollary 2.
+Let V, V 0 be neighboring
+datasets. Again let E denote the event that the global
+sensitivity of Theorem 3 holds (and thus Pr[E] ≥ 1 −
+δ). If E holds, adding Laplacian noise as as described
+in Algorithm 1 to maxt≤T vt makes ṽ -differential
+private, by the guarantee of the Laplace mechanism.
+Specifically, the inequality holds: Pr[A(V) = ṽ|E] ≤
+e Pr[A(V 0 ) = ṽ|E]. Using the same technique as the
+proof of Corollary 1 it is straightforward to show that
+ṽ is (, δ)-differentially private.
+
+
+Without observation noise
+Proof of Theorem 5.
+
+−
+
+Tτ
+(log T )d/4
+
+where the second inequality follows from the regret
+bound of de Freitas et al. (2012) and holds w.p. at
+least 1 − δ. This implies that f (λ∗ ) − f˜ ≤ Ω + ab.
+We can use a similar analysis to eq. (8) to show that
+f (λ∗ ) − f˜ ≥ −Ω − ab. Therefore |f˜ − f (λ∗ )| ≤ Ω + ab
+w.p. greater than 1 − (δ + e−a ).
+
+
+Without the GP assumption
+Proof of Corollary 4. Given the total global sensitivity bound implied by Theorem 7, the proof is nearly
+identical to the proof of Corollary 2, where E is the
+event that the total global sensitivity holds.
+
+
+References
+
+Note that at time T the re-
+
+gret is f (λ∗ ) − f (λT ) ≤ Ω , Ae
+
++
+
+(de Freitas
+
+de Freitas, Nando, Smola, Alex, and Zoghi, Masrour.
+Exponential regret bounds for gaussian process ban-
+
+Differentially Private Bayesian Optimization
+
+dits with deterministic observations. In ICML, 2012.
+Dwork, Cynthia, McSherry, Frank, Nissim, Kobbi, and
+Smith, Adam. Calibrating noise to sensitivity in
+private data analysis. In Theory of Cryptography,
+pp. 265–284. Springer, 2006.
+McSherry, Frank and Talwar, Kunal. Mechanism design via differential privacy. In FOCS, pp. 94–103.
+IEEE, 2007.
+Srinivas, Niranjan, Krause, Andreas, Kakade,
+Sham M, and Seeger, Matthias. Gaussian process
+optimization in the bandit setting: No regret and
+experimental design. In ICML, 2010.
+
+
