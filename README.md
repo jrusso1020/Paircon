@@ -1,4 +1,15 @@
 # PairCon (Conference Papers)
+## Running All the Apps and Postgres (Optional)
+globally install the gem foreman
+```
+gem install foreman
+```
+
+from the root directory `/Conference-Papers` run the command
+```
+foreman s
+```
+
 ## Working in Development Environment:
 
 To run the application locally, you are required to edit Hosts (```/etc/hosts```) file and add the following:
@@ -67,6 +78,7 @@ rails s
 ```
 
 Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com``` to open the application
+
 
 ## Running Flask Application (SimiliarityAlgo Folder)
 This has been developed using python 3.6. You are recommended to use Anaconda or another virtual environment. You can also run this on Python 2.7. 
