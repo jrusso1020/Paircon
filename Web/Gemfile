@@ -31,7 +31,6 @@ group :assets do
   gem 'therubyracer', platforms: :ruby                            # Execute Javascript in Ruby
 end
 
-
 ########################
 ###### BACK END #######
 ########################
@@ -40,6 +39,7 @@ end
 gem 'rails', '~> 5.0.1'                                           # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'                                                          # Use Postgres as the database for Active Record
 # gem 'capistrano'                                                 # Auto Deploy Projects
+gem 'sidekiq'                                                     # Used for background workers
 
 # Authorization
 gem 'devise'                                                      # For Login system
@@ -52,11 +52,9 @@ gem 'omniauth-facebook'                                           # For login fr
 # Cache
 # gem 'dalli'                                                     # For caching
 
-#pdf scrapper
-gem 'pdf-reader'
-gem 'docsplit'
-
 # Utility
+gem 'pdf-reader'                                                  # For Reading PDFs
+gem 'docsplit'                                                    # For Splitting Documents
 gem 'i18n-js', '>= 3.0.0.rc11'
 gem 'hashie'                                                      # Getting hashes
 gem 'rack-cors'                                                   # Handling Cross Origin Requests
