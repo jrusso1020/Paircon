@@ -8,18 +8,17 @@ require 'open-uri'
 require 'pdf-reader'
 require 'docsplit'
 
-USER_AGENT = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/51.0"
-
-class PageType
-  GOOGLE_SCHOLAR = "google-scholar"
-  PERSONAL = "personal"
-end
-
 # The PDFScrapper class scrapes the PDF off the internet
 # Two types of pages are supported - Google scholar and a personal web page with link to pdfs
 # The Google Scrapper gets blocked because of restrictions by google - so we may not use it at all
 
 class PDFScrapper
+  USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/51.0'
+
+  PageType = {
+      google_scholar: 'google-scholar',
+      personal: 'personal'
+  }
 
   # The initialize function takes the link to the profile
   # Type defines whether the url is "google scholar" or "personal"
@@ -32,7 +31,7 @@ class PDFScrapper
   # The getPdf function returns the link to the pdfs in an array
   # The instance variables needs to be set to use this
   def getPdf
-    if @type == PageType::GOOGLE_SCHOLAR
+    if @type == PageType[:google_scholar]
         getPdfGoogleScholarPage
     else
         getPdfPersonalPage
@@ -43,7 +42,7 @@ class PDFScrapper
   def getPdfPersonalPage
     ary = Set.new()
     begin
-      page = Nokogiri::HTML(open(@link, "User-Agent" => USER_AGENT))
+      page = Nokogiri::HTML(open(@link, 'User-Agent' => USER_AGENT))
       #puts page
       page.css('a').each do |pdflink|
         if pdflink['href'] =~ /\b.+.pdf/
@@ -51,7 +50,7 @@ class PDFScrapper
         end
       end
     rescue => ex
-      puts "Something went wrong...."
+      puts 'Something went wrong....'
     end
     ary.to_a
   end
@@ -63,9 +62,9 @@ class PDFScrapper
     start = 0
     while links.length != last_len
       last_len =links.length
-      link = @link + "view_op=list_works&cstart=" + start.to_s + "&pagesize=100"
-      page = Nokogiri::HTML(open(link, "User-Agent" => USER_AGENT, "Cookie" => cookie))
-      news_links = page.css("a").select{|link| link['class'] == "gsc_a_at"}
+      link = @link + 'view_op=list_works&cstart=' + start.to_s + '&pagesize=100'
+      page = Nokogiri::HTML(open(link, 'User-Agent' => USER_AGENT, 'Cookie' => cookie))
+      news_links = page.css("a").select{|link| link['class'] == 'gsc_a_at'}
       links += news_links
       start += 100
     end
@@ -77,7 +76,7 @@ class PDFScrapper
   # Then we go to each link to get link to the pdf
   def getPdfGoogleScholarPage
     # This is a hack to use the scholar page without google blocking us, get the cookie and then use it.
-    h1 = open("http://google.com")
+    h1 = open('http://google.com')
     cookie = h1.meta['set-cookie'].split('; ',2)[0]
 
     news_links = getAllLinksFromGoogleScholar(cookie)
@@ -86,14 +85,14 @@ class PDFScrapper
     news_links.each do |link|
       link = prefix + link['href']
       begin
-        page = Nokogiri::HTML(open(link, "User-Agent" => USER_AGENT, "Cookie" => cookie))
+        page = Nokogiri::HTML(open(link, 'User-Agent' => USER_AGENT, 'Cookie' => cookie))
         page.css('a').each do |pdflink|
           if pdflink['href'] =~ /\b.+.pdf/
             ary.add(pdflink['href'])
           end
           end
       rescue => ex
-          puts "Something went wrong...."
+          puts 'Something went wrong....'
       end
     end
     ary.to_a
@@ -105,13 +104,13 @@ class PDFScrapper
     links = getPdf
     links.each do |link|
       begin
-        download = open(link, "User-Agent" => USER_AGENT)
-        filePath = folderName + "/" + link.split('/').last
-        File.open(filePath, "w") do |f|
+        download = open(link, 'User-Agent' => USER_AGENT)
+        filePath = folderName + '/' + link.split('/').last
+        File.open(filePath, 'w') do |f|
           IO.copy_stream(download, f)
         end
       rescue => ex
-        puts "Could not download " + link
+        puts 'Could not download ' + link
       end
 
     end
@@ -122,16 +121,16 @@ class PDFScrapper
     links = getPdf
     links.each do |link|
       begin
-        download = open(link, "User-Agent" => USER_AGENT)
+        download = open(link, 'User-Agent' => USER_AGENT)
         reader = PDF::Reader.new(download)
-        filePath = folderName + "/" + link.split('/').last + ".txt"
-        File.open(filePath, "a") do |f|
+        filePath = folderName + '/' + link.split('/').last + '.txt'
+        File.open(filePath, 'a') do |f|
           reader.pages.each do |page|
             f.write(page.text)
           end
         end
       rescue => ex
-        puts "Could not download " + link
+        puts 'Could not download ' + link
       end
 
     end
@@ -142,7 +141,7 @@ class PDFScrapper
   def convertPdfToText(pdfFolder, txtFolder)
     Dir.foreach(pdfFolder) do |item|
       next if item == '.' or item == '..'
-      filepath = pdfFolder + "/" + item
+      filepath = pdfFolder + '/' + item
       Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
     end
   end
