@@ -13,21 +13,24 @@ class UsersController < ApplicationController
   def show
   end
 
+  # This function will be removed at a later stage and update command will be used
   def submit_url
-    userid = params[:id]
-    if !params["#{userid}"][:url].blank?
-      pdf_folder = "#{Rails.root}/public/docs/pdfs/#{userid}"
+    if !params[:url].blank?
+      pdf_folder = current_user.get_pdf_folder_path
       FileUtils::mkdir_p pdf_folder
-      txt_folder = "#{Rails.root}/public/docs/txt/#{userid}"
+      txt_folder = current_user.get_pdf_text_path
       FileUtils::mkdir_p txt_folder
-      q = params["#{userid}"][:url]
+      q = params[:url]
       current_user.url = q
       current_user.save!(validate: false)
-      scrapper = PDFScrapper.new(q, 'personal')
+      scrapper = PDFScrapper.new(q, PDFScrapper::PageType[:personal])
       scrapper.downloadAllPdfs(pdf_folder)
       scrapper.convertPdfToText(pdf_folder, txt_folder)
-      render text: 'Completed the processing of the URL'
+
+      flash[:notice] = 'Your personal URL has been updated successfully'
     end
+
+    redirect_back(fallback_location: :back)
   end
 
   def edit
@@ -185,4 +188,5 @@ class UsersController < ApplicationController
     # Notifier.startup_instructions(current_user).deliver_later
     # @user.activity(:create)
   end
+
 end

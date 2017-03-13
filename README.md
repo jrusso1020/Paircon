@@ -69,7 +69,7 @@ rails s
 Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com``` to open the application
 
 ## Running Flask Application (SimiliarityAlgo Folder)
-This has been developed using python 3.6. You are recommended to use Anaconda or another virtual environment
+This has been developed using python 3.6. You are recommended to use Anaconda or another virtual environment. You can also run this on Python 2.7. 
 
 Make sure you have a fortran compiler installed. On Mac, you can use `brew install gcc` to accomplish this. 
 

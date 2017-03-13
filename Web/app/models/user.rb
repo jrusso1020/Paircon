@@ -80,6 +80,13 @@ class User < ApplicationRecord
     return "#{PairConConfig::root_domain + ActionController::Base.helpers.asset_path(self.profile_photo)}"
   end
 
+  def get_pdf_text_path
+    return "#{Rails.root}/public/docs/txt/#{self.id}"
+  end
+
+  def get_pdf_folder_path
+    return "#{Rails.root}/public/docs/pdfs/#{self.id}"
+  end
 
   private
 

@@ -38,6 +38,13 @@ module PairCon
       require File.join(Rails.root, 'config', 'paircon_constants.rb')
     end
 
+    config.middleware.insert_before Warden::Manager, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :put, :delete, :options]
+      end
+    end
+
     # Mailer Settings
     config.active_record.raise_in_transactional_callbacks = true
     config.action_mailer.raise_delivery_errors = false
