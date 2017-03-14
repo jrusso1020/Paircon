@@ -104,10 +104,6 @@ a.custom-tooltip .login-tooltip-span {
   background: #E6E7E8;
 }
 
-.step-signup-tooltip {
-  position: fixed !important;
-}
-
 a.custom-tooltip .login-tooltip-span {
   max-width: initial !important;
 }
@@ -121,7 +117,8 @@ a.custom-tooltip .hover-tooltip {
 
 a.custom-tooltip .step-signup-tooltip {
   margin-left: 0px;
-  position: absolute;
+  position: absolute !important;
+  display: initial !important;
   font-size: 12px;
 }
 
