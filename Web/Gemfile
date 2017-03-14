@@ -20,7 +20,7 @@ gem 'turbolinks', '~> 5'                                          # Turbolinks m
 # Utility
 gem 'rack-pjax'                                                   # PJax to make page loading faster
 gem 'active_device'                                               # For Mobile / Desktop Web Detection
-gem 'browser'                                                     # Getting Browser Information
+# gem 'browser'                                                     # Getting Browser Information
 # gem 'paul_revere', '~> 2.0.0'                                   # For Announcements on The Website
 
 group :assets do
@@ -40,6 +40,7 @@ end
 gem 'rails', '~> 5.0.2'                                           # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'                                                          # Use Postgres as the database for Active Record
 # gem 'capistrano'                                                 # Auto Deploy Projects
+gem 'sidekiq'                                                     # For Background services
 
 # Authorization
 gem 'devise'                                                      # For Login system
@@ -83,6 +84,3 @@ group :development do
   gem 'ruby-lint'                                                 # For Detecting any mistakes in Ruby Code
   gem 'bullet'                                                    # For Avoiding N+1 Queries
 end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
