@@ -41,16 +41,67 @@
         <div class="container">
           <div class="row">
             <div class="banner-info text-center wow fadeIn delay-05s">
+
               <h2 class="bnr-sub-title">Welcome to Pair<span class="logo-dec">Con</span></h2>
-              <p class="bnr-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua.<br> Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip <br>ex ea commodo consequat.</p>
-              <div class="brn-btn">
-                <a href="#" class="btn btn-download">Sign Up</a>
-                <a href="#login" class="btn btn-more">Login</a>
+
+              <!-- Added by Sahana -->
+
+              <div class = "container">
+                <div class ="row">
+
+                  <div class="col-sm-5" style="padding-top:5%">
+
+                    <div>
+                      <p class="bnr-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua.<br> Ut enim ad minim veniam, quis nostrud exercitation
+                        ullamco laboris nisi ut aliquip <br>ex ea commodo consequat.</p>
+                    </div>
+
+                    <div class="brn-btn">
+                      <a href="#" class="btn btn-download">Sign Up</a>
+                      <a href="#login" class="btn btn-more">Login</a>
+                    </div>
+                    <div class="overlay-detail">
+                    </div>
+                  </div>
+                  <!-- Login Section -->
+                  <div class="col-sm-7">
+                    <section id="login"> <!-- class="section-padding wow fadeIn delay-05s"> -->
+                      <div class="container nopadding" id="main-container">
+                        <div class="row">
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <% init_error_flash_for_login %>
+                            <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
+                                 style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
+
+                              <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+                                <i class="fa fa-times fa-fw paircon-custom"></i></button>
+                              <i class="fa fa-info fa-fw paircon-custom"></i>
+                              <span class="paircon-custom"><%= raw flash[:alert] %></span>
+                            </div>
+
+                            <% flash[:alert] = nil %>
+                          </div>
+                        </div>
+                        <div class="row row-vertical-align main-content-login">
+                          <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="row front-text-middle-align">
+                              <div class="signin_verticalcenter">
+                                <div data-pjax-container id="loginbox" style="margin-left:15%;">
+                                  <%= yield %>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </section>
+                  </div>
+                </div>
               </div>
-              <div class="overlay-detail">
-              </div>
+
+
             </div>
           </div>
         </div>
@@ -58,40 +109,12 @@
     </div>
   </div>
 
-  <section id="login" class="section-padding wow fadeIn delay-05s">
-    <div class="container nopadding" id="main-container">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <% init_error_flash_for_login %>
-          <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
-               style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
-
-            <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
-              <i class="fa fa-times fa-fw paircon-custom"></i></button>
-            <i class="fa fa-info fa-fw paircon-custom"></i>
-            <span class="paircon-custom"><%= raw flash[:alert] %></span>
-          </div>
-
-          <% flash[:alert] = nil %>
-        </div>
-      </div>
-      <div class="row row-vertical-align main-content-login">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="row front-text-middle-align">
-            <div class="signin_verticalcenter">
-              <div data-pjax-container id="loginbox">
-                <%= yield %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
 
   <!--/ HEADER-->
   <!---->
+
+  <!-- Commenting this section out because features part is redundant-->
+  <!--
   <section id="feature" class="section-padding wow fadeIn delay-05s">
     <div class="container">
       <div class="row">
@@ -138,6 +161,8 @@
       </div>
     </div>
   </section>
+
+  -->
   <!---->
   <!---->
   <section id="service" class="section-padding wow fadeInUp delay-05s">
