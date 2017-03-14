@@ -31,15 +31,15 @@ group :assets do
   gem 'therubyracer', platforms: :ruby                            # Execute Javascript in Ruby
 end
 
+
 ########################
 ###### BACK END #######
 ########################
 
 # Server Related
-gem 'rails', '~> 5.0.1'                                           # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '~> 5.0.2'                                           # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'pg'                                                          # Use Postgres as the database for Active Record
 # gem 'capistrano'                                                 # Auto Deploy Projects
-gem 'sidekiq'                                                     # Used for background workers
 
 # Authorization
 gem 'devise'                                                      # For Login system
@@ -53,7 +53,7 @@ gem 'omniauth-facebook'                                           # For login fr
 # gem 'dalli'                                                     # For caching
 
 # Utility
-gem 'pdf-reader'                                                  # For Reading PDFs
+gem 'pdf-reader'                                                  # For reading PDFS
 gem 'docsplit'                                                    # For Splitting Documents
 gem 'i18n-js', '>= 3.0.0.rc11'
 gem 'hashie'                                                      # Getting hashes
@@ -77,8 +77,8 @@ end
 
 group :development do
   gem 'web-console', '>= 3.3.0'                                   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  # gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'ruby-lint'                                                 # For Detecting any mistakes in Ruby Code
   gem 'bullet'                                                    # For Avoiding N+1 Queries

@@ -85,7 +85,7 @@ You can setup redis as a service or execute ```redis-server``` to start a redis 
 Background Agents live on Sidekiq and thus you are required to execute the following command once when you begin development:
 
 ```
-bundle exec sidekiq
+bundle exec sidekiq -q default -q mailers
 ```
 
 Note: Redis is knowing for using a lot of memory and sometimes causes a lot of memory problems. You may want to restrict the maximum memory you are 
