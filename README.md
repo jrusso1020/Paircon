@@ -1,7 +1,18 @@
 # PairCon (Conference Papers)
-
 This ReadMe has been tested for a Ubuntu Environment. There may be changes associated with executing the same commands in MacOSX or Microsoft Windows. 
 Please document any changes that you find in setup of the project. 
+
+## Running All the Apps and Postgres (Optional)
+globally install the gem foreman
+```
+gem install foreman
+```
+
+from the root directory `/Conference-Papers` run the command
+```
+foreman s
+```
+
 ## Working in Development Environment:
 
 To run the application locally, you are required to edit Hosts (```/etc/hosts```) file and add the following:

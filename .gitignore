@@ -50,3 +50,4 @@ bower.json
 /SimilarityAlgo/.idea/
 /Web/Gemfile.lock
 SimilarityAlgo/__pycache__
+/dump.rdb
