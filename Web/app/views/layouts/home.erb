@@ -547,5 +547,12 @@
 
 </body>
 <%= javascript_tag 'enablePJAX()' %>
-
+<script>
+    if (("onhashchange" in window) && !($.browser.msie)) {
+        //modern browsers
+        $(window).bind('hashchange', function () {
+            window.location.hash = ''
+        });
+    }
+</script>
 </html>
