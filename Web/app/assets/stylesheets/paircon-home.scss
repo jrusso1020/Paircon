@@ -7,6 +7,15 @@
 .main_container .top_nav {
   margin-left: 0px !important;
 }
+.login-text {
+  color: #3d3b3a;
+}
+
+.dropdown-user-icons {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
 
 /* ********* ERROR ***********/
 .error-small-text {
@@ -101,10 +110,6 @@ a.custom-tooltip .login-tooltip-span {
   background: #E6E7E8;
 }
 
-.step-signup-tooltip {
-  position: fixed !important;
-}
-
 a.custom-tooltip .login-tooltip-span {
   max-width: initial !important;
 }
@@ -118,7 +123,8 @@ a.custom-tooltip .hover-tooltip {
 
 a.custom-tooltip .step-signup-tooltip {
   margin-left: 0px;
-  position: absolute;
+  position: absolute !important;
+  display: initial !important;
   font-size: 12px;
 }
 
@@ -249,4 +255,66 @@ span.callout {
 .signup-row {
   margin-left: 0px !important;
   margin-right: 0px !important;
+}
+
+
+/***********************************
+************************************
+Header
+************************************
+***********************************/
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+  color: #0AC0F3;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+  background-color: transparent;
+  color: #0AC0F3;
+}
+.header {
+  background: image_url('home/conference-pic.jpg') no-repeat fixed;
+  background-size: cover;
+  min-height: 650px;
+  position: relative;
+}
+.btn-download {
+  background-color: #0AC0F3;
+}
+
+.btn-more, .btn-more:focus {
+  margin-left: 15px;
+  border: 1px solid #0AC0F3;
+  color: #0AC0F3;
+}
+
+.btn-more:hover {
+  background: #0AC0F3;
+  color: #fff;
+}
+.logo-dec{
+  color: #0AC0F3;
+}
+/***********************************
+************************************
+About
+************************************
+***********************************/
+
+.centered-icon{
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.navy-text{
+  color: #2C314A;
+}
+.bottom-line {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  border: 0;
+  border-top: 0px;
+  height: 3px;
+  width: 40px;
+  background-color: #0AC0F3;
 }
