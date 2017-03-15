@@ -15,12 +15,12 @@ class UsersController < ApplicationController
 
   # This function will be removed at a later stage and update command will be used
   def submit_url
-    if !params[:url].blank?
+    if !params[:user][:url].blank?
       pdf_folder = current_user.get_pdf_folder_path
       FileUtils::mkdir_p pdf_folder
       txt_folder = current_user.get_pdf_text_path
       FileUtils::mkdir_p txt_folder
-      q = params[:url]
+      q = params[:user][:url]
       current_user.url = q
       current_user.save!(validate: false)
       scrapper = PDFScrapper.new(q, PDFScrapper::PageType[:personal])
