@@ -1,8 +1,18 @@
 <!DOCTYPE html>
 <html>
-  <%= render 'layouts/application/header' %>
+<%= render 'layouts/application/header' %>
 
-  <body style="background: white;">
-    <%= yield %>
-  </body>
+<body class="nav-md">
+<div class="container body">
+  <div class="main_container">
+    <%= render 'layouts/application/application_top_nav' %>
+  </div>
+</div>
+
+<%#= yield %>
+<!--</body>-->
+
+</body>
+<%= javascript_tag 'enablePJAX()' %>
 </html>
+

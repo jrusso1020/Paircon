@@ -5043,7 +5043,7 @@ $(document).ready(function() {
     // init_starrr();
     // init_calendar();
     // init_compose();
-    // init_CustomNotification();
+    init_CustomNotification();
     // init_autosize();
     // init_autocomplete();
 
