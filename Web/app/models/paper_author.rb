@@ -1,3 +1,4 @@
 class PaperAuthor < ApplicationRecord
-  has_many :users, :papers
+  alias_attribute :authors, :users
+  has_many :papers, :users
 end

@@ -1,3 +1,4 @@
 class ConferenceAttendee < ApplicationRecord
-  has_many :users, :conferences
+  alias_attribute :attendees, :users
+  has_many :conferences, :users
 end

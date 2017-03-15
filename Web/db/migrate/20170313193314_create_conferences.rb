@@ -6,6 +6,7 @@ class CreateConferences < ActiveRecord::Migration[5.0]
       t.datetime :end_date
       t.text :url
       t.string :location
+      t.boolean :pending
 
       t.timestamps
     end

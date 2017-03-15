@@ -55,6 +55,8 @@ class User < ApplicationRecord
 
   before_create :init_user_id
 
+  enum type: [ :attendee, :organizer, :admin ]
+
   def full_name=(full_name)
     full_name_tokens = full_name.split(/\s+/)
 
