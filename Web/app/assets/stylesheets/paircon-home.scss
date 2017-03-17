@@ -4,8 +4,46 @@
 @import 'variables';
 
 /* ********* SIGN UP **********/
-.main_container .top_nav {
+.main_container .sign_up_nav {
   margin-left: 0px !important;
+}
+
+.wizard_steps {
+  padding-left: 0px;
+  margin-bottom: 0px !important;
+}
+
+.stepContainer {
+  overflow-x: inherit !important;
+}
+
+.stepContainer2 {
+  height: 100% !important;
+}
+
+.x_content {
+  height: 100%;
+}
+
+.actionBar {
+  position: absolute;
+  bottom: 0;
+}
+
+.user_registration_form {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 50px;
+}
+
+.signup-input-label {
+  margin-top: 30px;
+}
+
+.signup-row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 /* ********* ERROR ***********/
@@ -101,10 +139,6 @@ a.custom-tooltip .login-tooltip-span {
   background: #E6E7E8;
 }
 
-.step-signup-tooltip {
-  position: fixed !important;
-}
-
 a.custom-tooltip .login-tooltip-span {
   max-width: initial !important;
 }
@@ -120,6 +154,8 @@ a.custom-tooltip .step-signup-tooltip {
   margin-left: 0px;
   position: absolute;
   font-size: 12px;
+  position: absolute !important;
+  display: initial !important;
 }
 
 a.custom-tooltip .login-tooltip-span {
@@ -190,63 +226,4 @@ span.callout {
   right: 7px;
   bottom: -20px;
   border-top: 10px solid #E6E7E8;
-}
-
-.navbar-paircon {
-  display: flex;
-  margin-bottom: 2px !important;
-  margin-top: 5px;
-}
-
-.navbar-image {
-  height: 50px;
-  margin: auto;
-}
-
-.navbar-right {
-  width: initial !important;
-}
-
-.navbar-user {
-  position: absolute;
-  right: 0;
-  margin-top: -5px !important;
-}
-
-.wizard_steps {
-  padding-left: 0px;
-  margin-bottom: 0px !important;
-}
-
-.stepContainer {
-  overflow-x: inherit !important;
-}
-
-.stepContainer2 {
-  height: 100% !important;
-}
-
-.x_content {
-  height: 100%;
-}
-
-.actionBar {
-  position: absolute;
-  bottom: 0;
-}
-
-.user_registration_form {
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  margin-bottom: 50px;
-}
-
-.signup-input-label {
-  margin-top: 30px;
-}
-
-.signup-row {
-  margin-left: 0px !important;
-  margin-right: 0px !important;
 }

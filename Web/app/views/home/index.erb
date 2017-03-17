@@ -1,8 +1,6 @@
 <% page_title('Dashboard') %>
 
-<a id="logout_link" rel="nofollow" data-method="delete" href="<%= destroy_user_session_url(:protocol => "#{Rails.env.production? ? 'https://' : 'http://'}") %>">Logout</a>
-
-<%= form_for(current_user, url: submit_url_user_path(current_user.id),
+<%= form_for(current_user, as: current_user.id, url: submit_url_user_path(current_user.id),
              html: {class: 'form-horizontal', id: 'submit_url', method: :post}) do |f| %>
 
     <%= content_tag :div, class: 'panel-body' do %>
