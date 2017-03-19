@@ -25,10 +25,10 @@
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#main-header">Home</a></li>
-                <li class=""><a data-no-pjax href="#service">Features</a></li> <!-- adding service -->
-                <li class=""><a data-no-pjax href="#service">About Us</a></li>
-                <li class=""><a data-no-pjax href="" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a></li>
-                <li class=""><a data-no-pjax href="" data-toggle="modal" data-target="#termModal">Terms and Conditions</a></li>
+                <li class=""><a data-no-pjax href="#service">Features</a></li>
+                <li class=""><a data-no-pjax href="#portfolio">About Us</a></li>
+                <%#<li class=""><a data-no-pjax href="" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a></li>
+                <li class=""><a data-no-pjax href="" data-toggle="modal" data-target="#termModal">Terms and Conditions</a></li>%>
                 <li class=""><a data-no-pjax href="#login">Login</a></li>
                 <li class=""><a data-no-pjax href="#blog">Blog</a></li>
                 <li class=""><a data-no-pjax href="#contact">Contact Us</a></li>
@@ -41,22 +41,15 @@
         <div class="container">
           <div class="row">
             <div class="banner-info text-center wow fadeIn delay-05s">
-
-              <h2 class="bnr-sub-title">Welcome to Pair<span class="logo-dec">Con</span></h2>
-
-              <!-- Added by Sahana -->
-
-              <div class = "container">
-                <div class ="row">
-
-                  <div class="col-sm-5" style="padding-top:5%">
-
+              <div class="container-fluid">
+                <div class="row">
+                  <!-- Introduction Section -->
+                  <div class="col-md-5 col-sm-5 col-xs-12" style="padding-top:5%">
                     <div>
-                      <p class="bnr-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.<br> Ut enim ad minim veniam, quis nostrud exercitation
-                        ullamco laboris nisi ut aliquip <br>ex ea commodo consequat.</p>
+                      <h1 class="bnr-sub-title">Welcome to Pair<span class="logo-dec">Con</span></h1>
+                      <p class="bnr-para">PairCon is how people connect themselves to conference.<br> 
+                      We support user to find a conference they are most interested in<br></p>
                     </div>
-
                     <div class="brn-btn">
                       <a href="#" class="btn btn-download">Sign Up</a>
                       <a href="#login" class="btn btn-more">Login</a>
@@ -65,7 +58,7 @@
                     </div>
                   </div>
                   <!-- Login Section -->
-                  <div class="col-sm-7">
+                  <div class="col-md-7 col-sm-7 col-xs-12">
                     <section id="login" class="login-text"> <!-- class="section-padding wow fadeIn delay-05s"> -->
                       <div class="container nopadding" id="main-container">
                         <div class="row">
@@ -73,13 +66,11 @@
                             <% init_error_flash_for_login %>
                             <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
                                  style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
-
                               <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
                                 <i class="fa fa-times fa-fw paircon-custom"></i></button>
                               <i class="fa fa-info fa-fw paircon-custom"></i>
                               <span class="paircon-custom"><%= raw flash[:alert] %></span>
                             </div>
-
                             <% flash[:alert] = nil %>
                           </div>
                         </div>
@@ -94,77 +85,18 @@
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </section>
                   </div>
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
-  <!--/ HEADER-->
-  <!---->
-
-  <!-- Commenting this section out because features part is redundant-->
-  <!--
-  <section id="feature" class="section-padding wow fadeIn delay-05s">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser01.png' %>">
-            </div>
-            <h3 class="pad-bt15">Creative Concept</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser02.png' %>">
-            </div>
-            <h3 class="pad-bt15">Amazing Design</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser03.png' %>">
-            </div>
-            <h3 class="pad-bt15">Cost effective</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser04.png' %>">
-            </div>
-            <h3 class="pad-bt15">Secure</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  -->
-  <!---->
-  <!---->
+  <!--Service partial view-->
   <section id="service" class="section-padding wow fadeInUp delay-05s">
     <div class="container">
       <div class="row text-center">
@@ -204,10 +136,9 @@
         </div>
       </div>
       <hr class="bottom-line">
-
       <div class="row text-center">
-        <div class="col-md-12">
-          <h3 class ="pad-bt15">Organizing a Conference?</h3>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h2 class="service-title pad-bt50">Organizing a Conference?</h2>
         </div>
         <div class="col-md-4 col-sm-6 col-xs-12">
           <div class ="centered-icon navy-text"><i class="fa fa-users fa-4x" aria-hidden="true"></i></div>
@@ -235,14 +166,11 @@
       </div>
     </div>
   </section>
-  <!---->
-  <!---->
-  <!---->
-  <!---->
+  <!--Porrfolio partial view-->
   <section id="portfolio" class="section-padding wow fadeInUp delay-05s">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
           <h2 class="service-title pad-bt15">Our Recent Works</h2>
           <p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor
             incididunt ut labore et dolore magna aliqua.</p>
@@ -359,7 +287,7 @@
   <section id="blog" class="section-padding wow fadeInUp delay-05s">
     <div class="container">
       <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
           <h2 class="service-title pad-bt15">Latest from our blog</h2>
           <p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor
             incididunt ut labore et dolore magna aliqua.</p>
@@ -525,9 +453,12 @@
     </div>
   </section>
   <!---->
-  <!---->
+  <!-- Footer Section-->
   <footer id="footer">
     <div class="container">
+      <div class="row text-left">
+        test
+      </div>
       <div class="row text-center">
         <p>&copy; Baker Theme. All Rights Reserved.</p>
         <div class="credits">
