@@ -25,7 +25,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
               <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#main-header">Home</a></li>
-                <li class=""><a data-no-pjax href="#service">Features</a></li> <!-- adding service -->
+                <li class=""><a data-no-pjax href="#service">Features</a></li>
                 <li class=""><a data-no-pjax href="#service">About Us</a></li>
                 <li class=""><a data-no-pjax href="" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a></li>
                 <li class=""><a data-no-pjax href="" data-toggle="modal" data-target="#termModal">Terms and Conditions</a></li>
@@ -38,34 +38,33 @@
         </nav>
       </header>
       <div class="wrapper">
-        <div class="container">
+        <div class="container" style="padding-bottom:5%">
           <div class="row">
             <div class="banner-info text-center wow fadeIn delay-05s">
 
               <h2 class="bnr-sub-title">Welcome to Pair<span class="logo-dec">Con</span></h2>
 
-              <!-- Added by Sahana -->
 
               <div class = "container">
                 <div class ="row">
 
-                  <div class="col-sm-5" style="padding-top:5%">
+                  <div class="col-md-5 col-sm-12  col-xs-12" style="padding-top:5%">
 
                     <div>
                       <p class="bnr-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                         incididunt ut labore et dolore magna aliqua.<br> Ut enim ad minim veniam, quis nostrud exercitation
                         ullamco laboris nisi ut aliquip <br>ex ea commodo consequat.</p>
                     </div>
-
+                    <!--
                     <div class="brn-btn">
                       <a href="#" class="btn btn-download">Sign Up</a>
                       <a href="#login" class="btn btn-more">Login</a>
-                    </div>
+                    </div> -->
                     <div class="overlay-detail">
                     </div>
                   </div>
                   <!-- Login Section -->
-                  <div class="col-sm-7">
+                  <div class="col-md-7 col-sm-12  col-xs-12>
                     <section id="login" class="login-text"> <!-- class="section-padding wow fadeIn delay-05s"> -->
                       <div class="container nopadding" id="main-container">
                         <div class="row">
@@ -109,61 +108,6 @@
     </div>
   </div>
 
-
-  <!--/ HEADER-->
-  <!---->
-
-  <!-- Commenting this section out because features part is redundant-->
-  <!--
-  <section id="feature" class="section-padding wow fadeIn delay-05s">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser01.png' %>">
-            </div>
-            <h3 class="pad-bt15">Creative Concept</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser02.png' %>">
-            </div>
-            <h3 class="pad-bt15">Amazing Design</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser03.png' %>">
-            </div>
-            <h3 class="pad-bt15">Cost effective</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-          <div class="wrap-item text-center">
-            <div class="item-img">
-              <img src="<%= asset_path 'home/ser04.png' %>">
-            </div>
-            <h3 class="pad-bt15">Secure</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  -->
-  <!---->
   <!---->
   <section id="service" class="section-padding wow fadeInUp delay-05s">
     <div class="container">
