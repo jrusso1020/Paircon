@@ -10,7 +10,7 @@ body {
   height: 100%;
   font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', 'Tahoma', 'Arial', 'sans-serif';
   color: #67696c;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 100;
   line-height: 1.471;
 
@@ -118,7 +118,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /***********************************
 ************************************
-HEADER 
+HEADER
 ************************************
 ***********************************/
 .header {
@@ -301,6 +301,10 @@ features
 
 .pad-bt15 {
   padding-bottom: 15px;
+}
+
+.pad-bt50 {
+  padding-bottom: 50px;
 }
 
 .sec-sub-title {
