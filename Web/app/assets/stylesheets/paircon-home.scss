@@ -11,6 +11,16 @@
   color: #3d3b3a;
 }
 
+#loginbox{
+  display: inline-block;
+  text-align: center;}
+
+.dropdown-user-icons {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
+
 /* ********* ERROR ***********/
 .error-small-text {
   color: #A81515;
@@ -104,10 +114,6 @@ a.custom-tooltip .login-tooltip-span {
   background: #E6E7E8;
 }
 
-.step-signup-tooltip {
-  position: fixed !important;
-}
-
 a.custom-tooltip .login-tooltip-span {
   max-width: initial !important;
 }
@@ -121,7 +127,8 @@ a.custom-tooltip .hover-tooltip {
 
 a.custom-tooltip .step-signup-tooltip {
   margin-left: 0px;
-  position: absolute;
+  position: absolute !important;
+  display: initial !important;
   font-size: 12px;
 }
 
@@ -294,10 +301,28 @@ Header
   padding-bottom: 50px;
 }
 
+h1.bnr-sub-title {
+  font-size: 60px;
+  text-transform: uppercase;
+  padding: 20px 0px;
+  font-weight: 700;
+  font-color: #F5F6FA;
+}
 
 /***********************************
 ************************************
 About
+************************************
+***********************************/
+#about {
+  background-color: #2C314A;
+  color: #FFFFFF;
+}
+
+
+/***********************************
+************************************
+Users
 ************************************
 ***********************************/
 
@@ -328,3 +353,25 @@ Footer
 .footer-text {
   padding: 10px 20px 10px 20px;
 }
+#users {
+  background-color: #F3F4F8;
+}
+#users p{
+  font-size: 20px;
+}
+
+/***********************************
+************************************
+Landing
+************************************
+***********************************/
+#landing{
+  display: block;
+}
+
+#macbook{
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+

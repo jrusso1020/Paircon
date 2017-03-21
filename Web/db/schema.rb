@@ -10,10 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170306233507) do
+ActiveRecord::Schema.define(version: 20170315180607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "conference_attendees", force: :cascade do |t|
+    t.integer  "conference_id"
+    t.integer  "user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "conference_organizers", force: :cascade do |t|
+    t.integer  "conference_id"
+    t.integer  "user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "conference_papers", force: :cascade do |t|
+    t.integer  "paper_id"
+    t.integer  "conference_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "conferences", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.text     "url"
+    t.string   "location"
+    t.boolean  "pending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "identities", force: :cascade do |t|
     t.string   "user_id",    limit: 30
@@ -22,6 +54,31 @@ ActiveRecord::Schema.define(version: 20170306233507) do
     t.text     "auth_data"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "paper_authors", force: :cascade do |t|
+    t.integer  "paper_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "papers", force: :cascade do |t|
+    t.string   "title"
+    t.text     "pdf_link"
+    t.string   "md5hash"
+    t.text     "path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "similarities", force: :cascade do |t|
+    t.integer  "paper_id1"
+    t.integer  "paper_id2"
+    t.decimal  "similarity_score"
+    t.string   "hash"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,6 +114,7 @@ ActiveRecord::Schema.define(version: 20170306233507) do
     t.string   "phone_number",            limit: 30
     t.integer  "gender",                             default: 1
     t.text     "url"
+    t.integer  "user_type",                          default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

@@ -4,10 +4,7 @@
 <%= render 'layouts/home/header' %>
 
 <body>
-
-
 <div class="loader"></div>
-<div id="myDiv">
   <!--HEADER-->
   <div class="header">
     <div class="bg-color">
@@ -26,7 +23,11 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#main-header">Home</a></li>
                 <li class=""><a data-no-pjax href="#service">Features</a></li>
+<<<<<<< HEAD
                 <li class=""><a data-no-pjax href="#portfolio">About Us</a></li>
+=======
+                <li class=""><a data-no-pjax href="#about">About Us</a></li>
+>>>>>>> deb68205a30810f6d579a4dc7f949eca992f3b38
                 <li class=""><a data-no-pjax href="#login">Login</a></li>
                 <li class=""><a data-no-pjax href="#blog">Blog</a></li>
                 <li class=""><a data-no-pjax href="#contact">Contact Us</a></li>
@@ -35,56 +36,45 @@
           </div>
         </nav>
       </header>
+
+
+
       <div class="wrapper">
         <div class="container">
           <div class="row">
-            <div class="banner-info text-center wow fadeIn delay-05s">
-              <div class="container-fluid">
-                <div class="row">
-                  <!-- Introduction Section -->
-                  <div class="col-md-5 col-sm-5 col-xs-12" style="padding-top:5%">
-                    <div>
-                      <h1 class="bnr-sub-title">Welcome to Pair<span class="logo-dec">Con</span></h1>
-                      <p class="bnr-para">PairCon is how people connect themselves to conference.<br> 
-                      We support user to find a conference they are most interested in<br></p>
-                    </div>
-                    <div class="brn-btn">
-                      <a href="#" class="btn btn-download">Sign Up</a>
-                      <a href="#login" class="btn btn-more">Login</a>
-                    </div>
-                    <div class="overlay-detail">
-                    </div>
-                  </div>
-                  <!-- Login Section -->
-                  <div class="col-md-7 col-sm-7 col-xs-12">
-                    <section id="login" class="login-text"> <!-- class="section-padding wow fadeIn delay-05s"> -->
-                      <div class="container nopadding" id="main-container">
-                        <div class="row">
-                          <div class="col-md-12 col-sm-12 col-xs-12">
-                            <% init_error_flash_for_login %>
-                            <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
-                                 style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
-                              <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
-                                <i class="fa fa-times fa-fw paircon-custom"></i></button>
-                              <i class="fa fa-info fa-fw paircon-custom"></i>
-                              <span class="paircon-custom"><%= raw flash[:alert] %></span>
-                            </div>
-                            <% flash[:alert] = nil %>
-                          </div>
-                        </div>
-                        <div class="row row-vertical-align main-content-login">
-                          <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="row front-text-middle-align">
-                              <div class="signin_verticalcenter">
-                                <div data-pjax-container id="loginbox" style="margin-left:15%;">
-                                  <%= yield %>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </section>
+            <div class="col-sm-12 banner-info text-center wow fadeIn delay-05s">
+              <h1 class="bnr-sub-title">Welcome to Pair<span class="logo-dec">Con</span></h1>
+            </div>
+          </div>
+
+          <div class ="row">
+            <div class="col-md-6 col-sm-12" style="padding-top:5%">
+                <h1 class="text-center">A Better Conference.</h1>
+                <h3 class="bnr-para text-center">Get started for free!<br>
+                  Optimize your conference experience. </h3>
+              <!--<div class="brn-btn">-->
+                <!--<a href="#" class="btn btn-download">Sign Up</a>-->
+                <!--<a href="#login" class="btn btn-more">Login</a>-->
+              <!--</div>-->
+            </div>
+
+            <!-- Login Section -->
+            <div class="col-md-4 col-sm-12">
+              <div>
+                <% init_error_flash_for_login %>
+                <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
+                     style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
+                  <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+                    <i class="fa fa-times fa-fw paircon-custom"></i></button>
+                  <i class="fa fa-info fa-fw paircon-custom"></i>
+                  <span class="paircon-custom"><%= raw flash[:alert] %></span>
+                </div>
+                <% flash[:alert] = nil %>
+              </div>
+              <div>
+                <div>
+                  <div data-pjax-container id="loginbox">
+                    <%= yield %>
                   </div>
                 </div>
               </div>
@@ -94,16 +84,32 @@
       </div>
     </div>
   </div>
-  <!--Service partial view-->
-  <section id="service" class="section-padding wow fadeInUp delay-05s">
-    <div class="container">
-      <div class="row text-center">
+<!---->
+<!---->
+<!---->
+<!---->
+  <section id="about" class="section-padding wow fadeInUp delay-05s">
+    <div class = "container">
+      <div class = "row text-center">
+        <div class = "col-md-12 fa-5x">
+          <i class="fa fa-handshake-o" aria-hidden="true"></i>
+        </div>
         <div class="col-md-12">
           <h2 class="service-title pad-bt15">Conferences Made Easy</h2>
           <p class="sub-title pad-bt15">We take the organization, recommendation, and scheduling off your hands so you
             can focus on what matters—making the most out of your time at a conference. </p>
-          <hr class="bottom-line">
+          <a href="#" class="btn btn-more">See How Conferences Improve #withPairCon</a>
         </div>
+      </div>
+    </div>
+  </section>
+<!---->
+<!---->
+<!---->
+<!---->
+  <section id="users" class="section-padding wow fadeInUp delay-05s">
+    <div class="container">
+      <div class="row text-center">
         <div class="col-md-12">
           <h3 class ="pad-bt15">Attending a Conference?</h3>
         </div>
@@ -164,6 +170,7 @@
       </div>
     </div>
   </section>
+<<<<<<< HEAD
   <!--Porrfolio partial view-->
   <section id="portfolio" class="section-padding wow fadeInUp delay-05s">
     <div class="container">
@@ -237,6 +244,8 @@
       </div>
     </div>
   </section>
+=======
+>>>>>>> deb68205a30810f6d579a4dc7f949eca992f3b38
   <!---->
   <section id="testimonial" class="wow fadeInUp delay-05s">
     <div class="bg-testicolor">
@@ -259,21 +268,6 @@
                 </blockquote>
                 <small>Marry Smith, Client</small>
               </li>
-              <li>
-                <blockquote>
-                  <img src="<%= asset_path 'home/thumb.png' %>" class="img-responsive">
-                  <p>Come a day there won't be room for naughty men like us to slip about at all. This job goes south,
-                    there well may not be another.</p>
-                </blockquote>
-                <small>Vivek Singh, Client</small>
-              </li>
-              <li>
-                <blockquote>
-                  <img src="<%= asset_path 'home/thumb.png' %>" class="img-responsive">
-                  <p>So here is us, on the raggedy edge. Don't push me, and I won't push you.</p>
-                </blockquote>
-                <small>John Doe, Client</small>
-              </li>
             </ul>
           </div>
         </div>
@@ -281,79 +275,16 @@
     </div>
   </section>
   <!---->
-  <section id="blog" class="section-padding wow fadeInUp delay-05s">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-          <h2 class="service-title pad-bt15">Latest from our blog</h2>
-          <p class="sub-title pad-bt15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br>tempor
-            incididunt ut labore et dolore magna aliqua.</p>
-          <hr class="bottom-line">
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="blog-sec">
-            <div class="blog-img">
-              <a href="">
-                <img src="<%= asset_path 'home/blog01.jpg' %>" class="img-responsive">
-              </a>
-            </div>
-            <div class="blog-info">
-              <h2>This is Lorem ipsum heading.</h2>
-              <div class="blog-comment">
-                <p>Posted In: <span>Legal Advice</span></p>
-                <p>
-                  <span><a href="#"><i class="fa fa-comments"></i></a> 15</span>
-                  <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
-              </div>
-              <p>We cannot expect people to have respect for laws and orders until we teach respect to those we have
-                entrusted to enforce those laws all the time. we always want to help people cordially.</p>
-              <a href="" class="read-more">Read more →</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="blog-sec">
-            <div class="blog-img">
-              <a href="">
-                <img src="<%= asset_path 'home/blog02.jpg' %>" class="img-responsive">
-              </a>
-            </div>
-            <div class="blog-info">
-              <h2>This is Lorem ipsum heading.</h2>
-              <div class="blog-comment">
-                <p>Posted In: <span>Legal Advice</span></p>
-                <p>
-                  <span><a href="#"><i class="fa fa-comments"></i></a> 15</span>
-                  <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
-              </div>
-              <p>We cannot expect people to have respect for laws and orders until we teach respect to those we have
-                entrusted to enforce those laws all the time. we always want to help people cordially.</p>
-              <a href="" class="read-more">Read more →</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12">
-          <div class="blog-sec">
-            <div class="blog-img">
-              <a href="">
-                <img src="<%= asset_path 'home/blog03.jpg' %>" class="img-responsive">
-              </a>
-            </div>
-            <div class="blog-info">
-              <h2>This is Lorem ipsum heading.</h2>
-              <div class="blog-comment">
-                <p>Posted In: <span>Legal Advice</span></p>
-                <p>
-                  <span><a href="#"><i class="fa fa-comments"></i></a> 15</span>
-                  <span><a href="#"><i class="fa fa-eye"></i></a> 11</span></p>
-              </div>
-              <p>We cannot expect people to have respect for laws and orders until we teach respect to those we have
-                entrusted to enforce those laws all the time. we always want to help people cordially.</p>
-              <a href="" class="read-more">Read more →</a>
-            </div>
-          </div>
-        </div>
+  <!---->
+  <!---->
+  <!---->
+  <section id="landing" class="section-padding wow fadeInUp delay-05s">
+    <div class = "container">
+      <div class = "col-sm-12">
+        <h2 class = "text-center">Unbeatable Recommendations</h2>
+        <h3 class = "text-center">Saving time has never been so simple</h3>
       </div>
+<<<<<<< HEAD
     </div>
   </section>
   <!--Contact Section-->
@@ -409,6 +340,15 @@
       </div>
     </div>
   </section>
+=======
+      <div class = "col-sm-12">
+        <img id="macbook" src="<%= asset_path 'home/macbook.png' %>"/>
+      </div>
+    </div>
+  </section>
+
+
+>>>>>>> deb68205a30810f6d579a4dc7f949eca992f3b38
   <!-- Footer Section-->
   <footer id="footer">
     <div class="container-fluid text-center">
@@ -417,12 +357,15 @@
           <%= link_to "Privacy", "http://google.com" %>
           <%= link_to "Terms", "http://google.com" %>
         </div>
+<<<<<<< HEAD
         <div class="col-md-4 col-sm-4 col-xs-12">
           <p>&copy;
               <a href="#">Pair<span class="logo-dec">Con</span></a> 
               All Rights Reserved.
           </p>
         </div>
+=======
+>>>>>>> deb68205a30810f6d579a4dc7f949eca992f3b38
       </div>
     </div>
   </footer>
@@ -430,5 +373,12 @@
 
 </body>
 <%= javascript_tag 'enablePJAX()' %>
-
+<script>
+    if (("onhashchange" in window) && !($.browser.msie)) {
+        //modern browsers
+        $(window).bind('hashchange', function () {
+            window.location.hash = ''
+        });
+    }
+</script>
 </html>
