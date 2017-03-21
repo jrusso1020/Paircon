@@ -8,7 +8,7 @@
   margin-left: 0px !important;
 }
 .login-text {
-  color: #3d3b3a;
+  color: $login-text-color;
 }
 
 #loginbox{
@@ -23,7 +23,7 @@
 
 /* ********* ERROR ***********/
 .error-small-text {
-  color: #A81515;
+  color:$error-small-text-color;
   font-size: 11px;
   font-weight: 400;
   margin-top: 3px !important;
@@ -68,9 +68,9 @@ a.custom-tooltip strong {
 
 a.custom-tooltip .flash-message {
   opacity: 1;
-  color: #258D94;
-  border: 1px solid #E6E7E8;
-  background: #E6E7E8;
+  color: $tooltip-custom-color;
+  border: 1px solid $tooltip-background-color;
+  background: $tooltip-background-color;
 }
 
 a.custom-tooltip:hover {
@@ -110,8 +110,8 @@ a.custom-tooltip .login-tooltip-span {
   margin-top: -4px;
   max-width: 260px;
   color: $paircon-3;
-  border: 1px solid #E6E7E8;
-  background: #E6E7E8;
+  border: 1px solid $tooltip-background-color;
+  background: $tooltip-background-color;
 }
 
 a.custom-tooltip .login-tooltip-span {
@@ -148,11 +148,11 @@ span.callout {
 }
 
 span.callout {
-  background-color: #E6E7E8;
-  background-image: -moz-linear-gradient(top, #E6E7E8, #E6E7E8);
+  background-color: $callout-bg-color;
+  background-image: -moz-linear-gradient(top, $callout-bg-color, $callout-bg-color);
   background-position: center;
   position: relative;
-  color: #ccc;
+  color: $callout-span-color;
   padding: 10px;
   border-radius: 3px;
   min-height: 50px;
@@ -169,37 +169,37 @@ span.callout {
 .callout.top::before {
   left: 45%;
   bottom: -20px;
-  border-top: 10px solid #E6E7E8;
+  border-top: 10px solid $callout-bg-color;
 }
 
 .callout.bottom::before {
   left: 45%;
   top: -19px;
-  border-bottom: 10px solid #E6E7E8;
+  border-bottom: 10px solid $callout-bg-color;
 }
 
 .callout.left::before {
   right: -19px;
   top: 25%;
-  border-left: 10px solid #E6E7E8;
+  border-left: 10px solid $callout-bg-color;
 }
 
 .callout.right::before {
   left: -20px;
   top: 25%;
-  border-right: 10px solid #E6E7E8;
+  border-right: 10px solid $callout-bg-color;
 }
 
 .callout.top-left::before {
   left: 7px;
   bottom: -20px;
-  border-top: 10px solid #E6E7E8;
+  border-top: 10px solid $callout-bg-color;
 }
 
 .callout.top-right::before {
   right: 7px;
   bottom: -20px;
-  border-top: 10px solid #E6E7E8;
+  border-top: 10px solid $callout-bg-color;
 }
 
 .navbar-paircon {
@@ -268,12 +268,12 @@ Header
 ************************************
 ***********************************/
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
-  color: #0AC0F3;
+  color: $header-navbar-default-color;
   background-color: transparent;
 }
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
   background-color: transparent;
-  color: #0AC0F3;
+  color: $header-navbar-default-color;
 }
 .header {
   background: image_url('home/conference-pic.jpg') no-repeat fixed;
@@ -282,20 +282,20 @@ Header
   position: relative;
 }
 .btn-download {
-  background-color: #0AC0F3;
+  background-color: $header-btn-default-color;
 }
 
 .btn-more, .btn-more:focus {
   margin-left: 15px;
-  border: 1px solid #0AC0F3;
-  color: #0AC0F3;
+  border: 1px solid $header-btn-default-color;
+  color: $header-btn-default-color;
 }
 .btn-more:hover {
-  background: #0AC0F3;
-  color: #fff;
+  background: $header-btn-default-color;
+  color: $header-btn-more-hover-color;
 }
 .logo-dec{
-  color: #0AC0F3;
+  color: $header-btn-default-color;
 }
 .pad-bt50 {
   padding-bottom: 50px;
@@ -306,7 +306,7 @@ h1.bnr-sub-title {
   text-transform: uppercase;
   padding: 20px 0px;
   font-weight: 700;
-  font-color: #F5F6FA;
+  font-color: $header-h1-bnr-sub-title-font-color;
 }
 
 /***********************************
@@ -315,8 +315,8 @@ About
 ************************************
 ***********************************/
 #about {
-  background-color: #2C314A;
-  color: #FFFFFF;
+  background-color: $about-bg-color;
+  color: $about-color;
 }
 
 
@@ -333,7 +333,7 @@ Users
 }
 
 .navy-text{
-  color: #2C314A;
+  color: $users-navy-text-color;
 }
 .bottom-line {
   margin-top: 20px;
@@ -342,7 +342,7 @@ Users
   border-top: 0px;
   height: 3px;
   width: 40px;
-  background-color: #0AC0F3;
+  background-color: $users-bottom-line-color;
 }
 
 /***********************************
@@ -354,7 +354,7 @@ Footer
   padding: 10px 20px 10px 20px;
 }
 #users {
-  background-color: #F3F4F8;
+  background-color: $footer-bg-color;
 }
 #users p{
   font-size: 20px;
