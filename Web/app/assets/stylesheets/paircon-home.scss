@@ -13,7 +13,12 @@
 
 #loginbox{
   display: inline-block;
-  text-align: center;
+  text-align: center;}
+
+.dropdown-user-icons {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
 }
 
 /* ********* ERROR ***********/
@@ -109,10 +114,6 @@ a.custom-tooltip .login-tooltip-span {
   background: #E6E7E8;
 }
 
-.step-signup-tooltip {
-  position: fixed !important;
-}
-
 a.custom-tooltip .login-tooltip-span {
   max-width: initial !important;
 }
@@ -126,7 +127,8 @@ a.custom-tooltip .hover-tooltip {
 
 a.custom-tooltip .step-signup-tooltip {
   margin-left: 0px;
-  position: absolute;
+  position: absolute !important;
+  display: initial !important;
   font-size: 12px;
 }
 
