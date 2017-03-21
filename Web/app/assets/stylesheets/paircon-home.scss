@@ -11,6 +11,11 @@
   color: #3d3b3a;
 }
 
+#loginbox{
+  display: inline-block;
+  text-align: center;
+}
+
 /* ********* ERROR ***********/
 .error-small-text {
   color: #A81515;
@@ -291,9 +296,29 @@ Header
 .logo-dec{
   color: #0AC0F3;
 }
+
+h1.bnr-sub-title {
+  font-size: 60px;
+  text-transform: uppercase;
+  padding: 20px 0px;
+  font-weight: 700;
+  font-color: #F5F6FA;
+}
+
 /***********************************
 ************************************
 About
+************************************
+***********************************/
+#about {
+  background-color: #2C314A;
+  color: #FFFFFF;
+}
+
+
+/***********************************
+************************************
+Users
 ************************************
 ***********************************/
 
@@ -314,4 +339,26 @@ About
   height: 3px;
   width: 40px;
   background-color: #0AC0F3;
+}
+#users {
+  background-color: #F3F4F8;
+}
+
+#users p{
+  font-size: 20px;
+}
+
+/***********************************
+************************************
+Landing
+************************************
+***********************************/
+#landing{
+  display: block;
+}
+
+#macbook{
+  width: 100%;
+  height: auto;
+  margin: auto;
 }
