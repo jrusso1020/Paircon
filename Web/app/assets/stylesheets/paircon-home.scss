@@ -283,7 +283,6 @@ Header
   border: 1px solid #0AC0F3;
   color: #0AC0F3;
 }
-
 .btn-more:hover {
   background: #0AC0F3;
   color: #fff;
@@ -291,6 +290,11 @@ Header
 .logo-dec{
   color: #0AC0F3;
 }
+.pad-bt50 {
+  padding-bottom: 50px;
+}
+
+
 /***********************************
 ************************************
 About
@@ -314,4 +318,13 @@ About
   height: 3px;
   width: 40px;
   background-color: #0AC0F3;
+}
+
+/***********************************
+************************************
+Footer
+************************************
+***********************************/
+.footer-text {
+  padding: 10px 20px 10px 20px;
 }

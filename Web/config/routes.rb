@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get "/:page" => "static#show"
+
   get '*path' => redirect { |_, request|
     "https://#{request.host_with_port.sub(/^www\./, '')}#{request.fullpath}" },
       constraints: lambda { |request| request.subdomain =~ /^www\./i }
