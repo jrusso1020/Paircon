@@ -34,6 +34,8 @@ module PairCon
     config.time_zone = 'UTC'
     config.log_level = :debug
 
+    config.active_job.queue_adapter = :sidekiq
+
     config.before_initialize do
       require File.join(Rails.root, 'config', 'paircon_constants.rb')
     end

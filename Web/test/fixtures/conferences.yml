@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: conferences
+#
+# *id*::         <tt>integer, not null, primary key</tt>
+# *name*::       <tt>string</tt>
+# *start_date*:: <tt>datetime</tt>
+# *end_date*::   <tt>datetime</tt>
+# *url*::        <tt>text</tt>
+# *location*::   <tt>string</tt>
+# *pending*::    <tt>boolean</tt>
+# *created_at*:: <tt>datetime, not null</tt>
+# *updated_at*:: <tt>datetime, not null</tt>
+#--
+# == Schema Information End
+#++
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  date: 2017-03-13 15:33:15
+  location: MyString
+
+two:
+  name: MyString
+  date: 2017-03-13 15:33:15
+  location: MyString

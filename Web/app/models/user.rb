@@ -48,11 +48,15 @@ class User < ApplicationRecord
   validates :password, confirmation: true
 
   has_many :identities, dependent: :destroy
+  belongs_to :conference_attendee
+  belongs_to :paper_author
 
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}, default_url: 'Male.jpg'
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
 
   before_create :init_user_id
+
+  enum user_type: [ :attendee, :organizer, :admin ]
 
   def full_name=(full_name)
     full_name_tokens = full_name.split(/\s+/)

@@ -1,23 +1,21 @@
-<div class="top_nav sign_up_nav">
-  <div class="nav_menu">
+<div class="top_nav">
+  <div class="nav_menu" style="margin-bottom: 0px;">
     <nav>
       <div class="nav navbar-paircon">
-        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: is_mobile_browser? ? 'margin: initial; margin-left: 20px;' : '' %>
+        <div class="nav toggle" style="margin-top: -5px;">
+          <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+        </div>
+
         <ul id="user-dropdown" class="nav navbar-nav navbar-right pull-right navbar-user">
           <li class="">
-            <a href="javascript:" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               <img src="<%= asset_path(current_user.profile_photo) %>" id="userimage" alt=""><span id="username"><%= current_user.full_name %></span>
-              <span class=" fa fa-angle-down"></span>
+              <i class=" fa fa-angle-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-usermenu pull-right">
-              <li class="username" style="background-color: transparent !important; padding-bottom: 10px;">
-                <div>
-                  <div style="margin-top: 7px; text-align: center;">
-                    <span id="welcomeLastName">Welcome <%= truncate current_user.last_name, :length => 50, :separator => ' ' if current_user %>
-                      !</span>
-                  </div>
-                </div>
-              </li>
+              <li><a href="<%= user_path(current_user) %>">Settings
+                <i class="pull-right fa fa-cog dropdown-user-icons"></i>
+              </a></li>
               <li><a href="<%= PairConConfig::url['feedback'] %>" target="_blank">Feedback
                 <i class="pull-right fa fa-comments dropdown-user-icons"></i></a>
               </li>
@@ -28,7 +26,7 @@
               <li>
                 <a id="logout_link" rel="nofollow" data-method="delete" href="<%= destroy_user_session_url(:protocol => "#{Rails.env.production? ? 'https://' : 'http://'}") %>">Logout
                   <i class="fa fa-sign-out pull-right dropdown-user-icons"></i></a>
-                </li>
+              </li>
             </ul>
           </li>
         </ul>

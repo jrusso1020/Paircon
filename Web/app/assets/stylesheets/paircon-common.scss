@@ -117,3 +117,39 @@ footer {
   display: block;
   margin: auto;
 }
+
+.navbar-paircon {
+  display: flex;
+  margin-bottom: 2px !important;
+  margin-top: 5px;
+  min-height: 50px;
+}
+
+.navbar-image {
+  height: 50px;
+  margin: auto;
+}
+
+.navbar-right {
+  width: initial !important;
+}
+
+.navbar-user {
+  position: absolute;
+  right: 0;
+  margin-top: -5px !important;
+}
+
+.dropdown-user-icons {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
+
+.profile_info {
+  padding: 10px 5px 10px !important;
+}
+
+.right_col {
+  z-index: 1 !important;
+}

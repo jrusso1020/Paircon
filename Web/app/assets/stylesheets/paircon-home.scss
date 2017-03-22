@@ -4,7 +4,7 @@
 @import 'variables';
 
 /* ********* SIGN UP **********/
-.main_container .top_nav {
+.main_container .sign_up_nav {
   margin-left: 0px !important;
 }
 .login-text {
@@ -19,6 +19,44 @@
   position: absolute;
   right: 0;
   margin-right: 20px;
+}
+
+.wizard_steps {
+  padding-left: 0px;
+  margin-bottom: 0px !important;
+}
+
+.stepContainer {
+  overflow-x: inherit !important;
+}
+
+.stepContainer2 {
+  height: 100% !important;
+}
+
+.x_content {
+  height: 100%;
+}
+
+.actionBar {
+  position: absolute;
+  bottom: 0;
+}
+
+.user_registration_form {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 50px;
+}
+
+.signup-input-label {
+  margin-top: 30px;
+}
+
+.signup-row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 /* ********* ERROR ***********/
@@ -130,6 +168,8 @@ a.custom-tooltip .step-signup-tooltip {
   position: absolute !important;
   display: initial !important;
   font-size: 12px;
+  position: absolute !important;
+  display: initial !important;
 }
 
 a.custom-tooltip .login-tooltip-span {
@@ -374,4 +414,3 @@ Landing
   height: auto;
   margin: auto;
 }
-

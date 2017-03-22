@@ -1,4 +1,7 @@
 # PairCon (Conference Papers)
+This ReadMe has been tested for a Ubuntu Environment. There may be changes associated with executing the same commands in MacOSX or Microsoft Windows. 
+Please document any changes that you find in setup of the project. 
+
 ## Running All the Apps and Postgres (Optional)
 globally install the gem foreman
 ```
@@ -79,6 +82,25 @@ rails s
 
 Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com``` to open the application
 
+## Running Rails Background Services (Web Folder)
+PairCon highly relies on background services to provide async behavior while downloading and generating recommendations.
+The system uses Redis along with Sideqik. You will be required to do the following:
+
+#### Install Redis
+#####[instructions to install on Ubuntu](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04)
+#####[instructions to install on Mac](https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298#.pdgap142h)
+
+#### Run Redis Server
+You can setup redis as a service or execute ```redis-server``` to start a redis instace. 
+#### Run Sidekiq
+Background Agents live on Sidekiq and thus you are required to execute the following command once when you begin development:
+
+```
+bundle exec sidekiq -q default -q mailers
+```
+
+Note: Redis is knowing for using a lot of memory and sometimes causes a lot of memory problems. You may want to restrict the maximum memory you are 
+willing to allow redis to use. You can do this in ```redis.conf``` which can be found usually in ```/etc/redis/redis.conf```
 
 ## Running Flask Application (SimiliarityAlgo Folder)
 This has been developed using python 3.6. You are recommended to use Anaconda or another virtual environment. You can also run this on Python 2.7. 
