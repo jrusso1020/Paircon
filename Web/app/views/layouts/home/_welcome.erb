@@ -3,36 +3,32 @@
     <div class="wrapper">
       <div class="container">
         <div class="row">
-          <div class="col-sm-12 banner-info text-center wow fadeIn delay-05s">
+          <div class="col-md-12 col-sm-12 col-xs-12 banner-info text-center wow fadeIn delay-05s">
             <h1 class="bnr-sub-title">Welcome to Pair<span class="logo-dec">Con</span></h1>
           </div>
         </div>
         <!-- Introduction Section -->
-        <div class ="row">
-          <div class="col-md-6 col-sm-12" style="padding-top:5%">
-              <h1 class="text-center">A Better Conference.</h1>
-              <h3 class="bnr-para text-center">Get started for free!<br>
-                Optimize your conference experience. </h3>
+        <div class="row">
+          <div class="col-md-6 col-sm-12 col-xs-12 hidden-xs hidden-sm" style="padding-top:5%">
+            <h1 class="text-center">A Better Conference.</h1>
+            <h3 class="bnr-para text-center">Get started for free!<br>
+              Optimize your conference experience. </h3>
           </div>
           <!-- Login Section -->
-          <div class="col-md-4 col-sm-12">
+          <div class="col-md-6 col-sm-12 col-xs-12">
             <div>
               <% init_error_flash_for_login %>
               <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
-                    style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
-                <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+                   style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
+                <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px; margin-top: 5px;">
                   <i class="fa fa-times fa-fw paircon-custom"></i></button>
                 <i class="fa fa-info fa-fw paircon-custom"></i>
-                <span class="paircon-custom"><%= raw flash[:alert] %></span>
+                <span class="paircon-custom"><small><%= raw flash[:alert] %></small></span>
               </div>
               <% flash[:alert] = nil %>
             </div>
-            <div>
-              <div>
-                <div data-pjax-container id="loginbox">
-                  <%= yield %>
-                </div>
-              </div>
+            <div data-pjax-container id="loginbox" class="">
+              <%= yield %>
             </div>
           </div>
         </div>

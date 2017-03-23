@@ -12,7 +12,7 @@
 }
 
 #loginbox{
-  display: inline-block;
+  //display: inline-block;
   text-align: center;}
 
 .dropdown-user-icons {
@@ -344,7 +344,6 @@ Header
 h1.bnr-sub-title {
   font-size: 60px;
   text-transform: uppercase;
-  padding: 20px 0px;
   font-weight: 700;
   font-color: $header-h1-bnr-sub-title-font-color;
 }
@@ -354,12 +353,14 @@ h1.bnr-sub-title {
 About
 ************************************
 ***********************************/
-#about {
+.light-grey {
   background-color: $about-bg-color;
   color: $about-color;
 }
 
-
+.light-grey-text {
+  color: $about-bg-color !important;
+}
 /***********************************
 ************************************
 Users
@@ -375,14 +376,18 @@ Users
 .navy-text{
   color: $users-navy-text-color;
 }
+
+.navy-background{
+  background-color: $users-navy-text-color;
+}
 .bottom-line {
   margin-top: 20px;
   margin-bottom: 40px;
   border: 0;
   border-top: 0px;
   height: 3px;
-  width: 40px;
-  background-color: $users-bottom-line-color;
+  width: 100% !important;
+  background-color: $users-bottom-line-color !important;
 }
 
 /***********************************
@@ -413,4 +418,13 @@ Landing
   width: 100%;
   height: auto;
   margin: auto;
+}
+
+/***********************************
+************************************
+Signup banner
+************************************
+***********************************/
+.dark-gray {
+  background-color: $dark-grey;
 }

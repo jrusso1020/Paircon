@@ -1159,6 +1159,7 @@ $url_0: url('http://cssdeck.com/uploads/media/items/8/8bcLQqF.png');
 // Signup
 $login-text-color:                  #3d3b3a;
 $error-small-text-color:            #A81515;
+$dark-grey: #f0f0f0;
 
 // callout
 $callout-bg-color:                  #E6E7E8;
@@ -1170,13 +1171,13 @@ $header-btn-default-color:          #0AC0F3;
 $header-btn-more-hover-color:       #fff;
 $header-h1-bnr-sub-title-font-color:#F5F6FA;
 
-// About
-$about-bg-color:                    #2C314A;
-$about-color:                       #FFFFFF;
-
 // Users
 $users-navy-text-color:             #2C314A;
-$users-bottom-line-color:           #0AC0F3;
+$users-bottom-line-color:           $users-navy-text-color;
 
 // footer
 $footer-bg-color:                   #F3F4F8;
+
+// About
+$about-bg-color:                    #F3F4F8;
+$about-color:                       $users-navy-text-color;
