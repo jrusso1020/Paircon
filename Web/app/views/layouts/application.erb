@@ -7,9 +7,13 @@
   <div class="main_container">
     <%= render 'layouts/application/application_top_nav' %>
     <%= render 'layouts/application/left_bar' %>
+    <%= render 'layouts/application/modal', id: 'modal' %>
 
-    <div data-pjax-container class="right_col" role="main">
-      <%= yield %>
+    <div class="right_col" role="main">
+      <%= render 'layouts/application/flash_message' %>
+      <div data-pjax-container>
+        <%= yield %>
+      </div>
     </div>
   </div>
 </div>

@@ -4871,7 +4871,7 @@ $(document).ready(function() {
 
     // init_sparklines();
     // init_flot_chart();
-    init_sidebar();
+    // init_sidebar();
     // init_wysiwyg();
     // init_InputMask();
     // init_JQVmap();

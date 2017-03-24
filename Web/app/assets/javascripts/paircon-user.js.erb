@@ -1,2 +1,82 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application-layout.js.
+/***************************************/
+//------------DELETE VIEW--------------//
+/***************************************/
+function initializeUserDelete() {
+    $('.edit_user').validate({
+        rules: {
+            'user[current_password]': {
+                required: true,
+                minlength: 6
+            }
+        },
+        errorClass: "error-message-no-label",
+        validClass: "error-message-no-label"
+    });
+}
+
+/*************************************/
+//------------EDIT VIEW--------------//
+/*************************************/
+function initializeUserEdit() {
+    $('#user_phone_number').inputmask("phone");
+    $('#new_user_registration').validate({
+        rules: {
+            'user[first_name]': 'required',
+            'user[last_name]': 'required'
+        },
+        errorClass: "error-message-with-label",
+        validClass: "error-message-with-label"
+    });
+}
+
+/******************************************/
+//------------PASSWORD RESET--------------//
+/******************************************/
+function initializeUserPasswordReset() {
+    $('#email_passwd_form').validate({
+        rules: {
+            'user[email]': {
+                required: true,
+                email: true
+            },
+            'user[current_password]': {
+                required: true
+            },
+            'user[password]': {
+                notEqualPassword: "#user_current_password",
+                required: true,
+                minlength: 6
+            },
+            'user[password_confirmation]': {
+                equalTo: "#user_password"
+            }
+        },
+        errorClass: "error-message-with-label",
+        validClass: "error-message-with-label"
+    });
+}
+
+/*************************************/
+//------------SHOW VIEW--------------//
+/*************************************/
+function initializeUserShow(gender) {
+    $('#upload_image_btn').click(function () {
+        $('#profile-image-upload').trigger('click');
+    });
+    $('.dropzone').html5imageupload({
+        onAfterCancel: function () {
+            if (gender == 1) {
+                $('#user_avatar').attr('src', "<%= asset_path('Male.jpg') %>");
+                $('.userimage').attr('src', "<%= asset_path('Male.jpg') %>");
+            } else {
+                $('#user_avatar').attr('src', "<%= asset_path('Female.jpg') %>");
+                $('.userimage').attr('src', "<%= asset_path('Female.jpg')%>");
+            }
+        },
+        onAfterCompleteImage: function () {
+            $('.userimage').attr('src', $('#image_upload').attr('src'));
+        }
+    });
+
+    $(".sidebar li").removeClass('active');
+}

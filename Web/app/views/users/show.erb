@@ -1,56 +1,43 @@
 <% is_mobile = is_mobile_device? %>
-<%= header_title "Settings" %>
+<%= header_title 'Settings' %>
 <%#= render_flash_message %>
 
 <div id="page-heading">
-  <%= page_title "Settings" %>
+  <%= page_title 'Settings' %>
 </div>
 
 <div class="container" id="main-container">
   <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="col-md-3 col-sm-6 col-xs-12 col-md-offset-1">
+      <div class="text-center">
+        <h2 id="name" class="visible-xs-block">
+          <%= @user.full_name %>
+          <%= link_to_modal icon_text('pencil', 'Edit'), edit_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
+        </h2>
 
-      <div class="col-md-3 col-sm-4 col-xs-12">
-        <div class="text-center">
-          <h2 id="name" class="visible-xs-block">
-            <%= @user.full_name %>
-            <%= link_to_modal icon_text('pencil', "Edit"), edit_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
-          </h2>
-
-          <div class="profile-image dropzone" data-width="150" data-ghost="false" data-canvas="false" data-originalsize="false"
-               data-height="150" data-url="/users/<%= @user.id %>/save_logo" style="width: 100%;"
-               data-image="<%= asset_path(@user.profile_photo) %>"
-               data-removeurl="/users/<%= @user.id %>/destroy_logo">
-
-            <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
-          </div>
-
-          <% if !is_mobile %>
-              <button id="upload_image_btn" style="margin-bottom: 20px;" class="btn btn-cloudmerge btn-label btn-profile btn-padding">
-                <i class="fa fa-upload"></i> Upload Image
-              </button>
-          <% end %>
+        <div class="profile-image dropzone " data-width="300" data-ghost="false"
+             data-canvas="false" data-originalsize="false" data-height="300"
+             data-url="/users/<%= current_user.id %>/save_logo" data-image="<%= asset_path(current_user.profile_photo) %>"
+             data-removeurl="/users/<%= current_user.id %>/destroy_logo">
+          <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
         </div>
-      </div>
 
-      <% if is_mobile %>
-          <div class="col-xs-12">
-            <div class="text-center">
-              <button id="upload_image_btn" style="margin-bottom: 20px;" class="btn btn-cloudmerge btn-label btn-profile btn-padding">
+        <% if !is_mobile %>
+            <div>
+              <button id="upload_image_btn" style="margin-top: 20px; margin-bottom: 20px;" class="btn btn-paircon btn-label btn-profile btn-padding">
                 <i class="fa fa-upload"></i> Upload Image
               </button>
             </div>
-          </div>
-      <% end %>
-
-      <div class="col-md-6 col-sm-8 col-xs-12">
-        <div>
-          <% if !is_mobile %>
-              <h2 id="name">
-                <%= @user.full_name %>
-                <%= link_to_modal icon_text('pencil', "Edit"), edit_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
-              </h2>
-          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h2 id="name" class="hidden-xs">
+            <%= @user.full_name %>
+            <%= link_to_modal icon_text('pencil', "Edit"), edit_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
+          </h2>
           <table class="table table-responsive pull-left">
             <tbody>
             <tr>
@@ -60,7 +47,7 @@
             </tr>
             <tr>
               <td class="profile-title table-accountinfo">Phone Number:</td>
-              <td class="table-accountinfo"><%= @user.phone_number %></td>
+              <td class="table-accountinfo"><%= @user.phone_number.blank? ? 'N/A' : @user.phone_number %></td>
             </tr>
             <tr>
               <td class="profile-title table-accountinfo">Gender:</td>
@@ -72,49 +59,27 @@
         </div>
       </div>
 
-
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <h3>Preferences</h3>
-      </div>
-
-      <div class="col-md-6 col-sm-6 col-xs-12">
-        <h4>Account</h4>
-
-        <div><%= link_to_modal 'Delete Account', delete_user_path(current_user) %>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h3>Preferences</h3>
         </div>
-      </div>
-      <div class="col-md-6 col-sm-6 col-xs-12">
-        <h4>Password</h4>
 
-        <div><%= link_to_modal 'Change Password', email_password_user_path(current_user) %></div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+          <h4>Account</h4>
+
+          <div>
+            <%= link_to_modal 'Delete Account', delete_user_path(current_user) %>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+          <h4>Password</h4>
+
+          <div><%= link_to_modal 'Change Password', password_reset_user_path(current_user) %></div>
+        </div>
       </div>
 
     </div>
   </div>
 </div>
 
-<script>
-    $('#upload_image_btn').click(function () {
-        $('#profile-image-upload').trigger('click');
-    });
-    $('.dropzone').html5imageupload({
-        onAfterCancel: function () {
-            if ('<%= current_user.gender.to_i %>' == '1') {
-                $('#user_avatar').attr('src', "<%= asset_path('Male.jpg') %>");
-                $('.userimage').attr('src', "<%= asset_path('Male.jpg') %>");
-            } else {
-                $('#user_avatar').attr('src', "<%= asset_path('Female.jpg') %>");
-                $('.userimage').attr('src', "<%= asset_path('Female.jpg')%>");
-            }
-        },
-        onAfterCompleteImage: function () {
-            $('.userimage').attr('src', $('#image_upload').attr('src'));
-        }
-    });
-
-    $("input[id ^= 'checkbox_settings']").click(function () {
-        updateUserFlags('<%= @user.id %>', $(this).attr('name'), $(this).is(':checked'));
-    });
-
-    $(".sidebar li").removeClass('active');
-</script>
+<%= javascript_tag "initializeUserShow(#{@user.gender.to_i})" %>

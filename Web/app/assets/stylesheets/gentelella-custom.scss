@@ -4526,9 +4526,11 @@ fieldset {
 }
 
 .alert-fixed {
-  @include translate(-50%, 0);
-  left: 50%;
+  //@include translate(-50%, 0);
+  //left: 50%;
   //position: fixed;
+  margin-left:auto;
+  margin-right:auto;
   top: 15px;
   width: 75%;
   padding: 5px 10px;
