@@ -583,6 +583,9 @@ $tooltip-arrow-width:         5px !default;
 //** Tooltip arrow color
 $tooltip-arrow-color:         $tooltip-bg !default;
 
+//** Tooltip in paricon-home.scss
+$tooltip-custom-color:              #258D94;
+$tooltip-background-color:          #E6E7E8;
 
 //== Popovers
 //
@@ -1150,5 +1153,32 @@ $color_tree_poppy_88_approx: rgba(243, 156, 18, 0.88);
 $color_cinnabar_88_approx: rgba(231, 76, 60, 0.88);
 $color_pickled_bluewood_88_approx: rgba(52, 73, 94, 0.88);
 
-//urls
+// urls
 $url_0: url('http://cssdeck.com/uploads/media/items/8/8bcLQqF.png');
+
+// Signup
+$login-text-color:                  #3d3b3a;
+$error-small-text-color:            #A81515;
+$dark-grey: #f0f0f0;
+
+// callout
+$callout-bg-color:                  #E6E7E8;
+$callout-span-color:                #ccc;
+
+// Header
+$header-navbar-default-color:       #0AC0F3;
+$header-btn-default-color:          #0AC0F3;
+$header-btn-more-hover-color:       #fff;
+$header-h1-bnr-sub-title-font-color:#F5F6FA;
+$header-navbar-background-color:    rgba(0, 0, 0, 0.5);
+
+// Users
+$users-navy-text-color:             #2C314A;
+$users-bottom-line-color:           $users-navy-text-color;
+
+// footer
+$footer-bg-color:                   #F3F4F8;
+
+// About
+$about-bg-color:                    #F3F4F8;
+$about-color:                       $users-navy-text-color;

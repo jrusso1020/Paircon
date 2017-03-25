@@ -88,7 +88,6 @@ class PairConConfig
           terms: local_settings['terms_url'],
           feedback: local_settings['feedback_url'],
           help: local_settings['help_url'],
-
       }
     end
     

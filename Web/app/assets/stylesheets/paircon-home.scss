@@ -7,6 +7,22 @@
 .main_container .sign_up_nav {
   margin-left: 0px !important;
 }
+.login-text {
+  color: $login-text-color;
+}
+login-text-size {
+  font-size: 14px !important;
+}
+
+#loginbox{
+  //display: inline-block;
+  text-align: center;}
+
+.dropdown-user-icons {
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+}
 
 .wizard_steps {
   padding-left: 0px;
@@ -48,7 +64,7 @@
 
 /* ********* ERROR ***********/
 .error-small-text {
-  color: #A81515;
+  color:$error-small-text-color;
   font-size: 11px;
   font-weight: 400;
   margin-top: 3px !important;
@@ -93,9 +109,9 @@ a.custom-tooltip strong {
 
 a.custom-tooltip .flash-message {
   opacity: 1;
-  color: #258D94;
-  border: 1px solid #E6E7E8;
-  background: #E6E7E8;
+  color: $tooltip-custom-color;
+  border: 1px solid $tooltip-background-color;
+  background: $tooltip-background-color;
 }
 
 a.custom-tooltip:hover {
@@ -135,8 +151,8 @@ a.custom-tooltip .login-tooltip-span {
   margin-top: -4px;
   max-width: 260px;
   color: $paircon-3;
-  border: 1px solid #E6E7E8;
-  background: #E6E7E8;
+  border: 1px solid $tooltip-background-color;
+  background: $tooltip-background-color;
 }
 
 a.custom-tooltip .login-tooltip-span {
@@ -152,7 +168,8 @@ a.custom-tooltip .hover-tooltip {
 
 a.custom-tooltip .step-signup-tooltip {
   margin-left: 0px;
-  position: absolute;
+  position: absolute !important;
+  display: initial !important;
   font-size: 12px;
   position: absolute !important;
   display: initial !important;
@@ -174,11 +191,11 @@ span.callout {
 }
 
 span.callout {
-  background-color: #E6E7E8;
-  background-image: -moz-linear-gradient(top, #E6E7E8, #E6E7E8);
+  background-color: $callout-bg-color;
+  background-image: -moz-linear-gradient(top, $callout-bg-color, $callout-bg-color);
   background-position: center;
   position: relative;
-  color: #ccc;
+  color: $callout-span-color;
   padding: 10px;
   border-radius: 3px;
   min-height: 50px;
@@ -195,35 +212,235 @@ span.callout {
 .callout.top::before {
   left: 45%;
   bottom: -20px;
-  border-top: 10px solid #E6E7E8;
+  border-top: 10px solid $callout-bg-color;
 }
 
 .callout.bottom::before {
   left: 45%;
   top: -19px;
-  border-bottom: 10px solid #E6E7E8;
+  border-bottom: 10px solid $callout-bg-color;
 }
 
 .callout.left::before {
   right: -19px;
   top: 25%;
-  border-left: 10px solid #E6E7E8;
+  border-left: 10px solid $callout-bg-color;
 }
 
 .callout.right::before {
   left: -20px;
   top: 25%;
-  border-right: 10px solid #E6E7E8;
+  border-right: 10px solid $callout-bg-color;
 }
 
 .callout.top-left::before {
   left: 7px;
   bottom: -20px;
-  border-top: 10px solid #E6E7E8;
+  border-top: 10px solid $callout-bg-color;
 }
 
 .callout.top-right::before {
   right: 7px;
   bottom: -20px;
-  border-top: 10px solid #E6E7E8;
+  border-top: 10px solid $callout-bg-color;
+}
+
+.navbar-paircon {
+  display: flex;
+  margin-bottom: 2px !important;
+  margin-top: 5px;
+}
+
+.navbar-image {
+  height: 50px;
+  margin: auto;
+}
+
+.navbar-right {
+  width: initial !important;
+}
+
+.navbar-user {
+  position: absolute;
+  right: 0;
+  margin-top: -5px !important;
+}
+
+.wizard_steps {
+  padding-left: 0px;
+  margin-bottom: 0px !important;
+}
+
+.stepContainer {
+  overflow-x: inherit !important;
+}
+
+.stepContainer2 {
+  height: 100% !important;
+}
+
+.x_content {
+  height: 100%;
+}
+
+.actionBar {
+  position: absolute;
+  bottom: 0;
+}
+
+.user_registration_form {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin-bottom: 50px;
+}
+
+.signup-input-label {
+  margin-top: 30px;
+}
+
+.signup-row {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+}
+
+
+/***********************************
+************************************
+Header
+************************************
+***********************************/
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+  color: $header-navbar-default-color;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+  background-color: transparent;
+  color: $header-navbar-default-color;
+}
+.header {
+  background: image_url('home/conference-pic.jpg') no-repeat fixed;
+  background-size: cover;
+  min-height: 650px;
+  position: relative;
+}
+.btn-download {
+  background-color: $header-btn-default-color;
+}
+
+.btn-more, .btn-more:focus {
+  margin-left: 15px;
+  border: 1px solid $header-btn-default-color;
+  color: $header-btn-default-color;
+}
+.btn-more:hover {
+  background: $header-btn-default-color;
+  color: $header-btn-more-hover-color;
+}
+.logo-dec{
+  color: $header-btn-default-color;
+}
+.pad-bt50 {
+  padding-bottom: 50px;
+}
+
+h1.bnr-sub-title {
+  font-size: 60px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-color: $header-h1-bnr-sub-title-font-color;
+}
+.top-banner {
+  padding-top: 100px;
+}
+.navbar-background-color {
+  //TODO: need to fix Mobile / Tablet view Dropdown missing background
+}
+.dropdown-background-color {
+  background-color: $header-navbar-background-color;
+  color:  $header-navbar-background-color;
+}
+.dropdown-text-color {
+  color: $header-h1-bnr-sub-title-font-color !important;
+}
+
+/***********************************
+************************************
+About
+************************************
+***********************************/
+.light-grey {
+  background-color: $about-bg-color;
+  color: $about-color;
+}
+
+.light-grey-text {
+  color: $about-bg-color !important;
+}
+/***********************************
+************************************
+Users
+************************************
+***********************************/
+
+.centered-icon{
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.navy-text{
+  color: $users-navy-text-color;
+}
+
+.navy-background{
+  background-color: $users-navy-text-color;
+}
+.bottom-line {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  border: 0;
+  border-top: 0px;
+  height: 3px;
+  width: 100% !important;
+  background-color: $users-bottom-line-color !important;
+}
+
+/***********************************
+************************************
+Footer
+************************************
+***********************************/
+.footer-text {
+  padding: 10px 20px 10px 20px;
+}
+#users {
+  background-color: $footer-bg-color;
+}
+#users p{
+  font-size: 20px;
+}
+
+/***********************************
+************************************
+Landing
+************************************
+***********************************/
+#landing{
+  display: block;
+}
+
+#macbook{
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+
+/***********************************
+************************************
+Signup banner
+************************************
+***********************************/
+.dark-gray {
+  background-color: $dark-grey;
 }

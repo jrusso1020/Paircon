@@ -36,7 +36,7 @@
             <%= form.check_box :remember_me, :class => 'checkbox-center' %> Remember Me
         <% end %>
 
-        <%= content_tag :div, class: 'pull-right' do %>
+        <%= content_tag :div, class: 'pull-right login-text-size' do %>
             <%= link_to 'Forgot password?', recover_path(anchor: 'main-header') %><br>
             <%#= link_to "Resend confirmation?", new_confirmation_path(resource_name) %>
         <% end %>

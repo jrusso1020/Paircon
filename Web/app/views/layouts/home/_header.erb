@@ -19,4 +19,41 @@
   <%= locale_setting_js() %>
   <%= time_zone_setting_js() %>
 
+  <!-- header navbar-->
+  <div id="main-header">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" style="margin-left: 15px;" href="<%= root_path %>">Pair<span class="logo-dec">Con</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav navbar-right navbar-background-color">
+            <li class=""><%= link_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %></li>
+            <li class=""><%= link_to 'Feature', root_path(anchor: 'feature'), :'data-no-pjax' => '' %></li>
+            <ul id="user-dropdown" class="nav navbar-nav navbar-right">
+              <li class="">
+                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                  Support
+                  <i class=" fa fa-angle-down"></i>
+                </a>
+                <ul class="dropdown-menu pull-right dropdown-background-color">
+                  <li>
+                    <%= link_to 'Privacy Policy', privacy_policy_home_index_url, class: "dropdown-text-color" %>   |
+                  </li>
+                  <li>
+                    <%= link_to 'Terms of Use', terms_home_index_url, class: "dropdown-text-color" %>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
 </head>
