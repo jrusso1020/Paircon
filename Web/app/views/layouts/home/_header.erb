@@ -32,22 +32,21 @@
           <a class="navbar-brand" style="margin-left: 15px;" href="<%= root_path %>">Pair<span class="logo-dec">Con</span></a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-right navbar-background-color">
             <li class=""><%= link_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %></li>
             <li class=""><%= link_to 'Feature', root_path(anchor: 'feature'), :'data-no-pjax' => '' %></li>
-
             <ul id="user-dropdown" class="nav navbar-nav navbar-right">
               <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   Support
                   <i class=" fa fa-angle-down"></i>
                 </a>
-                <ul class="dropdown-menu pull-right">
+                <ul class="dropdown-menu pull-right dropdown-background-color">
                   <li>
-                    Privacy Policy
+                    <%= link_to 'Privacy Policy', privacy_policy_home_index_url, class: "dropdown-text-color" %>   |
                   </li>
                   <li>
-                    Privacy Policy
+                    <%= link_to 'Terms of Use', terms_home_index_url, class: "dropdown-text-color" %>
                   </li>
                 </ul>
               </li>

@@ -5,8 +5,13 @@
 
 <body>
 <div class="loader"></div>
+<div class="row">
+  <div class="top-banner navy-background">  
+    <div class="col-md-12 col-sm-12 col-xs-12">
+    </div>
+  </div>
+</div>
 <div id="myDiv">
-
   <h2 class=""><strong>Privacy </strong>Policy</h2>
   <div>
     <div class="enable" style="margin-top:50px;"></div>
@@ -138,11 +143,11 @@
         any questions regarding the Privacy Policy, please contact us at
         <a title="Contact Us" href="mailto:support@paircon.com">support@paircon.com</a>.</p>
     </div>
-    <hr>
-    <div class="clear"></div>
+    <div class="clear"></div>    
+    <div class="footer-text text-center">
+      <%= button_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %>
+    </div>
   </div>
-
-
   <%= render 'layouts/home/footer' %>
 </div>
 </body>

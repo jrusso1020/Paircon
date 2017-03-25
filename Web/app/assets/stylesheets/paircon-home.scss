@@ -10,6 +10,9 @@
 .login-text {
   color: $login-text-color;
 }
+login-text-size {
+  font-size: 14px !important;
+}
 
 #loginbox{
   //display: inline-block;
@@ -346,6 +349,19 @@ h1.bnr-sub-title {
   text-transform: uppercase;
   font-weight: 700;
   font-color: $header-h1-bnr-sub-title-font-color;
+}
+.top-banner {
+  padding-top: 100px;
+}
+.navbar-background-color {
+  //TODO: need to fix Mobile / Tablet view Dropdown missing background
+}
+.dropdown-background-color {
+  background-color: $header-navbar-background-color;
+  color:  $header-navbar-background-color;
+}
+.dropdown-text-color {
+  color: $header-h1-bnr-sub-title-font-color !important;
 }
 
 /***********************************

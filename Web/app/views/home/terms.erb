@@ -5,6 +5,12 @@
 
 <body>
 <div class="loader"></div>
+<div class="row">
+  <div class="top-banner navy-background">  
+    <div class="col-md-12 col-sm-12 col-xs-12">
+    </div>
+  </div>
+</div>
 <div id="myDiv">
     <h2>Terms of <strong>Use</strong></h2>
     <h3>INTRODUCTION</h3>
@@ -128,7 +134,9 @@
       attempt to extract the source code of the software or any part thereof. You may not assign or grant a sublicense
       of your rights to use the Software, grant a security interest in or over your rights to use the Software, or
       otherwise transfer any part of your rights to use the Software.</p>
-    <hr>
+    <div class="footer-text text-center">
+      <%= button_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %>
+    </div>
 
   <%= render 'layouts/home/footer' %>
 </div>
