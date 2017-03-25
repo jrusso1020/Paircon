@@ -39,7 +39,7 @@ module ApplicationHelper
   end
 
   def link_to_modal(name, link_to_remote_options = {}, html_options = {})
-    html_options.merge!({data: {toggle: "modal", target: '#modal', backdrop: 'static', keyboard: false}})
+    html_options.merge!({data: {toggle: 'modal', target: '#modal', backdrop: 'static', keyboard: false}})
     link_to(name, link_to_remote_options, html_options)
   end
 

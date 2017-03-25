@@ -49,6 +49,7 @@ gem 'devise-async'                                                # For Sending 
 gem 'omniauth'                                                    # For login from social websites
 gem 'omniauth-google-oauth2'                                      # For login from google
 gem 'omniauth-facebook'                                           # For login from facebook
+gem 'recaptcha', require: 'recaptcha/rails'                       # Creating Recaptchas
 
 # Cache
 # gem 'dalli'                                                     # For caching

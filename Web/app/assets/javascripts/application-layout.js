@@ -22,7 +22,6 @@
 
 //= require jquery-fileupload/basic
 
-//#= require home
 //= require common
 //= require paircon-common
-//#= require paircon-home
+//= require paircon-user

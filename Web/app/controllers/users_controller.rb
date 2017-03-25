@@ -121,7 +121,7 @@ class UsersController < ApplicationController
     render text: '1'
   end
 
-  def email_password
+  def password_reset
     @user = current_user
   end
 
