@@ -1,0 +1,49 @@
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<%= header_title 'Settings' %>
+
+<%= form_for @user, url: delete_account_user_path(@user.id), method: 'DELETE' do |f| %>
+    <div class="modal-header">
+      <h1 class="modal-title" id="myModalLabel">
+        <i class="fa fa-user" style="margin-right: 5px;" id="drive-header-icon"></i>
+        Delete Account
+      </h1>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h4 class="font-light" align="center">Do you really want to quit using PairCon? By proceeding, you will lose all data associated with PairCon.
+          </h4>
+
+          <div class="form-group" style="margin-top:20px; margin-bottom: 20px;">
+            <%= f.password_field :current_password, :value => "", :class => 'form-control', placeholder: 'Enter current password' %>
+          </div>
+          <div class="form-group" align="center">
+            <%= render 'recaptcha' %>
+            <%= recaptcha_tags ajax: true, :display => {:theme => 'custom', :custom_theme_widget => 'recaptcha_widget'} %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top:-5px;">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <% if !is_mobile_device? %>
+          <span style="float: left !important; margin-top: 5px;">
+            <small>Note: This operation is permanent
+              and cannot be
+              reversed later.
+            </small>
+          </span>
+          <% end %>
+          <% if request.xhr? %>
+              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <% end %>
+          <%= f.submit 'Delete', :class => 'form-control', :class => 'btn btn-paircon' %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<%= javascript_tag 'initializeUserDelete()' %>

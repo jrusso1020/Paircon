@@ -8,15 +8,15 @@ function enablePJAX() {
 
     $(document).on('pjax:complete', function () {
         switchContainer();
-        initLoginBoxValidation();
         $('#error_callout').fadeTo('fast', 0);
+        try { initLoginBoxValidation(); } catch (err) { }
     });
 
     window.addEventListener('popstate', function (e) {
         getViewportHeight();
         switchContainer();
         animationSpeed = 300;
-        initLoginBoxValidation();
+        try { initLoginBoxValidation(); } catch (err) { }
     });
 
     function switchContainer() {
@@ -46,10 +46,15 @@ function enablePJAX() {
     getViewportHeight();
     switchContainer();
     animationSpeed = 300;
-    initLoginBoxValidation();
+    try { initLoginBoxValidation(); } catch (err) { }
     $(window).resize(function () {
         getViewportHeight();
         switchContainer();
+    });
+
+    $('body').on('hidden.bs.modal', '#modal', function () {
+        $('.modal-dialog').removeClass('modal-mg');
+        $(this).removeData('bs.modal');
     });
 }
 
