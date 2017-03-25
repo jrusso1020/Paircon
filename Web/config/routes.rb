@@ -51,6 +51,8 @@ Rails.application.routes.draw do
       post :destroy_logo
       delete :delete_account
       post :submit_url
+      get :become_organizer
+      post :request_organizer
     end
 
     collection do

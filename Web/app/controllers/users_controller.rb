@@ -10,6 +10,16 @@ class UsersController < ApplicationController
     redirect_to root_path unless current_user
   end
 
+  # request organizer privilege
+  def request_organizer
+    @user = current_user
+    @organizer = Organizer.create(user_id: @user.id)
+  end
+
+  def become_organizer
+    @user = current_user
+  end
+
   def show
   end
 

@@ -58,6 +58,15 @@
           </table>
         </div>
       </div>
+      <% if !@user.organizer? and @user.pending_organizer %>
+        <div class="row">
+        <%= link_to_modal 'Become Organizer', become_organizer_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
+        </div>
+      <% elsif !@user.organizer? and !@user.pending_organizer %>
+        <div class="row">
+        <p> Your Organizer Request is Pending </p>
+        </div>
+      <% end %>
 
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
