@@ -25,7 +25,8 @@ requirements = [
                 'numpy',
                 'scipy',
                 'flask',
-                'flask-cors'
+                'flask-cors',
+                'gunicorn'
                 ]
 
 
