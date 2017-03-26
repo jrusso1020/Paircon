@@ -124,7 +124,7 @@ This will run the app at 127.0.0.1:5000
 #### Sending POST requests
 Requires content of POST request to be `application/json`
 
-JSON object must look like:
+JSON object must look like this when sending to api endpoint `/similiarity/v1/compare`:
 ```
 {"user_dir" : "absolute/path/to/user_txts", "conference_dir" : "absolute/path/to/conference_txts", "k" : (number of most similiar documents to return)}
 ```
@@ -135,3 +135,13 @@ The server will then return a JSON object like so
 ...,
 "k" : {"user_paper" : "absolute/path/to/user_txt", "conference_paper" : "absolute/path/to/conference_txt", "score" : (similiarity score 0-1.0)}}
 ```
+JSON object must look like this when sending to api endpoint `/similiarity/v1/compare/single`:
+```
+{"user_file" : "absolute/path/to/user_file.txt", "conference_dir" : "absolute/path/to/conference_txts"}
+```
+
+The server will then return a JSON object like so
+```
+{'user_paper': '/Users/james/Documents/kilian_text/6139-supervised-word-movers-distance.txt', 'conference_paper': '/Users/james/Documents/conference_text/10.1.1.86.3414.txt', 'score': 0.17010696572993009}
+```
+
