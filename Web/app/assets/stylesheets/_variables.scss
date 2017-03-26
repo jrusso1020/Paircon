@@ -8,10 +8,12 @@ $bootstrap-sass-asset-helper: (twbs-font-path("") != unquote('twbs-font-path("")
 
 //== Custom Colors
 $paircon-1:             #161d2c;
-$paircon-2:             #223140;
-$paircon-3:             #34495e;
-$paircon-4:             #5775a1;
-$paircon-5:             #C0C0C8;
+$paircon-2:             #2C314A;
+$paircon-3:             #0AC0F3;
+$paircon-4:             #EDEDED;
+$paircon-5:             #F5F6FA;
+$paircon-6:             #FFFFFF;
+
 
 //== Colors
 //
@@ -1029,7 +1031,7 @@ $color_bombay_approx: #adb2b5;
 $color_mystic_approx: #e4e7ea;
 $color_pickled_bluewood_approx: #34495e;
 $color_nile_blue_approx: #213345;
-$color_mountain_meadow_approx: #1abb9c;
+$color_mountain_meadow_approx: $paircon-3;
 $color_mountain_mist_approx: #999;
 $color_athens_gray_approx: #ecf0f1;
 $black_15: rgba(0, 0, 0, 0.15);
