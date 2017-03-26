@@ -8,6 +8,7 @@
 // = require i18n/translations
 
 // = require home
+// = require user
 // = require common
 // = require paircon-common
-// = require paircon-home
+// = require paircon-user

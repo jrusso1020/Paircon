@@ -33,11 +33,11 @@
 
     <%= content_tag :div, class: 'form-actions clearfix' do %>
         <%= content_tag :div, class: 'pull-left' do %>
-            <%= form.check_box :remember_me, :class => 'checkbox-center' %> Remember Me
+            <%= form.check_box :remember_me, :class => 'checkbox-center' %><small> Remember Me</small>
         <% end %>
 
         <%= content_tag :div, class: 'pull-right login-text-size' do %>
-            <%= link_to 'Forgot password?', recover_path(anchor: 'main-header') %><br>
+            <small style="margin-top:-5px;"><%= link_to 'Forgot password?', recover_path(anchor: 'main-header') %></small><br>
             <%#= link_to "Resend confirmation?", new_confirmation_path(resource_name) %>
         <% end %>
 

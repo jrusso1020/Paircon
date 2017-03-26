@@ -31,11 +31,11 @@
           </button>
           <a class="navbar-brand" style="margin-left: 15px;" href="<%= root_path %>">Pair<span class="logo-dec">Con</span></a>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
+        <div class="collapse navbar-collapse" id="myNavbar" <% if is_mobile_browser? %> style="background-color: rgba(0, 0, 0, 0.5);" <% end %>>
           <ul class="nav navbar-nav navbar-right navbar-background-color">
             <li class=""><%= link_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %></li>
             <li class=""><%= link_to 'Feature', root_path(anchor: 'feature'), :'data-no-pjax' => '' %></li>
-            <ul id="user-dropdown" class="nav navbar-nav navbar-right">
+            <ul id="user-dropdown" class="nav navbar-nav navbar-right" style="margin: initial" >
               <li class="">
                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   Support

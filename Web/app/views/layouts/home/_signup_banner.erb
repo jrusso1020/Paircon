@@ -1,11 +1,11 @@
 <section id="signup_banner" class="dark-gray">
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-      <h3 class="signup-banner text-center">
-        <strong>Pair</strong> your research interest with conferences on <strong>PaiCon</strong>!
-        <a href="#login" target="_blank" class="btn btn-success appear-animation bounceIn appear-animation-visible __web-inspector-hide-shortcut__" data-appear-animation="bounceIn">Sign in<br></a>
-        <a href="#login" target="_blank" class="btn btn-primary appear-animation bounceIn appear-animation-visible __web-inspector-hide-shortcut__" data-appear-animation="bounceIn">Sign up</a>
-      </h3>
+      <h1 class="signup-banner text-center">
+        <strong>Pair</strong> your research interest with conferences on <strong>PairCon</strong>!
+        &nbsp;<%= link_to 'Login', new_user_session_url, class: 'btn btn-success appear-animation bounceIn appear-animation-visible __web-inspector-hide-shortcut__', 'data-appear-animation': 'bounceIn' %>
+        &nbsp;<%= link_to 'Sign Up', new_user_registration_url, class: 'btn btn-paircon appear-animation bounceIn appear-animation-visible __web-inspector-hide-shortcut__', 'data-appear-animation': 'bounceIn' %>
+      </h1>
     </div>
   </div>
 </section>
