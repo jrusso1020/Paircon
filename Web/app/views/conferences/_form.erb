@@ -1,47 +1,73 @@
+<%= header_title 'Create Conference' %>
+
+<div id="page-heading">
+  <%= page_title 'Create Conference' %>
+  <hr/>
+</div>
+
 <%= form_for @conference do |f| %>
-    <% if @conference.errors.any? %>
-        <div id="error_explanation">
-          <h2>
-            <%= "#{pluralize(@conference.errors.count, "error")} prohibited this conference from being saved:" %>
-          </h2>
-          <ul>
-            <% @conference.errors.full_messages.each do |msg| %>
-                <li>
-                  <%= msg %>
-                </li>
-            <% end %>
-          </ul>
+    <div class="container" id="main-container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h3 class="text-center">ADD TEXT HERE</h3>
         </div>
-    <% end %>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-sm-8 col-xs-12">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <h4 class="input-label signup-input-label">Conference Name (*)</h4>
+              <%= f.text_field :name, class: "form-control" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <h4 class="input-label signup-input-label">Start Date : yyyy/mm/dd</h4>
+              <%= f.date_field :start_date, class: "form-control" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <h4 class="input-label signup-input-label">End Date : yyyy/mm/dd</h4>
+              <%= f.date_field :end_date, class: "form-control" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <h4 class="input-label signup-input-label">Conference URL</h4>
+              <%= f.url_field :url, class: "form-control" %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <h4 class="input-label signup-input-label">Location</h4>
+              <%= f.text_field :location, class: "form-control" %>
+            </div>
+          </div>
+          <div class="row form-btn">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <%= button_to 'Cancel', conferences_path(), method: :get, class: 'btn btn-default pull-right' %>
+              <%= f.submit 'Proceed', :class => 'btn btn-paircon pull-right' %>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
-        <%= content_tag :p, 'Conference Name', style: 'margin-top:0px;' %>
-        <%= f.text_field :name, class: "form-control" %>
-    <% end %>
 
-    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
-        <%= content_tag :p, 'Start Date : yyyy/mm/dd', style: 'margin-top:0px;' %>
-        <%= f.date_field :start_date, class: "form-control" %>
-    <% end %>
-
-    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
-        <%= content_tag :p, 'End Date : yyyy/mm//dd', style: 'margin-top:0px;' %>
-        <%= f.date_field :end_date, class: "form-control" %>
-    <% end %>
-
-    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
-        <%= content_tag :p, 'Conference URL', style: 'margin-top:0px;' %>
-        <%= f.url_field :url, class: "form-control" %>
-    <% end %>
-
-    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
-        <%= content_tag :p, 'Location', style: 'margin-top:0px;' %>
-        <%= f.text_field :location, class: "form-control" %>
-    <% end %>
-
-    <div class="form-group">
-      <%= f.button :submit %>
-      <%= button_to "Return" , conferences_path(), method: :get %>
-    </div>
+      <% if @conference.errors.any? %>
+          <div id="error_explanation">
+            <h2>
+              <%= "#{pluralize(@conference.errors.count, "error")} prohibited this conference from being saved:" %>
+            </h2>
+            <ul>
+              <% @conference.errors.full_messages.each do |msg| %>
+                  <li>
+                    <%= msg %>
+                  </li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
 
 <% end %>
+</div>
