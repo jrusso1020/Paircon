@@ -13,16 +13,8 @@
     <div id="main-form" class="form-group flex-autoresize-middle">
       <div class="col-md-10 col-sm-12 col-xs-12 col-md-offset-1 full-height">
         <div class="x_panel">
-          <!--<div class="x_title">-->
-          <!--<h2>Form Wizards-->
-          <!--<small>Sessions</small>-->
-          <!--</h2>-->
-          <!--<div class="clearfix"></div>-->
-          <!--</div>-->
           <div class="x_content">
 
-            <!-- Smart Wizard -->
-            <!--<p>This is a basic form wizard example that inherits the colors from the selected scheme.</p>-->
             <div id="wizard" class="form_wizard wizard_horizontal display-flex-column full-height">
               <ul class="wizard_steps anchor" style="display: flex;">
                 <li class="flex-grow">
@@ -44,10 +36,7 @@
                   </a>
                 </li>
               </ul>
-
-
               <div class="stepContainer full-height">
-
                 <div id="step-1" class="content full-height display-flex-column" style="display: none;">
                   <div class="flex-autoresize-middle flex-y-scroll" style="margin-bottom: 50px;">
                     <div class="row">
@@ -86,9 +75,9 @@
                                                    class: 'form-control form-signup-control', id: 'last_name' %>
                                 </div>
 
-                                <a class="custom-tooltip hidden-sm-down" id="nameTooltip">
-                                  <span style="margin-top: -10px;" class="step-signup-tooltip callout right">Your name that will appear to people at PairCon</span>
-                                </a>
+                                <!--<a class="custom-tooltip hidden-sm-down" id="nameTooltip">-->
+                                <!--<span style="margin-top: -10px;" class="step-signup-tooltip callout right">Your name that will appear to people at PairCon</span>-->
+                                <!--</a>-->
                               </div>
                             </div>
 
@@ -100,9 +89,9 @@
                                                    :class => 'form-control form-signup-control', disabled: 'disabled', style: 'opacity: 0.5' %>
                                 </div>
 
-                                <a class="custom-tooltip hidden-sm-down" id="nameTooltip">
-                                  <span style="margin-top: -10px;" class="step-signup-tooltip callout right">You will need this when you log in or you ever need to reset password</span>
-                                </a>
+                                <!--<a class="custom-tooltip hidden-sm-down" id="nameTooltip">-->
+                                <!--<span style="margin-top: -10px;" class="step-signup-tooltip callout right">You will need this when you log in or you ever need to reset password</span>-->
+                                <!--</a>-->
                               </div>
                             </div>
 
@@ -117,9 +106,9 @@
                                       <%= f.password_field :password_confirmation, :autocomplete => 'true', :class => 'form-control', placeholder: "Confirm Password" %>
                                     </div>
 
-                                    <a class="custom-tooltip hidden-sm-down" id="passwordTooltip">
-                                      <span class="step-signup-tooltip callout right">Please enter your password</span>
-                                    </a>
+                                    <!--<a class="custom-tooltip hidden-sm-down" id="passwordTooltip">-->
+                                    <!--<span class="step-signup-tooltip callout right">Please enter your password</span>-->
+                                    <!--</a>-->
                                   </div>
                                 </div>
                             <% end %>
@@ -131,9 +120,9 @@
                                   <%= f.select :gender, [['Male', 1], ['Female', 0]], {}, :class => 'form-control form-signup-control' %>
                                 </div>
 
-                                <a class="custom-tooltip hidden-sm-down" id="countryGenderTooltip">
-                                  <span style="margin-top: -10px;" class="step-signup-tooltip callout right">What is your gender?</span>
-                                </a>
+                                <!--<a class="custom-tooltip hidden-sm-down" id="countryGenderTooltip">-->
+                                <!--<span style="margin-top: -10px;" class="step-signup-tooltip callout right">What is your gender?</span>-->
+                                <!--</a>-->
                               </div>
                             </div>
 
@@ -144,13 +133,11 @@
                                   <%= f.text_field :phone_number, :id => 'phoneNumber', placeholder: 'Phone Number', :class => 'form-control form-signup-control' %>
                                 </div>
 
-                                <a class="custom-tooltip hidden-sm-down" id="phoneTooltip">
-                                  <span style="margin-top: -10px;" class="step-signup-tooltip callout right">We'll use your phone number to send a verification code if we need to verify your identity</span>
-                                </a>
+                                <!--<a class="custom-tooltip hidden-sm-down" id="phoneTooltip">-->
+                                <!--<span style="margin-top: -10px;" class="step-signup-tooltip callout right">We'll use your phone number to send a verification code if we need to verify your identity</span>-->
+                                <!--</a>-->
                               </div>
                             </div>
-
-
                           </div>
                         </div>
                       </div>
@@ -199,19 +186,13 @@
                               and
                               <strong><a href="<%= PairConConfig::url['privacy'] %>" target="_blank">Privacy
                                 Policy</a></strong>.
-
                             </div>
                           </div>
-
                         </div>
-
-
                       </div>
                   <% end %>
                   </div>
-
             </div>
-            <!-- End SmartWizard Content -->
           </div>
 
           <div class="row" id="finalstep" style="display: none;">
@@ -222,7 +203,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

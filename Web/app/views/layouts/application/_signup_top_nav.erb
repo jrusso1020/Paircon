@@ -1,13 +1,11 @@
-<div class="top_nav">
+<div class="top_nav sign_up_nav">
   <div class="nav_menu">
     <nav>
-
       <div class="nav navbar-paircon">
-        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: is_mobile_browser? ? 'margin: initial; margin-left: 20px;' : ''  %>
-
+        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: is_mobile_browser? ? 'margin: initial; margin-left: 20px;' : '' %>
         <ul id="user-dropdown" class="nav navbar-nav navbar-right pull-right navbar-user">
           <li class="">
-            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <a href="javascript:" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               <img src="<%= asset_path(current_user.profile_photo) %>" id="userimage" alt=""><span id="username"><%= current_user.full_name %></span>
               <span class=" fa fa-angle-down"></span>
             </a>
@@ -21,22 +19,20 @@
                 </div>
               </li>
               <li><a href="<%= PairConConfig::url['feedback'] %>" target="_blank">Feedback
-                <i class="pull-right fa fa-comments"></i></a>
+                <i class="pull-right fa fa-comments dropdown-user-icons"></i></a>
               </li>
               <li><a href="<%= PairConConfig::url['help'] %>" target="_blank">Help
-                <i class="pull-right fa fa-question-circle"></i></a>
+                <i class="pull-right fa fa-question-circle dropdown-user-icons"></i></a>
               </li>
               <li class="divider"></li>
               <li>
                 <a id="logout_link" rel="nofollow" data-method="delete" href="<%= destroy_user_session_url(:protocol => "#{Rails.env.production? ? 'https://' : 'http://'}") %>">Logout
-                  <i class="fa fa-sign-out pull-right"></i></a>
+                  <i class="fa fa-sign-out pull-right dropdown-user-icons"></i></a>
                 </li>
             </ul>
           </li>
         </ul>
-
       </div>
-
     </nav>
   </div>
 </div>

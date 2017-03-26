@@ -1,0 +1,54 @@
+<%= header_title 'Settings' %>
+
+<%= form_for @user, :html => {id: 'new_user_registration', multipart: true} do |f| %>
+    <div class="modal-header">
+      <h1 class="modal-title" id="myModalLabel">
+        <i class="fa fa-user" style="margin-right: 5px; " id="drive-header-icon"></i>
+        Personal Information
+      </h1>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <div class="form-group">
+                <%= f.label :first_name, 'First Name' %>
+                <%= f.text_field :first_name, :maxlength => 30, :class => 'form-control' %>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <div class="form-group">
+                <%= f.label :last_name, 'Last Name' %>
+                <%= f.text_field :last_name, :maxlength => 30, :class => 'form-control' %>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <%= f.label :gender, 'Gender' %>
+                <%= f.select :gender, [["Male", 1], ["Female", 0]], {},:class => 'form-control' %>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <%= f.label :phone_number, 'Phone Number'%>
+                <%= f.text_field :phone_number, :maxlength => 30, :class => 'form-control' %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+      <%= f.submit 'Proceed', :class => 'btn btn-paircon' %>
+    </div>
+<% end %>
+
+<%= javascript_tag 'initializeUserEdit()' %>

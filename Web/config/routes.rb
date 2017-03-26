@@ -46,15 +46,15 @@ Rails.application.routes.draw do
     member do
       get :delete
       get :change_active_status
-      get :email_password
+      get :password_reset
       post :update_email_password
       get :timezone
       post :save_logo
       post :destroy_logo
-      # put :update_flags
-      # put :update_prefs
       delete :delete_account
       post :submit_url
+      get :become_organizer
+      post :request_organizer
     end
 
     collection do

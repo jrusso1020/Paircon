@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321020555) do
+ActiveRecord::Schema.define(version: 20170325195052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "conference_attendees", force: :cascade do |t|
     t.integer  "conference_id"
-    t.integer  "user_id"
+    t.string   "user_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20170321020555) do
     t.datetime "end_date"
     t.text     "url"
     t.string   "location"
-    t.boolean  "pending"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -56,9 +55,16 @@ ActiveRecord::Schema.define(version: 20170321020555) do
     t.datetime "updated_at",            null: false
   end
 
+  create_table "organizers", force: :cascade do |t|
+    t.string   "user_id"
+    t.boolean  "approved",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "paper_authors", force: :cascade do |t|
     t.integer  "paper_id"
-    t.integer  "user_id"
+    t.string   "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

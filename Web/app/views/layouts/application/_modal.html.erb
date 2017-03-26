@@ -1,0 +1,8 @@
+<% modal_size = defined?(size) ? "modal-#{size}" : '' %>
+
+<div class="modal fade" id="<%= id %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog <%= modal_size %>">
+    <div class="modal-content" id="modal_content" style="padding: 10px 25px;">
+    </div>
+  </div>
+</div>
