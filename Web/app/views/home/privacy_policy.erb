@@ -3,25 +3,28 @@
 <% @page_title = 'Privacy Policy' %>
 <%= render 'layouts/home/header' %>
 
+
 <body>
-<div class="loader"></div>
-<div class="row">
-  <div class="top-banner navy-background">  
-    <div class="col-md-12 col-sm-12 col-xs-12">
+<section class="header" style="min-height: 300px;">
+  <div class="bg-color" style="min-height: 300px;">
+    <div class="wrapper">
+      <div class="container">
+        <div class="row">
+          <div id="login" class="col-md-12 col-sm-12 col-xs-12 banner-info text-center wow fadeIn delay-05s">
+            <h1 class="bnr-sub-title">Privacy <span class="logo-dec">Policy</span></h1>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div id="myDiv">
-  <h2 class=""><strong>Privacy </strong>Policy</h2>
+</section>
+<div id="myDiv" style="padding: 30px;">
   <div>
-    <div class="enable" style="margin-top:50px;"></div>
-    <p align="justify">We at PairCon understand the different concerns that arise when it comes to data being shared
-      across different platforms and especially when people use services provided by
-      <a title="PairCon" href="https://www.paircon.com" target="_blank">PairCon</a>. For us privacy of our users is of
-      dire importance and our Privacy Policy makes it clear how that information is handled at our end.</p>
-    <p align="justify"> We strongly suggest our users to go through the policy prior to using PairCon in order to
-      understand how PairCon operates and how the information provided by individuals is handled by PairCon. By
-      accessing or using PairCon, you agree to this Policy Privacy which may change from time to time. Your continued
+    <div class="enable" style="margin-top:20px;"></div>
+    <p align="justify">For us privacy of our users is of dire importance and our Privacy Policy makes it clear how that
+      information is handled at our end. We strongly suggest our users to go through the policy prior to using PairCon
+      in order to understand how PairCon operates and how the information provided by individuals is handled by PairCon.
+      By accessing or using PairCon, you agree to this Policy Privacy which may change from time to time. Your continued
       use of the Website after we make changes is deemed to be acceptance of those changes, so please check the policy
       periodically for updates.</p>
     <div>
@@ -70,7 +73,7 @@
       <h4><strong>Automatically Recorded Information</strong></h4>
       <p align="justify">PairCon makes the use of automatically recorded information only to enhance user experience and
         give them an awe-inspiring experience. Cookies and log files are used to:</p>
-      <ul>
+      <ul style="list-style-type: circle">
         <li>Keep track of the efficiency of our service.</li>
         <li>To prevent you from re-entering information upon ever log in.</li>
         <li>Analyze traffic on PairCon in order to improve our system.</li>
@@ -143,13 +146,10 @@
         any questions regarding the Privacy Policy, please contact us at
         <a title="Contact Us" href="mailto:support@paircon.com">support@paircon.com</a>.</p>
     </div>
-    <div class="clear"></div>    
-    <div class="footer-text text-center">
-      <%= button_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %>
-    </div>
   </div>
-  <%= render 'layouts/home/footer' %>
 </div>
+<%= render 'layouts/home/signup_banner' %>
+<%= render 'layouts/home/footer' %>
 </body>
 <%= javascript_tag 'enablePJAX()' %>
 

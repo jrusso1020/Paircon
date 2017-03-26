@@ -4,6 +4,10 @@
 @import 'variables';
 
 /* ********* SIGN UP **********/
+#signup_banner {
+  padding: 20px;
+}
+
 .main_container .sign_up_nav {
   margin-left: 0px !important;
 }
@@ -321,7 +325,7 @@ Header
 .header {
   background: image_url('home/conference-pic.jpg') no-repeat fixed;
   background-size: cover;
-  min-height: 650px;
+  min-height: 720px;
   position: relative;
 }
 .btn-download {

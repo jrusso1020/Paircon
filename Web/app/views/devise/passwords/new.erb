@@ -5,7 +5,7 @@
 
     <%= content_tag :div, class: 'panel-body' do %>
         <%= content_tag :h2, 'Password Recovery', style: 'margin-bottom: 25px; margin-top: 5px;' %>
-        <%= content_tag :p, 'Enter your e-mail address below and we will send you instructions of recovering your account.', style: 'margin-top:-20px' %>
+        <small><%= content_tag :p, 'Enter your e-mail address below and we will send you instructions of recovering your account.', style: 'margin-top:-20px' %></small>
     <% end %>
 
     <%= content_tag :div, class: 'input-group', style: 'margin-top:0px;' do %>
@@ -14,8 +14,8 @@
     <% end %>
 
     <%= content_tag :div, class: 'form-actions clearfix' do %>
-        <%= content_tag :div, link_to('Click to Login', new_session_path(resource_name, anchor: 'main-header')), class: 'pull-left' %>
-        <%= content_tag :div, link_to('Sign Up', new_registration_path(resource_name, anchor: 'main-header')), class: 'pull-right' %>
+        <small><%= content_tag :div, link_to('Click to Login', new_session_path(resource_name, anchor: 'main-header')), class: 'pull-left' %>
+        <%= content_tag :div, link_to('Sign Up', new_registration_path(resource_name, anchor: 'main-header')), class: 'pull-right' %></small>
         <%= form.submit 'Reset Password', :class => 'btn btn-block btn-paircon' %>
     <% end %>
 <% end %>
