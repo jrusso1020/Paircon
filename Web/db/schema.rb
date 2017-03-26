@@ -57,9 +57,9 @@ ActiveRecord::Schema.define(version: 20170325195052) do
 
   create_table "organizers", force: :cascade do |t|
     t.string   "user_id"
-    t.boolean  "pending",    default: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.boolean  "approved",   default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "paper_authors", force: :cascade do |t|
