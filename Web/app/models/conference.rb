@@ -16,6 +16,10 @@
 #++
 
 class Conference < ApplicationRecord
-  belongs_to :conference_attendee
-  belongs_to :conference_paper
+  has_many :conference_attendees
+  has_many :conference_papers
+  has_many :conference_organizers
+  has_many :users, through: :conference_attendees
+  has_many :users, through: :conference_organizers
+  has_many :papers, through: :conference_papers
 end
