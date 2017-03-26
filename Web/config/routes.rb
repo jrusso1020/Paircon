@@ -28,9 +28,9 @@ Rails.application.routes.draw do
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
+
     resources :conferences
-    get '/conferences', to: 'conferences#index'
-    get '/conferences/:action/(:id)' , controller:  'conferences'
+
   end
 
   resources :home, path: '' do
@@ -41,7 +41,6 @@ Rails.application.routes.draw do
       get :privacy_policy
     end
   end
-
 
   resources :users, except: [:index] do
     member do
