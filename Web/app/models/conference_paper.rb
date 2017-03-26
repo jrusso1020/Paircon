@@ -12,5 +12,6 @@
 #++
 
 class ConferencePaper < ApplicationRecord
-  has_many :conferences, :papers
+  belongs_to :conference
+  belongs_to :paper
 end

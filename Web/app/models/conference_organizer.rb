@@ -13,6 +13,6 @@
 
 class ConferenceOrganizer < ApplicationRecord
   alias_attribute :organizers, :users
-  has_many :conferences
-  has_many :users
+  belongs_to :conference
+  belongs_to :user
 end
