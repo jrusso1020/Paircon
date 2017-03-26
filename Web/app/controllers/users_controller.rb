@@ -12,8 +12,12 @@ class UsersController < ApplicationController
 
   # request organizer privilege
   def request_organizer
-    @user = current_user
-    @organizer = Organizer.create(user_id: @user.id)
+    respond_to do |format|
+      @user = current_user
+      @organizer = Organizer.create(user_id: @user.id)
+      format.html { redirect_to @user, notice: 'Your Have Requested Organizer Access, Please Wait For Your Request To Be Processed.' }
+      format.json { render :show, status: :ok, location: @user }
+    end
   end
 
   def become_organizer

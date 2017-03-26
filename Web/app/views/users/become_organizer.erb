@@ -1,6 +1,7 @@
 <%= header_title 'Settings' %>
 
-<%= form_for @user, url: request_organizer_user_path(@user.id), html: {method: 'POST', id: 'organizer_request_form'} do |f| %>
+<%= form_for @user, url: request_organizer_user_path(@user.id), html: {method: 'POST', 
+  id: 'organizer_request_form'} do |f| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-user" style="margin-right: 5px;" id="drive-header-icon"></i>
