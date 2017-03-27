@@ -208,11 +208,18 @@ function initSignup() {
             $('.buttonPrevious').removeClass('buttonDisabled');
         }
 
-        if (context.toStep == 2)
+        if (context.toStep == 2){
             $('.buttonNext').removeClass('buttonDisabled');
+        }
+
+        if (context.fromStep == 3){
+            $('.buttonNext').show();
+        }
+
 
         if (context.toStep == 3) {
             $('.buttonFinish').addClass('buttonDisabled');
+            $('.buttonNext').hide();
         }
     }
 
