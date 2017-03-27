@@ -1,0 +1,47 @@
+<%= form_for @conference do |f| %>
+    <% if @conference.errors.any? %>
+        <div id="error_explanation">
+          <h2>
+            <%= "#{pluralize(@conference.errors.count, "error")} prohibited this conference from being saved:" %>
+          </h2>
+          <ul>
+            <% @conference.errors.full_messages.each do |msg| %>
+                <li>
+                  <%= msg %>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :p, 'Conference Name', style: 'margin-top:0px;' %>
+        <%= f.text_field :name, class: "form-control" %>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :p, 'Start Date : yyyy/mm/dd', style: 'margin-top:0px;' %>
+        <%= f.date_field :start_date, class: "form-control" %>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :p, 'End Date : yyyy/mm//dd', style: 'margin-top:0px;' %>
+        <%= f.date_field :end_date, class: "form-control" %>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :p, 'Conference URL', style: 'margin-top:0px;' %>
+        <%= f.url_field :url, class: "form-control" %>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :p, 'Location', style: 'margin-top:0px;' %>
+        <%= f.text_field :location, class: "form-control" %>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.button :submit %>
+      <%= button_to "Return" , conferences_path(), method: :get %>
+    </div>
+
+<% end %>

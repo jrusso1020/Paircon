@@ -28,6 +28,9 @@ Rails.application.routes.draw do
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
+
+    resources :conferences
+
   end
 
   resources :home, path: '' do
@@ -38,7 +41,6 @@ Rails.application.routes.draw do
       get :privacy_policy
     end
   end
-
 
   resources :users, except: [:index] do
     member do
@@ -51,6 +53,8 @@ Rails.application.routes.draw do
       post :destroy_logo
       delete :delete_account
       post :submit_url
+      get :become_organizer
+      post :request_organizer
     end
 
     collection do
@@ -62,4 +66,7 @@ Rails.application.routes.draw do
   get '/auth/failure' => 'application#auth_failure', as: :auth_failure
   get '*path' => 'application#not_found', as: :not_found
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  #get '/conference/:action/(:id)', controller: 'conference'
+
 end

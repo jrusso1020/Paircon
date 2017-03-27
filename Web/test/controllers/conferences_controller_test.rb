@@ -15,11 +15,10 @@
 # == Schema Information End
 #++
 
-class Conference < ApplicationRecord
-  has_many :conference_attendees
-  has_many :conference_papers
-  has_many :conference_organizers
-  has_many :users, through: :conference_attendees
-  has_many :users, through: :conference_organizers
-  has_many :papers, through: :conference_papers
+require 'test_helper'
+
+class ConferencesControllerTest < ActionDispatch::IntegrationTest
+  # test "the truth" do
+  #   assert true
+  # end
 end

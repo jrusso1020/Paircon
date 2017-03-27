@@ -48,8 +48,13 @@ class User < ApplicationRecord
   validates :password, confirmation: true
 
   has_many :identities, dependent: :destroy
-  belongs_to :conference_attendee
-  belongs_to :paper_author
+  has_many :conference_attendees
+  has_many :conference_organizers
+  has_many :paper_authors
+  has_many :conferences, through: :conference_attendees
+  has_many :conferences, through: :conference_organizers
+  has_many :papers, through: :paper_authors
+  belongs_to :organizer
 
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}, default_url: 'Male.jpg'
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
@@ -90,6 +95,10 @@ class User < ApplicationRecord
 
   def get_pdf_folder_path
     return "#{Rails.root}/public/docs/pdfs/#{self.id}"
+  end
+
+  def pending_organizer
+    Organizer.exists?(user_id: self.id)
   end
 
   private
