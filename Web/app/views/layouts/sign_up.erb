@@ -42,11 +42,8 @@
                     <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                         <h1 class="text-center">Welcome To PairCon!</h1>
-                        <h3 class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus
-                          viverra dui, sed pharetra ligula scelerisque vitae. Quisque sodales dolor fringilla cursus
-                          auctor. Etiam sagittis eu sem ac dictum. Maecenas at dolor nisi. Interdum et malesuada fames
-                          ac
-                          ante ipsum primis in faucibus. Morbi eu dolor enim. Integer dignissim consequat placerat.</h3>
+                        <h3 class="text-center">Thanks for signing up! We'll guide you through your user
+                          profile set-up so that you can get started. </h3>
                       </div>
                     </div>
                   </div>
@@ -55,14 +52,11 @@
                   <%= form_for(@user, html: {id: 'new_user_registration', class: 'user_registration_form flex-autoresize-middle flex-y-scroll', multipart: true}) do |f| %>
                       <%= hidden_field_tag :referer, params[:referer] %>
                       <h1 class="text-center">Personal Information</h1>
-                      <h3 class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus
-                        viverra dui, sed pharetra ligula scelerisque vitae. Quisque sodales dolor fringilla cursus
-                        auctor. Etiam sagittis eu sem ac dictum. Maecenas at dolor nisi. Interdum et malesuada fames ac
-                        ante ipsum primis in faucibus. Morbi eu dolor enim. Integer dignissim consequat placerat.</h3>
+                      <h3 class="text-center">Fields marked with <span class = "required">*</span> are required.</h3>
                       <div class="row signup-row" id="user_form_row">
                         <div class="col-md-8 col-sm-8 col-xs-12 col-md-offset-2 col-sm-offset-2">
                           <div style="margin-top: 0px;" class="signin_verticalcenter">
-                            <h3 class="input-label">Name (*)</h3>
+                            <h3 class="input-label">Name <span class = "required">*</span></h3>
 
                             <div class="row">
                               <div class="col-md-12 col-sm-12 col-xs-12">
@@ -81,7 +75,7 @@
                               </div>
                             </div>
 
-                            <h3 class="input-label signup-input-label">Email Address (*)</h3>
+                            <h3 class="input-label signup-input-label">Email Address <span class = "required">*</span></h3>
                             <div class="row">
                               <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -96,7 +90,7 @@
                             </div>
 
                             <% unless Identity.find_by_user_id(current_user.id).nil? %>
-                                <h3 class="input-label signup-input-label">Password (*)</h3>
+                                <h3 class="input-label signup-input-label">Password <span class = "required">*</span></h3>
                                 <div class="row">
                                   <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -113,7 +107,7 @@
                                 </div>
                             <% end %>
 
-                            <h3 class="input-label signup-input-label">Gender (*)</h3>
+                            <h3 class="input-label signup-input-label">Gender <span class = "required">*</span></h3>
                             <div class="row">
                               <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -123,6 +117,17 @@
                                 <!--<a class="custom-tooltip hidden-sm-down" id="countryGenderTooltip">-->
                                 <!--<span style="margin-top: -10px;" class="step-signup-tooltip callout right">What is your gender?</span>-->
                                 <!--</a>-->
+                              </div>
+                            </div>
+
+                            <h3 class="input-label signup-input-label">Academic Profile</h3>
+                            <p class="input-label">Link your academic profile page with publications
+                            listed. We'll use this list of publications to compute personalized recommendations.</p>
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <%= f.text_field :url, :id => 'url', placeholder: 'URL', :class => 'form-control form-signup-control' %>
+                                </div>
                               </div>
                             </div>
 
@@ -138,6 +143,34 @@
                                 <!--</a>-->
                               </div>
                             </div>
+
+                            <h3 class="input-label signup-input-label">Organization</h3>
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <%= f.text_field :user_organization, :id => 'userOrganization', placeholder: 'Organization', :class => 'form-control form-signup-control' %>
+                                </div>
+                              </div>
+                            </div>
+
+                            <h3 class="input-label signup-input-label">Industry</h3>
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <%= f.text_field :user_industry, :id => 'userIndustry', placeholder: 'Industry', :class => 'form-control form-signup-control' %>
+                                </div>
+                              </div>
+                            </div>
+
+                            <h3 class="input-label signup-input-label">Graduation Year</h3>
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                  <%= f.text_field :user_grad_year, :id => 'userGradYear', placeholder: 'Graduation Year', :class => 'form-control form-signup-control' %>
+                                </div>
+                              </div>
+                            </div>
+
                           </div>
                         </div>
                       </div>
@@ -147,15 +180,10 @@
                           <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
                               <h1 class="text-center">Profile Picture</h1>
-                              <h3 class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                                tempus
-                                viverra dui, sed pharetra ligula scelerisque vitae. Quisque sodales dolor fringilla
-                                cursus
-                                auctor. Etiam sagittis eu sem ac dictum. Maecenas at dolor nisi. Interdum et malesuada
-                                fames
-                                ac
-                                ante ipsum primis in faucibus. Morbi eu dolor enim. Integer dignissim consequat
-                                placerat.</h3>
+                              <h3 class="text-center">Upload a profile picture and accept our
+                                <strong><a href="<%= PairConConfig::url['terms'] %>" target="_blank">Terms of Use
+                                </a></strong> and <strong><a href="<%= PairConConfig::url['privacy'] %>" target="_blank">
+                                Privacy Policy</a></strong>.</h3>
                             </div>
                           </div>
                           <div class="row" style="margin-top:20px;">
