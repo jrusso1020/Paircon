@@ -226,7 +226,12 @@ body {
 }
 .nav-sm {
   .hidden-small {
-    visibility: hidden;
+    display: none;
+    -webkit-transition-duration: 0.8s; /* Safari */
+    transition-duration: 0.8s;
+    small {
+      display: none;
+    }
   }
   .nav {
     &.side-menu li {

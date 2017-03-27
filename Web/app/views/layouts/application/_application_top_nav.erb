@@ -1,3 +1,5 @@
+<% head_btn_class = 'pull-left header-button btn btn-toolbar btn-default header_btns header-font-small ' %>
+
 <div class="top_nav">
   <div class="nav_menu" style="margin-bottom: 0px;">
     <nav>
@@ -6,7 +8,7 @@
           <a id="menu_toggle"><i class="fa fa-bars"></i></a>
         </div>
         <div>
-          &nbsp;<%= link_to icon_text('plus-circle', 'Create'), new_conference_path(), class: 'btn header-btn', 'data-appear-animation': 'bounceIn' %>
+          &nbsp;<%= link_to_modal icon_text('plus-circle', 'Create Conference'), new_conference_path(), class: head_btn_class, 'data-appear-animation': 'bounceIn' %>
         </div>
 
         <ul id="user-dropdown" class="nav navbar-nav navbar-right pull-right navbar-user">
@@ -19,6 +21,15 @@
               <li><a href="<%= user_path(current_user) %>">Settings
                 <i class="pull-right fa fa-cog dropdown-user-icons"></i>
               </a></li>
+              <li>
+                <% if !current_user.organizer? and !current_user.pending_organizer %>
+                    <a data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" href="<%= become_organizer_user_path(current_user.id) %>">Become an Organizer
+                      <i class="pull-right fa fa-users dropdown-user-icons"></i>
+                    </a>
+                <% elsif !current_user.organizer? and current_user.pending_organizer %>
+                    <div style="opacity: 0.8">Your Organizer Request is Pending</div>
+                <% end %>
+              </li>
               <li><a href="<%= PairConConfig::url['feedback'] %>" target="_blank">Feedback
                 <i class="pull-right fa fa-comments dropdown-user-icons"></i></a>
               </li>
@@ -37,3 +48,5 @@
     </nav>
   </div>
 </div>
+
+<!--<script>$('.header_btns').hide();</script>-->

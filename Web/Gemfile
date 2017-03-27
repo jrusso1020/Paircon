@@ -20,7 +20,7 @@ gem 'turbolinks', '~> 5'                                          # Turbolinks m
 # Utility
 gem 'rack-pjax'                                                   # PJax to make page loading faster
 gem 'active_device'                                               # For Mobile / Desktop Web Detection
-# gem 'browser'                                                     # Getting Browser Information
+gem 'best_in_place'                                               # In place editing for Text Fields
 # gem 'paul_revere', '~> 2.0.0'                                   # For Announcements on The Website
 
 group :assets do

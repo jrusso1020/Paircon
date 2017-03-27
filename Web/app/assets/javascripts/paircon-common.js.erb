@@ -3,6 +3,7 @@
 /****************************************/
 function enablePJAX() {
     $.pjax.defaults.timeout = 2000;
+    $.pjax.defaults.maxCacheLength = 0;
     $(document).pjax("a:not([data-no-pjax])", '[data-pjax-container]')
     var animationSpeed = 0;
 
@@ -17,6 +18,21 @@ function enablePJAX() {
         switchContainer();
         animationSpeed = 300;
         try { initLoginBoxValidation(); } catch (err) { }
+    });
+
+    $("html").on("keydown", function (e) {
+        if (e.keyCode == 32 && e.target == document.body) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $(document).on('pjax:beforeSend', function () {
+        $('.header_btns').hide();
+    });
+
+    $(document).on('submit', 'form[data-pjax]', function (event) {
+        $.pjax.submit(event, '#wrap');
     });
 
     function switchContainer() {

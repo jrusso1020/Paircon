@@ -104,7 +104,7 @@ footer {
 }
 
 .btn-paircon {
-  @include button-variant(#fff, $paircon-2, $paircon-3);
+  @include button-variant(#fff, $paircon-2, $paircon-2);
 }
 
 .btn-paircon .btn-primary{
@@ -151,9 +151,56 @@ footer {
 }
 
 .right_col {
+  height: 100vh;
   z-index: 1 !important;
 }
 
 label {
   font-weight: 500 !important;
+}
+
+
+/***********************************
+************************************
+Header
+************************************
+***********************************/
+.header-button {
+  min-height: 40px !important;
+  box-shadow: none !important;
+  border: none !important;
+  @media screen and (min-width: $screen-sm-min) {
+    padding: 12px 15px !important;
+  }
+
+  @media screen and (max-width: $screen-xs-max) {
+    padding: 12px 10px !important;
+  }
+  background: transparent !important;
+  color: $users-navy-text-color !important;
+  font-weight: 400 !important;
+}
+
+.header-button:hover {
+  color: $users-navy-text-color !important;
+}
+
+.header-button:focus {
+  background-color: transparent !important;
+}
+
+@media screen and (max-width: $screen-xs-max) {
+  .header-font-small {
+    font-size: 10px !important;
+  }
+}
+
+@media screen and (max-width: $screen-sm-max) and (min-width: $screen-sm-min) {
+  .header-font-small {
+    font-size: 14px !important;
+  }
+}
+
+.sidebar-footer {
+  color: $color_athens_gray_approx;
 }
