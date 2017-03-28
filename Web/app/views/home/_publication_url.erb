@@ -1,0 +1,18 @@
+<%= form_for(current_user, url: submit_url_user_path(current_user),
+             html: {class: 'form-horizontal', id: 'submit_url', method: :post}) do |f| %>
+
+    <%= content_tag :div, class: 'panel-body' do %>
+        <%= content_tag :p, 'Enter the URL to your publication page to get started', style: 'margin-top:-20px;' %>
+    <% end %>
+
+    <%= content_tag :p, 'check', style: 'padding-top:20px;' %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :span, content_tag(:i, '', class: 'fa fa-external-link'), class: 'input-group-addon' %>
+        <%= f.url_field :url, placeholder: 'URL', autofocus: true, class: 'form-control' %>
+    <% end %>
+
+    <%= content_tag :div, class: 'form-actions clearfix' do %>
+        <%= f.submit 'Submit URL', :class => 'btn btn-block btn-paircon' %>
+    <% end %>
+<% end %>
