@@ -227,8 +227,6 @@ body {
 .nav-sm {
   .hidden-small {
     display: none;
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
     small {
       display: none;
     }
@@ -272,24 +270,16 @@ body {
   }
   footer {
     margin-left: 70px;
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
   }
   .container.body {
     .right_col {
       padding: 10px 20px;
       margin-left: 70px;
       z-index: 2;
-
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
     }
     .col-md-3.left_col {
       min-height: 100%;
       width: 70px;
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
-
       padding: 0;
       z-index: 9999;
       position: absolute;
@@ -307,15 +297,11 @@ body {
   }
   .navbar.nav_title {
     width: 70px;
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
     a {
       span {
         display: none;
       }
       i {
-        -webkit-transition-duration: 0.8s; /* Safari */
-        transition-duration: 0.8s;
         font-size: 27px;
         margin: 13px 0 0 3px;
       }
@@ -325,8 +311,6 @@ body {
     display: block;
     margin-left: 70px;
     z-index: 2;
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
   }
   ul.nav.child_menu {
     left: 100%;
@@ -464,12 +448,8 @@ body {
     .right_col {
       padding: 10px 20px 0;
       margin-left: 230px;
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
     }
     .col-md-3.left_col {
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
       min-height: 100%;
       width: 230px;
       padding: 0;
@@ -508,8 +488,6 @@ body {
   }
 }
 .nav_title {
-  -webkit-transition-duration: 0.8s; /* Safari */
-  transition-duration: 0.8s;
   width: 230px;
   float: left;
   background: $color_pickled_bluewood_approx;
@@ -947,8 +925,6 @@ table {
     width: 20%;
   }
   footer {
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
     margin-left: 230px;
   }
   .tile_count .tile_stats_count {
@@ -2584,9 +2560,7 @@ span {
   clear: both;
   display: block;
   padding: 5px 0 0;
-  position: fixed;
-  -webkit-transition-duration: 0.8s; /* Safari */
-  transition-duration: 0.8s;
+  position: absolute;
   width: 230px;
   background: $color_pickled_bluewood_approx;
   z-index: 999;
@@ -4661,8 +4635,6 @@ fieldset {
 .main_container .top_nav {
   display: block;
   margin-left: 230px;
-  -webkit-transition-duration: 0.8s; /* Safari */
-  transition-duration: 0.8s;
 
 }
 .grid_slider .col-md-6 {

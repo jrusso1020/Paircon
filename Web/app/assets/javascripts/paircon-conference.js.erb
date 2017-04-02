@@ -1,0 +1,34 @@
+function initializeConference(id) {
+    $(".best_in_place").best_in_place();
+    $(".best_in_place").click(function () {
+        $(this).css({
+            "border-color": "#none",
+            "border-width": "none",
+            "border-style": "none"
+        })
+    });
+    $(".best_in_place").hover(function () {
+        if ($(this).children().length)
+            return;
+
+        $(this).css({
+            "border-color": "#c6c6c6",
+            "border-width": "1px",
+            "border-style": "solid"
+        })
+    }, function () {
+        $(this).css({
+            "border-color": "#none",
+            "border-width": "none",
+            "border-style": "none"
+        })
+    })
+    $('.best_in_place').bind("ajax:success", function (data, jqXHR, status) {
+        var conference_name = $.parseJSON(jqXHR).text;
+        document.title = conference_name + ' - PairCon';
+        $('#conference_' + id).text(conference_name);
+        showNotificationMsg('Your Conference has been successfully updated.');
+    });
+
+    $('.dropzone').not('.static').html5imageupload();
+}

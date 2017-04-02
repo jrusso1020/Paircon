@@ -4,7 +4,6 @@
 <%= render 'layouts/application/header' %>
 
 <body class="nav-md footer_fixed">
-<%#= render 'layouts/flash_message' %>
 
 <div class="container body footer_fixed">
   <div class="main_container">
@@ -155,19 +154,18 @@
                             <div class="col-md-12 col-sm-12 col-xs-12">
                               <h1 class="text-center">Profile Picture</h1>
                               <h3 class="text-center">Upload a profile picture and accept our
-                                <strong><a href="<%= PairConConfig::url['terms'] %>" target="_blank">Terms of Use
+                                <strong><a href="<%= terms_home_index_url %>" target="_blank">Terms of Use
                                 </a></strong> and
-                                <strong><a href="<%= PairConConfig::url['privacy'] %>" target="_blank">
+                                <strong><a href="<%= privacy_policy_home_index_url %>" target="_blank">
                                   Privacy Policy</a></strong>.</h3>
                             </div>
                           </div>
                           <div class="row" style="margin-top:20px;">
                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                              <div class="profile-image dropzone " data-width="300" data-ghost="false"
-                                   data-canvas="false" data-originalsize="false" data-height="300"
-                                   data-url="/users/<%= current_user.id %>/save_logo" data-image="<%= asset_path(current_user.profile_photo) %>"
-                                   data-removeurl="/users/<%= current_user.id %>/destroy_logo">
-                                <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
+                              <div class="profile-image dropzone " data-resize="true" data-width="300" data-height="300"
+                                   data-url="<%= save_logo_user_url(current_user) %>" data-image="<%= asset_path(current_user.profile_photo) %>"
+                                   data-removeurl="<%= destroy_logo_user_url(current_user) %>">
+x                                <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
                               </div>
                             </div>
                           </div>
@@ -184,10 +182,10 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                               <input type="checkbox" class="checkbox-center" id="termsConditionCheckbox">
                               &ensp;&ensp;I have <strong>Read</strong> and <strong>Agree</strong> to PairCon's
-                              <strong><a href="<%= PairConConfig::url['terms'] %>" target="_blank">Terms of
+                              <strong><a href="<%= terms_home_index_url %>" target="_blank">Terms of
                                 Use</a></strong>
                               and
-                              <strong><a href="<%= PairConConfig::url['privacy'] %>" target="_blank">Privacy
+                              <strong><a href="<%= privacy_policy_home_index_url %>" target="_blank">Privacy
                                 Policy</a></strong>.
                             </div>
                           </div>

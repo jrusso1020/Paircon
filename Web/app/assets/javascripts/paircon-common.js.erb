@@ -2,22 +2,43 @@
 //------------PJAX ENABLER--------------//
 /****************************************/
 function enablePJAX() {
+    $(document).on('page:fetch', function () {
+        NProgress.start();
+    });
+    $(document).on('page:change', function () {
+        NProgress.done();
+    });
+    $(document).on('page:restore', function () {
+        NProgress.remove();
+    });
+
     $.pjax.defaults.timeout = 2000;
     $.pjax.defaults.maxCacheLength = 0;
     $(document).pjax("a:not([data-no-pjax])", '[data-pjax-container]')
     var animationSpeed = 0;
 
+    $("a").on('pjax:complete', function () {
+        NProgress.done();
+    });
+
     $(document).on('pjax:complete', function () {
+        NProgress.done();
         switchContainer();
         $('#error_callout').fadeTo('fast', 0);
-        try { initLoginBoxValidation(); } catch (err) { }
+        try {
+            initLoginBoxValidation();
+        } catch (err) {
+        }
     });
 
     window.addEventListener('popstate', function (e) {
         getViewportHeight();
         switchContainer();
         animationSpeed = 300;
-        try { initLoginBoxValidation(); } catch (err) { }
+        try {
+            initLoginBoxValidation();
+        } catch (err) {
+        }
     });
 
     $("html").on("keydown", function (e) {
@@ -28,6 +49,7 @@ function enablePJAX() {
     });
 
     $(document).on('pjax:beforeSend', function () {
+        NProgress.start();
         $('.header_btns').hide();
     });
 
@@ -62,7 +84,10 @@ function enablePJAX() {
     getViewportHeight();
     switchContainer();
     animationSpeed = 300;
-    try { initLoginBoxValidation(); } catch (err) { }
+    try {
+        initLoginBoxValidation();
+    } catch (err) {
+    }
     $(window).resize(function () {
         getViewportHeight();
         switchContainer();
@@ -119,6 +144,10 @@ function hideErrorMsg() {
 }
 
 function setAutoHideFlashMsg(id) {
+    $('#' + id + '_close').click(function () {
+        $('#' + id).hide();
+    });
+
     var observer = new MutationObserver(function (mutations) {
         setTimeout(function () {
             $('#' + id).fadeOut('slow');
@@ -250,6 +279,8 @@ function loadApplicationLayout() {
             $BODY.toggleClass('nav-md nav-sm');
 
             setContentHeight();
+
+            $.pjax.reload('[data-pjax-container]');
         });
 
         // check active menu
@@ -264,6 +295,8 @@ function loadApplicationLayout() {
         // recompute content when resizing
         $(window).smartresize(function () {
             setContentHeight();
+            $.pjax.reload('[data-pjax-container]');
+
         });
 
         setContentHeight();
