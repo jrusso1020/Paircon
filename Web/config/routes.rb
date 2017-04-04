@@ -31,6 +31,12 @@ Rails.application.routes.draw do
 
   mount PdfjsViewer::Rails::Engine => "/pdf", as: 'pdf'
 
+  resources :posts do
+    member do
+      get :delete
+    end
+  end
+
   resources :conferences do
     member do
       get :delete

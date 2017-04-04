@@ -1,0 +1,15 @@
+<%= form_for Post.new, url: posts_path(conference_id: @conference.id), method: :posts do |f| %>
+    <div class="form-group">
+      <div class="input-group">
+        <span class="input-group-addon"><%= image_tag 'Top-Header-notext.png', class: 'navbar-image', style: 'height: 20px;', lazy: true %></span>
+        <%= f.text_area :description, class: 'form-control custom-control inputfit', placeholder: 'Update your followers ...' %>
+        <span class="input-group-addon btn btn-paircon" onclick="document.getElementById('form_post').click()">
+          Post
+        </span>
+
+        <%= f.submit 'Post', id: 'form_post', class: 'hidden' %>
+      </div>
+    </div>
+<% end %>
+
+<%= javascript_tag "initializePostForm()" %>

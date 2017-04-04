@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170404030143) do
+ActiveRecord::Schema.define(version: 20170404170232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,16 @@ ActiveRecord::Schema.define(version: 20170404030143) do
     t.string   "email",              limit: 255, default: ""
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string   "conference_id", limit: 30
+    t.string   "name"
+    t.text     "description"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "identities", force: :cascade do |t|
     t.string   "user_id",    limit: 30
     t.string   "provider"
@@ -90,6 +100,13 @@ ActiveRecord::Schema.define(version: 20170404030143) do
     t.text     "path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.string   "conference_id", limit: 30
+    t.text     "description"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "similarities", force: :cascade do |t|

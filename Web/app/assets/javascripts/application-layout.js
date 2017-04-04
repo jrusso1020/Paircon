@@ -31,5 +31,6 @@
 //= require conference
 //= require paircon-common
 //= require paircon-user
+//= require paircon-post
 //= require paircon-conference
 

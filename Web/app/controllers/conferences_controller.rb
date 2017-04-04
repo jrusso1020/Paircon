@@ -24,7 +24,6 @@ class ConferencesController < ApplicationController
       flash[:alert] = 'Error creating your Conference! Please contact our support team.'
       redirect_back(fallback_location: conference_path(@conference))
     end
-
   end
 
   # Update action updates the conference with the new information
@@ -60,10 +59,17 @@ class ConferencesController < ApplicationController
   # The show action renders the individual conference after retrieving the the id
   def show
     @is_organizer = current_user.attendee?
+    all_posts = Post.where(conference_id: @conference.id)
+    @posts = all_posts.order(created_at: :desc)
+    # @paginated_posts = all_posts.page(params[:page]).order(created_at: :desc)
   end
 
   def delete
     render layout: false
+  end
+
+  def new_post
+
   end
 
   def save_logo

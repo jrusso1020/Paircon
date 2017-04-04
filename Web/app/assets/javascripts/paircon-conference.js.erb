@@ -23,6 +23,7 @@ function initializeConference(id, description) {
             "border-style": "none"
         })
     })
+
     $('.best_in_place').bind("ajax:success", function (data, jqXHR, status) {
         var conference_name = $.parseJSON(jqXHR).text;
         document.title = conference_name + ' - PairCon';
@@ -46,6 +47,11 @@ function initializeConference(id, description) {
         e.preventDefault()
         $(this).parent().html("'" + description + "'")
     })
+
+    $('.inputfit').inputfit({
+        maxSize: 20,
+        minSize: 14
+    });
 }
 
 function initCharts(count) {

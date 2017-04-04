@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <p style="padding: 10px; border-left: 1px solid; border-left-color:  #0AC0F3 !important; ">
+      <%= best_in_place_if is_organizer, post, :description, as: :textarea, place_holder: "&lt;&lt;Conference Post&gt;&gt;" %>
+    </p>
+    <ul class="nav navbar-right panel_toolbox" style="margin-top: -15px;">
+      <% if is_organizer %>
+          <li style="margin-top: -6px;"><%= link_to_modal icon_text('trash', ''), delete_post_path(post) %></li>
+      <% end %>
+      <li><%= post.created_at.strftime('%d %B %Y (%I:%M%p)') %></li>
+    </ul>
+    <hr/>
+  </div>
+</div>

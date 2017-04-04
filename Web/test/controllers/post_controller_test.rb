@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ConferenceOrganizerTest < ActiveSupport::TestCase
+class PostControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

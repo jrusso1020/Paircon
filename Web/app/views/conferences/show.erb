@@ -11,20 +11,32 @@
     <ul class="nav nav-tabs tabs-left">
       <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
       <li><a href="#posts" data-toggle="tab">Posts</a></li>
-      <li><a href="#schedule" data-toggle="tab">Recommendations</a></li>
-      <li><a href="#schedule" data-toggle="tab">Papers</a></li>
+      <li><a href="#recommendations" data-toggle="tab">Recommendations</a></li>
+      <li><a href="#papers" data-toggle="tab">Papers</a></li>
       <li><a href="#schedule" data-toggle="tab">Schedule</a></li>
       <li><a href="#about" data-toggle="tab">About</a></li>
     </ul>
   </div>
-  <div class="col-md-7 col-sm-7 col-xs-10">
-    <%= render 'conferences/panels/recommendations' %>
-    <%= render 'conferences/panels/papers' %>
-    <%= render 'conferences/panels/posts' %>
-  </div>
-  <div class="col-md-3 col-sm-3 col-xs-12 hidden-xs">
-    <%= render 'conferences/panels/about' %>
-    <%= render 'conferences/panels/schedule' %>
+  <div class="tab-content">
+    <div id="home" class="tab-pane active">
+      <div class="col-md-7 col-sm-7 col-xs-10">
+        <%= render 'posts/new' %>
+        <%= render 'conferences/panels/recommendations' %>
+        <%= render 'conferences/panels/papers' %>
+        <%= render 'conferences/panels/posts' %>
+      </div>
+      <div class="col-md-3 col-sm-3 col-xs-12 hidden-xs">
+        <%= render 'conferences/panels/about' %>
+        <%= render 'conferences/panels/schedule' %>
+      </div>
+    </div>
+
+    <div id="posts" class="tab-pane">
+      <div class="col-md-8 col-sm-8 col-xs-10">
+        <%= render 'posts/new' %>
+        <%= render 'conferences/panels/posts' %>
+      </div>
+    </div>
   </div>
 </div>
 

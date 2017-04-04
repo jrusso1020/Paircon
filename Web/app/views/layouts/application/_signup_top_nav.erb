@@ -2,7 +2,7 @@
   <div class="nav_menu">
     <nav>
       <div class="nav navbar-paircon">
-        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: is_mobile_browser? ? 'margin: initial; margin-left: 20px;' : '' %>
+        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: is_mobile_browser? ? 'margin: initial; margin-left: 20px;' : '', lazy: true %>
         <ul id="user-dropdown" class="nav navbar-nav navbar-right pull-right navbar-user">
           <li class="">
             <a href="javascript:" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">

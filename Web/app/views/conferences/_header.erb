@@ -10,7 +10,7 @@
         <% if @conference.cover.blank? %>
             <div class="profile-image dropzone static cover-photo"></div>
         <% else %>
-            <%= image_tag @conference.cover.url, class: 'profile-image dropzone static cover-photo' %>
+            <%= image_tag @conference.cover.url, class: 'profile-image dropzone static cover-photo', lazy: true %>
         <% end %>
     <% end %>
   </div>
@@ -30,7 +30,7 @@
           <% if @conference.logo.blank? %>
               <div class="profile-image dropzone static conference-logo paircon-logo"></div>
           <% else %>
-              <%= image_tag @conference.logo.url, class: 'profile-image dropzone static conference-logo' %>
+              <%= image_tag @conference.logo.url, class: 'profile-image dropzone static conference-logo', lazy: true %>
           <% end %>
       <% end %>
 
