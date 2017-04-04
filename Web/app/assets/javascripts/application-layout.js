@@ -16,13 +16,19 @@
 //= require bootstrap
 //= require turbolinks
 //
+//= require best_in_place
+//= require best_in_place.jquery-ui
+
 //= require i18n
 //= require i18n/translations
 //= require gentelella-custom
 
 //= require jquery-fileupload/basic
+//= require introjs
 
 //= require user
 //= require common
 //= require paircon-common
 //= require paircon-user
+//= require paircon-conference
+

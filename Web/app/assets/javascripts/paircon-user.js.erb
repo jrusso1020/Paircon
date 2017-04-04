@@ -34,8 +34,7 @@ function initializeUserEdit() {
 /*************************************/
 function initializeUserOrganizer() {
     $('#organizer_request_form').validate({
-        rules: {
-        },
+        rules: {},
         errorClass: "error-message-with-label",
         validClass: "error-message-with-label"
     });
@@ -75,19 +74,22 @@ function initializeUserShow(gender) {
     $('#upload_image_btn').click(function () {
         $('#profile-image-upload').trigger('click');
     });
+
     $('.dropzone').html5imageupload({
-        onAfterCancel: function () {
+        onAfterProcessImage: function () {
+            $('.userimage').attr('src', $('#image_upload').attr('src'));
+        },
+        onAfterCancel: function() {
             if (gender == 1) {
                 $('#user_avatar').attr('src', "<%= asset_path('Male.jpg') %>");
                 $('.userimage').attr('src', "<%= asset_path('Male.jpg') %>");
+                $('.preview').attr('src', "<%= asset_path('Male.jpg')%>");
             } else {
                 $('#user_avatar').attr('src', "<%= asset_path('Female.jpg') %>");
                 $('.userimage').attr('src', "<%= asset_path('Female.jpg')%>");
+                $('.preview').attr('src', "<%= asset_path('Female.jpg')%>");
             }
         },
-        onAfterCompleteImage: function () {
-            $('.userimage').attr('src', $('#image_upload').attr('src'));
-        }
     });
 
     $(".sidebar li").removeClass('active');
@@ -206,12 +208,12 @@ function initSignup() {
 
     $('#wizard').smartWizard({
         reverseButtonsOrder: true, //shows buttons ordered as: prev, next and finish
-        onLeaveStep:leaveAStepCallback,
-        onFinish:onFinishCallback,
+        onLeaveStep: leaveAStepCallback,
+        onFinish: onFinishCallback,
         onShowStep: showAStepCallback
     });
 
-    function leaveAStepCallback(obj, context){
+    function leaveAStepCallback(obj, context) {
         return validateSteps(context.fromStep); // return false to stay on step and true to continue navigation
     }
 
@@ -220,11 +222,11 @@ function initSignup() {
             $('.buttonPrevious').removeClass('buttonDisabled');
         }
 
-        if (context.toStep == 2){
+        if (context.toStep == 2) {
             $('.buttonNext').removeClass('buttonDisabled');
         }
 
-        if (context.fromStep == 3){
+        if (context.fromStep == 3) {
             $('.buttonNext').show();
         }
 
@@ -235,8 +237,8 @@ function initSignup() {
         }
     }
 
-    function onFinishCallback(obj, context){
-        $('.x_content').fadeOut(function() {
+    function onFinishCallback(obj, context) {
+        $('.x_content').fadeOut(function () {
             $('#finalstep').fadeIn();
         });
 
@@ -247,8 +249,8 @@ function initSignup() {
         }
     }
 
-    function validateSteps(stepnumber){
-        if(stepnumber == 2){
+    function validateSteps(stepnumber) {
+        if (stepnumber == 2) {
             if (!$('#new_user_registration').valid()) {
                 return false;
             } else {

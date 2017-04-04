@@ -82,7 +82,6 @@ class User < ApplicationRecord
     else
       return 'Male.jpg'
     end
-
   end
 
   def profile_photo_full_link

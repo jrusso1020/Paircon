@@ -1,29 +1,32 @@
 <% init_error_flash %>
 
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom: -55px; z-index: 100;">
+    <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="notification_msg_box"
+         style="display: none">
 
-<div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="notification_msg_box"
-     style="display: none">
+      <button id="notification_msg_box_close" class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+        <i class="fa fa-times fa-fw paircon-custom"></i></button>
+      <i class="fa fa-check fa-fw paircon-custom"></i>
+      <span class="paircon-custom" id="flash_notice_message"><%= raw flash[:notice] %></span>
+    </div>
 
-  <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
-    <i class="fa fa-times fa-fw paircon-custom"></i></button>
-  <i class="fa fa-check fa-fw paircon-custom"></i>
-  <span class="paircon-custom" id="flash_notice_message"><%= raw flash[:notice] %></span>
-</div>
+    <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="processing_msg_box"
+         style="display: none">
 
-<div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="processing_msg_box"
-     style="display: none">
+      <button id="processing_msg_box_close" class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
+        <i class="fa fa-times fa-fw paircon-custom"></i></button>
+      <i class="fa fa fa-circle-o-notch fa-spin fa-fw paircon-custom"></i>
+      <span class="paircon-custom"><%= 'We are currently processing your request. Please wait ...' %></span>
+    </div>
 
-  <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px;">
-    <i class="fa fa-times fa-fw paircon-custom"></i></button>
-  <i class="fa fa fa-circle-o-notch fa-spin fa-fw paircon-custom"></i>
-  <span class="paircon-custom"><%= 'We are currently processing your request. Please wait ...' %></span>
-</div>
-
-<div class="custom-flash-error alert alert-fixed alert-danger" id="error_message_box"
-     style="display: none">
-  <button type="submit" class="close" style="position: static; opacity: 1; font-size: 14px;">
-    <i class="fa fa-times fa-fw"></i></button>
-  <i class="fa fa-info"></i> <span id="flash_alert_message"><%= raw flash[:alert] %></span>
+    <div class="custom-flash-error alert alert-fixed alert-danger" id="error_message_box"
+         style="display: none">
+      <button id="error_message_box_close" type="submit" class="close" style="position: static; opacity: 1; font-size: 14px;">
+        <i class="fa fa-times fa-fw"></i></button>
+      <i class="fa fa-info"></i> <span id="flash_alert_message"><%= raw flash[:alert] %></span>
+    </div>
+  </div>
 </div>
 
 <script>

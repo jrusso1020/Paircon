@@ -148,6 +148,9 @@ GEM
       jquery-rails
       rails (>= 3.1.0)
       sass-rails
+    introjs-rails (1.0.0)
+      sass-rails (>= 3.2)
+      thor (~> 0.14)
     jquery-fileupload-rails (0.4.7)
       actionpack (>= 3.1)
       railties (>= 3.1)
@@ -344,6 +347,7 @@ DEPENDENCIES
   geocoder
   hashie
   i18n-js (>= 3.0.0.rc11)
+  introjs-rails
   jquery-fileupload-rails
   jquery-rails (~> 4.1.1)
   jquery-ui-rails (~> 6.0.1)

@@ -29,7 +29,7 @@
         </ul>
       </div>
 
-      <% conferences = Conference.all %>
+      <% conferences = Conference.all.order(:name) %>
       <% if conferences.length != 0 %>
           <div class="menu_section">
             <h3>CONFERENCES</h3>

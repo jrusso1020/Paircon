@@ -10,30 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326183706) do
+ActiveRecord::Schema.define(version: 20170402044719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "conference_attendees", force: :cascade do |t|
-    t.integer  "conference_id"
-    t.string   "user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "conference_id", limit: 30
+    t.string   "user_id",       limit: 30
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "conference_organizers", force: :cascade do |t|
-    t.integer  "conference_id"
-    t.string   "user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "conference_id", limit: 30
+    t.string   "user_id",       limit: 30
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "conference_papers", force: :cascade do |t|
-    t.integer  "paper_id"
-    t.integer  "conference_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.string   "paper_id",      limit: 30
+    t.string   "conference_id", limit: 30
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "conferences", force: :cascade do |t|
@@ -42,8 +42,20 @@ ActiveRecord::Schema.define(version: 20170326183706) do
     t.datetime "end_date"
     t.text     "url"
     t.string   "location"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.string   "cover_file_name"
+    t.string   "cover_content_type"
+    t.integer  "cover_file_size"
+    t.datetime "cover_updated_at"
+    t.string   "description",        limit: 255, default: ""
+    t.string   "domain",             limit: 255, default: ""
+    t.boolean  "publish",                        default: false
+    t.boolean  "archive",                        default: false
   end
 
   create_table "identities", force: :cascade do |t|
@@ -63,10 +75,10 @@ ActiveRecord::Schema.define(version: 20170326183706) do
   end
 
   create_table "paper_authors", force: :cascade do |t|
-    t.integer  "paper_id"
-    t.string   "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "paper_id",   limit: 30
+    t.string   "user_id",    limit: 30
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "papers", force: :cascade do |t|
@@ -79,12 +91,12 @@ ActiveRecord::Schema.define(version: 20170326183706) do
   end
 
   create_table "similarities", force: :cascade do |t|
-    t.integer  "paper_id1"
-    t.integer  "paper_id2"
+    t.string   "paper_id1",        limit: 30
+    t.string   "paper_id2",        limit: 30
     t.decimal  "similarity_score"
     t.string   "hash"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "users", force: :cascade do |t|

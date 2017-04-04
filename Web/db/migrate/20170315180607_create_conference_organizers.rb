@@ -3,7 +3,7 @@ class CreateConferenceOrganizers < ActiveRecord::Migration[5.0]
     create_table :conference_organizers do |t|
       t.integer :conference_id
       t.integer :user_id
-      
+
       t.timestamps
     end
   end

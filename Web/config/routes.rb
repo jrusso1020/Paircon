@@ -23,14 +23,20 @@ Rails.application.routes.draw do
       root 'devise/sessions#new', as: :new_user_session
     end
 
-    # get 'login/(:id)', to: 'devise/sessions#new', as: :new_user_session
-
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
 
-    resources :conferences
+  end
 
+  resources :conferences do
+    member do
+      get :delete
+      post :destroy_cover
+      post :destroy_logo
+      post :save_cover
+      post :save_logo
+    end
   end
 
   resources :home, path: '' do
@@ -65,8 +71,5 @@ Rails.application.routes.draw do
   get '/user/:action/(:id)', controller: 'users'
   get '/auth/failure' => 'application#auth_failure', as: :auth_failure
   get '*path' => 'application#not_found', as: :not_found
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
-  #get '/conference/:action/(:id)', controller: 'conference'
 
 end

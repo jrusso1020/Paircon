@@ -13,10 +13,9 @@
         <%= link_to_modal icon_text('pencil', 'Edit'), edit_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
       </h3>
 
-      <div class="profile-image dropzone " data-width="300" data-ghost="false"
-           data-canvas="false" data-originalsize="false" data-height="300"
-           data-url="/users/<%= current_user.id %>/save_logo" data-image="<%= asset_path(current_user.profile_photo) %>"
-           data-removeurl="/users/<%= current_user.id %>/destroy_logo">
+      <div class="profile-image dropzone " data-resize="true" data-width="300" data-height="300"
+           data-url="<%= save_logo_user_url(current_user) %>" data-image="<%= asset_path(current_user.profile_photo) %>"
+           data-removeurl="<%= destroy_logo_user_url(current_user) %>">
         <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
       </div>
 
@@ -43,7 +42,18 @@
             <td class="profile-title table-accountinfo">Gender:</td>
             <td class="table-accountinfo"><%= @user.gender == 1 ? "Male" : "Female" %></td>
           </tr>
-
+          <tr>
+            <td class="profile-title table-accountinfo">Organization:</td>
+            <td class="table-accountinfo"><%= @user.user_organization.blank? ? 'N/A' : @user.user_organization %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Industry:</td>
+            <td class="table-accountinfo"><%= @user.user_industry.blank? ? 'N/A' : @user.user_industry %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Graduation Year:</td>
+            <td class="table-accountinfo"><%= @user.user_grad_year.blank? ? 'N/A' : @user.user_grad_year %></td>
+          </tr>
           </tbody>
         </table>
       </div>

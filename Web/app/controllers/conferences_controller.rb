@@ -1,5 +1,5 @@
 class ConferencesController < ApplicationController
-  before_action :find_conference, only: [:edit, :update, :show, :delete]
+  before_action :find_conference, only: [:edit, :update, :show, :delete, :destroy, :destroy_logo, :destroy_cover, :save_logo, :save_cover]
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -11,31 +11,49 @@ class ConferencesController < ApplicationController
   # Create action saves the conference into database
   def create
     @conference = Conference.new()
-    print @conference.id
     if @conference.save
       @conferenceOrganizer = ConferenceOrganizer.new(:conference_id => @conference.id, :user_id => current_user.id)
       if @conferenceOrganizer.save
-        flash[:notice] = "We have created your Conference! Now edit the template before publishing it!"
+        flash[:notice] = 'We have created your Conference! Now edit the template before publishing it!'
         redirect_to conference_path(@conference)
       else
-        flash[:alert] = "Error creating your Conference! Please contact our support team."
-        redirect :back
+        flash[:alert] = 'Error creating your Conference! Please contact our support team.'
+        redirect_back(fallback_location: conference_path(@conference))
       end
     else
-      flash[:alert] = "Error creating your Conference! Please contact our support team."
-      redirect :back
+      flash[:alert] = 'Error creating your Conference! Please contact our support team.'
+      redirect_back(fallback_location: conference_path(@conference))
     end
 
   end
 
   # Update action updates the conference with the new information
   def update
+    redirect_bool = !conference_params[:redirect].blank?
+    conference_params.delete('redirect')
     if @conference.update_attributes(conference_params)
-      flash[:notice] = "Successfully updated conference!"
-      redirect_to conference_path(@conference)
+      if redirect_bool
+        if params[:commit] == 'Publish'
+          flash[:notice] = 'Your Conference has been successfully published and can now be found in PairCon.'
+        elsif params[:commit] == 'Hide'
+          flash[:notice] = 'Your Conference has been hidden from PairCon users and is unavailable to them.'
+        elsif params[:commit] == 'Archive'
+          flash[:notice] = 'Your Conference has been successfully marked as archived.'
+        elsif params[:commit] == 'Restore'
+          flash[:notice] = 'Your Conference has been restored.'
+        end
+
+        redirect_back(fallback_location: conference_path(@conference))
+      else
+        render json: {status: :success, text: @conference.name}
+      end
     else
-      flash[:alert] = "Error updating conference!"
-      render :edit
+      flash[:alert] = 'Error updating conference!'
+      if redirect_bool
+        redirect_back(fallback_location: conference_path(@conference))
+      else
+        render json: {status: :error, text: @conference.name}
+      end
     end
   end
 
@@ -43,14 +61,50 @@ class ConferencesController < ApplicationController
   def show
   end
 
+  def delete
+    render layout: false
+  end
+
+  def save_logo
+    unless params[:name].blank?
+      @conference.save_image(params, true)
+    end
+
+    render json: {status: 'success', url: @conference.logo_picture, filename: @conference.logo_file_name}
+  end
+
+  def save_cover
+    unless params[:name].blank?
+      @conference.save_image(params, false)
+    end
+
+    render json: {status: 'success', url: @conference.cover_photo, filename: @conference.cover_file_name}
+  end
+
   # The destroy action removes the conference permanently from the database
   def destroy
-    if @conference.destroy and @conferenceOrganizer.destroy
-      flash[:notice] = "Successfully deleted conference!"
-      redirect_to conference_path
-    else
-      flash[:alert] = "Error updating conference!"
+    Conference.transaction do
+      name = @conference.name
+
+      if @conference.destroy
+        flash[:notice] = "Successfully deleted Conference '" + name + "'."
+      else
+        flash[:error] = "Unable to delete Conference '" + name + "' due to some error. Please try again later ..."
+      end
     end
+    redirect_to root_path
+  end
+
+  def destroy_logo
+    @conference.logo = nil unless @conference.logo.nil?
+    @conference.save!(validate: false)
+    render json: {status: 'success'}
+  end
+
+  def destroy_cover
+    @conference.cover = nil unless @conference.cover.nil?
+    @conference.save!(validate: false)
+    render json: {status: 'success'}
   end
 
   private
@@ -60,7 +114,7 @@ class ConferencesController < ApplicationController
   end
 
   def conference_params
-    params.require(:conference).permit(:name, :start_date, :end_date, :url, :location)
+    params.require(:conference).permit!
   end
 
   def find_conference

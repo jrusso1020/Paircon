@@ -1,0 +1,8 @@
+<% if @conference.name.blank? %>
+    <%= header_title 'Conference' %>
+<% else %>
+    <%= header_title @conference.name %>
+<% end %>
+
+<%= render 'header' %>
+<%#= render 'main_panel' %>
