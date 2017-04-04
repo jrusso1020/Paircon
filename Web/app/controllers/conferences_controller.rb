@@ -59,6 +59,7 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
+    @is_organizer = current_user.attendee?
   end
 
   def delete

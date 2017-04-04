@@ -241,3 +241,21 @@ Misc
 .static:after {
   content: '' !important;
 }
+
+.tabs-left > li.active > a, .tabs-left > li.active > a:hover, .tabs-left > li.active > a:focus {
+  border-width: 2px;
+  border-left-color: $color_kashmir_blue_approx;
+  border-right-color: transparent;
+  border-top: transparent;
+  background-color: #f3f3f3;
+}
+
+.tabs-left > li > a:hover {
+  border-color: transparent;
+  color: $color_kashmir_blue_approx;
+  background-color: #f3f3f3 !important;
+}
+
+form textarea {
+  width: 100%;
+}

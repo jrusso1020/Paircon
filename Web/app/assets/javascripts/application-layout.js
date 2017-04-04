@@ -28,6 +28,7 @@
 
 //= require user
 //= require common
+//= require conference
 //= require paircon-common
 //= require paircon-user
 //= require paircon-conference

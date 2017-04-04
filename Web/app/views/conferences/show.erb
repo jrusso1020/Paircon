@@ -5,4 +5,27 @@
 <% end %>
 
 <%= render 'header' %>
-<%#= render 'main_panel' %>
+
+<div class="row">
+  <div class="col-md-2 col-sm-2 col-xs-2">
+    <ul class="nav nav-tabs tabs-left">
+      <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+      <li><a href="#posts" data-toggle="tab">Posts</a></li>
+      <li><a href="#schedule" data-toggle="tab">Recommendations</a></li>
+      <li><a href="#schedule" data-toggle="tab">Papers</a></li>
+      <li><a href="#schedule" data-toggle="tab">Schedule</a></li>
+      <li><a href="#about" data-toggle="tab">About</a></li>
+    </ul>
+  </div>
+  <div class="col-md-7 col-sm-7 col-xs-10">
+    <%= render 'conferences/panels/recommendations' %>
+    <%= render 'conferences/panels/papers' %>
+    <%= render 'conferences/panels/posts' %>
+  </div>
+  <div class="col-md-3 col-sm-3 col-xs-12 hidden-xs">
+    <%= render 'conferences/panels/about' %>
+    <%= render 'conferences/panels/schedule' %>
+  </div>
+</div>
+
+<%= javascript_tag "initializeConference('" + @conference.id.to_s + "', '" + @conference.description + "')" %>

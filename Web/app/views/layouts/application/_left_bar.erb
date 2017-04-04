@@ -1,4 +1,4 @@
-<div class="col-md-3 left_col">
+<div class="col-md-3 left_col menu_fixed">
   <div class="left_col scroll-view">
     <div class="navbar nav_title" style="border: 0;">
       <a href="<%= root_path() %>" class="site_title navbar-brand">
@@ -32,7 +32,21 @@
       <% conferences = Conference.all.order(:name) %>
       <% if conferences.length != 0 %>
           <div class="menu_section">
-            <h3>CONFERENCES</h3>
+            <h3>ATTENDING CONFERENCES</h3>
+            <ul class="nav side-menu">
+              <% i = 1 %>
+              <% conferences.each do |conference| %>
+                  <li><a id="<%= "conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a></li>
+                  <% i = i + 1 %>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+      <% conferences = Conference.all.order(:name) %>
+      <% if conferences.length != 0 %>
+          <div class="menu_section">
+            <h3>MY CONFERENCES</h3>
             <ul class="nav side-menu">
               <% i = 1 %>
               <% conferences.each do |conference| %>

@@ -1,8 +1,6 @@
-<% is_organizer = current_user.attendee? %>
-
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
-    <% if is_organizer %>
+    <% if @is_organizer %>
         <div class="profile-image dropzone cover-photo" data-resize="true" data-width="1592" data-height="250"
              data-url="<%= save_cover_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.cover_photo)}" unless @conference.cover.blank? %>
              data-removeurl="<%= destroy_cover_conference_url(@conference) %>">
@@ -22,7 +20,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -175px; padding-left: 50px; z-index: 100">
     <div class="display-flex-row" style="align-items: center; <%= 'justify-content: center; flex-flow: column;' if is_mobile_device? %>">
-      <% if is_organizer %>
+      <% if @is_organizer %>
           <div class="profile-image dropzone" data-resize="true" data-width="200" data-height="200"
                data-url="<%= save_logo_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.logo_picture)}" unless @conference.logo.blank? %>
                data-removeurl="<%= destroy_logo_conference_url(@conference) %>">
@@ -37,8 +35,8 @@
       <% end %>
 
       <div style="margin-left:30px; margin-right: 30px;" class="flex-grow">
-        <h1> <%= best_in_place_if is_organizer, @conference, :name, as: :input, place_holder: "&lt;&lt;Conference Name&gt;&gt;" %> </h1>
-        <h3> <%= best_in_place_if is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %></h3>
+        <h1> <%= best_in_place_if @is_organizer, @conference, :name, as: :input, place_holder: "&lt;&lt;Conference Name&gt;&gt;" %> </h1>
+        <h3> <%= best_in_place_if @is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %></h3>
       </div>
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
         <a class="btn btn-paircon">Interested</a>
@@ -46,11 +44,12 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu">
-          <li>
-            <a href="<%= @conference.url %>">Website<i class="pull-right fa fa-globe dropdown-user-icons"></i></a>
-          </li>
-          <% if is_organizer %>
+          <% unless @conference.url.blank? %>
+              <li><a href="<%= @conference.url %>">Website<i class="pull-right fa fa-globe dropdown-user-icons"></i></a></li>
               <li class="divider"></li>
+          <% end %>
+
+          <% if @is_organizer %>
               <li><%= form_for @conference do |f| %>
                     <%= f.hidden_field :redirect, value: true %>
                     <%= f.hidden_field :publish, value: !@conference.publish %>
@@ -78,6 +77,3 @@
     </div>
   </div>
 </div>
-
-
-<%= javascript_tag "initializeConference('" + @conference.id.to_s + "')" %>
