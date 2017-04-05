@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: identities
+#
+# *id*::         <tt>integer, not null, primary key</tt>
+# *user_id*::    <tt>string(30)</tt>
+# *provider*::   <tt>string</tt>
+# *uid*::        <tt>string</tt>
+# *auth_data*::  <tt>text</tt>
+# *created_at*:: <tt>datetime, not null</tt>
+# *updated_at*:: <tt>datetime, not null</tt>
+#
+# Indexes
+#
+#  index_identities_on_user_id  (user_id)
+#--
+# == Schema Information End
+#++
+
 class Identity < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :uid, :provider

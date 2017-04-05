@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170404170232) do
+ActiveRecord::Schema.define(version: 20170405005705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.string   "user_id",       limit: 30
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["user_id", "conference_id"], name: "index_conference_attendees_on_user_id_and_conference_id", unique: true, using: :btree
   end
 
   create_table "conference_organizers", force: :cascade do |t|
@@ -27,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.string   "user_id",       limit: 30
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["user_id", "conference_id"], name: "index_conference_organizers_on_user_id_and_conference_id", unique: true, using: :btree
   end
 
   create_table "conference_papers", force: :cascade do |t|
@@ -34,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.string   "conference_id", limit: 30
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["paper_id", "conference_id"], name: "index_conference_papers_on_paper_id_and_conference_id", unique: true, using: :btree
   end
 
   create_table "conferences", force: :cascade do |t|
@@ -77,6 +80,7 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.text     "auth_data"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
   end
 
   create_table "organizers", force: :cascade do |t|
@@ -84,6 +88,7 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.boolean  "approved",   default: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.index ["user_id"], name: "index_organizers_on_user_id", unique: true, using: :btree
   end
 
   create_table "paper_authors", force: :cascade do |t|
@@ -91,6 +96,7 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.string   "user_id",    limit: 30
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.index ["paper_id", "user_id"], name: "index_paper_authors_on_paper_id_and_user_id", unique: true, using: :btree
   end
 
   create_table "papers", force: :cascade do |t|
@@ -107,6 +113,7 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.text     "description"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["conference_id"], name: "index_posts_on_conference_id", using: :btree
   end
 
   create_table "similarities", force: :cascade do |t|
@@ -116,6 +123,10 @@ ActiveRecord::Schema.define(version: 20170404170232) do
     t.string   "hash"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.index ["paper_id1", "paper_id2"], name: "index_similarities_on_paper_id1_and_paper_id2", unique: true, using: :btree
+  end
+
+  create_table "similarities_indices", force: :cascade do |t|
   end
 
   create_table "users", force: :cascade do |t|
