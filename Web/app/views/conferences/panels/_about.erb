@@ -19,22 +19,25 @@
             <%= truncate(@conference.description, length: 250) %>
             <%= link_to ' ... Read more', '', class: "read-more-description-#{@conference.id}" %>
         <% else %>
-            <%= @conference.description.blank? ? '' : @conference.description + '<hr />' %>
+            <% unless @conference.description.blank? %>
+              <%= @conference.description %>
+              <hr />
+            <% end %>
         <% end %>
     <% end %>
 
     <div class="text-center">
-      <h3 class="navy-background light-grey-text">0 Interested</h3>
+      <h3 class="navy-background light-grey-text"><%= @interested_count %> Interested</h3>
     </div>
     <br/>
 
     <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) or @is_organizer %>
         <strong>Event Date:</strong>
 
-                <div class="input-prepend input-group">
-                  <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                  <input name="reservation-time" id="reservation-time" class="form-control" type="text">
-                </div>
+        <div class="input-prepend input-group">
+          <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+          <input name="reservation-time" id="reservation-time" class="form-control" type="text">
+        </div>
         <br/>
     <% end %>
 
@@ -44,17 +47,26 @@
     <% end %>
 
     <% if !@conference.url.blank? or @is_organizer %>
-        <div><strong>Website:</strong> <%= best_in_place @conference, :url, place_holder: "&lt;&lt;Conference Website URL&gt;&gt;" %> </div>
+        <div>
+          <strong>Website:</strong> <%= best_in_place @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
+        </div>
     <% end %>
 
     <% if !@conference.phone.blank? or @is_organizer %>
-        <div><strong>Phone:</strong> &lt;&lt;Conference Phone&gt;&gt; </div>
+        <div>
+          <strong>Phone:</strong> <%= best_in_place @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
+        </div>
     <% end %>
 
     <% if !@conference.email.blank? or @is_organizer %>
-        <div><strong>Email Address:</strong> <%= best_in_place @conference, :description, place_holder: "&lt;&lt;Conference Contact Email&gt;&gt;" %> </div>
+        <div><strong>Email
+          Address:</strong> <%= best_in_place @conference, :description, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
+        </div>
     <% end %>
     <br/>
     <div>Invite People</div>
   </div>
 </div>
+
+<script>
+</script>

@@ -6,7 +6,7 @@ class Conference < ApplicationRecord
   has_many :conference_organizers, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :users, through: :conference_attendees, dependent: :destroy
-  has_many :users, through: :conference_organizers, dependent: :destroy
+  has_many :organizers, through: :conference_organizers, source: :user, dependent: :destroy
   has_many :papers, through: :conference_papers, dependent: :destroy
 
   before_create :init_conference_id

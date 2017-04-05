@@ -3,6 +3,8 @@ class Post < ApplicationRecord
 
   before_create :init_post_id
 
+  self.per_page = 5
+
   private
 
   def init_post_id

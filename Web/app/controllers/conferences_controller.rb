@@ -58,10 +58,9 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    @is_organizer = current_user.attendee?
-    all_posts = Post.where(conference_id: @conference.id)
-    @posts = all_posts.order(created_at: :desc)
-    # @paginated_posts = all_posts.page(params[:page]).order(created_at: :desc)
+    @is_organizer = !current_user.attendee?
+    @post_count = Post.where(conference_id: @conference.id).count()
+    @interested_count = @conference.users.count
   end
 
   def delete

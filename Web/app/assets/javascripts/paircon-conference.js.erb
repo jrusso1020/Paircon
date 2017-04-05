@@ -1,6 +1,39 @@
 function initializeConference(id, description) {
+    initializeInPlaceEditing(id);
+    retrievePosts(id);
+
+    $('.dropzone').not('.static').html5imageupload();
+
+    $('#reservation-time').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+            format: 'MM/DD/YYYY h:mm A'
+        }
+    }, function (start, end) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
+
+    $('.read-more-description-' + id).on('click', function (e) {
+        e.preventDefault()
+        $(this).parent().html("'" + description + "'")
+    })
+
+    $('.inputfit').inputfit({
+        maxSize: 20,
+        minSize: 14
+    });
+
+}
+
+function initializeInPlaceEditing(id) {
     $(".best_in_place").best_in_place();
+
     $(".best_in_place").click(function () {
+        if ($(this).attr('id') == 'phone-number') {
+            $('#phone-number input').inputmask("phone");
+        }
+
         $(this).css({
             "border-color": "#none",
             "border-width": "none",
@@ -31,26 +64,16 @@ function initializeConference(id, description) {
         showNotificationMsg('Your Conference has been successfully updated.');
     });
 
-    $('.dropzone').not('.static').html5imageupload();
+}
 
-    $('#reservation-time').daterangepicker({
-        timePicker: true,
-        timePickerIncrement: 30,
-        locale: {
-            format: 'MM/DD/YYYY h:mm A'
+function retrievePosts(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/posts?conference_id=' + id,
+        success: function (html) {
+            $('.post_div').html(html);
+            initializeInPlaceEditing(id)
         }
-    }, function (start, end) {
-        console.log(start.toISOString(), end.toISOString(), label);
-    });
-
-    $('.read-more-description-' + id).on('click', function (e) {
-        e.preventDefault()
-        $(this).parent().html("'" + description + "'")
-    })
-
-    $('.inputfit').inputfit({
-        maxSize: 20,
-        minSize: 14
     });
 }
 

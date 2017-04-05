@@ -4,7 +4,12 @@ class PostsController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.where(conference_id: params[:conference_id])
+    @is_organizer = current_user.attendee?
+    @posts = Post.where(conference_id: params[:conference_id]).page(params[:page]).order(created_at: :desc)
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create

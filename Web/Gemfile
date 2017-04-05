@@ -78,15 +78,17 @@ gem 'geocoder'                                                    # Translate ad
 # gem 'sitemap_generator'                                         # For Generating Sitemaps for Google etc.
 
 group :development, :test do
+  gem 'rack-mini-profiler', require: false                                        # Used for memory profiling
+  gem 'memory_profiler'
+  gem 'flamegraph'
+  gem 'stackprof'
+  gem 'fast_stack'
   gem 'rdoc'                                                      # For Generating Documentation (Requires GraphViz Local Install)
   gem 'rails-erd'                                                 # For Generating ERD Diagrams (https://github.com/voormedia/rails-erd)
   gem 'annotate'                                                  # Adding annotations to models (http://github.com/ctran/annotate_models)
   gem 'byebug', platform: :mri                                    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'passenger', '~> 5.0.7'                                     # Web Server (Best)
   #gem 'puma', '~> 2.8.1'                                         # Web Server (Lighter)
-end
-
-group :development do
   gem 'web-console', '>= 3.3.0'                                   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   # gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring-watcher-listen', '~> 2.0.0'
