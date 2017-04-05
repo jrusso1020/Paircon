@@ -1,8 +1,24 @@
-<div class="row">
-  <div class="col-md-4 col-sm-4 col-xs-4">
-  </div>
-  <div class="col-md-5 col-sm-5 col-xs-4">
-  </div>
-  <div class="col-md-3 col-sm-3 col-xs-4">
-  </div>
+<div>
+    <form>
+      <input id="geocomplete" type="text" placeholder="Type in an address" size="90" />
+    </form>
 </div>
+<div class="map_canvas"></div>
+    
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  
+<script>
+  $(function(){
+    
+    var options = {
+      map: ".map_canvas",
+      location: "NYC"
+    };
+    
+    $("#geocomplete").geocomplete(options);
+    
+  });
+</script>
+
+
