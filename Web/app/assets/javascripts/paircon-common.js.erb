@@ -24,6 +24,7 @@ function enablePJAX() {
     $(document).on('pjax:complete', function () {
         NProgress.done();
         switchContainer();
+        $("img").lazyload();
         $('#error_callout').fadeTo('fast', 0);
         try {
             initLoginBoxValidation();
@@ -97,6 +98,8 @@ function enablePJAX() {
         $('.modal-dialog').removeClass('modal-mg');
         $(this).removeData('bs.modal');
     });
+
+    $("img").lazyload();
 }
 
 // For centering login form

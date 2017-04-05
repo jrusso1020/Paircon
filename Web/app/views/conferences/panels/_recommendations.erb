@@ -1,0 +1,55 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h3>Paircon Recommendations
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+      </ul>
+    </h3>
+
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+
+    <div id="owl-demo" class="owl-carousel" style="margin-top: 10px">
+      <%# @drives.each do |drive| %>
+      <% percentage = 0.3 %>
+      <div class="usage-graph" style="transform: scale(1.2,1.2);">
+        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+        </div>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+      </div>
+      <div class="usage-graph" style="transform: scale(1.2,1.2);">
+        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+        </div>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+      </div>
+      <div class="usage-graph" style="transform: scale(1.2,1.2);">
+        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+        </div>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+      </div>
+      <div class="usage-graph" style="transform: scale(1.2,1.2);">
+        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+        </div>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+      </div>
+    </div>
+
+    <script>
+        var count = 3 <%#= @drives.count >= 3 ? 3 : @drives.count %>;
+        if (window.innerWidth < 768) {
+            count = 2 <%#= @drives.count >= 2 ? 2 : @drives.count %>;
+        }
+
+        initCharts(count);
+    </script>
+
+    <%# end %>
+
+
+  </div>
+</div>

@@ -1,6 +1,39 @@
-function initializeConference(id) {
+function initializeConference(id, description) {
+    initializeInPlaceEditing(id);
+    retrievePosts(id);
+
+    $('.dropzone').not('.static').html5imageupload();
+
+    $('#reservation-time').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+            format: 'MM/DD/YYYY h:mm A'
+        }
+    }, function (start, end) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
+
+    $('.read-more-description-' + id).on('click', function (e) {
+        e.preventDefault()
+        $(this).parent().html("'" + description + "'")
+    })
+
+    $('.inputfit').inputfit({
+        maxSize: 20,
+        minSize: 14
+    });
+
+}
+
+function initializeInPlaceEditing(id) {
     $(".best_in_place").best_in_place();
+
     $(".best_in_place").click(function () {
+        if ($(this).attr('id') == 'phone-number') {
+            $('#phone-number input').inputmask("phone");
+        }
+
         $(this).css({
             "border-color": "#none",
             "border-width": "none",
@@ -23,6 +56,7 @@ function initializeConference(id) {
             "border-style": "none"
         })
     })
+
     $('.best_in_place').bind("ajax:success", function (data, jqXHR, status) {
         var conference_name = $.parseJSON(jqXHR).text;
         document.title = conference_name + ' - PairCon';
@@ -30,5 +64,52 @@ function initializeConference(id) {
         showNotificationMsg('Your Conference has been successfully updated.');
     });
 
-    $('.dropzone').not('.static').html5imageupload();
+}
+
+function retrievePosts(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/posts?conference_id=' + id,
+        success: function (html) {
+            $('.post_div').html(html);
+            initializeInPlaceEditing(id)
+        }
+    });
+}
+
+function initCharts(count) {
+
+    try {
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+            items: count,
+            loop: count > 1,
+            autoplay: count > 1,
+            autoplayTimeout: 4000
+        });
+
+        //Easy Pie Chart
+        $('.easypiechart').easyPieChart({
+            barColor: "#34495e",
+            trackColor: '#edeef0',
+            scaleColor: '#d2d3d6',
+            scaleLength: 5,
+            lineCap: 'round',
+            lineWidth: 6,
+            size: 100,
+            scaleColor: false,
+            onStep: function (from, to, percent) {
+                $(this.el).find('.percent').text(Math.round(percent));
+            }
+        });
+
+        $('#updatePieCharts').on('click', function () {
+            $('.easypiechart').each(function () {
+                $(this).data('easyPieChart').update(Math.random() * 100);
+            });
+            return false;
+        });
+    }
+    catch (e) {
+    }
 }
