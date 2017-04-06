@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: posts
+#
+# *id*::            <tt>string(30), not null, primary key</tt>
+# *conference_id*:: <tt>string(30)</tt>
+# *description*::   <tt>text</tt>
+# *created_at*::    <tt>datetime, not null</tt>
+# *updated_at*::    <tt>datetime, not null</tt>
+#--
+# == Schema Information End
+#++
+
 class Post < ApplicationRecord
   belongs_to :conference
 
