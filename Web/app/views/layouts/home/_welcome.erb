@@ -20,7 +20,7 @@
               <% init_error_flash_for_login %>
               <div class="custom-flash-info alert alert-fixed alert-info alert-dismissable" id="error_callout"
                    style="opacity: <%= flash[:alert].blank? ? '0' : '1' %>;">
-                <button class="close" type="submit" style="position: static; opacity: 1; font-size: 14px; margin-top: 5px;">
+                <button class="close welcome-btn" type="submit">
                   <i class="fa fa-times fa-fw paircon-custom"></i></button>
                 <i class="fa fa-info fa-fw paircon-custom"></i>
                 <span class="paircon-custom"><small><%= raw flash[:alert] %></small></span>

@@ -11,9 +11,7 @@
 # Indexes
 #
 #  index_conference_organizers_on_user_id_and_conference_id  (user_id,conference_id) UNIQUE
-#--
 # == Schema Information End
-#++
 
 class ConferenceOrganizer < ApplicationRecord
   alias_attribute :organizers, :users

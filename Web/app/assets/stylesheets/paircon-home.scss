@@ -372,6 +372,10 @@ h1.bnr-sub-title {
   color: $header-h1-bnr-sub-title-font-color !important;
 }
 
+.header-navbar-bg {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 /***********************************
 ************************************
 About
@@ -444,6 +448,18 @@ Landing
   margin: auto;
 }
 
+.statistics-font {
+  font-size: 80px;
+}
+
+.welcome-btn {
+  position: static; 
+  opacity: 1; 
+  font-size: 14px; 
+  margin-top: 5px;
+}
+
+
 /***********************************
 ************************************
 Signup banner
@@ -451,4 +467,21 @@ Signup banner
 ***********************************/
 .dark-gray {
   background-color: $dark-grey;
+}
+
+/***********************************
+************************************
+Privacy and Terms Pages
+************************************
+***********************************/
+.header-bg {
+  min-height: 300px;
+}
+
+.body-margin {
+  padding: 30px;  
+}
+
+.list-circle {
+  list-style-type: circle;
 }

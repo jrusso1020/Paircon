@@ -11,9 +11,7 @@
 # Indexes
 #
 #  index_conference_attendees_on_user_id_and_conference_id  (user_id,conference_id) UNIQUE
-#--
 # == Schema Information End
-#++
 
 class ConferenceAttendee < ApplicationRecord
   belongs_to :conference
