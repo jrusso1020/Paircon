@@ -16,11 +16,18 @@
 #++
 
 class Post < ApplicationRecord
+  include PublicActivity::Common
+
   belongs_to :conference
 
   before_create :init_post_id
 
   self.per_page = 5
+
+  def activity key
+    self.save!(validate: false) unless self.persisted?
+    self.create_activity(key, owner: current_user, recipient: self.conference.users, params: {:post => self.to_json})
+  end
 
   private
 

@@ -13,10 +13,10 @@
     <%= render 'layouts/home/footer' %>
   </div>
 </body>
-<%= javascript_tag 'enablePJAX()' %>
+<%= javascript_tag 'initializeApplication()' %>
 
 <script>
-    if (("onhashchange" in window) && !($.browser.msie)) {
+    if (("onhashchange" in window)) {
         //modern browsers
         $(window).bind('hashchange', function () {
             window.location.hash = ''

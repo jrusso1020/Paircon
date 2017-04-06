@@ -201,7 +201,7 @@ class UsersController < ApplicationController
     @user.last_notifications_read = (Time.now - 1.week)
 
     # Notifier.startup_instructions(current_user).deliver_later
-    # @user.activity(:create)
+    @user.activity(:create)
   end
 
 end

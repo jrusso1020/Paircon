@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405005705) do
+ActiveRecord::Schema.define(version: 20170405223805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "activities", force: :cascade do |t|
+    t.string   "trackable_type"
+    t.string   "trackable_id",   limit: 30
+    t.string   "owner_type"
+    t.string   "owner_id",       limit: 30
+    t.string   "key"
+    t.text     "parameters"
+    t.string   "recipient_type"
+    t.string   "recipient_id",   limit: 30
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
+    t.index ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
+    t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
+  end
 
   create_table "conference_attendees", force: :cascade do |t|
     t.string   "conference_id", limit: 30
@@ -63,16 +79,6 @@ ActiveRecord::Schema.define(version: 20170405005705) do
     t.string   "email",              limit: 255, default: ""
   end
 
-  create_table "events", force: :cascade do |t|
-    t.string   "conference_id", limit: 30
-    t.string   "name"
-    t.text     "description"
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "identities", force: :cascade do |t|
     t.string   "user_id",    limit: 30
     t.string   "provider"
@@ -89,14 +95,6 @@ ActiveRecord::Schema.define(version: 20170405005705) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.index ["user_id"], name: "index_organizers_on_user_id", unique: true, using: :btree
-  end
-
-  create_table "paper_authors", force: :cascade do |t|
-    t.string   "paper_id",   limit: 30
-    t.string   "user_id",    limit: 30
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.index ["paper_id", "user_id"], name: "index_paper_authors_on_paper_id_and_user_id", unique: true, using: :btree
   end
 
   create_table "papers", force: :cascade do |t|
@@ -166,8 +164,19 @@ ActiveRecord::Schema.define(version: 20170405005705) do
     t.string   "user_industry",                      default: ""
     t.integer  "user_grad_year"
     t.string   "user_organization",                  default: ""
+    t.string   "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.string   "invited_by_type"
+    t.integer  "invited_by_id"
+    t.integer  "invitations_count",                  default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
+    t.index ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 

@@ -19,6 +19,7 @@ class PostsController < ApplicationController
     if @post.save
       flash[:notice] = 'Your Post has successfully been added and published.'
       redirect_back(fallback_location: root_path)
+      @post.activity(:create)
     else
       flash[:alert] = 'Error creating your Post! Please contact our support team.'
       redirect_back(fallback_location: root_path)

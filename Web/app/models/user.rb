@@ -39,17 +39,29 @@
 # *user_industry*::           <tt>string, default("")</tt>
 # *user_grad_year*::          <tt>integer</tt>
 # *user_organization*::       <tt>string, default("")</tt>
+# *invitation_token*::        <tt>string</tt>
+# *invitation_created_at*::   <tt>datetime</tt>
+# *invitation_sent_at*::      <tt>datetime</tt>
+# *invitation_accepted_at*::  <tt>datetime</tt>
+# *invitation_limit*::        <tt>integer</tt>
+# *invited_by_type*::         <tt>string</tt>
+# *invited_by_id*::           <tt>integer</tt>
+# *invitations_count*::       <tt>integer, default(0)</tt>
 #
 # Indexes
 #
 #  index_users_on_confirmation_token    (confirmation_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_invitation_token      (invitation_token) UNIQUE
+#  index_users_on_invitations_count     (invitations_count)
+#  index_users_on_invited_by_id         (invited_by_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #--
 # == Schema Information End
 #++
 
 class User < ApplicationRecord
+  include PublicActivity::Common
 
   devise :database_authenticatable, :async, :registerable, :recoverable, :rememberable,
          :trackable, :validatable, :timeoutable, :omniauthable,
@@ -58,17 +70,20 @@ class User < ApplicationRecord
   validates :email, presence: true
   validates :password, confirmation: true
 
+  has_many :conference_attendees, dependent: :destroy
+  has_many :conference_organizers, dependent: :destroy
+  has_many :organizers, dependent: :destroy
   has_many :identities, dependent: :destroy
-  has_many :conferences, through: :conference_attendees, dependent: :destroy
-  has_many :conferences, through: :conference_organizers, dependent: :destroy
-  has_many :papers, through: :paper_authors
+
+  has_many :conferences, through: :conference_attendees
+  has_many :conferences, through: :conference_organizers
 
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}, default_url: 'Male.jpg'
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
 
   before_create :init_user_id
 
-  enum user_type: [ :attendee, :organizer, :admin ]
+  enum user_type: [:attendee, :organizer, :admin]
 
   def full_name=(full_name)
     full_name_tokens = full_name.split(/\s+/)
@@ -105,6 +120,11 @@ class User < ApplicationRecord
 
   def pending_organizer
     Organizer.exists?(user_id: self.id)
+  end
+
+  def activity key
+    self.save!(validate: false) unless self.persisted?
+    self.create_activity(key, owner: self, recipient: self, params: {:user => self.to_json})
   end
 
   private

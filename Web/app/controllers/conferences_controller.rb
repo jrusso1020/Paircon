@@ -1,5 +1,5 @@
 class ConferencesController < ApplicationController
-  before_action :find_conference, only: [:edit, :update, :show, :delete, :destroy, :destroy_logo, :destroy_cover, :save_logo, :save_cover]
+  before_action :find_conference, only: [:edit, :update, :show, :delete, :destroy, :destroy_logo, :destroy_cover, :save_logo, :save_cover, :attend_conference]
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -12,9 +12,12 @@ class ConferencesController < ApplicationController
   def create
     @conference = Conference.new()
     if @conference.save
-      @conferenceOrganizer = ConferenceOrganizer.new(:conference_id => @conference.id, :user_id => current_user.id)
+      @conference.conference_attendees.create(user_id: current_user.id)
+      @conferenceOrganizer = @conference.conference_organizers.create(user_id: current_user.id)
       if @conferenceOrganizer.save
         flash[:notice] = 'We have created your Conference! Now edit the template before publishing it!'
+
+        @conference.activity(:create, current_user)
         redirect_to conference_path(@conference)
       else
         flash[:alert] = 'Error creating your Conference! Please contact our support team.'
@@ -33,23 +36,27 @@ class ConferencesController < ApplicationController
     if @conference.update_attributes(conference_params)
       if redirect_bool
         if params[:commit] == 'Publish'
+          @conference.activity(:publish, current_user)
           flash[:notice] = 'Your Conference has been successfully published and can now be found in PairCon.'
         elsif params[:commit] == 'Hide'
+          @conference.activity(:publish, current_user)
           flash[:notice] = 'Your Conference has been hidden from PairCon users and is unavailable to them.'
         elsif params[:commit] == 'Archive'
+          @conference.activity(:archive, current_user)
           flash[:notice] = 'Your Conference has been successfully marked as archived.'
         elsif params[:commit] == 'Restore'
+          @conference.activity(:archive, current_user)
           flash[:notice] = 'Your Conference has been restored.'
         end
 
-        redirect_back(fallback_location: conference_path(@conference))
+        redirect_back(fallback_location: root_path)
       else
         render json: {status: :success, text: @conference.name}
       end
     else
       flash[:alert] = 'Error updating conference!'
       if redirect_bool
-        redirect_back(fallback_location: conference_path(@conference))
+        redirect_back(fallback_location: root_path)
       else
         render json: {status: :error, text: @conference.name}
       end
@@ -58,7 +65,7 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    @is_organizer = !current_user.attendee?
+    @is_organizer = current_user.attendee?
     @post_count = Post.where(conference_id: @conference.id).count()
     @interested_count = @conference.users.count
   end
@@ -67,8 +74,18 @@ class ConferencesController < ApplicationController
     render layout: false
   end
 
-  def new_post
+  def attend_conference
+    attendee = @conference.conference_attendees.where(user_id: current_user.id)
 
+    if attendee.blank?
+      @conference.conference_attendees.create(user_id: current_user.id)
+      flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
+    else
+      attendee.destroy_all
+      flash[:notice] = "You have successfully been removed from '#{@conference.get_name}'."
+    end
+
+    redirect_back(fallback_location: root_path)
   end
 
   def save_logo
@@ -90,7 +107,7 @@ class ConferencesController < ApplicationController
   # The destroy action removes the conference permanently from the database
   def destroy
     Conference.transaction do
-      name = @conference.name
+      name = @conference.get_name
 
       if @conference.destroy
         flash[:notice] = "Successfully deleted Conference '" + name + "'."

@@ -47,7 +47,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-                        <%= image_tag 'people.png', lazy: true %>
+                        <%= image_tag 'people.png', style: 'height: 590px; margin-top: 20px;' %>
                       </div>
                     </div>
                   </div>
@@ -63,15 +63,13 @@
                             <h3 class="input-label">Name <span class="required">*</span></h3>
 
                             <div class="row">
-                              <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <%= f.text_field :first_name, placeholder: 'First Name',
-                                                   class: 'form-control form-signup-control', id: 'first_name' %>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                  <%= f.text_field :last_name, placeholder: 'Last Name',
-                                                   class: 'form-control form-signup-control', id: 'last_name' %>
-                                </div>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                <%= f.text_field :first_name, placeholder: 'First Name',
+                                                 class: 'form-control form-signup-control', id: 'first_name' %>
+                              </div>
+                              <div class="col-md-6 col-sm-6 col-xs-12">
+                                <%= f.text_field :last_name, placeholder: 'Last Name',
+                                                 class: 'form-control form-signup-control', id: 'last_name' %>
                               </div>
                             </div>
 
@@ -87,13 +85,11 @@
                             <% unless Identity.find_by_user_id(current_user.id).nil? %>
                                 <h3 class="input-label signup-input-label">Password <span class="required">*</span></h3>
                                 <div class="row">
-                                  <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                      <%= f.password_field :password, :autocomplete => 'true', :class => 'form-control', placeholder: "Password" %>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                      <%= f.password_field :password_confirmation, :autocomplete => 'true', :class => 'form-control', placeholder: "Confirm Password" %>
-                                    </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <%= f.password_field :password, :autocomplete => 'true', :class => 'form-control', placeholder: "Password" %>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <%= f.password_field :password_confirmation, :autocomplete => 'true', :class => 'form-control', placeholder: "Confirm Password" %>
                                   </div>
                                 </div>
                             <% end %>
@@ -117,9 +113,7 @@
                             <h3 class="input-label signup-input-label">Phone Number</h3>
                             <div class="row">
                               <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                  <%= f.text_field :phone_number, :id => 'phoneNumber', placeholder: 'Phone Number', :class => 'form-control form-signup-control' %>
-                                </div>
+                                <%= f.text_field :phone_number, :id => 'phoneNumber', placeholder: 'Phone Number', :class => 'form-control form-signup-control' %>
                               </div>
                             </div>
 
@@ -165,7 +159,8 @@
                               <div class="profile-image dropzone " data-resize="true" data-width="300" data-height="300"
                                    data-url="<%= save_logo_user_url(current_user) %>" data-image="<%= asset_path(current_user.profile_photo) %>"
                                    data-removeurl="<%= destroy_logo_user_url(current_user) %>">
-x                                <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
+
+                                <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
                               </div>
                             </div>
                           </div>
@@ -200,7 +195,7 @@ x                                <input class="invisible" id="profile-image-uplo
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div style="margin-top: 50px;">
                 <h1 class="text-center">Please wait while we set up your PairCon account</h1>
-                <%= image_tag 'spinner.gif', class: 'img-full center-image', style: 'width: 80px; margin-top: 30px;', lazy: true %>
+                <%= image_tag 'spinner.gif', class: 'img-full center-image', style: 'width: 80px; margin-top: 30px;' %>
               </div>
             </div>
           </div>

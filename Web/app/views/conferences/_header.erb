@@ -42,15 +42,23 @@
         </h3>
       </div>
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
-        <a class="btn btn-paircon">Interested</a>
+        <a class="btn btn-paircon" onclick="document.getElementById('interested').click()"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
         <button type="button" class="btn btn-paircon dropdown-toggle" data-toggle="dropdown">
           <span class="caret"></span>
         </button>
+
+        <%= form_for @conference, url: attend_conference_conference_path(), method: :post do |f| %>
+            <%= f.submit '', id: 'interested', class: 'hidden' %>
+        <% end %>
+
         <ul class="dropdown-menu" role="menu">
           <% unless @conference.url.blank? %>
               <li><a href="<%= @conference.url %>">Website<i class="pull-right fa fa-globe dropdown-user-icons"></i></a>
               </li>
               <li class="divider"></li>
+          <% else %>
+              <li><a href="#about" data-toggle="tab">About<i class="pull-right fa fa-info dropdown-user-icons"></i></a>
+              </li>
           <% end %>
 
           <% if @is_organizer %>

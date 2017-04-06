@@ -24,7 +24,6 @@ gem 'rack-pjax'                                                   # PJax to make
 gem 'active_device'                                               # For Mobile / Desktop Web Detection
 gem 'best_in_place'                                               # In place editing for Text Fields
 gem 'will_paginate'                                               # Used for pagination
-gem 'lazyload-rails'                                              # Used to lazy load images
 # gem 'paul_revere', '~> 2.0.0'                                   # For Announcements on The Website
 
 group :assets do
@@ -60,7 +59,7 @@ gem 'omniauth-facebook'                                           # For login fr
 gem 'recaptcha', require: 'recaptcha/rails'                       # Creating Recaptchas
 
 # Cache
-# gem 'dalli'                                                     # For caching
+gem 'dalli'                                                       # For caching
 
 # Utility
 gem 'pdf-reader'                                                  # For reading PDFS
@@ -70,19 +69,19 @@ gem 'hashie'                                                      # Getting hash
 gem 'rack-cors'                                                   # Handling Cross Origin Requests
 gem 'paperclip'                                                   # File attachement
 gem 'jquery-fileupload-rails'                                     # Uploading images / files
-gem 'geocoder'                                                    # Translate address into lon and lat 
-# gem 'public_activity'                                           # For Notifications
+gem 'public_activity'                                             # For Notifications
 # gem 'has_easy', '~> 0.9.0', github: 'aafaq-hassan/has_easy'     # User Properties
+gem 'geocomplete_rails'                                           # For Address Completion etc.
 
 # Misc
 # gem 'sitemap_generator'                                         # For Generating Sitemaps for Google etc.
 
 group :development, :test do
-  gem 'rack-mini-profiler', require: false                                        # Used for memory profiling
-  gem 'memory_profiler'
-  gem 'flamegraph'
-  gem 'stackprof'
-  gem 'fast_stack'
+  gem 'rack-mini-profiler', require: false                        # Used for memory profiling
+  gem 'memory_profiler'                                           # Used for memory profiling
+  gem 'flamegraph'                                                # Used for memory profiling
+  gem 'stackprof'                                                 # Used for memory profiling
+  gem 'fast_stack'                                                # Used for memory profiling
   gem 'rdoc'                                                      # For Generating Documentation (Requires GraphViz Local Install)
   gem 'rails-erd'                                                 # For Generating ERD Diagrams (https://github.com/voormedia/rails-erd)
   gem 'annotate'                                                  # Adding annotations to models (http://github.com/ctran/annotate_models)

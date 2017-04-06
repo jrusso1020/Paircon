@@ -627,7 +627,7 @@ body {
     left: auto;
     width: 220px;
     &.msg_list {
-      width: 300px;
+      width: 350px;
     }
   }
 }
@@ -665,7 +665,7 @@ body {
     li {
       display: inline-block;
       float: right;
-      position: static;
+      position: relative;
     }
   }
   .dropdown-menu li {
@@ -2370,7 +2370,7 @@ ul {
     width: 100%;
   }
   &.msg_list li {
-    background: $color_black_haze_approx;
+    background: transparent !important;
     padding: 5px;
     display: flex;
     margin: 6px 6px 0;

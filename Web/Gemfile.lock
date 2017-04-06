@@ -104,6 +104,7 @@ GEM
       sprockets (< 4.0)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
+    dalli (2.7.6)
     datejs-rails (2.0.1)
       railties (>= 3.1)
     devise (4.2.1)
@@ -144,7 +145,8 @@ GEM
       sass-rails (>= 5.0)
       select2-rails
       switchery-rails
-    geocoder (1.4.3)
+    geocomplete_rails (1.7.0)
+      railties (>= 3.1)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     hashery (2.1.2)
@@ -171,8 +173,6 @@ GEM
       railties (>= 3.2.16)
     json (2.0.3)
     jwt (1.5.6)
-    lazyload-rails (0.3.1)
-      nokogiri (~> 1.5)
     libv8 (3.16.14.19)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -238,6 +238,11 @@ GEM
       rails (> 4.2.0)
       sass-rails (~> 5.0)
     pg (0.20.0)
+    public_activity (1.5.0)
+      actionpack (>= 3.0.0)
+      activerecord (>= 3.0)
+      i18n (>= 0.5.0)
+      railties (>= 3.0.0)
     rack (2.0.1)
     rack-cors (0.4.1)
     rack-mini-profiler (0.10.2)
@@ -358,6 +363,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   compass-core!
   compass-rails
+  dalli
   devise
   devise-async
   docsplit
@@ -365,14 +371,13 @@ DEPENDENCIES
   flamegraph
   font-awesome-sass
   gentelella-rails
-  geocoder
+  geocomplete_rails
   hashie
   i18n-js (>= 3.0.0.rc11)
   introjs-rails
   jquery-fileupload-rails
   jquery-rails (~> 4.1.1)
   jquery-ui-rails (~> 6.0.1)
-  lazyload-rails
   memory_profiler
   omniauth
   omniauth-facebook
@@ -382,6 +387,7 @@ DEPENDENCIES
   pdf-reader
   pdfjs_viewer-rails
   pg
+  public_activity
   rack-cors
   rack-mini-profiler
   rack-pjax

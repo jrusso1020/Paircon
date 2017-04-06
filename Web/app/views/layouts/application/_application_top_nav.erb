@@ -12,7 +12,7 @@
         </div>
 
         <ul id="user-dropdown" class="nav navbar-nav navbar-right pull-right navbar-user">
-          <li class="">
+          <li>
             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               <img src="<%= asset_path(current_user.profile_photo) %>" id="userimage" alt=""><span id="username"><%= current_user.full_name %></span>
               <i class=" fa fa-angle-down"></i>
@@ -23,7 +23,8 @@
               </a></li>
               <li>
                 <% if !current_user.organizer? and !current_user.pending_organizer %>
-                    <a data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" href="<%= become_organizer_user_path(current_user.id) %>">Become an Organizer
+                    <a data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" href="<%= become_organizer_user_path(current_user.id) %>">Become
+                      an Organizer
                       <i class="pull-right fa fa-users dropdown-user-icons"></i>
                     </a>
                 <% elsif !current_user.organizer? and current_user.pending_organizer %>
@@ -43,6 +44,9 @@
               </li>
             </ul>
           </li>
+          <!-- FOR NOTIFICATION -->
+          <li class="dropdown" tabindex="5006" id="notification_panel"></li>
+          <!-- END -->
         </ul>
       </div>
     </nav>

@@ -39,11 +39,22 @@
 # *user_industry*::           <tt>string, default("")</tt>
 # *user_grad_year*::          <tt>integer</tt>
 # *user_organization*::       <tt>string, default("")</tt>
+# *invitation_token*::        <tt>string</tt>
+# *invitation_created_at*::   <tt>datetime</tt>
+# *invitation_sent_at*::      <tt>datetime</tt>
+# *invitation_accepted_at*::  <tt>datetime</tt>
+# *invitation_limit*::        <tt>integer</tt>
+# *invited_by_type*::         <tt>string</tt>
+# *invited_by_id*::           <tt>integer</tt>
+# *invitations_count*::       <tt>integer, default(0)</tt>
 #
 # Indexes
 #
 #  index_users_on_confirmation_token    (confirmation_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_invitation_token      (invitation_token) UNIQUE
+#  index_users_on_invitations_count     (invitations_count)
+#  index_users_on_invited_by_id         (invited_by_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #--
 # == Schema Information End

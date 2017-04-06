@@ -1,7 +1,7 @@
 /****************************************/
 //------------PJAX ENABLER--------------//
 /****************************************/
-function enablePJAX() {
+function initializeApplication() {
     $(document).on('page:fetch', function () {
         NProgress.start();
     });
@@ -15,7 +15,6 @@ function enablePJAX() {
     $.pjax.defaults.timeout = 2000;
     $.pjax.defaults.maxCacheLength = 0;
     $(document).pjax("a:not([data-no-pjax])", '[data-pjax-container]')
-    var animationSpeed = 0;
 
     $("a").on('pjax:complete', function () {
         NProgress.done();
@@ -24,8 +23,9 @@ function enablePJAX() {
     $(document).on('pjax:complete', function () {
         NProgress.done();
         switchContainer();
-        $("img").lazyload();
         $('#error_callout').fadeTo('fast', 0);
+        bind_notification();
+
         try {
             initLoginBoxValidation();
         } catch (err) {
@@ -35,7 +35,6 @@ function enablePJAX() {
     window.addEventListener('popstate', function (e) {
         getViewportHeight();
         switchContainer();
-        animationSpeed = 300;
         try {
             initLoginBoxValidation();
         } catch (err) {
@@ -58,37 +57,6 @@ function enablePJAX() {
         $.pjax.submit(event, '#wrap');
     });
 
-    function switchContainer() {
-        var is_confirmation = $('#new_user_confirmation').length > 0;
-        var is_login = $('#new_user_session').length > 0;
-        var is_recover = $('#new_user_password').length > 0;
-        var is_edit_register = $('#edit_user_password').length > 0;
-        var is_register = $('#new_user_registration').length > 0;
-        var cheight = 100;
-
-        if (is_login)
-            cheight = 314;
-        else if (is_register && window.innerWidth < 768)
-            cheight = 340;
-        else if (is_register && window.innerWidth >= 768)
-            cheight = 446;
-        else if (is_recover || is_confirmation)
-            cheight = 260;
-        else if (is_edit_register)
-            cheight = 305;
-
-        $('#loginbox').animate({'height': cheight + 'px'}, animationSpeed, function () {
-            $('#loginbox form').fadeTo(animationSpeed, 1);
-        });
-    }
-
-    getViewportHeight();
-    switchContainer();
-    animationSpeed = 300;
-    try {
-        initLoginBoxValidation();
-    } catch (err) {
-    }
     $(window).resize(function () {
         getViewportHeight();
         switchContainer();
@@ -99,13 +67,71 @@ function enablePJAX() {
         $(this).removeData('bs.modal');
     });
 
-    $("img").lazyload();
+    if (("onhashchange" in window)) {
+        $(window).bind('hashchange', function () {
+            window.location.hash = ''
+        });
+    }
+
+    getViewportHeight();
+    switchContainer();
+    try {
+        initLoginBoxValidation();
+    } catch (err) {
+    }
+
+    bind_notification();
 }
 
 // For centering login form
 var getViewportHeight = function () {
     $('.focusedform').css('height', $(window).height() - 40); // Prevent scroll of the whole content (mobile)
 };
+
+
+function switchContainer() {
+    var animationSpeed = 300;
+
+    var is_confirmation = $('#new_user_confirmation').length > 0;
+    var is_login = $('#new_user_session').length > 0;
+    var is_recover = $('#new_user_password').length > 0;
+    var is_edit_register = $('#edit_user_password').length > 0;
+    var is_register = $('#new_user_registration').length > 0;
+    var cheight = 100;
+
+    if (is_login)
+        cheight = 314;
+    else if (is_register && window.innerWidth < 768)
+        cheight = 340;
+    else if (is_register && window.innerWidth >= 768)
+        cheight = 446;
+    else if (is_recover || is_confirmation)
+        cheight = 260;
+    else if (is_edit_register)
+        cheight = 305;
+
+    $('#loginbox').animate({'height': cheight + 'px'}, animationSpeed, function () {
+        $('#loginbox form').fadeTo(animationSpeed, 1);
+    });
+}
+
+/******************************************/
+//------------Notifications---------------//
+/******************************************/
+function bind_notification() {
+    $.ajax({
+        type: 'GET',
+        url: '/notifications',
+        data: 'referer=2',
+        beforeSend: function () {
+            $("#notification_panel").html("<div style='width: 100%; text-align: center; font-style: italic;'><img src='/assets/ajax-loader.gif' alt='Loading...' title='Loading...'/></div>");
+            $('#notification_div').hide();
+        },
+        success: function (html) {
+            $('#notification_panel').html(html);
+        }
+    });
+}
 
 /******************************************/
 //------------ERROR MESSAGES--------------//
@@ -259,7 +285,16 @@ function loadApplicationLayout() {
                         $SIDEBAR_MENU.find("li ul").slideUp();
                     }
                 }
-                $li.addClass('active');
+
+                $SIDEBAR_MENU.find('a[href="' + $(this).attr('href') + '"]').parent('li').addClass('active active-sm');
+
+                $SIDEBAR_MENU.find('a').filter(function () {
+                    return this.href == $(this).attr('href');
+                }).parent('li').addClass('active active-sm').parents('ul').slideDown(function () {
+                    setContentHeight();
+                }).parent().addClass('active active-sm');
+
+//                $li.addClass('active');
 
                 $('ul:first', $li).slideDown(function () {
                     setContentHeight();
@@ -287,13 +322,13 @@ function loadApplicationLayout() {
         });
 
         // check active menu
-        $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
+        $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('active active-sm');
 
         $SIDEBAR_MENU.find('a').filter(function () {
             return this.href == CURRENT_URL;
-        }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
+        }).parent('li').addClass('active active-sm').parents('ul').slideDown(function () {
             setContentHeight();
-        }).parent().addClass('active');
+        }).parent().addClass('active active-sm');
 
         // recompute content when resizing
         $(window).smartresize(function () {

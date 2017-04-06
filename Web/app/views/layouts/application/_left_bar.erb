@@ -2,7 +2,7 @@
   <div class="left_col scroll-view">
     <div class="navbar nav_title" style="border: 0;">
       <a href="<%= root_path() %>" class="site_title navbar-brand">
-        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: 'margin-left: 5px; height: 30px; display: inline-block;', lazy: true %>
+        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: 'margin-left: 5px; height: 30px; display: inline-block;' %>
         <h2 style="display: inline;">PAIR<span class="logo-dec">CON</span></h2>
       </a>
     </div>
@@ -29,28 +29,28 @@
         </ul>
       </div>
 
-      <% conferences = Conference.all.order(:name) %>
-      <% if conferences.length != 0 %>
+      <% attending = Conference.all.includes(:conference_attendees).where(conference_attendees: {user_id: current_user.id}).order(:name) %>
+      <% if attending.length != 0 %>
           <div class="menu_section">
             <h3>ATTENDING CONFERENCES</h3>
             <ul class="nav side-menu">
               <% i = 1 %>
-              <% conferences.each do |conference| %>
-                  <li><a id="<%= "conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a></li>
+              <% attending.each do |conference| %>
+                  <li><a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a></li>
                   <% i = i + 1 %>
               <% end %>
             </ul>
           </div>
       <% end %>
 
-      <% conferences = Conference.all.order(:name) %>
-      <% if conferences.length != 0 %>
+      <% organizing = Conference.all.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).order(:name) %>
+      <% if organizing.length != 0 %>
           <div class="menu_section">
             <h3>MY CONFERENCES</h3>
             <ul class="nav side-menu">
               <% i = 1 %>
-              <% conferences.each do |conference| %>
-                  <li><a id="<%= "conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a></li>
+              <% organizing.each do |conference| %>
+                  <li><a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a></li>
                   <% i = i + 1 %>
               <% end %>
             </ul>

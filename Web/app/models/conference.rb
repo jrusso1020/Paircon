@@ -31,13 +31,16 @@
 require 'fileutils'
 
 class Conference < ApplicationRecord
+  include PublicActivity::Common
+
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_papers, dependent: :destroy
   has_many :conference_organizers, dependent: :destroy
+  has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
+  has_many :papers, through: :conference_papers
   has_many :posts, dependent: :destroy
-  has_many :users, through: :conference_attendees, dependent: :destroy
-  has_many :organizers, through: :conference_organizers, source: :user, dependent: :destroy
-  has_many :papers, through: :conference_papers, dependent: :destroy
+  has_many :organizers, through: :conference_organizers, source: :user
+  has_many :users, through: :conference_attendees
 
   before_create :init_conference_id
 
@@ -91,9 +94,18 @@ class Conference < ApplicationRecord
     File.delete(new_file)
   end
 
+  def activity key, current_user
+    self.save!(validate: false) unless self.persisted?
+    self.create_activity(key, owner: current_user, recipient: current_user, params: {:conference => self.to_json})
+  end
+
+  def get_name
+    self.name.blank? ? 'Conference' : self.name
+  end
+
   private
 
   def init_conference_id
-    self.id = CodeGenerator.code(User.new, 'id', 30)
+    self.id = CodeGenerator.code(Conference.new, 'id', 30)
   end
 end

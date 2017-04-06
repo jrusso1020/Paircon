@@ -44,7 +44,11 @@ Rails.application.routes.draw do
       post :destroy_logo
       post :save_cover
       post :save_logo
+      post :attend_conference
     end
+  end
+
+  resources :notifications do
   end
 
   resources :home, path: '' do
@@ -55,7 +59,6 @@ Rails.application.routes.draw do
       get :privacy_policy
     end
   end
-
   resources :users, except: [:index] do
     member do
       get :delete
