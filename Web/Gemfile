@@ -18,6 +18,7 @@ gem 'jquery-ui-rails', '~> 6.0.1'                                 # JQuery Helpe
 gem 'turbolinks', '~> 5'                                          # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'introjs-rails'                                               # Used for Intros
 gem 'pdfjs_viewer-rails'                                          # Used to view PDFs
+gem 'jquery-datatables-rails'                                     # Bootstrap Datatables
 
 # Utility
 gem 'rack-pjax'                                                   # PJax to make page loading faster

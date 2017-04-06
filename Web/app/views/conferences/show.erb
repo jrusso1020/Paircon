@@ -1,4 +1,4 @@
-    <%= header_title @conference.get_name %>
+<%= header_title @conference.get_name %>
 
 <%= render 'header' %>
 
@@ -52,3 +52,4 @@
 </div>
 
 <%= javascript_tag "initializeConference('" + @conference.id.to_s + "', '" + @conference.description + "')" %>
+<%= javascript_tag 'initializePanels()' %>

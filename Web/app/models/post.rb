@@ -18,15 +18,16 @@
 class Post < ApplicationRecord
   include PublicActivity::Common
 
+  before_create :init_post_id
   belongs_to :conference
 
-  before_create :init_post_id
+  scope :post_subscribers, lambda { |conference_ids| where(conference_id: conference_ids) }
 
   self.per_page = 5
 
-  def activity key
+  def activity key, user
     self.save!(validate: false) unless self.persisted?
-    self.create_activity(key, owner: current_user, recipient: self.conference.users, params: {:post => self.to_json})
+    self.create_activity(key, owner: user, params: {:post => self.to_json})
   end
 
   private

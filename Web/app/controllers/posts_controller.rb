@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @is_organizer = current_user.attendee?
+    @is_organizer = Conference.find_by_id(params[:conference_id]).conference_organizers.exists?(user_id: current_user.id) and !current_user.attendee?
     @posts = Post.where(conference_id: params[:conference_id]).page(params[:page]).order(created_at: :desc)
     respond_to do |format|
       format.html
@@ -19,7 +19,7 @@ class PostsController < ApplicationController
     if @post.save
       flash[:notice] = 'Your Post has successfully been added and published.'
       redirect_back(fallback_location: root_path)
-      @post.activity(:create)
+      @post.activity(:create, current_user)
     else
       flash[:alert] = 'Error creating your Post! Please contact our support team.'
       redirect_back(fallback_location: root_path)

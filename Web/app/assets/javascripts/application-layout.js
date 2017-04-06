@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require gentelella
 //= require bootstrap
 //= require turbolinks
 //= require geocomplete
@@ -33,4 +34,3 @@
 //= require paircon-user
 //= require paircon-post
 //= require paircon-conference
-

@@ -47,6 +47,11 @@ class Conference < ApplicationRecord
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}
   has_attached_file :cover, styles: {medium: '1750x250>', thumb: '100x100>'}, default_url: 'Male.jpg'
 
+  scope :not_archived, lambda { where(archive: false) }
+  scope :published, lambda { where(publish: true) }
+
+  scope :active, lambda { not_archived.or(published) }
+
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
   validates_attachment :cover, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
 

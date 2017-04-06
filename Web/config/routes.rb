@@ -49,6 +49,9 @@ Rails.application.routes.draw do
   end
 
   resources :notifications do
+    collection do
+      post :read_notification
+    end
   end
 
   resources :home, path: '' do

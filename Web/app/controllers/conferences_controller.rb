@@ -3,6 +3,16 @@ class ConferencesController < ApplicationController
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  def index
+    if params[:view] == 'organizer'
+      @conferences = Conference.published.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).order(:name)
+      @title = 'Organizing Conferences'
+    else
+      @conferences = Conference.published.includes(:conference_attendees).where(conference_attendees: {user_id: current_user.id}).order(:name)
+      @title = 'Attending Conferences'
+    end
+  end
+
   # New action for creating conference
   def new
     render layout: false
@@ -12,7 +22,6 @@ class ConferencesController < ApplicationController
   def create
     @conference = Conference.new()
     if @conference.save
-      @conference.conference_attendees.create(user_id: current_user.id)
       @conferenceOrganizer = @conference.conference_organizers.create(user_id: current_user.id)
       if @conferenceOrganizer.save
         flash[:notice] = 'We have created your Conference! Now edit the template before publishing it!'
@@ -65,7 +74,7 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    @is_organizer = current_user.attendee?
+    @is_organizer = (@conference.conference_organizers.exists?(user_id: current_user.id) and !current_user.attendee?)
     @post_count = Post.where(conference_id: @conference.id).count()
     @interested_count = @conference.users.count
   end

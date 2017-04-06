@@ -265,7 +265,15 @@ body {
   .menu_section {
     margin: 0;
     h3 {
-      display: none;
+      padding: 0px;
+      text-align: center;
+      font-size: 8px;
+      display: block;
+      margin-top: 20px;
+
+      span {
+        display: none;
+      }
     }
   }
   footer {
@@ -383,7 +391,13 @@ body {
   > ul {
     margin-top: 10px;
   }
+
+  .show_sm {
+    display: none !important;
+  }
 }
+
+
 .profile_pic {
   width: 35%;
   float: left;
@@ -2560,7 +2574,7 @@ span {
   clear: both;
   display: block;
   padding: 5px 0 0;
-  position: absolute;
+  position: fixed;
   width: 230px;
   background: $color_pickled_bluewood_approx;
   z-index: 999;

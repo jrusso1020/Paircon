@@ -1,5 +1,4 @@
 <% if signed_in?(:user) %>
-    <% check_new_notification() %>
     <%= link_to content_tag(:span, nil, :class => 'fa fa-bell') +
                     (@total_notifications != 0 ? raw("<span id='notification_div' style='margin-left:3px !important;' class='badge bg-green'>#{@total_notifications}</span>") : ""), "#",
                 {:class => 'dropdown-toggle info-number', :id => 'notification_link', data: {referer: REFERERS[:mini_activity_listing], toggle: 'dropdown'}} %>
@@ -27,3 +26,4 @@
         <%= link_to 'View All Notifications', notifications_path %></li>
     </ul>
 <% end %>
+

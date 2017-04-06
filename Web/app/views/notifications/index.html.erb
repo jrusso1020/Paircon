@@ -39,14 +39,15 @@
           <% day_count = day_count+1 %>
       <% end %>
 
-      <div style="font-style: italic; text-align: center; display: <%= @folders.blank? && @files.blank? ? 'block' : 'none' %>;">
-        <% if (!is_notifications && params['filter_type'].to_i != 0) %>
-            <%= t('no_notifications_related_to') %> <%= t("notifications_options.#{params['filter_type']}") %>.
-        <% elsif (!is_notifications) %>
-            You have no notifications ...
-        <% end %>
-      </div>
+      <% unless is_notifications %>
+          <div style="width: 100%; text-align: center; font-style: italic;">
+            <br/>
+            <br/>
+            <br/>
+            <%= image_tag 'sad.png' %>
+            <div style="margin-top: 30px;">You have no notifications ...</div>
+          </div>
+      <% end %>
     </div>
   </div>
 </div>
-<!--</div>-->

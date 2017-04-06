@@ -1,9 +1,4 @@
 module NotificationsHelper
-  def check_new_notification
-    @total_notifications = Notification.includes(:creator).of_user(current_user.id).filter_only
-                               .where('created_at > ? AND created_at > ?', current_user.last_notifications_read, Date.today - Notification::MAX_DAYS)
-                               .limit(Notification::NOTIFICATION_LIST_LIMIT).select('id').size
-  end
 
   def notifications_options
     I18n.t(:notifications_options).map { |key, value| [value, key] }

@@ -29,37 +29,46 @@
         </ul>
       </div>
 
-      <% attending = Conference.all.includes(:conference_attendees).where(conference_attendees: {user_id: current_user.id}).order(:name) %>
+      <% attending = Conference.active.includes(:conference_attendees).where(conference_attendees: {user_id: current_user.id}).order(:name) %>
       <% if attending.length != 0 %>
           <div class="menu_section">
-            <h3>ATTENDING CONFERENCES</h3>
+            <h3>ATTENDING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'attendee'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
+            </h3>
             <ul class="nav side-menu">
               <% i = 1 %>
-              <% attending.each do |conference| %>
-                  <li><a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a></li>
+              <% attending[1..5].each do |conference| %>
+                  <li>
+                    <a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a>
+                  </li>
                   <% i = i + 1 %>
               <% end %>
             </ul>
           </div>
       <% end %>
 
-      <% organizing = Conference.all.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).order(:name) %>
-      <% if organizing.length != 0 %>
-          <div class="menu_section">
-            <h3>MY CONFERENCES</h3>
-            <ul class="nav side-menu">
-              <% i = 1 %>
-              <% organizing.each do |conference| %>
-                  <li><a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a></li>
-                  <% i = i + 1 %>
-              <% end %>
-            </ul>
-          </div>
+      <% unless current_user.attendee? %>
+          <% organizing = Conference.active.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).order(:name) %>
+          <% if organizing.length != 0 %>
+              <div class="menu_section">
+                <h3>ORGANIZING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'organizer'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
+                </h3>
+                <ul class="nav side-menu">
+                  <% organizing[1..5].each do |conference| %>
+                      <li>
+                        <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a>
+                      </li>
+                      <% i = i + 1 %>
+                  <% end %>
+                </ul>
+              </div>
+          <% end %>
       <% end %>
     </div>
 
-    <div class="sidebar-footer hidden-small text-center" style="margin-bottom: 10px;">
-      <small>Copyright © 2017 Paircon. All rights reserved</small>
-    </div>
+
   </div>
+</div>
+
+<div class="sidebar-footer hidden-small text-center" style="margin-bottom: 10px;">
+  <small>Copyright © 2017 Paircon. All rights reserved</small>
 </div>
