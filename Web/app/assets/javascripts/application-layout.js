@@ -27,6 +27,8 @@
 //= require jquery-fileupload/basic
 //= require introjs
 
+//= require moment
+
 //= require user
 //= require common
 //= require conference

@@ -26,6 +26,8 @@ gem 'active_device'                                               # For Mobile /
 gem 'best_in_place'                                               # In place editing for Text Fields
 gem 'will_paginate'                                               # Used for pagination
 # gem 'paul_revere', '~> 2.0.0'                                   # For Announcements on The Website
+gem 'momentjs-rails'                                              # For Time
+
 
 group :assets do
   gem 'sass-rails', '~> 5.0'                                      # Use SCSS for stylesheets

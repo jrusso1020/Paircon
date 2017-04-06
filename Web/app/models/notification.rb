@@ -32,6 +32,8 @@ class Notification < PublicActivity::Activity
   scope :post_subscribers, lambda { |post_ids| where(key: ['post.create']).where(trackable_id: post_ids) }
   scope :recent, lambda { |from_time| where("created_at >= ?", from_time) }
 
+  before_create :init_id
+
   NOTIFICATION_PAGE_LIMIT = 49
   NOTIFICATION_LIST_LIMIT = 14
   MAX_DAYS = 7
@@ -50,5 +52,10 @@ class Notification < PublicActivity::Activity
     notifications.where('created_at > ? AND created_at > ?', user.last_notifications_read, Date.today - Notification::MAX_DAYS).limit(Notification::NOTIFICATION_LIST_LIMIT).select('id').size
   end
 
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(Notification.new, 'id', 30)
+  end
 end
  

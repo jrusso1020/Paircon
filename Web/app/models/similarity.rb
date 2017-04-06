@@ -19,4 +19,12 @@
 
 class Similarity < ApplicationRecord
   has_many :papers
+
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(Similarity.new, 'id', 30)
+  end
 end

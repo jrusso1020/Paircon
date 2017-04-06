@@ -19,4 +19,13 @@ class Organizer < ApplicationRecord
   belongs_to :user
   has_many :conference_organizers
   has_many :conferences, through: :conference_organizers
+
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(Organizer.new, 'id', 30)
+  end
+
 end

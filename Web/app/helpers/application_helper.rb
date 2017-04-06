@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include NotificationsHelper
 
   def page_title(title)
     @page_title = title

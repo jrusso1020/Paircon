@@ -1,10 +1,11 @@
 class PostsController < ApplicationController
+  include ConferencesHelper
   before_action :find_post, only: [:edit, :update, :show, :delete, :destroy]
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @is_organizer = Conference.find_by_id(params[:conference_id]).conference_organizers.exists?(user_id: current_user.id) and !current_user.attendee?
+    @is_organizer = is_organizer(params[:conference_id], current_user)
     @posts = Post.where(conference_id: params[:conference_id]).page(params[:page]).order(created_at: :desc)
     respond_to do |format|
       format.html

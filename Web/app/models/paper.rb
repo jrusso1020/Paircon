@@ -17,4 +17,13 @@ class Paper < ApplicationRecord
   has_many :conference_papers
   has_many :similiarities
   has_many :conferences, through: :conference_papers
+
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(Paper.new, 'id', 30)
+  end
+
 end

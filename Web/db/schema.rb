@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405223805) do
+ActiveRecord::Schema.define(version: 20170406183138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(version: 20170405223805) do
     t.index ["user_id", "conference_id"], name: "index_conference_attendees_on_user_id_and_conference_id", unique: true, using: :btree
   end
 
+  create_table "conference_events", force: :cascade do |t|
+    t.string   "conference_resource_id", limit: 30
+    t.string   "title"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.index ["conference_resource_id"], name: "index_conference_events_on_conference_resource_id", using: :btree
+  end
+
   create_table "conference_organizers", force: :cascade do |t|
     t.string   "conference_id", limit: 30
     t.string   "user_id",       limit: 30
@@ -53,6 +63,18 @@ ActiveRecord::Schema.define(version: 20170405223805) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.index ["paper_id", "conference_id"], name: "index_conference_papers_on_paper_id_and_conference_id", unique: true, using: :btree
+  end
+
+  create_table "conference_resources", force: :cascade do |t|
+    t.string   "conference_id", limit: 30
+    t.string   "building"
+    t.string   "title"
+    t.string   "event_color"
+    t.string   "parent_id",     limit: 30
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["conference_id"], name: "index_conference_resources_on_conference_id", using: :btree
+    t.index ["parent_id"], name: "index_conference_resources_on_parent_id", using: :btree
   end
 
   create_table "conferences", force: :cascade do |t|
@@ -122,9 +144,6 @@ ActiveRecord::Schema.define(version: 20170405223805) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.index ["paper_id1", "paper_id2"], name: "index_similarities_on_paper_id1_and_paper_id2", unique: true, using: :btree
-  end
-
-  create_table "similarities_indices", force: :cascade do |t|
   end
 
   create_table "users", force: :cascade do |t|

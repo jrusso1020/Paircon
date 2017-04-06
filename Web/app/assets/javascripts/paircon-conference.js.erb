@@ -72,7 +72,7 @@ function retrievePosts(id) {
         url: '/posts?conference_id=' + id,
         success: function (html) {
             $('.post_div').html(html);
-            initializeInPlaceEditing(id)
+            initializeInPlaceEditing(id);
         }
     });
 }
