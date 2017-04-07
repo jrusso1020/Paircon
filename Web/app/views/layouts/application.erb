@@ -11,6 +11,10 @@
 
     <div class="right_col" role="main">
       <%= render 'layouts/application/flash_message' %>
+      <%= render 'layouts/application/conf_info' %>
+      <div class ="row">
+        <%= render 'layouts/application/organizer_notif' %>
+      </div>
       <div data-pjax-container>
         <%= yield %>
       </div>
