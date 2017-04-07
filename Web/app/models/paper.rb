@@ -14,8 +14,9 @@
 #++
 
 class Paper < ApplicationRecord
-  belongs_to :paper_author
-  belongs_to :conference_paper
-
-  belongs_to :similiarity
+  has_many :paper_authors
+  has_many :conference_papers
+  has_many :similiarities
+  has_many :users, through: :paper_authors
+  has_many :conferences, through: :conference_papers
 end

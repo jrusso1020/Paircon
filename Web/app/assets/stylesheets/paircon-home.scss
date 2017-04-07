@@ -66,6 +66,10 @@ login-text-size {
   margin-right: 0px !important;
 }
 
+.required{
+  color: $error-small-text-color;
+}
+
 /* ********* ERROR ***********/
 .error-small-text {
   color:$error-small-text-color;
