@@ -37,6 +37,20 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :schedules do
+    collection do
+      get :get_resource
+      post :create_resource
+      get :delete_resource
+      delete :destroy_resource
+
+      get :get_event
+      post :create_event
+      get :delete_event
+      delete :destroy_event
+    end
+  end
+
   resources :conferences do
     member do
       get :delete

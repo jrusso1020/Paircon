@@ -1,17 +1,17 @@
 <%= header_title 'Delete' %>
 
-<%= form_for @conference, method: 'DELETE' do |f| %>
+<%= form_for @resource, url: destroy_resource_schedules_path(), method: :delete do |f| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-trash" style="margin-right: 5px;"></i>
-        Delete '<%= @conference.name %>'
+        Delete '<%= @resource.title %>'
       </h1>
     </div>
 
     <div class="modal-body">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <h4 class="font-light" align="center">Are you sure you want to delete the Conference?
+          <h4 class="font-light" align="center">Are you sure you want to delete '<%= @resource.title %>'?
           </h4>
         </div>
       </div>

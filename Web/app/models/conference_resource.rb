@@ -3,6 +3,11 @@ class ConferenceResource < ApplicationRecord
   has_many :conference_events, dependent: :destroy
   before_create :init_id
 
+  TYPE = {
+      auditorium: 'auditorium',
+      room: 'room'
+  }
+
   private
 
   def init_id

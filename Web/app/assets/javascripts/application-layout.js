@@ -19,6 +19,7 @@
 //= require geocomplete
 //= require best_in_place
 //= require best_in_place.jquery-ui
+//= require selectize
 
 //= require i18n
 //= require i18n/translations

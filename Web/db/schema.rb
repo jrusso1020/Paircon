@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406183138) do
+ActiveRecord::Schema.define(version: 20170407061645) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20170406183138) do
     t.datetime "end_date"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.string   "color"
     t.index ["conference_resource_id"], name: "index_conference_events_on_conference_resource_id", using: :btree
   end
 
@@ -69,7 +70,7 @@ ActiveRecord::Schema.define(version: 20170406183138) do
     t.string   "conference_id", limit: 30
     t.string   "building"
     t.string   "title"
-    t.string   "event_color"
+    t.string   "eventColor"
     t.string   "parent_id",     limit: 30
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false

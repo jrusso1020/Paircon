@@ -113,3 +113,31 @@ function initCharts(count) {
     catch (e) {
     }
 }
+
+function initializeAddScheduleResource() {
+    $('#conference_build_select').selectize({
+        sortField: 'text'
+    });
+
+    try {
+        var $this = $('#conference_build_text');
+        var master = $this.data('dependsOn').toString();
+        var value = $this.data('dependsOnValue');
+        if (typeof(value) != 'undefined') {
+            $this.dependsOn(master, value);
+        } else {
+            $this.dependsOn(master);
+        }
+    } catch (err) { }
+
+    $('#add_resource_form').validate({
+        rules: {
+            'resource[title]': {
+                required: true
+            },
+            'resource[parent_id[': {
+                required: true
+            }
+        }
+    });
+}

@@ -27,7 +27,7 @@ gem 'best_in_place'                                               # In place edi
 gem 'will_paginate'                                               # Used for pagination
 # gem 'paul_revere', '~> 2.0.0'                                   # For Announcements on The Website
 gem 'momentjs-rails'                                              # For Time
-
+gem 'selectize-rails'                                             # Add Autocomplete Select Field
 
 group :assets do
   gem 'sass-rails', '~> 5.0'                                      # Use SCSS for stylesheets
