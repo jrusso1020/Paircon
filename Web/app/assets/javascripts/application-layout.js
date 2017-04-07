@@ -13,16 +13,27 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require gentelella
 //= require bootstrap
 //= require turbolinks
-//
+//= require geocomplete
+//= require best_in_place
+//= require best_in_place.jquery-ui
+//= require selectize
+
 //= require i18n
 //= require i18n/translations
 //= require gentelella-custom
 
 //= require jquery-fileupload/basic
+//= require introjs
+
+//= require moment
 
 //= require user
 //= require common
+//= require conference
 //= require paircon-common
 //= require paircon-user
+//= require paircon-post
+//= require paircon-conference

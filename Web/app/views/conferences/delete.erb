@@ -1,0 +1,36 @@
+<%= header_title 'Delete' %>
+
+<%= form_for @conference, method: 'DELETE' do |f| %>
+    <div class="modal-header">
+      <h1 class="modal-title" id="myModalLabel">
+        <i class="fa fa-trash" style="margin-right: 5px;"></i>
+        Delete '<%= @conference.name %>'
+      </h1>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h4 class="font-light" align="center">Are you sure you want to delete the Conference?
+          </h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top:-5px;">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <% if !is_mobile_device? %>
+          <span style="float: left !important; margin-top: 5px;">
+            <small>Note: This operation is permanent
+              and cannot be
+              reversed later.
+            </small>
+          </span>
+          <% end %>
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <%= f.submit 'Delete', :class => 'btn btn-paircon' %>
+        </div>
+      </div>
+    </div>
+<% end %>

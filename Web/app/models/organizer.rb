@@ -2,15 +2,30 @@
 #
 # Table name: organizers
 #
-# *id*::         <tt>integer, not null, primary key</tt>
+# *id*::         <tt>string(30), not null, primary key</tt>
 # *user_id*::    <tt>string</tt>
-# *pending*::    <tt>boolean, default("false")</tt>
+# *approved*::   <tt>boolean, default(FALSE)</tt>
 # *created_at*:: <tt>datetime, not null</tt>
 # *updated_at*:: <tt>datetime, not null</tt>
+#
+# Indexes
+#
+#  index_organizers_on_user_id  (user_id) UNIQUE
 #--
 # == Schema Information End
 #++
 
 class Organizer < ApplicationRecord
-  has_many :users
+  belongs_to :user
+  has_many :conference_organizers
+  has_many :conferences, through: :conference_organizers
+
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(Organizer.new, 'id', 30)
+  end
+
 end

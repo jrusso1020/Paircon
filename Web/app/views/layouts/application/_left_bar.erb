@@ -1,12 +1,14 @@
-<div class="col-md-3 left_col">
+<div class="col-md-3 left_col menu_fixed">
   <div class="left_col scroll-view">
     <div class="navbar nav_title" style="border: 0;">
-      <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+      <a href="<%= root_path() %>" class="site_title navbar-brand">
+        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: 'margin-left: 5px; height: 30px; display: inline-block;' %>
+        <h2 style="display: inline;">PAIR<span class="logo-dec">CON</span></h2>
+      </a>
     </div>
 
     <div class="clearfix"></div>
 
-    <!-- menu profile quick info -->
     <div class="profile clearfix">
       <div class="profile_pic">
         <img src="<%= asset_path(current_user.profile_photo) %>" alt="..." class="img-circle profile_img">
@@ -16,86 +18,57 @@
         <h2><%= truncate current_user.last_name, :length => 9, :separator => ' ' if current_user %></h2>
       </div>
     </div>
-    <!-- /menu profile quick info -->
 
-    <br />
+    <br/>
 
-    <!-- sidebar menu -->
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
       <div class="menu_section">
-        <h3>Conferences</h3>
+        <h3>DASHBOARD</h3>
         <ul class="nav side-menu">
-          <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="index.html">Dashboard</a></li>
-              <li><a href="index2.html">Dashboard2</a></li>
-              <li><a href="index3.html">Dashboard3</a></li>
-            </ul>
-          </li>
-          <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="form.html">General Form</a></li>
-              <li><a href="form_advanced.html">Advanced Components</a></li>
-              <li><a href="form_validation.html">Form Validation</a></li>
-              <li><a href="form_wizards.html">Form Wizard</a></li>
-              <li><a href="form_upload.html">Form Upload</a></li>
-              <li><a href="form_buttons.html">Form Buttons</a></li>
-            </ul>
-          </li>
-          <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="general_elements.html">General Elements</a></li>
-              <li><a href="media_gallery.html">Media Gallery</a></li>
-              <li><a href="typography.html">Typography</a></li>
-              <li><a href="icons.html">Icons</a></li>
-              <li><a href="glyphicons.html">Glyphicons</a></li>
-              <li><a href="widgets.html">Widgets</a></li>
-              <li><a href="invoice.html">Invoice</a></li>
-              <li><a href="inbox.html">Inbox</a></li>
-              <li><a href="calendar.html">Calendar</a></li>
-            </ul>
-          </li>
-          <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="tables.html">Tables</a></li>
-              <li><a href="tables_dynamic.html">Table Dynamic</a></li>
-            </ul>
-          </li>
-          <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="chartjs.html">Chart JS</a></li>
-              <li><a href="chartjs2.html">Chart JS2</a></li>
-              <li><a href="morisjs.html">Moris JS</a></li>
-              <li><a href="echarts.html">ECharts</a></li>
-              <li><a href="other_charts.html">Other Charts</a></li>
-            </ul>
-          </li>
-          <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-              <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
-              <li><a href="fixed_footer.html">Fixed Footer</a></li>
-            </ul>
-          </li>
+          <li><a href="<%= root_path %>">Home</a></li>
         </ul>
       </div>
-    </div>
-    <!-- /sidebar menu -->
 
-    <!-- /menu footer buttons -->
-    <div class="sidebar-footer hidden-small">
-      <!--<a data-toggle="tooltip" data-placement="top" title="Settings">-->
-        <!--<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>-->
-      <!--</a>-->
-      <!--<a data-toggle="tooltip" data-placement="top" title="FullScreen">-->
-        <!--<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>-->
-      <!--</a>-->
-      <!--<a data-toggle="tooltip" data-placement="top" title="Lock">-->
-        <!--<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>-->
-      <!--</a>-->
-      <!--<a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">-->
-        <!--<span class="glyphicon glyphicon-off" aria-hidden="true"></span>-->
-      <!--</a>-->
+      <% attending = my_attending_conferences_active(current_user) %>
+      <% if attending.length != 0 %>
+          <div class="menu_section">
+            <h3>ATTENDING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'attendee'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
+            </h3>
+            <ul class="nav side-menu">
+              <% i = 1 %>
+              <% attending[1..5].each do |conference| %>
+                  <li>
+                    <a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a>
+                  </li>
+                  <% i = i + 1 %>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+      <% unless current_user.attendee? %>
+          <% organizing = my_organizing_conferences_active(current_user) %>
+          <% if organizing.length != 0 %>
+              <div class="menu_section">
+                <h3>ORGANIZING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'organizer'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
+                </h3>
+                <ul class="nav side-menu">
+                  <% organizing[1..5].each do |conference| %>
+                      <li>
+                        <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.name.blank? ? "Conference #{i}" : conference.name %></a>
+                      </li>
+                      <% i = i + 1 %>
+                  <% end %>
+                </ul>
+              </div>
+          <% end %>
+      <% end %>
     </div>
-    <!-- /menu footer buttons -->
+
+
   </div>
+</div>
+
+<div class="sidebar-footer hidden-small text-center" style="margin-bottom: 10px;">
+  <small>Copyright © 2017 Paircon. All rights reserved</small>
 </div>

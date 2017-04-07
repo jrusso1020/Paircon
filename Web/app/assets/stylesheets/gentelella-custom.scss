@@ -44,6 +44,7 @@ html {
   height: 100%;
   font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', 'Tahoma', 'Arial', 'sans-serif';
 }
+
 body {
   height: 100%;
   font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', 'Tahoma', 'Arial', 'sans-serif';
@@ -61,9 +62,11 @@ body {
 .full-width {
   width: 100%;
 }
+
 .full-height {
   height: 100%;
 }
+
 .daterangepicker {
   .input-mini {
     background-color: $color_gallery_approx;
@@ -195,6 +198,7 @@ body {
     }
   }
 }
+
 .calendar-exibit {
   .show-calendar {
     float: none;
@@ -215,6 +219,7 @@ body {
     padding: 0 0 4px 0;
   }
 }
+
 .left_col {
   background: $color_pickled_bluewood_approx;
   .mCSB_scrollTools {
@@ -224,9 +229,13 @@ body {
     max-height: 400px !important;
   }
 }
+
 .nav-sm {
   .hidden-small {
-    visibility: hidden;
+    display: none;
+    small {
+      display: none;
+    }
   }
   .nav {
     &.side-menu li {
@@ -262,29 +271,29 @@ body {
   .menu_section {
     margin: 0;
     h3 {
-      display: none;
+      padding: 0px;
+      text-align: center;
+      font-size: 8px;
+      display: block;
+      margin-top: 20px;
+
+      span {
+        display: none;
+      }
     }
   }
   footer {
     margin-left: 70px;
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
   }
   .container.body {
     .right_col {
       padding: 10px 20px;
       margin-left: 70px;
       z-index: 2;
-
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
     }
     .col-md-3.left_col {
       min-height: 100%;
       width: 70px;
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
-
       padding: 0;
       z-index: 9999;
       position: absolute;
@@ -302,15 +311,11 @@ body {
   }
   .navbar.nav_title {
     width: 70px;
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
     a {
       span {
         display: none;
       }
       i {
-        -webkit-transition-duration: 0.8s; /* Safari */
-        transition-duration: 0.8s;
         font-size: 27px;
         margin: 13px 0 0 3px;
       }
@@ -320,9 +325,12 @@ body {
     display: block;
     margin-left: 70px;
     z-index: 2;
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
   }
+
+  .navbar-user {
+    margin-right: 70px !important;
+  }
+
   ul.nav.child_menu {
     left: 100%;
     position: absolute;
@@ -345,12 +353,13 @@ body {
     color: $color_mountain_meadow_approx !important;
   }
   span.fa {
-    display: none;
+    display: inline-block;
   }
   li li span.fa {
     display: inline-block;
   }
 }
+
 .site_title {
   text-overflow: ellipsis;
   overflow: hidden;
@@ -377,6 +386,7 @@ body {
     text-decoration: none;
   }
 }
+
 .menu_section {
   margin-bottom: 35px;
   h3 {
@@ -394,11 +404,17 @@ body {
   > ul {
     margin-top: 10px;
   }
+
+  .show_sm {
+    display: none !important;
+  }
 }
+
 .profile_pic {
   width: 35%;
   float: left;
 }
+
 .profile_info {
   padding: 25px 10px 10px;
   width: 65%;
@@ -415,6 +431,7 @@ body {
     font-weight: 300;
   }
 }
+
 .main_menu {
   .fa {
     width: 26px;
@@ -438,6 +455,7 @@ body {
     color: $color_ghost_approx;
   }
 }
+
 .nav_menu {
   float: left;
   background: $color_gallery_approx;
@@ -446,25 +464,24 @@ body {
   width: 100%;
   position: relative;
 }
+
 @media(min-width: 480px) {
   .nav_menu {
+    z-index: 101;
     position: static;
   }
   .top_nav .navbar-right li {
     position: relative;
   }
 }
+
 .nav-md {
   .container.body {
     .right_col {
       padding: 10px 20px 0;
       margin-left: 230px;
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
     }
     .col-md-3.left_col {
-      -webkit-transition-duration: 0.8s; /* Safari */
-      transition-duration: 0.8s;
       min-height: 100%;
       width: 230px;
       padding: 0;
@@ -502,9 +519,8 @@ body {
     }
   }
 }
+
 .nav_title {
-  -webkit-transition-duration: 0.8s; /* Safari */
-  transition-duration: 0.8s;
   width: 230px;
   float: left;
   background: $color_pickled_bluewood_approx;
@@ -512,6 +528,7 @@ body {
   border-radius: 0;
   height: 57px;
 }
+
 @media(max-width: 991px) {
   .right_col {
     padding: 10px !important;
@@ -527,11 +544,16 @@ body {
       width: 100%;
       margin: 0;
     }
+    .navbar-user {
+      margin-right: 0px !important;
+    }
+
     .col-md-3.left_col {
       display: none;
     }
   }
 }
+
 @media(max-width: 1200px) {
   .tile {
     zoom: 85%;
@@ -546,86 +568,108 @@ body {
     font-size: 17px;
   }
 }
+
 @media(max-width: 1270px) and(min-width: 192px) {
   .x_title h2 small {
     display: none;
   }
 }
+
 .blue {
   color: $color_curious_blue_approx;
 }
+
 .purple {
   color: $color_wisteria_approx;
 }
+
 .green {
   color: $color_mountain_meadow_approx;
 }
+
 .aero {
   color: $color_opal_approx;
 }
+
 .red {
   color: $color_cinnabar_approx;
 }
+
 .dark {
   color: $color_pickled_bluewood_approx;
 }
+
 .border-blue {
   border-color: $color_curious_blue_approx !important;
 }
+
 .border-purple {
   border-color: $color_wisteria_approx !important;
 }
+
 .border-green {
   border-color: $color_mountain_meadow_approx !important;
 }
+
 .border-aero {
   border-color: $color_opal_approx !important;
 }
+
 .border-red {
   border-color: $color_cinnabar_approx !important;
 }
+
 .border-dark {
   border-color: $color_pickled_bluewood_approx !important;
 }
+
 .bg-white {
   background: $white !important;
   border: 1px solid $white !important;
   color: $color_bermuda_gray_approx;
 }
+
 .bg-green {
   background: $color_mountain_meadow_approx !important;
   border: 1px solid $color_mountain_meadow_approx !important;
   color: $white;
 }
+
 .bg-red {
   background: $color_cinnabar_approx !important;
   border: 1px solid $color_cinnabar_approx !important;
   color: $white;
 }
+
 .bg-blue {
   background: $color_curious_blue_approx !important;
   border: 1px solid $color_curious_blue_approx !important;
   color: $white;
 }
+
 .bg-orange {
   background: $color_tree_poppy_approx !important;
   border: 1px solid $color_tree_poppy_approx !important;
   color: $white;
 }
+
 .bg-purple {
   background: $color_wisteria_approx !important;
   border: 1px solid $color_wisteria_approx !important;
   color: $white;
 }
+
 .bg-blue-sky {
   background: $color_shakespeare_approx !important;
   border: 1px solid $color_shakespeare_approx !important;
   color: $white;
 }
+
 .container {
   width: 100%;
   padding: 0;
 }
+
 .navbar-nav {
   > li > a {
     color: $white !important;
@@ -644,10 +688,11 @@ body {
     left: auto;
     width: 220px;
     &.msg_list {
-      width: 300px;
+      width: 350px;
     }
   }
 }
+
 .navbar-brand {
   color: $white !important;
   font-weight: 500;
@@ -655,6 +700,7 @@ body {
   margin-left: 0 !important;
   line-height: 32px;
 }
+
 .top_nav {
   .nav {
     > li > a {
@@ -682,7 +728,7 @@ body {
     li {
       display: inline-block;
       float: right;
-      position: static;
+      position: relative;
     }
   }
   .dropdown-menu li {
@@ -696,9 +742,11 @@ body {
     font-size: 15px;
   }
 }
+
 .no-padding {
   padding: 0 !important;
 }
+
 .page-title {
   width: 100%;
   height: 65px;
@@ -720,24 +768,31 @@ body {
     }
   }
 }
+
 .fixed_height_320 {
   height: 320px;
 }
+
 .fixed_height_390 {
   height: 390px;
 }
+
 .fixed_height_200 {
   height: 200px;
 }
+
 .overflow_hidden {
   overflow: hidden;
 }
+
 .progress-bar-dark {
   background-color: $color_pickled_bluewood_approx !important;
 }
+
 .progress-bar-gray {
   background-color: $color_submarine_approx !important;
 }
+
 table {
   &.tile {
     h3 {
@@ -893,9 +948,11 @@ table {
     margin-bottom: 0;
   }
 }
+
 .main_content {
   padding: 10px 20px;
 }
+
 .col-md-55 {
   width: 50%;
   margin-bottom: 10px;
@@ -905,6 +962,7 @@ table {
   padding-right: 10px;
   padding-left: 10px;
 }
+
 @media(min-width: 768px) {
   .col-md-55 {
     width: 20%;
@@ -937,13 +995,12 @@ table {
     min-height: 516px;
   }
 }
+
 @media(min-width: 992px) {
   .col-md-55 {
     width: 20%;
   }
   footer {
-    -webkit-transition-duration: 0.8s; /* Safari */
-    transition-duration: 0.8s;
     margin-left: 230px;
   }
   .tile_count .tile_stats_count {
@@ -955,21 +1012,25 @@ table {
     }
   }
 }
+
 @media(min-width: 1200px) {
   .col-md-55 {
     width: 20%;
   }
 }
+
 @media(min-width: 192px) and(max-width: 1270px) {
   table.tile_info span.right {
     margin-right: 7px;
     float: left;
   }
 }
+
 .center-margin {
   margin: 0 auto;
   float: none !important;
 }
+
 //.col-xs-1 {
 //  position: relative;
 //  min-height: 1px;
@@ -1314,20 +1375,24 @@ h1 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 .h1 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 h2 {
   margin-top: 10px;
   margin-bottom: 10px;
   font-size: 18px;
   font-weight: 400;
 }
+
 .h2 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 h3 {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -1337,10 +1402,12 @@ h3 {
     text-align: center;
   }
 }
+
 .h3 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 a {
   color: $color_kashmir_blue_approx;
   text-decoration: none;
@@ -1387,17 +1454,21 @@ a {
     display: none;
   }
 }
+
 :visited {
   outline: 0;
 }
+
 :focus {
   outline: 0;
 }
+
 :active {
   outline: 0;
 }
+
 .btn {
-  @include box-shadow(inset 0 0 0px 1px rgba(0,0,0,0.08));
+  @include box-shadow(inset 0 0 0px 1px rgba(0, 0, 0, 0.08));
   margin-bottom: 5px;
   margin-right: 5px;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
@@ -1475,20 +1546,25 @@ a {
     }
   }
 }
+
 .navbar {
   margin-bottom: 0;
 }
+
 .navbar-header {
   background: $color_pickled_bluewood_approx;
 }
+
 .navbar-right {
   margin-right: 0;
 }
+
 .navbar-static-top {
   position: fixed;
   top: 0;
   width: 100%;
 }
+
 .sidebar-header {
   border-bottom: 0;
   margin-top: 46px;
@@ -1496,6 +1572,7 @@ a {
     margin-top: 0;
   }
 }
+
 .nav {
   &.child_menu {
     display: none;
@@ -1596,6 +1673,7 @@ a {
     color: $color_pickled_bluewood_approx !important;
   }
 }
+
 .top_search {
   padding: 0;
   .form-control {
@@ -1622,6 +1700,7 @@ a {
     margin-bottom: 0 !important;
   }
 }
+
 .toggle {
   float: left;
   margin: 0;
@@ -1636,9 +1715,10 @@ a {
     }
   }
 }
+
 .panel_toolbox {
   float: right;
-  min-width: 70px;
+  //min-width: 70px;
   > li {
     float: left;
     cursor: pointer;
@@ -1652,17 +1732,21 @@ a {
     }
   }
 }
+
 .line_30 {
   line-height: 30px;
 }
+
 .main_menu_side {
   padding: 0;
 }
+
 footer {
   background: $white;
   padding: 15px 20px;
   display: block;
 }
+
 .tile-stats {
   position: relative;
   display: block;
@@ -1748,27 +1832,32 @@ footer {
     }
   }
 }
+
 .jqstooltip {
   background: $color_pickled_bluewood_approx !important;
   width: 30px !important;
   height: 22px !important;
   text-decoration: none;
 }
+
 .tooltip {
   display: block !important;
 }
+
 .tiles {
   border-top: 1px solid $color_celeste_approx;
   margin-top: 15px;
   padding-top: 5px;
   margin-bottom: 0;
 }
+
 .tile {
   overflow: hidden;
   &:hover {
     text-decoration: none;
   }
 }
+
 .top_tiles {
   margin-bottom: 0;
   .tile h2 {
@@ -1778,6 +1867,7 @@ footer {
     font-weight: bold;
   }
 }
+
 * {
   //Instead of the line below you could use @include box-sizing($bs)
   box-sizing: border-box;
@@ -1790,6 +1880,7 @@ footer {
     box-sizing: border-box;
   }
 }
+
 #integration-list {
   width: 100%;
   margin: 0 auto;
@@ -1813,6 +1904,7 @@ footer {
     }
   }
 }
+
 .expand {
   display: block;
   text-decoration: none;
@@ -1823,17 +1915,21 @@ footer {
     float: left;
   }
 }
+
 #left {
   display: table;
 }
+
 #right {
   display: table;
 }
+
 #sup {
   display: table-cell;
   vertical-align: middle;
   width: 80%;
 }
+
 .detail {
   margin: 10px 0;
   display: none;
@@ -1851,12 +1947,14 @@ footer {
     margin: 0;
   }
 }
+
 .right-arrow {
   width: 10px;
   float: right;
   font-weight: bold;
   font-size: 20px;
 }
+
 .accordion {
   .panel {
     margin-bottom: 5px;
@@ -1874,6 +1972,7 @@ footer {
     display: block;
   }
 }
+
 .x_panel {
   position: relative;
   width: 100%;
@@ -1889,6 +1988,7 @@ footer {
   //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
   transition: all .2s ease;
 }
+
 .x_title {
   border-bottom: 2px solid $color_mystic_approx;
   padding: 1px 5px 6px;
@@ -1912,6 +2012,7 @@ footer {
     color: $color_silver_approx;
   }
 }
+
 .x_content {
   padding: 0 5px 6px;
   position: relative;
@@ -1924,14 +2025,17 @@ footer {
     font-weight: 500;
   }
 }
+
 legend {
   padding-bottom: 7px;
   font-size: 18px;
   color: inherit;
 }
+
 .demo-placeholder {
   height: 280px;
 }
+
 .profile_details {
   &:nth-child(3n) {
     clear: both;
@@ -1981,6 +2085,7 @@ legend {
     background: $white;
   }
 }
+
 td {
   span {
     line-height: 28px;
@@ -1995,26 +2100,32 @@ td {
     border: 2px solid $color_star_dust_approx;
   }
 }
+
 .sidebar-widget {
   overflow: hidden;
 }
+
 .error-number {
   font-size: 90px;
   line-height: 90px;
   margin: 20px 0;
 }
+
 .col-middle {
   margin-top: 5%;
 }
+
 .mid_center {
   width: 370px;
   margin: 0 auto;
   text-align: center;
   padding: 0px 20px;
 }
+
 .bulk-actions {
   display: none;
 }
+
 .dataTables_paginate {
   float: right;
   text-align: right;
@@ -2024,6 +2135,7 @@ td {
     background: $red;
   }
 }
+
 .paging_full_numbers {
   width: 400px;
   height: 22px;
@@ -2056,6 +2168,7 @@ td {
     }
   }
 }
+
 button {
   margin-bottom: 5px;
   margin-right: 5px;
@@ -2066,6 +2179,7 @@ button {
     box-shadow: none !important;
   }
 }
+
 div {
   &.DTTT_button {
     border: 1px solid $color_mercury_approx !important;
@@ -2081,6 +2195,7 @@ div {
     background-color: $color_blue_chalk_approx;
   }
 }
+
 .dataTables_wrapper {
   position: relative;
   clear: both;
@@ -2089,6 +2204,7 @@ div {
     overflow: auto !important;
   }
 }
+
 .dataTables_processing {
   position: absolute;
   top: 50%;
@@ -2104,31 +2220,39 @@ div {
   font-size: 14px;
   background-color: $white;
 }
+
 .dataTables_length {
   width: 40%;
   float: left;
 }
+
 .dataTables_filter {
   width: 50%;
   float: right;
   text-align: right;
 }
+
 .dataTables_info {
   width: 60%;
   float: left;
 }
+
 .dataTables_scroll {
   clear: both;
 }
+
 .dataTables_scrollBody {
   *margin-top: -1px;
 }
+
 .clear {
   clear: both;
 }
+
 .dataTables_empty {
   text-align: center;
 }
+
 ul {
   &.to_do {
     padding: 0;
@@ -2389,7 +2513,7 @@ ul {
     width: 100%;
   }
   &.msg_list li {
-    background: $color_black_haze_approx;
+    background: transparent !important;
     padding: 5px;
     display: flex;
     margin: 6px 6px 0;
@@ -2444,6 +2568,7 @@ ul {
     }
   }
 }
+
 .dropdown-menu {
   //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
   box-shadow: none;
@@ -2473,6 +2598,7 @@ ul {
     color: $color_kashmir_blue_approx;
   }
 }
+
 .dashboard-widget {
   background: $color_black_haze_approx;
   border-top: 5px solid $color_seagull_approx;
@@ -2499,6 +2625,7 @@ ul {
     }
   }
 }
+
 .dashboard-widget-content {
   padding-top: 9px;
   .sidebar-widget {
@@ -2515,6 +2642,7 @@ ul {
     margin-top: 10px;
   }
 }
+
 .widget_summary {
   width: 100%;
   display: inline-flex;
@@ -2533,15 +2661,19 @@ ul {
     }
   }
 }
+
 .w_20 {
   width: 20%;
 }
+
 .w_25 {
   width: 25%;
 }
+
 .w_55 {
   width: 55%;
 }
+
 span {
   &.right {
     float: right;
@@ -2574,14 +2706,13 @@ span {
     }
   }
 }
+
 .sidebar-footer {
   bottom: 0;
   clear: both;
   display: block;
   padding: 5px 0 0;
   position: fixed;
-  -webkit-transition-duration: 0.8s; /* Safari */
-  transition-duration: 0.8s;
   width: 230px;
   background: $color_pickled_bluewood_approx;
   z-index: 999;
@@ -2599,6 +2730,7 @@ span {
     }
   }
 }
+
 .tile_count {
   margin-bottom: 20px;
   margin-top: 20px;
@@ -2630,11 +2762,13 @@ span {
     }
   }
 }
+
 @media(min-width: 992px) and(max-width: 1100px) {
   .tile_count .tile_stats_count .count {
     font-size: 30px;
   }
 }
+
 .dashboard_graph {
   background: $white;
   padding: 7px 10px;
@@ -2655,6 +2789,7 @@ span {
     margin: 0 0 4px;
   }
 }
+
 .media {
   .profile_thumb {
     border: 1px solid;
@@ -2690,18 +2825,21 @@ span {
     }
   }
 }
+
 .tile_header {
   border-bottom: transparent;
   padding: 7px 15px;
   margin-bottom: 15px;
   background: $color_mercury_approx;
 }
+
 .tiles-bottom {
   padding: 5px 10px;
   margin-top: 10px;
   background: $color_silver_sand_30_approx;
   text-align: left;
 }
+
 .mail_content {
   background: none repeat scroll 0 0 $white;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
@@ -2711,6 +2849,7 @@ span {
   padding: 10px 11px;
   width: 100%;
 }
+
 .list-btn-mail {
   margin-bottom: 15px;
   &.active {
@@ -2733,15 +2872,18 @@ span {
     padding: 0 5px;
   }
 }
+
 .button-mail {
   margin: 0 0 15px !important;
   text-align: left;
   width: 100%;
 }
+
 .buttons {
   margin-bottom: 5px;
   margin-right: 5px;
 }
+
 .btn-group {
   .btn {
     margin-bottom: 0;
@@ -2751,12 +2893,15 @@ span {
     display: none;
   }
 }
+
 .mail_list_column {
   border-left: 1px solid $alto;
 }
+
 .mail_view {
   border-left: 1px solid $alto;
 }
+
 .mail_list {
   width: 100%;
   border-bottom: 1px solid $alto;
@@ -2788,6 +2933,7 @@ span {
     background: $color_pink_swan_approx;
   }
 }
+
 @media(max-width: 767px) {
   .mail_list {
     margin-bottom: 5px;
@@ -2797,6 +2943,7 @@ span {
     float: none;
   }
 }
+
 .attachment {
   margin-top: 30px;
   ul {
@@ -2829,6 +2976,7 @@ span {
     display: inline-block;
   }
 }
+
 .compose {
   padding: 0;
   position: fixed;
@@ -2873,9 +3021,11 @@ span {
     padding: 10px;
   }
 }
+
 .input-group {
   margin-bottom: 10px;
 }
+
 .ln_solid {
   border-top: 1px solid $mercury;
   color: $white;
@@ -2883,6 +3033,7 @@ span {
   height: 1px;
   margin: 20px 0;
 }
+
 .form-control {
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 0;
@@ -2899,6 +3050,7 @@ span {
     padding-right: 45px;
   }
 }
+
 .form-horizontal {
   .control-label {
     padding-top: 8px;
@@ -2908,6 +3060,7 @@ span {
     margin-left: 0;
   }
 }
+
 .form-control-feedback {
   margin-top: 8px;
   height: 23px;
@@ -2923,6 +3076,7 @@ span {
     right: 13px;
   }
 }
+
 .form-group {
   margin-bottom: 10px;
   .btn {
@@ -2932,9 +3086,11 @@ span {
     display: block !important;
   }
 }
+
 .validate {
   margin-top: 10px;
 }
+
 .invalid-form-error-message {
   margin-top: 10px;
   padding: 5px;
@@ -2955,6 +3111,7 @@ p {
     border: 1px solid $color_vanilla_ice_approx;
   }
 }
+
 textarea {
   padding: 10px;
   vertical-align: top;
@@ -2968,6 +3125,7 @@ textarea {
     outline-width: 2px;
   }
 }
+
 .bad {
   input {
     border: 1px solid $color_fuzzy_wuzzy_brown_approx;
@@ -2991,6 +3149,7 @@ textarea {
     left: 0;
   }
 }
+
 .item {
   input {
     //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
@@ -3034,9 +3193,11 @@ textarea {
     opacity: 1;
   }
 }
+
 .inl-bl {
   display: inline-block;
 }
+
 .well {
   .markup {
     background: $white;
@@ -3062,6 +3223,7 @@ textarea {
     letter-spacing: 1px;
   }
 }
+
 .autocomplete-suggestions {
   border: 1px solid $color_mercury_approx;
   background: $wild_sand;
@@ -3072,12 +3234,14 @@ textarea {
     font-weight: bolder;
   }
 }
+
 .autocomplete-suggestion {
   padding: 2px 5px;
   font-size: 1.2em;
   white-space: nowrap;
   overflow: hidden;
 }
+
 .autocomplete-selected {
   background: $color_gallery_approx;
 }
@@ -3098,6 +3262,7 @@ textarea {
     background: $color_niagara_approx;
   }
 }
+
 .btn-dark {
   color: $color_gallery_approx;
   background-color: $color_blue_bayoux_approx;
@@ -3123,10 +3288,12 @@ textarea {
     border-color: $color_river_bed_approx;
   }
 }
+
 .btn-round {
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 30px;
 }
+
 .btn_ {
   display: inline-block;
   padding: 3px 9px;
@@ -3150,6 +3317,7 @@ textarea {
   //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
   box-shadow: inset 0 1px 0 $white_20, 0 1px 2px $black_5;
 }
+
 .bs-glyphicons {
   margin: 0 -10px 20px;
   overflow: hidden;
@@ -3179,10 +3347,12 @@ textarea {
     word-wrap: break-word;
   }
 }
+
 .bs-glyphicons-list {
   padding-left: 0;
   list-style: none;
 }
+
 .tagsinput {
   border: 1px solid $color_celeste_approx;
   background: $white;
@@ -3211,15 +3381,18 @@ textarea {
     font-size: 11px;
   }
 }
+
 .tags_clear {
   clear: both;
   width: 100%;
   height: 0;
 }
+
 .not_valid {
   background: $color_cosmos_approx !important;
   color: $color_tamarillo_approx !important;
 }
+
 .timeline {
   .block {
     margin: 0;
@@ -3276,6 +3449,7 @@ textarea {
     }
   }
 }
+
 .tag {
   line-height: 1;
   background: $color_mountain_meadow_approx;
@@ -3294,22 +3468,26 @@ textarea {
     border-left: 11px solid $color_mountain_meadow_approx;
   }
 }
+
 .byline {
   font-style: italic;
   font-size: .9375em;
   line-height: 1.3;
   color: $color_silver_chalice_approx;
 }
+
 .social-sidebar {
   float: right;
   background: $color_gallery_approx;
   width: 22%;
 }
+
 .social-body {
   float: right;
   border: 1px solid $color_celeste_approx;
   width: 78%;
 }
+
 .chat {
   .status {
     float: left;
@@ -3343,6 +3521,7 @@ textarea {
     border-radius: 50%;
   }
 }
+
 .chart {
   position: relative;
   display: inline-block;
@@ -3357,6 +3536,7 @@ textarea {
     left: 0;
   }
 }
+
 .percent {
   display: inline-block;
   line-height: 110px;
@@ -3368,12 +3548,14 @@ textarea {
     font-size: .8em;
   }
 }
+
 .angular {
   margin-top: 100px;
   .chart {
     margin-top: 0;
   }
 }
+
 .widget {
   min-width: 250px;
   max-width: 310px;
@@ -3381,6 +3563,7 @@ textarea {
     width: 65%;
   }
 }
+
 .widget_tally_box {
   .flex {
     display: flex;
@@ -3437,6 +3620,7 @@ textarea {
     border: 1px solid $color_mercury_approx;
   }
 }
+
 .pie_bg {
   border-bottom: 1px solid $color_downy_16_approx;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
@@ -3445,22 +3629,26 @@ textarea {
   //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
   box-shadow: 0 4px 6px -6px $color_log_cabin_approx;
 }
+
 .divider {
   border-bottom: 1px solid $color_alto_approx;
   margin: 10px;
 }
+
 .divider-dashed {
   border-top: 1px dashed $color_mystic_approx;
   background-color: $white;
   height: 1px;
   margin: 10px 0;
 }
+
 .profile_title {
   background: $color_whisper_approx;
   border: 0;
   padding: 7px 0;
   display: flex;
 }
+
 .pricing {
   background: $white;
   .title {
@@ -3487,6 +3675,7 @@ textarea {
     }
   }
 }
+
 .pricing_features {
   background: $alabaster;
   padding: 20px 15px;
@@ -3496,6 +3685,7 @@ textarea {
     margin-top: 10px;
   }
 }
+
 .pricing_footer {
   padding: 10px 15px;
   background-color: $color_wild_sand_approx;
@@ -3511,6 +3701,7 @@ textarea {
     display: block;
   }
 }
+
 .ui-ribbon-container {
   position: relative;
   .ui-ribbon-wrapper {
@@ -3568,6 +3759,7 @@ textarea {
     }
   }
 }
+
 .thumbnail {
   height: 190px;
   overflow: hidden;
@@ -3576,6 +3768,7 @@ textarea {
     overflow: hidden;
   }
 }
+
 .caption {
   padding: 9px 5px;
   background: $color_black_haze_approx;
@@ -3583,6 +3776,7 @@ textarea {
     margin-bottom: 5px;
   }
 }
+
 .view {
   overflow: hidden;
   position: relative;
@@ -3645,6 +3839,7 @@ textarea {
     box-shadow: 0 0 1px $black;
   }
 }
+
 .view-first {
   img {
     //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
@@ -3692,6 +3887,7 @@ textarea {
     }
   }
 }
+
 .tabs-left {
   border-bottom: none;
   padding-top: 2px;
@@ -3723,6 +3919,7 @@ textarea {
     }
   }
 }
+
 .tabs-right {
   border-bottom: none;
   padding-top: 2px;
@@ -3753,6 +3950,7 @@ textarea {
     }
   }
 }
+
 .sideways {
   margin-top: 50px;
   border: none;
@@ -3799,6 +3997,7 @@ textarea {
     }
   }
 }
+
 .morris-hover {
   position: absolute;
   z-index: 1000;
@@ -3820,12 +4019,14 @@ textarea {
     }
   }
 }
+
 .price {
   font-size: 40px;
   font-weight: 400;
   color: $color_keppel_approx;
   margin: 0;
 }
+
 .prod_title {
   border-bottom: 1px solid $color_bon_jour_approx;
   padding-bottom: 5px;
@@ -3833,6 +4034,7 @@ textarea {
   font-size: 20px;
   font-weight: 400;
 }
+
 .prod_color {
   li {
     margin: 0 10px;
@@ -3849,6 +4051,7 @@ textarea {
     border-radius: 50px;
   }
 }
+
 .product_price {
   margin: 20px 0;
   padding: 5px 10px;
@@ -3856,21 +4059,25 @@ textarea {
   text-align: left;
   border: 2px dashed $color_bon_jour_approx;
 }
+
 .price-tax {
   font-size: 18px;
 }
+
 .product_social {
   margin: 20px 0;
   ul li a i {
     font-size: 35px;
   }
 }
+
 .login {
   background: $color_black_haze_approx;
   .fa-paw {
     font-size: 26px;
   }
 }
+
 .login_wrapper {
   right: 0;
   margin: 0 auto;
@@ -3878,6 +4085,7 @@ textarea {
   max-width: 350px;
   position: relative;
 }
+
 .registration_form {
   position: absolute;
   top: 0;
@@ -3886,32 +4094,39 @@ textarea {
   opacity: 0;
   width: 100%;
 }
+
 .login_form {
   position: absolute;
   top: 0;
   width: 100%;
   z-index: 22;
 }
+
 .animate {
   animation-duration: 0.5s;
   animation-timing-function: ease;
   animation-fill-mode: both;
 }
+
 .login_box {
   padding: 20px;
   margin: auto;
 }
+
 .left {
   float: left;
 }
+
 .alignleft {
   float: left;
   margin-right: 15px;
 }
+
 .alignright {
   float: right;
   margin-left: 15px;
 }
+
 .login_content {
   margin: 0 auto;
   padding: 25px 0 0;
@@ -4022,20 +4237,25 @@ textarea {
     float: right;
   }
 }
+
 #username {
   background-position: 10px 10px !important;
 }
+
 #password {
   background-position: 10px -53px !important;
 }
+
 .reset_pass {
   margin-top: 10px !important;
 }
+
 .separator {
   border-top: 1px solid $color_iron_approx;
   margin-top: 10px;
   padding-top: 10px;
 }
+
 .button {
   background: linear-gradient(top, $color_white_lilac_approx 0, $color_gallery_approx 100%);
   //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
@@ -4058,9 +4278,11 @@ textarea {
     }
   }
 }
+
 header {
   width: 100%;
 }
+
 #nprogress {
   .bar {
     background: $color_mountain_meadow_approx;
@@ -4074,6 +4296,7 @@ header {
     border-left-color: $color_mountain_meadow_approx;
   }
 }
+
 .editor-wrapper {
   min-height: 250px;
   background-color: $white;
@@ -4095,6 +4318,7 @@ header {
   overflow: scroll;
   outline: none;
 }
+
 .voiceBtn {
   width: 20px;
   color: transparent;
@@ -4106,10 +4330,12 @@ header {
   //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
   box-shadow: none;
 }
+
 div[data-role="editor-toolbar"] {
   //Instead of the line below you could use @include user-select($select)
   user-select: none;
 }
+
 .select2-container--default {
   .select2-selection--single {
     background-color: $white;
@@ -4153,6 +4379,7 @@ div[data-role="editor-toolbar"] {
     border: 1px solid $color_celeste_approx;
   }
 }
+
 .switchery {
   width: 32px;
   height: 20px;
@@ -4161,11 +4388,13 @@ div[data-role="editor-toolbar"] {
     height: 20px;
   }
 }
+
 fieldset {
   border: none;
   margin: 0;
   padding: 0;
 }
+
 .cropper {
   .img-container {
     background-color: $color_black_haze_approx;
@@ -4299,6 +4528,7 @@ fieldset {
     max-width: 352px;
   }
 }
+
 @media(max-width: 400px) {
   .cropper .btn-group-crop {
     margin-right: -15px !important;
@@ -4314,6 +4544,7 @@ fieldset {
     }
   }
 }
+
 .form_wizard {
   .stepContainer {
     display: block;
@@ -4330,12 +4561,14 @@ fieldset {
     display: none;
   }
 }
+
 .step_no {
   background: $color_pickled_bluewood_approx;
   color: $white;
   background: $color_pickled_bluewood_approx;
   color: $white;
 }
+
 .wizard_verticle {
   .stepContainer {
     width: 80%;
@@ -4425,6 +4658,7 @@ fieldset {
     }
   }
 }
+
 .actionBar {
   width: 100%;
   border-top: 1px solid $color_alto_approx;
@@ -4443,6 +4677,7 @@ fieldset {
     margin: 0 3px;
   }
 }
+
 .progress {
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 0;
@@ -4459,12 +4694,15 @@ fieldset {
     width: 35px;
   }
 }
+
 .progress-bar-info {
   background-color: $color_curious_blue_approx;
 }
+
 .progress-bar-success {
   background-color: $color_keppel_approx;
 }
+
 .progress_summary {
   .progress {
     margin: 5px 0 12px !important;
@@ -4488,6 +4726,7 @@ fieldset {
     float: right;
   }
 }
+
 .progress_title {
   .left {
     float: left;
@@ -4499,26 +4738,31 @@ fieldset {
     font-weight: 300;
   }
 }
+
 .alert-success {
   color: $white;
   background-color: $color_keppel_88_approx;
   border-color: $color_keppel_88_approx;
 }
+
 .alert-info {
   color: $color_gallery_approx;
   background-color: $color_curious_blue_88_approx;
   border-color: $color_curious_blue_88_approx;
 }
+
 .alert-warning {
   color: $color_gallery_approx;
   background-color: $color_tree_poppy_88_approx;
   border-color: $color_tree_poppy_88_approx;
 }
+
 .alert-danger {
   color: $color_gallery_approx;
   background-color: $color_cinnabar_88_approx;
   border-color: $color_cinnabar_88_approx;
 }
+
 .alert-error {
   color: $color_gallery_approx;
   background-color: $color_cinnabar_88_approx;
@@ -4529,8 +4773,8 @@ fieldset {
   //@include translate(-50%, 0);
   //left: 50%;
   //position: fixed;
-  margin-left:auto;
-  margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
   top: 15px;
   width: 75%;
   padding: 5px 10px;
@@ -4550,6 +4794,7 @@ fieldset {
   z-index: 4000;
   bottom: 0;
 }
+
 .notifications {
   li {
     float: right;
@@ -4569,6 +4814,7 @@ fieldset {
     padding: 9px 8px;
   }
 }
+
 .tabbed_notifications {
   .text {
     padding: 5px 15px;
@@ -4598,22 +4844,27 @@ fieldset {
     display: inline-block;
   }
 }
+
 .fc-state-default {
   background: $color_wild_sand_approx;
   color: $color_bermuda_gray_approx;
 }
+
 .fc-state-down {
   color: $color_mine_shaft_approx;
   background: $color_celeste_approx;
 }
+
 .fc-state-active {
   color: $color_mine_shaft_approx;
   background: $color_celeste_approx;
 }
+
 .dropzone {
   min-height: 300px;
   border: 1px solid $mercury;
 }
+
 @media(max-width: 460px) {
   .dataTables_wrapper .col-sm-6 {
     width: 100%;
@@ -4623,6 +4874,7 @@ fieldset {
     }
   }
 }
+
 .img-circle.profile_img {
   width: 70%;
   background: $white;
@@ -4633,6 +4885,7 @@ fieldset {
   border: 1px solid $color_pickled_bluewood_44_approx;
   padding: 4px;
 }
+
 .profile.img_2 {
   text-align: center;
   .profile_pic {
@@ -4649,33 +4902,41 @@ fieldset {
     float: left;
   }
 }
+
 .active a span.fa {
   text-align: right !important;
   margin-right: 4px;
 }
+
 .main_container .top_nav {
   display: block;
   margin-left: 230px;
-  -webkit-transition-duration: 0.8s; /* Safari */
-  transition-duration: 0.8s;
-
 }
+
+.navbar-user {
+  margin-right: 230px !important;
+}
+
 .grid_slider .col-md-6 {
   padding: 0 40px;
 }
+
 .bs-docs-sidebar .nav > li > a {
   display: block;
   padding: 4px 6px;
 }
+
 .footer_fixed footer {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
 }
+
 article.media {
   width: 100%;
 }
+
 .pagination.pagination-split li {
   display: inline-block;
   margin-right: 3px;
@@ -4685,6 +4946,7 @@ article.media {
     color: $color_waterloo__approx;
   }
 }
+
 .degrees:after {
   content: "o";
   position: relative;
@@ -4692,6 +4954,7 @@ article.media {
   font-size: 13px;
   font-weight: 300;
 }
+
 .daily-weather .day {
   font-size: 14px;
   border-top: 2px solid $color_bermuda_gray_36_approx;
@@ -4699,16 +4962,20 @@ article.media {
   border-bottom: 2px solid $color_bermuda_gray_36_approx;
   padding: 5px 0;
 }
+
 .weather-days .col-sm-2 {
   overflow: hidden;
   width: 16.66666667%;
 }
+
 .weather .row {
   margin-bottom: 0;
 }
+
 .top .dataTables_info {
   float: none;
 }
+
 tfoot input {
   margin: 0.5em 0;
   width: 100%;
@@ -4717,9 +4984,11 @@ tfoot input {
     color: $color_mountain_mist_approx;
   }
 }
+
 .example_alt_pagination div.dataTables_info {
   width: 40%;
 }
+
 .info-number .badge {
   font-size: 10px;
   font-weight: normal;
@@ -4729,6 +4998,7 @@ tfoot input {
   right: 2px;
   top: 8px;
 }
+
 h5.graph_title {
   text-align: left;
   margin-left: 10px;
@@ -4737,9 +5007,11 @@ h5.graph_title {
     font-size: 17px;
   }
 }
+
 .tile_info a {
   text-overflow: ellipsis;
 }
+
 .user-profile img {
   width: 29px;
   height: 29px;
@@ -4747,6 +5019,7 @@ h5.graph_title {
   border-radius: 50%;
   margin-right: 10px;
 }
+
 .event .media-body {
   p {
     margin-bottom: 0;
@@ -4755,10 +5028,12 @@ h5.graph_title {
     font-weight: bold;
   }
 }
+
 h4.graph_title {
   margin: 7px;
   text-align: center;
 }
+
 .fontawesome-icon-list .fa-hover a {
   display: block;
   line-height: 32px;
@@ -4783,24 +5058,29 @@ h4.graph_title {
     margin-right: 10px;
   }
 }
+
 .tile_head h4 {
   margin-top: 0;
   margin-bottom: 5px;
 }
+
 .modal-footer .btn + .btn {
   margin-bottom: 5px;
   margin-right: 5px;
 }
+
 .btn-group-vertical .btn {
   margin-bottom: 0;
   margin-right: 0;
 }
+
 .mail_heading h4 {
   font-size: 18px;
   border-bottom: 1px solid $color_alto_approx;
   padding-bottom: 10px;
   margin-top: 20px;
 }
+
 .editor.btn-toolbar {
   zoom: 1;
   background: $color_black_haze_approx;
@@ -4808,14 +5088,17 @@ h4.graph_title {
   padding: 3px 0;
   border: 1px solid $gallery;
 }
+
 input.parsley-error {
   background: $color_bridesmaid_approx;
   border: 1px solid $color_flame_pea_approx;
 }
+
 select.parsley-error {
   background: $color_bridesmaid_approx;
   border: 1px solid $color_flame_pea_approx;
 }
+
 .open .dropdown-toggle {
   &.btn-success {
     background: $color_niagara_approx;
@@ -4826,16 +5109,19 @@ select.parsley-error {
     border-color: $color_river_bed_approx;
   }
 }
+
 .thumb img {
   width: 50px;
   height: 50px;
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 50%;
 }
+
 .tasks li {
   border-bottom: 1px dotted $color_mercury_approx;
   padding: 8px 0;
 }
+
 img.avatar {
   height: 32px;
   width: 32px;
@@ -4847,13 +5133,16 @@ img.avatar {
   background: $color_black_haze_approx;
   border: 1px solid $color_mercury_approx;
 }
+
 .project_progress .progress {
   margin-bottom: 3px !important;
   margin-top: 5px;
 }
+
 .projects .list-inline {
   margin: 0;
 }
+
 .project_detail p {
   margin-bottom: 10px;
   &.title {
@@ -4861,23 +5150,29 @@ img.avatar {
     margin-bottom: 0;
   }
 }
+
 .avatar img {
   //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 50%;
   max-width: 45px;
 }
+
 .mask.no-caption .tools {
   margin: 90px 0 0;
 }
+
 .input-group-btn .btn {
   margin-bottom: 0;
 }
+
 .product-image img {
   width: 90%;
 }
+
 .prod_size li {
   padding: 0;
 }
+
 .product_gallery a {
   width: 100px;
   height: 100px;
@@ -4889,6 +5184,7 @@ img.avatar {
     margin-top: 15px;
   }
 }
+
 #signup:target ~ .login_wrapper {
   .registration_form {
     z-index: 22;
@@ -4899,6 +5195,7 @@ img.avatar {
     animation-name: fadeOutLeft;
   }
 }
+
 #signin:target ~ .login_wrapper {
   .login_form {
     z-index: 22;
@@ -4909,6 +5206,7 @@ img.avatar {
     animation-name: fadeOutLeft;
   }
 }
+
 .clearfix:after {
   content: ".";
   display: block;
@@ -4916,6 +5214,7 @@ img.avatar {
   clear: both;
   visibility: hidden;
 }
+
 form:after {
   content: ".";
   display: block;
@@ -4923,10 +5222,12 @@ form:after {
   clear: both;
   visibility: hidden;
 }
+
 #content form .submit {
   float: left;
   margin-left: 38px;
 }
+
 .wizard_horizontal ul.wizard_steps {
   display: table;
   list-style: none;
@@ -5000,6 +5301,7 @@ form:after {
     }
   }
 }
+
 .ui-pnotify.dark .ui-pnotify-container {
   color: $color_gallery_approx;
   background-color: $color_pickled_bluewood_88_approx;

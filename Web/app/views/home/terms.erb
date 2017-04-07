@@ -5,8 +5,8 @@
 
 <body>
 <div class="loader"></div>
-<section class="header" style="min-height: 300px;">
-  <div class="bg-color" style="min-height: 300px;">
+<section class="header header-bg">
+  <div class="bg-color header-bg">
     <div class="wrapper">
       <div class="container">
         <div class="row">
@@ -18,17 +18,18 @@
     </div>
   </div>
 </section>
-<div id="myDiv" style="padding: 30px;">
-  <div class="enable" style="margin-top:20px;"></div>
-  <h3>LEGAL AGREEMENT</h3>
-  <p align="justify">We strongly suggest to read these Terms of Use and Privacy Policy associated with PairCon as
-    these two govern the use of our services and any other thing provided by PairCon. By registering and using
-    our service, you hereby are bound to comply with our Terms of Use and agree with our Privacy Policy. Certain
-    parts of PairCon requires its users to agree to additional terms or guidelines that the users will be
-    notified with. In case you do not agree with the Term of Use or our Privacy Policy listed, you may not use the
-    service. In the Terms of Use “you” shall mean either you as an individual or the entity on whose behalf you are
-    accepting these Terms of Use and who is afforded all rights and bound by all terms under the Agreement.</p>
-  <hr>
+<div class="body-margin">
+  <div>
+    <h3>LEGAL AGREEMENT</h3>
+    <p align="justify">We strongly suggest to read these Terms of Use and Privacy Policy associated with PairCon as
+      these two govern the use of our services and any other thing provided by PairCon. By registering and using
+      our service, you hereby are bound to comply with our Terms of Use and agree with our Privacy Policy. Certain
+      parts of PairCon requires its users to agree to additional terms or guidelines that the users will be
+      notified with. In case you do not agree with the Term of Use or our Privacy Policy listed, you may not use the
+      service. In the Terms of Use “you” shall mean either you as an individual or the entity on whose behalf you are
+      accepting these Terms of Use and who is afforded all rights and bound by all terms under the Agreement.</p>
+    <hr>
+  </div>
   <div>
     <h3>PRIVACY POLICY</h3>
     <p align="justify">By using and registering with us, you hereby allow the collection and use of information which
@@ -68,7 +69,7 @@
       Conduct of PairCon. You agree to not use the Service, which if you may do can allow PairCon to take any
       reasonable action against you, which includes banning you from using the service as well, in any of the
       following way:</p>
-    <ul style="list-style-type: circle">
+    <ul class="list-circle">
       <li>An action that can harm a minor in any way.</li>
       <li>Transmit or make available any material that may be deemed malicious and may contain software viruses or any
         material, files or programs designed to interrupt, destroy or limit the functionality of any computer software
@@ -95,7 +96,7 @@
         our sole discretion to pre-screen, refuse, or remove any Content on the Service. You understand that you may
         be exposed to Content on the Service that is offensive, indecent or objectionable. You will not access any of
         the Services
-        <ul style="list-style-type: square">
+        <ul class="list-circle">
           <li>By any means other than through the interface that is provided</li>
           <li>Through any automated means (including use of bots, scripts or web crawlers).</li>
         </ul>
@@ -109,7 +110,7 @@
     <h3>FEEDBACK</h3>
     <p>By providing feedback ideas, ratings, reviews, or suggestions (“Feedback”) to PairCon, you solely
       acknowledge and agree that:</p>
-    <ul style="list-style-type: circle">
+    <ul class="list-circle">
       <li>Your Feedback automatically becomes the property of PairCon without any obligation us on you</li>
       <li>PairCon may have something similar to the Feedback already under consideration or in development</li>
       <li>You are not entitled to any compensation or reimbursement of any kind from PairCon.</li>
@@ -137,6 +138,6 @@
 <%= render 'layouts/home/signup_banner' %>
 <%= render 'layouts/home/footer' %>
 </body>
-<%= javascript_tag 'enablePJAX()' %>
+<%= javascript_tag 'initializeApplication()' %>
 
 </html>

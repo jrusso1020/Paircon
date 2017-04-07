@@ -2,11 +2,15 @@
 #
 # Table name: organizers
 #
-# *id*::         <tt>integer, not null, primary key</tt>
+# *id*::         <tt>string(30), not null, primary key</tt>
 # *user_id*::    <tt>string</tt>
-# *pending*::    <tt>boolean, default("false")</tt>
+# *approved*::   <tt>boolean, default(FALSE)</tt>
 # *created_at*:: <tt>datetime, not null</tt>
 # *updated_at*:: <tt>datetime, not null</tt>
+#
+# Indexes
+#
+#  index_organizers_on_user_id  (user_id) UNIQUE
 #--
 # == Schema Information End
 #++

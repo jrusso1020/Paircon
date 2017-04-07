@@ -1,0 +1,143 @@
+function initializeConference(id, description) {
+    initializeInPlaceEditing(id);
+    retrievePosts(id);
+
+    $('.dropzone').not('.static').html5imageupload();
+
+    $('#reservation-time').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        locale: {
+            format: 'MM/DD/YYYY h:mm A'
+        }
+    }, function (start, end) {
+        console.log(start.toISOString(), end.toISOString(), label);
+    });
+
+    $('.read-more-description-' + id).on('click', function (e) {
+        e.preventDefault()
+        $(this).parent().html("'" + description + "'")
+    })
+
+    $('.inputfit').inputfit({
+        maxSize: 20,
+        minSize: 14
+    });
+
+}
+
+function initializeInPlaceEditing(id) {
+    $(".best_in_place").best_in_place();
+
+    $(".best_in_place").click(function () {
+        if ($(this).attr('id') == 'phone-number') {
+            $('#phone-number input').inputmask("phone");
+        }
+
+        $(this).css({
+            "border-color": "#none",
+            "border-width": "none",
+            "border-style": "none"
+        })
+    });
+    $(".best_in_place").hover(function () {
+        if ($(this).children().length)
+            return;
+
+        $(this).css({
+            "border-color": "#c6c6c6",
+            "border-width": "1px",
+            "border-style": "solid"
+        })
+    }, function () {
+        $(this).css({
+            "border-color": "#none",
+            "border-width": "none",
+            "border-style": "none"
+        })
+    })
+
+    $('.best_in_place').bind("ajax:success", function (data, jqXHR, status) {
+        var conference_name = $.parseJSON(jqXHR).text;
+        document.title = conference_name + ' - PairCon';
+        $('#conference_' + id).text(conference_name);
+        showNotificationMsg('Your Conference has been successfully updated.');
+    });
+
+}
+
+function retrievePosts(id) {
+    $.ajax({
+        type: 'GET',
+        url: '/posts?conference_id=' + id,
+        success: function (html) {
+            $('.post_div').html(html);
+            initializeInPlaceEditing(id);
+        }
+    });
+}
+
+function initCharts(count) {
+
+    try {
+        var owl = $('.owl-carousel');
+        owl.owlCarousel({
+            items: count,
+            loop: count > 1,
+            autoplay: count > 1,
+            autoplayTimeout: 4000
+        });
+
+        //Easy Pie Chart
+        $('.easypiechart').easyPieChart({
+            barColor: "#34495e",
+            trackColor: '#edeef0',
+            scaleColor: '#d2d3d6',
+            scaleLength: 5,
+            lineCap: 'round',
+            lineWidth: 6,
+            size: 100,
+            scaleColor: false,
+            onStep: function (from, to, percent) {
+                $(this.el).find('.percent').text(Math.round(percent));
+            }
+        });
+
+        $('#updatePieCharts').on('click', function () {
+            $('.easypiechart').each(function () {
+                $(this).data('easyPieChart').update(Math.random() * 100);
+            });
+            return false;
+        });
+    }
+    catch (e) {
+    }
+}
+
+function initializeAddScheduleResource() {
+    $('#conference_build_select').selectize({
+        sortField: 'text'
+    });
+
+    try {
+        var $this = $('#conference_build_text');
+        var master = $this.data('dependsOn').toString();
+        var value = $this.data('dependsOnValue');
+        if (typeof(value) != 'undefined') {
+            $this.dependsOn(master, value);
+        } else {
+            $this.dependsOn(master);
+        }
+    } catch (err) { }
+
+    $('#add_resource_form').validate({
+        rules: {
+            'resource[title]': {
+                required: true
+            },
+            'resource[parent_id[': {
+                required: true
+            }
+        }
+    });
+}

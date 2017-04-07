@@ -10,15 +10,16 @@
 }
 
 .dropzone:after {
-  content: '';
-  font-size: 30px;
+  content: 'Click on Upload Button To Add An Image!';
+  font-size: 20px;
   color: #bbbbbb;
   position: absolute;
-  bottom: 60%;
+  bottom: 35%;
   left: 0;
   width: 100%;
   text-align: center;
   z-index: 0;
+  padding: 10px;
 }
 
 .dropzone:before {
@@ -141,7 +142,8 @@
 .dropzone img.ghost {
   opacity: .2;
   z-index: auto;
-  float: left /* HACK for not scrolling*/;
+  float: left /* HACK for not scrolling*/
+;
 }
 
 .dropzone img.main {
@@ -169,7 +171,7 @@
 }
 
 .dropzone.smalltools .tools .btn {
-  padding: 1px 4px;
+  padding: 5px 8px;
   font-size: 12px;
   border-radius: 5px;
 }
@@ -183,7 +185,7 @@
 }
 
 .html5imageupload:after {
-  content: '';
+  content: 'Drop your image here or click to add one!';
   font-size: 30px;
   color: #bbbbbb;
   position: absolute;
@@ -311,7 +313,8 @@
 .html5imageupload img.ghost {
   opacity: .2;
   z-index: auto;
-  float: left /* HACK for not scrolling*/;
+  float: left /* HACK for not scrolling*/
+;
 }
 
 .html5imageupload img.main {
@@ -339,6 +342,6 @@
 }
 
 .html5imageupload.smalltools .tools .btn {
-  padding: 1px 4px;
+  padding: 5px 8px;
   font-size: 12px;
 }

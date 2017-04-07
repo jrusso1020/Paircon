@@ -1,10 +1,56 @@
-<%= button_to "Conferences" , conferences_path(), method: :get %>
-<br/>
+<%= header_title @conference.get_name %>
 
-<div class="col-sm-11 col-xs-12 blog-content">
-  <h2 class="text-center"><%= @conference.name %></h2>
-  <h5 class="text-center"><%= @conference.start_date %></h5>
-  <h5 class="text-center"><%= @conference.end_date %></h5>
-  <h5 class="text-center"><%= @conference.url %></h5>
-  <h5 class="text-center"><%= @conference.location %></h5>
+<%= render 'header' %>
+
+<div class="row">
+  <div class="col-md-2 col-sm-2 col-xs-2">
+    <ul class="nav nav-tabs tabs-left">
+      <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+
+      <% if @is_organizer or (!@is_organizer and @post_count != 0) %>
+          <li><a href="#posts" data-toggle="tab">Posts</a></li>
+      <% end %>
+
+      <li><a href="#recommendations" data-toggle="tab">Recommendations</a></li>
+      <li><a href="#papers" data-toggle="tab">Papers</a></li>
+      <li><a href="#schedule" data-toggle="tab">Schedule</a></li>
+      <li><a href="#about" data-toggle="tab">About</a></li>
+      <hr/>
+      <% if @is_organizer %>
+          <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div id="home" class="tab-pane active">
+      <div class="col-md-7 col-sm-7 col-xs-10">
+        <% if !@is_organizer %>
+            <%= render 'conferences/panels/recommendations' %>
+        <% else %>
+            <%= render 'posts/new' %>
+        <% end %>
+
+        <%= render 'conferences/panels/schedule' %>
+        <%= render 'conferences/panels/papers' %>
+        <%#= render 'conferences/panels/location' %>
+        <%= render 'conferences/panels/posts' %>
+      </div>
+      <div class="col-md-3 col-sm-3 col-xs-12 hidden-xs">
+        <%= render 'conferences/panels/about' %>
+      </div>
+    </div>
+
+    <div id="posts" class="tab-pane">
+      <div class="col-md-8 col-sm-8 col-xs-10">
+        <% if @is_organizer %>
+            <%= render 'posts/new' %>
+        <% end %>
+
+        <%= render 'conferences/panels/posts' %>
+      </div>
+    </div>
+  </div>
 </div>
+
+<%= javascript_tag "initializeConference('" + @conference.id.to_s + "', '" + @conference.description + "')" %>
+<%= javascript_tag 'initializePanels()' %>

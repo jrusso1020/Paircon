@@ -2,7 +2,7 @@
 #
 # Table name: papers
 #
-# *id*::         <tt>integer, not null, primary key</tt>
+# *id*::         <tt>string(30), not null, primary key</tt>
 # *title*::      <tt>string</tt>
 # *pdf_link*::   <tt>text</tt>
 # *md5hash*::    <tt>string</tt>

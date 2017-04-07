@@ -1,52 +1,97 @@
+(function ($, sr) {
+    // debouncing function from John Hann
+    // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+    var debounce = function (func, threshold, execAsap) {
+        var timeout;
+
+        return function debounced() {
+            var obj = this, args = arguments;
+
+            function delayed() {
+                if (!execAsap)
+                    func.apply(obj, args);
+                timeout = null;
+            }
+
+            if (timeout)
+                clearTimeout(timeout);
+            else if (execAsap)
+                func.apply(obj, args);
+
+            timeout = setTimeout(delayed, threshold || 100);
+        };
+    };
+
+    // smartresize
+    jQuery.fn[sr] = function (fn) {
+        return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr);
+    };
+
+})(jQuery, 'smartresize');
+
 /****************************************/
 //------------PJAX ENABLER--------------//
 /****************************************/
-function enablePJAX() {
+function initializeApplication() {
+    $(document).on('page:fetch', function () {
+        NProgress.start();
+    });
+    $(document).on('page:change', function () {
+        NProgress.done();
+    });
+    $(document).on('page:restore', function () {
+        NProgress.remove();
+    });
+
     $.pjax.defaults.timeout = 2000;
+    $.pjax.defaults.maxCacheLength = 0;
     $(document).pjax("a:not([data-no-pjax])", '[data-pjax-container]')
-    var animationSpeed = 0;
+
+    $("a").on('pjax:complete', function () {
+        NProgress.done();
+    });
 
     $(document).on('pjax:complete', function () {
+        NProgress.done();
         switchContainer();
         $('#error_callout').fadeTo('fast', 0);
-        try { initLoginBoxValidation(); } catch (err) { }
+        bind_notification_listing();
+
+        try {
+            initLoginBoxValidation();
+        } catch (err) {
+        }
+    });
+
+    $(window).smartresize(function () {
+        setContentHeight();
     });
 
     window.addEventListener('popstate', function (e) {
         getViewportHeight();
         switchContainer();
-        animationSpeed = 300;
-        try { initLoginBoxValidation(); } catch (err) { }
+        try {
+            initLoginBoxValidation();
+        } catch (err) {
+        }
     });
 
-    function switchContainer() {
-        var is_confirmation = $('#new_user_confirmation').length > 0;
-        var is_login = $('#new_user_session').length > 0;
-        var is_recover = $('#new_user_password').length > 0;
-        var is_edit_register = $('#edit_user_password').length > 0;
-        var is_register = $('#new_user_registration').length > 0;
-        var cheight = 100;
+    $("html").on("keydown", function (e) {
+        if (e.keyCode == 32 && e.target == document.body) {
+            e.preventDefault();
+            return false;
+        }
+    });
 
-        if (is_login)
-            cheight = 314;
-        else if (is_register && window.innerWidth < 768)
-            cheight = 340;
-        else if (is_register && window.innerWidth >= 768)
-            cheight = 446;
-        else if (is_recover || is_confirmation)
-            cheight = 260;
-        else if (is_edit_register)
-            cheight = 305;
+    $(document).on('pjax:beforeSend', function () {
+        NProgress.start();
+        $('.header_btns').hide();
+    });
 
-        $('#loginbox').animate({'height': cheight + 'px'}, animationSpeed, function () {
-            $('#loginbox form').fadeTo(animationSpeed, 1);
-        });
-    }
+    $(document).on('submit', 'form[data-pjax]', function (event) {
+        $.pjax.submit(event, '#wrap');
+    });
 
-    getViewportHeight();
-    switchContainer();
-    animationSpeed = 300;
-    try { initLoginBoxValidation(); } catch (err) { }
     $(window).resize(function () {
         getViewportHeight();
         switchContainer();
@@ -56,12 +101,102 @@ function enablePJAX() {
         $('.modal-dialog').removeClass('modal-mg');
         $(this).removeData('bs.modal');
     });
+
+    if (("onhashchange" in window)) {
+        $(window).bind('hashchange', function () {
+            window.location.hash = ''
+        });
+    }
+
+    getViewportHeight();
+    switchContainer();
+    try {
+        initLoginBoxValidation();
+    } catch (err) {
+    }
+
+    bind_notification_listing();
 }
 
 // For centering login form
 var getViewportHeight = function () {
     $('.focusedform').css('height', $(window).height() - 40); // Prevent scroll of the whole content (mobile)
 };
+
+var setContentHeight = function () {
+    var $BODY = $('body'),
+        $SIDEBAR_FOOTER = $('.sidebar-footer'),
+        $LEFT_COL = $('.left_col'),
+        $RIGHT_COL = $('.right_col'),
+        $NAV_MENU = $('.nav_menu'),
+        $FOOTER = $('footer');
+
+    // reset height
+    $RIGHT_COL.css('min-height', $(window).height());
+
+    var bodyHeight = $BODY.outerHeight(),
+        footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
+        leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+        contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+
+    // normalize content
+    contentHeight -= $NAV_MENU.height() + footerHeight;
+
+    $RIGHT_COL.css('min-height', contentHeight);
+};
+
+function switchContainer() {
+    var animationSpeed = 300;
+
+    var is_confirmation = $('#new_user_confirmation').length > 0;
+    var is_login = $('#new_user_session').length > 0;
+    var is_recover = $('#new_user_password').length > 0;
+    var is_edit_register = $('#edit_user_password').length > 0;
+    var is_register = $('#new_user_registration').length > 0;
+    var cheight = 100;
+
+    if (is_login)
+        cheight = 314;
+    else if (is_register && window.innerWidth < 768)
+        cheight = 340;
+    else if (is_register && window.innerWidth >= 768)
+        cheight = 446;
+    else if (is_recover || is_confirmation)
+        cheight = 260;
+    else if (is_edit_register)
+        cheight = 305;
+
+    $('#loginbox').animate({'height': cheight + 'px'}, animationSpeed, function () {
+        $('#loginbox form').fadeTo(animationSpeed, 1);
+    });
+}
+
+/******************************************/
+//------------Notifications---------------//
+/******************************************/
+function bind_notification_listing() {
+    $.ajax({
+        type: 'GET',
+        url: '/notifications',
+        data: 'referer=2',
+        success: function (html) {
+            $('#notification_panel').html(html);
+            bind_notification_read();
+        }
+    });
+}
+
+function bind_notification_read() {
+    $('#notification_link').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '/notifications/read_notification',
+            success: function (html) {
+                $('#notification_div').remove()
+            }
+        });
+    });
+}
 
 /******************************************/
 //------------ERROR MESSAGES--------------//
@@ -103,6 +238,10 @@ function hideErrorMsg() {
 }
 
 function setAutoHideFlashMsg(id) {
+    $('#' + id + '_close').click(function () {
+        $('#' + id).hide();
+    });
+
     var observer = new MutationObserver(function (mutations) {
         setTimeout(function () {
             $('#' + id).fadeOut('slow');
@@ -115,81 +254,17 @@ function setAutoHideFlashMsg(id) {
 
 
 /******************************************/
-//------------ERROR MESSAGES--------------//
+//------------LAYOUT INITIALIZER-----------//
 /******************************************/
 function loadApplicationLayout() {
-    /**
-     * Resize function without multiple trigger
-     *
-     * Usage:
-     * $(window).smartresize(function(){
- *     // code here
- * });
-     */
-    (function ($, sr) {
-        // debouncing function from John Hann
-        // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
-        var debounce = function (func, threshold, execAsap) {
-            var timeout;
-
-            return function debounced() {
-                var obj = this, args = arguments;
-
-                function delayed() {
-                    if (!execAsap)
-                        func.apply(obj, args);
-                    timeout = null;
-                }
-
-                if (timeout)
-                    clearTimeout(timeout);
-                else if (execAsap)
-                    func.apply(obj, args);
-
-                timeout = setTimeout(delayed, threshold || 100);
-            };
-        };
-
-        // smartresize
-        jQuery.fn[sr] = function (fn) {
-            return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr);
-        };
-
-    })(jQuery, 'smartresize');
-    /**
-     * To change this license header, choose License Headers in Project Properties.
-     * To change this template file, choose Tools | Templates
-     * and open the template in the editor.
-     */
-
     var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
         $BODY = $('body'),
         $MENU_TOGGLE = $('#menu_toggle'),
-        $SIDEBAR_MENU = $('#sidebar-menu'),
-        $SIDEBAR_FOOTER = $('.sidebar-footer'),
-        $LEFT_COL = $('.left_col'),
-        $RIGHT_COL = $('.right_col'),
-        $NAV_MENU = $('.nav_menu'),
-        $FOOTER = $('footer');
-
+        $SIDEBAR_MENU = $('#sidebar-menu')
 
     // Sidebar
     function init_sidebar() {
         // TODO: This is some kind of easy fix, maybe we can improve this
-        var setContentHeight = function () {
-            // reset height
-            $RIGHT_COL.css('min-height', $(window).height());
-
-            var bodyHeight = $BODY.outerHeight(),
-                footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
-                leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
-                contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
-
-            // normalize content
-            contentHeight -= $NAV_MENU.height() + footerHeight;
-
-            $RIGHT_COL.css('min-height', contentHeight);
-        };
 
         $SIDEBAR_MENU.find('a').on('click', function (ev) {
             console.log('clicked - sidebar_menu');
@@ -211,7 +286,14 @@ function loadApplicationLayout() {
                         $SIDEBAR_MENU.find("li ul").slideUp();
                     }
                 }
-                $li.addClass('active');
+
+                $SIDEBAR_MENU.find('a[href="' + $(this).attr('href') + '"]').parent('li').addClass('active active-sm');
+
+                $SIDEBAR_MENU.find('a').filter(function () {
+                    return this.href == $(this).attr('href');
+                }).parent('li').addClass('active active-sm').parents('ul').slideDown(function () {
+                    setContentHeight();
+                }).parent().addClass('active active-sm');
 
                 $('ul:first', $li).slideDown(function () {
                     setContentHeight();
@@ -234,21 +316,18 @@ function loadApplicationLayout() {
             $BODY.toggleClass('nav-md nav-sm');
 
             setContentHeight();
+
+            $.pjax.reload('[data-pjax-container]');
         });
 
         // check active menu
-        $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
+        $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('active active-sm');
 
         $SIDEBAR_MENU.find('a').filter(function () {
             return this.href == CURRENT_URL;
-        }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
+        }).parent('li').addClass('active active-sm').parents('ul').slideDown(function () {
             setContentHeight();
-        }).parent().addClass('active');
-
-        // recompute content when resizing
-        $(window).smartresize(function () {
-            setContentHeight();
-        });
+        }).parent().addClass('active active-sm');
 
         setContentHeight();
 
@@ -260,7 +339,46 @@ function loadApplicationLayout() {
                 mouseWheel: {preventDefault: true}
             });
         }
+
     };
 
+    // Tooltip
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body'
+        });
+    });
+    // /Tooltip
+
     init_sidebar();
+}
+
+function initializePanels() {
+    // Panel toolbox
+    $(document).ready(function () {
+        $('.collapse-link').on('click', function () {
+            var $BOX_PANEL = $(this).closest('.x_panel'),
+                $ICON = $(this).find('i'),
+                $BOX_CONTENT = $BOX_PANEL.find('.x_content');
+
+            // fix for some div with hardcoded fix class
+            if ($BOX_PANEL.attr('style')) {
+                $BOX_CONTENT.slideToggle(200, function () {
+                    $BOX_PANEL.removeAttr('style');
+                });
+            } else {
+                $BOX_CONTENT.slideToggle(200);
+                $BOX_PANEL.css('height', 'auto');
+            }
+
+            $ICON.toggleClass('fa-chevron-up fa-chevron-down');
+        });
+
+        $('.close-link').click(function () {
+            var $BOX_PANEL = $(this).closest('.x_panel');
+
+            $BOX_PANEL.remove();
+        });
+    });
+    // /Panel toolbox
 }

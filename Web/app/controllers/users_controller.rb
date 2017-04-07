@@ -109,7 +109,8 @@ class UsersController < ApplicationController
 
   def save_logo
     unless params[:name].blank?
-      new_file = "#{Rails.root}/public/logo/#{params[:name]}"
+      FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
+      new_file = "#{Rails.root}/tmp/logo/#{params[:name]}"
 
       File.open(new_file, 'wb') do |file|
         file.write(Base64.decode64 params[:data].split(",")[1])
@@ -122,7 +123,7 @@ class UsersController < ApplicationController
       File.delete(new_file)
     end
 
-    render text: '1' if params[:referer] != REFERERS[:app_init]
+    render json: {status: 'success', url: current_user.profile_photo, filename: current_user.logo_file_name} if params[:referer] != REFERERS[:app_init]
   end
 
   def destroy
@@ -132,7 +133,7 @@ class UsersController < ApplicationController
   def destroy_logo
     current_user.logo = nil unless current_user.logo.nil?
     current_user.save!(validate: false)
-    render text: '1'
+    render json: {status: 'success'}
   end
 
   def password_reset
@@ -174,13 +175,13 @@ class UsersController < ApplicationController
 
   def validation
     if !params[:is_login].blank?
-      render text: current_user.nil? ? 'false' : 'true'
+      render plain: current_user.nil? ? 'false' : 'true'
     elsif !params[:user][:username].blank?
-      render text: User.where(username: params[:user][:username]).first.nil? ? 'true' : 'false'
+      render plain: User.where(username: params[:user][:username]).first.nil? ? 'true' : 'false'
     elsif !params[:user][:email].blank?
-      render text: User.where(email: params[:user][:email]).first.nil? ? 'true' : 'false'
+      render plain: User.where(email: params[:user][:email]).first.nil? ? 'true' : 'false'
     else
-      render text: 'false'
+      render plain: 'false'
     end
   end
 
@@ -200,7 +201,7 @@ class UsersController < ApplicationController
     @user.last_notifications_read = (Time.now - 1.week)
 
     # Notifier.startup_instructions(current_user).deliver_later
-    # @user.activity(:create)
+    @user.activity(:create)
   end
 
 end

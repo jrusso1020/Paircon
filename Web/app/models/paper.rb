@@ -2,7 +2,7 @@
 #
 # Table name: papers
 #
-# *id*::         <tt>integer, not null, primary key</tt>
+# *id*::         <tt>string(30), not null, primary key</tt>
 # *title*::      <tt>string</tt>
 # *pdf_link*::   <tt>text</tt>
 # *md5hash*::    <tt>string</tt>
@@ -14,9 +14,16 @@
 #++
 
 class Paper < ApplicationRecord
-  has_many :paper_authors
   has_many :conference_papers
   has_many :similiarities
-  has_many :users, through: :paper_authors
   has_many :conferences, through: :conference_papers
+
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(Paper.new, 'id', 30)
+  end
+
 end
