@@ -278,3 +278,45 @@ form textarea {
   border-top: 1px solid #e6e7e8;
   background: transparent !important;
 }
+
+/***********************************
+************************************
+DASHBOARD
+************************************
+***********************************/
+.top-buffer {
+  margin-top:20px;
+}
+
+/***********************************
+************************************
+Top Nav
+************************************
+***********************************/
+#conf-searchbar{
+  margin: auto;
+}
+
+/***********************************
+************************************
+Right Col
+************************************
+***********************************/
+
+
+/*conference description*/
+
+#conf-title{
+  background-color: transparent;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+#conf-map{
+  height: 100%;
+  display: block;
+}
+#map-img {
+  height: 200px;
+  overflow: hidden;
+}
