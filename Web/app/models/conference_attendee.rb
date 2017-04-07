@@ -16,4 +16,12 @@
 class ConferenceAttendee < ApplicationRecord
   belongs_to :conference
   belongs_to :user
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(ConferenceAttendee.new, 'id', 30)
+  end
+
 end

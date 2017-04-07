@@ -44,6 +44,12 @@ footer {
   overflow: hidden;
 }
 
+.top_nav {
+  position: fixed;
+  z-index: 101;
+  width: 100%;
+}
+
 .display-flex {
   display: flex;
 }
@@ -161,6 +167,7 @@ footer {
 .right_col {
   height: 100%;
   z-index: 1 !important;
+  margin-top: 57px !important;
 }
 
 label {

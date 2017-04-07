@@ -18,4 +18,12 @@
 class ConferencePaper < ApplicationRecord
   belongs_to :conference
   belongs_to :paper
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(ConferencePaper.new, 'id', 30)
+  end
+
 end

@@ -17,5 +17,14 @@ class ConferenceOrganizer < ApplicationRecord
   alias_attribute :organizers, :users
   belongs_to :conference
   belongs_to :user
+
+  before_create :init_id
+
+  private
+
+  def init_id
+    self.id = CodeGenerator.code(ConferenceOrganizer.new, 'id', 30)
+  end
+
 end
 

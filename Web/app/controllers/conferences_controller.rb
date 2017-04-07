@@ -1,14 +1,15 @@
 class ConferencesController < ApplicationController
+  include ConferencesHelper
   before_action :find_conference, only: [:edit, :update, :show, :delete, :destroy, :destroy_logo, :destroy_cover, :save_logo, :save_cover, :attend_conference]
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
     if params[:view] == 'organizer'
-      @conferences = Conference.published.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).order(:name)
+      @conferences = my_organizing_conferences_published(current_user)
       @title = 'Organizing Conferences'
     else
-      @conferences = Conference.published.includes(:conference_attendees).where(conference_attendees: {user_id: current_user.id}).order(:name)
+      @conferences = my_attending_conferences_published(current_user)
       @title = 'Attending Conferences'
     end
   end
@@ -74,7 +75,7 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    @is_organizer = (@conference.conference_organizers.exists?(user_id: current_user.id) and !current_user.attendee?)
+    @is_organizer = is_organizer(@conference.id, current_user)
     @post_count = Post.where(conference_id: @conference.id).count()
     @interested_count = @conference.users.count
   end

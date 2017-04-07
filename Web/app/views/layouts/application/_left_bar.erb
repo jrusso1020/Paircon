@@ -29,7 +29,7 @@
         </ul>
       </div>
 
-      <% attending = Conference.active.includes(:conference_attendees).where(conference_attendees: {user_id: current_user.id}).order(:name) %>
+      <% attending = my_attending_conferences_active(current_user) %>
       <% if attending.length != 0 %>
           <div class="menu_section">
             <h3>ATTENDING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'attendee'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
@@ -47,7 +47,7 @@
       <% end %>
 
       <% unless current_user.attendee? %>
-          <% organizing = Conference.active.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).order(:name) %>
+          <% organizing = my_organizing_conferences_active(current_user) %>
           <% if organizing.length != 0 %>
               <div class="menu_section">
                 <h3>ORGANIZING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'organizer'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
