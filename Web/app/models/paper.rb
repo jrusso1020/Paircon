@@ -16,5 +16,6 @@
 class Paper < ApplicationRecord
   belongs_to :paper_author
   belongs_to :conference_paper
+
   belongs_to :similiarity
 end

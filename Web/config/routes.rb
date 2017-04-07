@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
 
     resources :conferences
+    resources :papers
 
   end
 

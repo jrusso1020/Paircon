@@ -67,6 +67,15 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
+    paper_ids  = ConferencePaper.where(conference_id: @conference.id).uniq.pluck(:paper_id)
+    arr = Array.new
+    paper_ids.each do |paper_id|
+      if paper_id == nil
+        next
+      end
+      arr.push(Paper.find(paper_id))
+    end
+    @papers = arr
   end
 
   # The destroy action removes the conference permanently from the database

@@ -1,0 +1,31 @@
+<%= form_for @paper, url: papers_path(conference_id: params[:conference_id]), method: :post do |f| %>
+    <% if @paper.errors.any? %>
+        <div id="error_explanation">
+          <h2>
+            <%= "#{pluralize(@paper.errors.count, "error")} prohibited this paper from being saved:" %>
+          </h2>
+          <ul>
+            <% @paper.errors.full_messages.each do |msg| %>
+                <li>
+                  <%= msg %>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :p, 'Paper Title', style: 'margin-top:0px;' %>
+        <%= f.text_field :title, class: "form-control" %>
+    <% end %>
+
+    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
+        <%= content_tag :p, 'Paper Upload Path', style: 'margin-top:0px;' %>
+        <%= f.file_field :file, class: "form-control" %>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.button :submit %>
+    </div>
+
+<% end %>
