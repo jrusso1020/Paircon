@@ -8,3 +8,26 @@
   <h5 class="text-center"><%= @conference.url %></h5>
   <h5 class="text-center"><%= @conference.location %></h5>
 </div>
+
+<br/>
+
+<br/>
+<div class="container">
+  <div class="col-sm-10 col-sm-offset-1 col-xs-12 blog-content">
+    <% @papers.each do |paper| %>
+        <div class="col-xs-12">
+          <div class="text-center">
+            <h2><%= paper.title %></h2>
+          </div>
+          <div class="text-center">
+            <%= link_to "EDIT", edit_paper_path(paper, conference_id: @conference.id), method: :get %>
+          </div>
+          <br>
+        </div>
+    <% end %>
+  </div>
+</div>
+
+<br/>
+<%= link_to "Add Paper" , new_paper_path(conference_id: @conference.id)
+%>
