@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <% if @is_organizer %>
-        <div class="profile-image dropzone cover-photo" data-resize="true" data-width="1592" data-height="250"
+        <div class="profile-image dropzone cover-photo" data-resize="false" data-width="2000" data-height="250"
              data-url="<%= save_cover_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.cover_photo)}" unless @conference.cover.blank? %>
              data-removeurl="<%= destroy_cover_conference_url(@conference) %>">
           <input class="invisible" class="image-upload" id="cover-image-upload" type="file" name="thumb" accept="image/*"/>
@@ -20,7 +20,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -175px; padding-left: 50px; z-index: 100">
     <div class="display-flex-row" style="align-items: center; <%= 'justify-content: center; flex-flow: column;' if is_mobile_device? %>">
       <% if @is_organizer %>
-          <div class="profile-image dropzone" data-resize="true" data-width="200" data-height="200"
+          <div class="profile-image dropzone" data-resize="false" data-width="200" data-height="200"
                data-url="<%= save_logo_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.logo_picture)}" unless @conference.logo.blank? %>
                data-removeurl="<%= destroy_logo_conference_url(@conference) %>">
             <input class="invisible" class="image-upload" id="logo-image-upload" type="file" name="thumb" accept="image/*"/>
@@ -79,7 +79,7 @@
                     </div>
                 <% end %> </li>
               <li>
-                <a data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" href="<%= delete_conference_path(@conference.id) %>">Delete
+                <a data-toggle="modal" data-target="#modal" data-backdrop="static" href="<%= delete_conference_path(@conference.id) %>">Delete
                   <i class="pull-right fa fa-trash dropdown-user-icons"></i>
                 </a>
               </li>
@@ -89,3 +89,5 @@
     </div>
   </div>
 </div>
+
+<%= javascript_tag 'initializeHeader()' %>

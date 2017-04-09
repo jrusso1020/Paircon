@@ -28,7 +28,7 @@
               </a></li>
               <li>
                 <% if !current_user.organizer? and !current_user.pending_organizer %>
-                    <a data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" href="<%= become_organizer_user_path(current_user.id) %>">Become
+                    <a data-toggle="modal" data-target="#modal" data-backdrop="static" href="<%= become_organizer_user_path(current_user.id) %>">Become
                       an Organizer
                       <i class="pull-right fa fa-users dropdown-user-icons"></i>
                     </a>

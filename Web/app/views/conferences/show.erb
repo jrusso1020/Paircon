@@ -5,52 +5,42 @@
 <div class="row">
   <div class="col-md-2 col-sm-2 col-xs-2">
     <ul class="nav nav-tabs tabs-left">
-      <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+      <li class="active"><a href="#home" class="tab_ajax" data-toggle="tab" id="home">Home</a></li>
 
       <% if @is_organizer or (!@is_organizer and @post_count != 0) %>
-          <li><a href="#posts" data-toggle="tab">Posts</a></li>
+          <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
       <% end %>
 
-      <li><a href="#recommendations" data-toggle="tab">Recommendations</a></li>
-      <li><a href="#papers" data-toggle="tab">Papers</a></li>
-      <li><a href="#schedule" data-toggle="tab">Schedule</a></li>
-      <li><a href="#about" data-toggle="tab">About</a></li>
+      <li><a href="#recommendations" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a></li>
+      <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
+
+      <% if @is_organizer or (!@is_organizer and @total_resources != 0 and @total_events != 0) %>
+          <li><a href="#schedule" class="tab_ajax" id="schedule" data-toggle="tab">Schedule</a></li>
+      <% end %>
+
+      <li><a href="#about" class="tab_ajax" id="about" data-toggle="tab">About</a></li>
       <hr/>
       <% if @is_organizer %>
           <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>
       <% end %>
     </ul>
   </div>
-  <div class="tab-content">
-    <div id="home" class="tab-pane active">
-      <div class="col-md-7 col-sm-7 col-xs-10">
-        <% if !@is_organizer %>
-            <%= render 'conferences/panels/recommendations' %>
-        <% else %>
-            <%= render 'posts/new' %>
-        <% end %>
-
-        <%= render 'conferences/panels/schedule' %>
-        <%= render 'conferences/panels/papers' %>
-        <%#= render 'conferences/panels/location' %>
-        <%= render 'conferences/panels/posts' %>
-      </div>
-      <div class="col-md-3 col-sm-3 col-xs-12 hidden-xs">
-        <%= render 'conferences/panels/about' %>
+  <div class="col-md-10 col-sm-10 col-xs-10">
+    <div id="progress">
+      <h1 class="text-center">Loading ...</h1>
+      <div class="cssload-thecube">
+        <div class="cssload-cube cssload-c1"></div>
+        <div class="cssload-cube cssload-c2"></div>
+        <div class="cssload-cube cssload-c4"></div>
+        <div class="cssload-cube cssload-c3"></div>
       </div>
     </div>
 
-    <div id="posts" class="tab-pane">
-      <div class="col-md-8 col-sm-8 col-xs-10">
-        <% if @is_organizer %>
-            <%= render 'posts/new' %>
-        <% end %>
-
-        <%= render 'conferences/panels/posts' %>
-      </div>
+    <div class="tab-content">
+      <div id="content"></div>
     </div>
+
   </div>
 </div>
 
-<%= javascript_tag "initializeConference('" + @conference.id.to_s + "', '" + @conference.description + "')" %>
-<%= javascript_tag 'initializePanels()' %>
+<%= javascript_tag "initializeTabPanes('" + @conference.id + "')" %>

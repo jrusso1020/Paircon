@@ -27,4 +27,5 @@
 
         return elements;
     };
+
 })( jQuery );
