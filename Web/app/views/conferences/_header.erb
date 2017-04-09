@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <% if @is_organizer %>
-        <div class="profile-image dropzone cover-photo" data-resize="false" data-width="2000" data-height="250"
+        <div class="profile-image dropzone cover-photo" data-height="250"
              data-url="<%= save_cover_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.cover_photo)}" unless @conference.cover.blank? %>
              data-removeurl="<%= destroy_cover_conference_url(@conference) %>">
           <input class="invisible" class="image-upload" id="cover-image-upload" type="file" name="thumb" accept="image/*"/>

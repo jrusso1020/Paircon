@@ -85,7 +85,7 @@ function initializeApplication() {
 
     $(document).on('pjax:beforeSend', function () {
         NProgress.start();
-        $('.header_btns').hide();
+//        $('.header_btns').hide();
     });
 
     $(document).on('submit', 'form[data-pjax]', function (event) {
@@ -101,7 +101,6 @@ function initializeApplication() {
         $('.modal-dialog').removeClass('modal-mg');
         $(this).removeData('bs.modal');
     });
-
 
 
     if (("onhashchange" in window)) {
@@ -316,6 +315,8 @@ function loadApplicationLayout() {
             $BODY.toggleClass('nav-md nav-sm');
 
             setContentHeight();
+
+            $('.cover-photo').css({'width': ''});
         });
 
         // check active menu

@@ -10,12 +10,12 @@
         <div>
           &nbsp;<%= link_to_modal icon_text('plus-circle', 'Create Conference'), new_conference_path(), class: head_btn_class, 'data-appear-animation': 'bounceIn' %>
         </div>
-        <form class="navbar-form navbar-left">
-          <div class="input-group" id = "conf-searchbar">
-            <input type="text" class="form-control" placeholder="Search for Conferences..." size="35">
-            <span class="input-group-btn"><button type="submit" class="btn btn-primary">Submit</button></span>
-          </div>
-        </form>
+        <!--<form class="navbar-form navbar-left">-->
+        <!--<div class="input-group" id = "conf-searchbar">-->
+        <!--<input type="text" class="form-control" placeholder="Search for Conferences..." size="35">-->
+        <!--<span class="input-group-btn"><button type="submit" class="btn btn-primary">Submit</button></span>-->
+        <!--</div>-->
+        <!--</form>-->
         <ul id="user-dropdown" class="nav navbar-nav navbar-right pull-right navbar-user">
           <li>
             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -58,4 +58,6 @@
   </div>
 </div>
 
-<!--<script>$('.header_btns').hide();</script>-->
+<% if current_user.attendee? %>
+    <script>$('.header_btns').hide();</script>
+<% end %>
