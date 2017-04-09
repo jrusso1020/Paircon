@@ -1,6 +1,6 @@
 class ConferencesController < ApplicationController
   include ConferencesHelper
-  before_action :find_conference, only: [:edit, :update, :show, :delete, :destroy, :destroy_logo, :destroy_cover, :save_logo, :save_cover, :attend_conference]
+  before_action :find_conference, only: [:edit, :update, :show, :delete, :destroy, :destroy_logo, :destroy_cover, :save_logo, :save_cover, :attend_conference, :invite]
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -61,14 +61,14 @@ class ConferencesController < ApplicationController
 
         redirect_back(fallback_location: root_path)
       else
-        render json: {status: :success, text: @conference.name}
+        render json: {status: :success, text: @conference.get_name}
       end
     else
       flash[:alert] = 'Error updating conference!'
       if redirect_bool
         redirect_back(fallback_location: root_path)
       else
-        render json: {status: :error, text: @conference.name}
+        render json: {status: :error, text: @conference.get_name}
       end
     end
   end
@@ -96,6 +96,14 @@ class ConferencesController < ApplicationController
     end
 
     redirect_back(fallback_location: root_path)
+  end
+
+  def invite
+    render layout: false
+  end
+
+  def process_invites
+
   end
 
   def save_logo

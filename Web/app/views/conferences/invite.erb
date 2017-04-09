@@ -1,0 +1,94 @@
+<%= header_title 'Invite' %>
+
+<%= form_tag process_invites_conference_path(), html: {method: :post} do %>
+    <div class="modal-header">
+      <h1 class="modal-title" id="myModalLabel">
+        <i class="fa fa-trash" style="margin-right: 5px;"></i>
+        Delete '<%= @conference.get_name %>'
+      </h1>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h4 class="font-light" align="center">Enter the emails of people you wish to invite
+            to <%= @conference.get_name %>.
+          </h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="input-label">Invite People</div>
+          <div style="margin-bottom: 5px;">
+            <%= text_field_tag :emails2, '', {:class => 'form-control'} %>
+          </div>
+          <div class="">
+            <label>
+              <input class="js-switch" checked="" style="display: none;" data-switchery="true" type="checkbox">
+              <span class="switchery switchery-default" style="background-color: rgb(38, 185, 154); border-color: rgb(38, 185, 154); box-shadow: 0px 0px 0px 11px rgb(38, 185, 154) inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;">
+                <small style="left: 12px; transition: background-color 0.4s ease 0s, left 0.2s ease 0s; background-color: rgb(255, 255, 255);">
+                </small>
+              </span>
+              Checked
+            </label>
+            <%= check_box_tag 'send_copy', '1', false, class: 'js-switch', 'data-switchery': true, style: 'display: none;' %>
+
+          </div>
+
+          <!--<div class="input-group" id="send_copy_field_advanced" style="margin-top: 10px;">-->
+          <!--<span class="">-->
+          <%#= check_box_tag 'send_copy', '1', false %>
+          <!--<span>Send me a copy-->
+          <!--</span>-->
+          <!--<div class="form-control"></div>-->
+          <!--</div>-->
+          <!--<div>-->
+          <!--<span id="send_mail_field_advanced">-->
+          <!--<small> Notify people via Email - <a id="addMessageLink">Add Message</a></small>-->
+          <!--</span>-->
+          <!--</div>-->
+
+          <div id="email_field_advanced" style="margin-top: 10px;background: #F7F8FA !important; display: none;">
+            <%= text_area_tag 'mail_message_2', '', placeholder: 'Add a message (Optional)',
+                              :class => 'email-note inline form-control autosize', style: 'height: 100px;' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <div class="modal-footer" style="margin-top:-5px;">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <% if !is_mobile_device? %>
+          <span style="float: left !important; margin-top: 5px;">
+            <small>Note: This operation is permanent
+              and cannot be
+              reversed later.
+            </small>
+          </span>
+          <% end %>
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-paircon">Send Invitations</button>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<script>
+    $('#addMessageLink').click(function () {
+        if ($('#email_field_advanced').is(":visible")) {
+            $('#addMessageLink').html('Add message');
+            $('#email_field_advanced').hide();
+            $('#email_field_advanced').val("");
+        } else {
+            $('#addMessageLink').html('Discard message');
+            $('#send_copy_field_advanced').show();
+            $('#email_field_advanced').show();
+            $('#email_field_advanced').val("");
+        }
+    });
+
+</script>

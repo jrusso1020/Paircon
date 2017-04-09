@@ -40,20 +40,24 @@ Rails.application.routes.draw do
   resources :schedules do
     collection do
       get :get_resource
-      post :create_resource
       get :delete_resource
-      delete :destroy_resource
-
       get :get_event
-      post :create_event
       get :delete_event
+
+      post :create_resource
+      post :create_event
+
       delete :destroy_event
+      delete :destroy_resource
     end
   end
 
   resources :conferences do
     member do
+      get :invite
       get :delete
+
+      post :process_invites
       post :destroy_cover
       post :destroy_logo
       post :save_cover
@@ -81,13 +85,15 @@ Rails.application.routes.draw do
       get :delete
       get :change_active_status
       get :password_reset
-      post :update_email_password
       get :timezone
+      get :become_organizer
+
+      delete :delete_account
+
+      post :update_email_password
       post :save_logo
       post :destroy_logo
-      delete :delete_account
       post :submit_url
-      get :become_organizer
       post :request_organizer
     end
 
