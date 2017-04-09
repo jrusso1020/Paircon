@@ -16,7 +16,6 @@
 //= require gentelella
 //= require bootstrap
 //= require turbolinks
-//= require geocomplete
 //= require best_in_place
 //= require best_in_place.jquery-ui
 //= require selectize
@@ -29,6 +28,7 @@
 //= require introjs
 
 //= require moment
+//= require bootstrap-datetimepicker
 
 //= require user
 //= require common

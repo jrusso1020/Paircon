@@ -39,15 +39,22 @@ Rails.application.routes.draw do
 
   resources :schedules do
     collection do
-      get :get_resource
+      get :get_rooms
+      get :get_resources
+      get :get_events
+
+      get :new_resource
       post :create_resource
       get :delete_resource
       delete :destroy_resource
 
-      get :get_event
+      get :new_event
       post :create_event
       get :delete_event
       delete :destroy_event
+
+      get :edit_event
+      post :update_event
     end
   end
 
@@ -59,6 +66,12 @@ Rails.application.routes.draw do
       post :save_cover
       post :save_logo
       post :attend_conference
+
+      get :home
+      get :about
+      get :recommendations
+      get :posts
+      get :schedule
     end
   end
 

@@ -35,6 +35,7 @@ class Conference < ApplicationRecord
 
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_resources, dependent: :destroy
+  has_many :conference_events, dependent: :destroy
   has_many :conference_papers, dependent: :destroy
   has_many :conference_organizers, dependent: :destroy
   has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
@@ -44,6 +45,7 @@ class Conference < ApplicationRecord
   has_many :users, through: :conference_attendees
 
   before_create :init_conference_id
+  before_create :set_default_time
 
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}
   has_attached_file :cover, styles: {medium: '1750x250>', thumb: '100x100>'}, default_url: 'Male.jpg'
@@ -105,8 +107,16 @@ class Conference < ApplicationRecord
     self.create_activity(key, owner: current_user, recipient: current_user, params: {:conference => self.to_json})
   end
 
-  def get_name
-    self.name.blank? ? 'Conference' : self.name
+  def get_name id=nil
+    self.name.blank? ? "Conference #{id}" : self.name
+  end
+
+  def end_date_str
+    self.end_date.strftime(DATEFORMAT)
+  end
+
+  def start_date_str
+    self.start_date.strftime(DATEFORMAT)
   end
 
   private
@@ -114,4 +124,10 @@ class Conference < ApplicationRecord
   def init_conference_id
     self.id = CodeGenerator.code(Conference.new, 'id', 30)
   end
+
+  def set_default_time
+    self.start_date = Time.now
+    self.end_date = Time.now + 1.days
+  end
+
 end

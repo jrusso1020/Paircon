@@ -31,7 +31,7 @@
           </button>
           <a class="navbar-brand" style="margin-left: 15px;" href="<%= root_path %>">Pair<span class="logo-dec">Con</span></a>
         </div>
-        <div class="collapse navbar-collapse header-navbar-bg" id="myNavbar" <% if is_mobile_browser? %> <% end %>>
+        <div class="collapse navbar-collapse" id="myNavbar" <% if is_mobile_browser? %> <% end %>>
           <ul class="nav navbar-nav navbar-right navbar-background-color">
             <li class=""><%= link_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %></li>
             <li class=""><%= link_to 'Feature', root_path(anchor: 'feature'), :'data-no-pjax' => '' %></li>

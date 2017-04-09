@@ -30,8 +30,8 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
                 <%= f.label :building, 'Building Name' %>
-                <%= f.select :building, @buildings, {}, id: 'conference_build_select' %>
-                <%= f.text_field :building_other, placeholder: 'Name of Building', 'data-depends-on': '#conference_build_select', 'data-depends-on-value': 'Other', class: 'form-control', id: 'conference_build_text' %>
+                <%= f.select :building, @buildings, {}, id: 'conference_build_select', class: 'select' %>
+                <%= f.text_field :building_other, placeholder: 'Name of Building', 'data-depends-on': '#conference_build_select', 'data-depends-on-value': 'Other', class: 'form-control' %>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="form-group">
                     <%= f.label :parent_id, 'Auditorium Name (*)' %>
-                    <%= f.select :parent_id, @auditoriums, {}, id: 'conference_build_select' %>
+                    <%= f.select :parent_id, @auditoriums, {}, id: 'conference_build_select', class: 'select' %>
                   </div>
                 </div>
               </div>
