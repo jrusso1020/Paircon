@@ -42,7 +42,7 @@
     <% end %>
 
     <% if !@conference.location.blank? or @is_organizer %>
-        <div><strong>Location:</strong> &lt;&lt;Conference Location&gt;&gt; </div>
+        <div><strong>Location:</strong> <%= best_in_place @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %> </div>
         <br/>
     <% end %>
 

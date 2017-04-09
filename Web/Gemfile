@@ -19,6 +19,9 @@ gem 'turbolinks', '~> 5'                                          # Turbolinks m
 gem 'introjs-rails'                                               # Used for Intros
 gem 'pdfjs_viewer-rails'                                          # Used to view PDFs
 gem 'jquery-datatables-rails'                                     # Bootstrap Datatables
+gem 'bootstrap3-datetimepicker-rails'                             # Bootstrap datetimepicker
+gem 'switchery-rails'                                             # iOS like switches
+gem 'rails-jquery-tokeninput'                                     # Token based inputs
 
 # Utility
 gem 'rack-pjax'                                                   # PJax to make page loading faster
@@ -74,7 +77,7 @@ gem 'paperclip'                                                   # File attache
 gem 'jquery-fileupload-rails'                                     # Uploading images / files
 gem 'public_activity'                                             # For Notifications
 # gem 'has_easy', '~> 0.9.0', github: 'aafaq-hassan/has_easy'     # User Properties
-gem 'geocomplete_rails'                                           # For Address Completion etc.
+gem 'timezone'                                                    # Calculation of timezone
 
 # Misc
 # gem 'sitemap_generator'                                         # For Generating Sitemaps for Google etc.

@@ -3,8 +3,8 @@
 <%= form_tag process_invites_conference_path(), html: {method: :post} do %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
-        <i class="fa fa-trash" style="margin-right: 5px;"></i>
-        Delete '<%= @conference.get_name %>'
+        <i class="fa fa-users" style="margin-right: 5px;"></i>
+        Invite To '<%= @conference.get_name %>'
       </h1>
     </div>
 
@@ -19,44 +19,40 @@
 
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="input-label">Invite People</div>
-          <div style="margin-bottom: 5px;">
-            <%= text_field_tag :emails2, '', {:class => 'form-control'} %>
+          <div class="form-group">
+            <div class="input-label">Invite People</div>
+            <div style="margin-bottom: 5px;">
+              <%= text_field_tag :emails2, '', class: 'tags form-control' %>
+            </div>
           </div>
-          <div class="">
-            <label>
-              <input class="js-switch" checked="" style="display: none;" data-switchery="true" type="checkbox">
-              <span class="switchery switchery-default" style="background-color: rgb(38, 185, 154); border-color: rgb(38, 185, 154); box-shadow: 0px 0px 0px 11px rgb(38, 185, 154) inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;">
-                <small style="left: 12px; transition: background-color 0.4s ease 0s, left 0.2s ease 0s; background-color: rgb(255, 255, 255);">
-                </small>
-              </span>
-              Checked
-            </label>
-            <%= check_box_tag 'send_copy', '1', false, class: 'js-switch', 'data-switchery': true, style: 'display: none;' %>
-
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div id="send_copy_field_advanced" class="form-group">
+            <%= check_box_tag 'send_copy', '1', false, class: 'js-switch', style: 'display: none;' %>
+            Send me a copy
           </div>
+        </div>
+      </div>
 
-          <!--<div class="input-group" id="send_copy_field_advanced" style="margin-top: 10px;">-->
-          <!--<span class="">-->
-          <%#= check_box_tag 'send_copy', '1', false %>
-          <!--<span>Send me a copy-->
-          <!--</span>-->
-          <!--<div class="form-control"></div>-->
-          <!--</div>-->
-          <!--<div>-->
-          <!--<span id="send_mail_field_advanced">-->
-          <!--<small> Notify people via Email - <a id="addMessageLink">Add Message</a></small>-->
-          <!--</span>-->
-          <!--</div>-->
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div id="send_mail_field_advanced" class="form-group">
+            <%= check_box_tag 'add_custom_message', '1', false, class: 'js-switch', style: 'display: none;' %>
+            <span id="addMessageLink">Add a Custom Message</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
           <div id="email_field_advanced" style="margin-top: 10px;background: #F7F8FA !important; display: none;">
             <%= text_area_tag 'mail_message_2', '', placeholder: 'Add a message (Optional)',
                               :class => 'email-note inline form-control autosize', style: 'height: 100px;' %>
           </div>
         </div>
       </div>
-    </div>
-
     </div>
 
     <div class="modal-footer" style="margin-top:-5px;">
@@ -78,14 +74,134 @@
 <% end %>
 
 <script>
-    $('#addMessageLink').click(function () {
-        if ($('#email_field_advanced').is(":visible")) {
-            $('#addMessageLink').html('Add message');
+
+    //    var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
+    //        '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
+    //
+    //    $("#emails2").tokenInput({}, {
+    //        placeholder: "Enter email addresses ...",
+    //        hintText: "Please type email addresses and press enter",
+    //        noResultsText: "No results found ",
+    //        searchingText: "Looking for email address ...",
+    //        preventDuplicates: true,
+    //        zindex: '99999',
+    //        invalidTokenText: 'Enter a valid Email Address',
+    //        theme: 'facebook',
+    //        allowFreeTagging: true,
+    //        propertyToSearch: "name",
+    //        onAdd: function () {
+    //            changeEmailButtonVisibilityAdvanced();
+    //        },
+    //        onDelete: function () {
+    //            changeEmailButtonVisibilityAdvanced();
+    //        },
+    //        resultsFormatter: function (item) {
+    //            item.id = item.id.toLowerCase();
+    //            item.name = item.name.toLowerCase();
+    //            return "<li><span style='margin-left: 5px;'> " + item.name + "</span></li>";
+    //        },
+    //        tokenFormatter: function (item) {
+    //            item.id = item.id.toLowerCase();
+    //            item.name = item.name.toLowerCase();
+    //            var color;
+    //
+    //            if (!checkIfEmail(item.name) || item.name == $('#current_email').html())
+    //                return "<li style='background: #800000; border-color: #800000; color: #E6E7E8'><p>" + item.name + "</p></li>";
+    //            else
+    //                return "<li><p>" + item.name + "</p></li>";
+    //        }
+    //    });
+
+    function checkIfEmail(email) {
+        var re = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+        return email.match(re);
+    }
+
+
+    function onAddTag(tag) {
+        alert("Added a tag: " + tag);
+    }
+
+    function onRemoveTag(tag) {
+        alert("Removed a tag: " + tag);
+    }
+
+    function onChangeTag(input, tag) {
+        alert("Changed a tag: " + tag);
+    }
+
+    //tags input
+        $('#emails2').tagsInput({
+            width: 'auto'
+        });
+
+    $('#select-to').selectize({
+        persist: false,
+        maxItems: null,
+        valueField: 'email',
+        labelField: 'name',
+        searchField: ['name', 'email'],
+        options: [
+            {email: 'brian@thirdroute.com', name: 'Brian Reavis'},
+            {email: 'nikola@tesla.com', name: 'Nikola Tesla'},
+            {email: 'someone@gmail.com'}
+        ],
+        render: {
+            item: function (item, escape) {
+                return '<div>' +
+                    (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
+                    (item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
+                    '</div>';
+            },
+            option: function (item, escape) {
+                var label = item.name || item.email;
+                var caption = item.name ? item.email : null;
+                return '<div>' +
+                    '<span class="label">' + escape(label) + '</span>' +
+                    (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
+                    '</div>';
+            }
+        },
+        createFilter: function (input) {
+            var match, regex;
+
+            // email@address.com
+            regex = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+            match = input.match(regex);
+            if (match) return !this.options.hasOwnProperty(match[0]);
+
+            // name <email@address.com>
+            regex = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
+            match = input.match(regex);
+            if (match) return !this.options.hasOwnProperty(match[2]);
+
+            return false;
+        },
+        create: function (input) {
+            if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
+                return {email: input};
+            }
+            var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
+            if (match) {
+                return {
+                    email: match[2],
+                    name: $.trim(match[1])
+                };
+            }
+            alert('Invalid email address.');
+            return false;
+        }
+    });
+
+    enableSwitchery();
+
+    $('#send_mail_field_advanced > .switchery').click(function () {
+        if (!$('#add_custom_message').is(":checked")) {
+            $('#addMessageLink').html('Add a Custom Message');
             $('#email_field_advanced').hide();
             $('#email_field_advanced').val("");
         } else {
             $('#addMessageLink').html('Discard message');
-            $('#send_copy_field_advanced').show();
             $('#email_field_advanced').show();
             $('#email_field_advanced').val("");
         }

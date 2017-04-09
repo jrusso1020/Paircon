@@ -70,3 +70,11 @@ Scheduler
   display: flex;
   align-items: center;
 }
+
+.timepicker-picker td.separator {
+  border-top: none;
+}
+
+.timepicker-picker a.btn {
+  box-shadow: none;
+}

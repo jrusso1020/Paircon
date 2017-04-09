@@ -85,7 +85,7 @@ function initializeApplication() {
 
     $(document).on('pjax:beforeSend', function () {
         NProgress.start();
-        $('.header_btns').hide();
+//        $('.header_btns').hide();
     });
 
     $(document).on('submit', 'form[data-pjax]', function (event) {
@@ -97,7 +97,7 @@ function initializeApplication() {
         switchContainer();
     });
 
-    $('body').on('hidden.bs.modal', '#modal', function () {
+    $('body').on('show.bs.modal', '#modal', function () {
         $('.modal-dialog').removeClass('modal-mg');
         $(this).removeData('bs.modal');
     });
@@ -267,7 +267,6 @@ function loadApplicationLayout() {
         // TODO: This is some kind of easy fix, maybe we can improve this
 
         $SIDEBAR_MENU.find('a').on('click', function (ev) {
-            console.log('clicked - sidebar_menu');
             var $li = $(this).parent();
 
             if ($li.is('.active')) {
@@ -303,7 +302,6 @@ function loadApplicationLayout() {
 
         // toggle small or large menu
         $MENU_TOGGLE.on('click', function () {
-            console.log('clicked - menu toggle');
 
             if ($BODY.hasClass('nav-md')) {
                 $SIDEBAR_MENU.find('li.active ul').hide();
@@ -317,7 +315,7 @@ function loadApplicationLayout() {
 
             setContentHeight();
 
-            $.pjax.reload('[data-pjax-container]');
+            $('.cover-photo').css({'width': ''});
         });
 
         // check active menu
@@ -350,21 +348,24 @@ function loadApplicationLayout() {
     });
     // /Tooltip
 
+    enableSwitchery();
+    init_sidebar();
+}
 
+function enableSwitchery() {
     // Switchery
     $(document).ready(function () {
         if ($(".js-switch")[0]) {
             var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
             elems.forEach(function (html) {
                 var switchery = new Switchery(html, {
-                    color: '#26B99A'
+                    color: '#0AC0F3',
+                    size: 'small'
                 });
             });
         }
     });
     // /Switchery
-
-    init_sidebar();
 }
 
 function initializePanels() {
@@ -396,3 +397,4 @@ function initializePanels() {
     });
     // /Panel toolbox
 }
+

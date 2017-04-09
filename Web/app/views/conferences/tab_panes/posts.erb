@@ -1,0 +1,13 @@
+<div id="posts" class="tab-pane active">
+  <div class="col-md-10 col-sm-10 col-xs-10">
+    <% if @is_organizer %>
+        <%= render 'posts/new' %>
+    <% end %>
+
+    <%= render 'conferences/panels/posts' %>
+  </div>
+  <div class="col-md-2 col-sm-2 hidden-xs"></div>
+</div>
+
+<%= render 'conferences/footer', scheduler: false %>
+

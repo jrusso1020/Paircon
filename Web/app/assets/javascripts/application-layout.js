@@ -14,12 +14,13 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require gentelella
+//= require switchery
 //= require bootstrap
 //= require turbolinks
-//= require geocomplete
 //= require best_in_place
 //= require best_in_place.jquery-ui
 //= require selectize
+//= require rails-jquery-tokeninput
 
 //= require i18n
 //= require i18n/translations
@@ -29,6 +30,7 @@
 //= require introjs
 
 //= require moment
+//= require bootstrap-datetimepicker
 
 //= require user
 //= require common

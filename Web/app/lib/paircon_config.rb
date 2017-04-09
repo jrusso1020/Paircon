@@ -72,6 +72,10 @@ class PairConConfig
       }
     end
 
+    def google_api_key
+      local_settings['google_map_api_key']
+    end
+
     def mail_settings
       {
           address: local_settings['mail_address'],

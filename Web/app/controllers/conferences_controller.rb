@@ -1,8 +1,9 @@
 class ConferencesController < ApplicationController
   include ConferencesHelper
-  before_action :find_conference, only: [:edit, :update, :show, :delete, :destroy, :destroy_logo, :destroy_cover, :save_logo, :save_cover, :attend_conference, :invite]
+  before_action :find_conference, except: [:index, :new, :create]
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_is_organizer, only: [:show, :home, :schedule, :posts, :about]
 
   def index
     if params[:view] == 'organizer'
@@ -75,9 +76,10 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    @is_organizer = is_organizer(@conference.id, current_user)
     @post_count = Post.where(conference_id: @conference.id).count()
     @interested_count = @conference.users.count
+    @total_resources = @conference.conference_resources.length
+    @total_events = @conference.conference_events.length
   end
 
   def delete
@@ -103,7 +105,34 @@ class ConferencesController < ApplicationController
   end
 
   def process_invites
+  end
 
+  def home
+    @post_count = Post.where(conference_id: @conference.id).count()
+    @interested_count = @conference.users.count
+    @total_resources = @conference.conference_resources.length
+    @total_events = @conference.conference_events.length
+    render template: 'conferences/tab_panes/home'
+  end
+
+  def schedule
+    @total_resources = @conference.conference_resources.length
+    @total_events = @conference.conference_events.length
+    render template: 'conferences/tab_panes/schedule'
+  end
+
+  def posts
+    @post_count = Post.where(conference_id: @conference.id).count()
+    render template: 'conferences/tab_panes/posts'
+  end
+
+  def recommendations
+    render template: 'conferences/tab_panes/recommendations'
+  end
+
+  def about
+    @interested_count = @conference.users.count
+    render template: 'conferences/tab_panes/about'
   end
 
   def save_logo
@@ -160,5 +189,9 @@ class ConferencesController < ApplicationController
 
   def find_conference
     @conference = Conference.find(params[:id])
+  end
+
+  def set_is_organizer
+    @is_organizer = is_organizer(@conference.id, current_user)
   end
 end

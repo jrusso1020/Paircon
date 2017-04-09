@@ -1,17 +1,67 @@
-function initializeConference(id, description) {
+function initializeHeader() {
+    $(document).ready(function () {
+        $('.dropzone').not('.static').html5imageupload();
+    });
+}
+
+var current_tab = 'home'
+function requestTabPane(id, tab_name) {
+    $.ajax({
+        type: 'GET',
+        url: '/conferences/' + id + '/' + tab_name,
+        beforeSend: function () {
+            $('#content').empty();
+            showProcessingMsg('Please wait while we process your request ...');
+            $('#progress').show();
+            $('#content').hide();
+        },
+        success: function (html) {
+            hideProcessingMsg();
+            $('#progress').hide();
+            $('#content').show();
+            $('#content').html(html);
+        }
+    });
+}
+
+function initializeTabPanes(id) {
+    $('.tab_ajax').click(function() {
+        current_tab = $(this).attr('id');
+        requestTabPane(id, current_tab);
+    });
+
+    requestTabPane(id, current_tab);
+}
+
+function initializeConference(id, description, start_date, end_date) {
     initializeInPlaceEditing(id);
     retrievePosts(id);
 
-    $('.dropzone').not('.static').html5imageupload();
-
     $('#reservation-time').daterangepicker({
+        startDate: start_date,
+        endDate: end_date,
         timePicker: true,
-        timePickerIncrement: 30,
+        timePickerIncrement: 15,
         locale: {
-            format: 'MM/DD/YYYY h:mm A'
+            format: 'DD MMM YYYY h:mm A'
         }
     }, function (start, end) {
-        console.log(start.toISOString(), end.toISOString(), label);
+        $.ajax({
+            type: 'PUT',
+            url: '/conferences/' + id,
+            data: {
+                'conference[start_date]': start,
+                'conference[end_date]': end,
+                'redirect': false
+            },
+            success: function (text, status, xhr) {
+                showNotificationMsg('Your Conference has been successfully updated.');
+                $.pjax.reload('[data-pjax-container]');
+            },
+            error: function (xhr, status, text) {
+                showErrorMsg(xhr.responseText);
+            }
+        });
     });
 
     $('.read-more-description-' + id).on('click', function (e) {
@@ -25,6 +75,50 @@ function initializeConference(id, description) {
     });
 
 }
+var map, autocomplete, conference_id;
+
+function initAutocomplete(input_field, id) {
+    autocomplete = new google.maps.places.Autocomplete(
+        /** @type {!HTMLInputElement} */(input_field),
+        {types: ['geocode']});
+
+    conference_id = id
+
+//    autocomplete.bindTo('bounds', map);
+
+    autocomplete.addListener('place_changed', fillInAddress);
+}
+
+function fillInAddress() {
+    var place = autocomplete.getPlace();
+
+    $.ajax({
+        type: 'PUT',
+        url: '/conferences/' + conference_id,
+        data: {
+            'conference[lat]': place.geometry.location.lat,
+            'conference[long]': place.geometry.location.lng,
+            'redirect': false
+        }
+    });
+
+}
+
+function geolocate() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var geolocation = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+//            var circle = new google.maps.Circle({
+//                center: geolocation,
+//                radius: position.coords.accuracy
+//            });
+//            autocomplete.setBounds(circle.getBounds());
+        });
+    }
+}
 
 function initializeInPlaceEditing(id) {
     $(".best_in_place").best_in_place();
@@ -32,6 +126,9 @@ function initializeInPlaceEditing(id) {
     $(".best_in_place").click(function () {
         if ($(this).attr('id') == 'phone-number') {
             $('#phone-number input').inputmask("phone");
+        } else if ($(this).attr('id') == 'address-in-place') {
+            initAutocomplete($('#address-in-place input')[0], id);
+            geolocate();
         }
 
         $(this).css({
@@ -69,7 +166,10 @@ function initializeInPlaceEditing(id) {
 function retrievePosts(id) {
     $.ajax({
         type: 'GET',
-        url: '/posts?conference_id=' + id,
+        url: '/posts',
+        data: {
+            'conference_id': id
+        },
         success: function (html) {
             $('.post_div').html(html);
             initializeInPlaceEditing(id);
@@ -114,21 +214,115 @@ function initCharts(count) {
     }
 }
 
-function initializeAddScheduleResource() {
-    $('#conference_build_select').selectize({
-        sortField: 'text'
+/*****************************************************/
+/********************** SCHEDULE *********************/
+/*****************************************************/
+function updateEvent(id, resource_id, start_date, end_date, revertFunc) {
+    $.ajax({
+        type: 'POST',
+        url: '/schedules/update_event',
+        data: {
+            'event[start_date]': start_date,
+            'event[end_date]': end_date,
+            'event[resource_id]': resource_id,
+            'update_dates': true,
+            'id': id
+        },
+        error: function (xhr, status, text) {
+            revertFunc();
+        }
     });
+}
+
+function initializeSchedule(start_date_str, end_date_str, date_diff, is_organizer, conference_id) {
+    $(function () { // document ready
+        $('.scheduler').each(function () {
+            $(this).fullCalendar({
+                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                now: moment(new Date(start_date_str)),
+                selectable: is_organizer,
+                selectHelper: is_organizer,
+                editable: is_organizer,
+                eventStartEditable: is_organizer,
+                eventDurationEditable: is_organizer,
+                filterResourcesWithEvents: !is_organizer,
+                validRange: {
+                    start: moment(new Date(start_date_str)),
+                    end: moment(new Date(end_date_str)),
+                },
+                aspectRatio: 1.8,
+                scrollTime: '00:00',
+                header: {
+                    left: 'title',
+                    right: 'timelineDay,agendaDay,timelineNDays prev,next'
+                },
+                defaultView: 'timelineDay',
+                views: {
+                    timelineNDays: {
+                        type: 'timeline',
+                        duration: {days: date_diff},
+                        buttonText: 'Complete Event'
+                    },
+                    timelineDay: {
+                        type: 'day',
+                        buttonText: 'Day (Horizontal)'
+                    },
+                    agendaDay: {
+                        type: 'agendaDay',
+                        buttonText: 'Day (Vertical)'
+                    }
+                },
+                resourceGroupField: 'building',
+                refetchResourcesOnNavigate: true,
+                resources: '/schedules/get_resources?id=' + conference_id,
+                events: '/schedules/get_events?id=' + conference_id,
+                eventResize: function (event, delta, revertFunc) {
+                    if (is_organizer)
+                        updateEvent(event.id, event.resourceId, event.start.format(), event.end.format(), revertFunc);
+                },
+                eventDrop: function (event, delta, revertFunc) {
+                    if (is_organizer)
+                        updateEvent(event.id, event.resourceId, event.start.format(), event.end.format(), revertFunc);
+                },
+                resourceRender: function (resource, cellEls) {
+                    if (is_organizer)
+                        cellEls.find('div:last').append('<a class="flex-grow" style="margin-right: 10px;" data-toggle="modal" data-target="#modal" data-backdrop="static" href="' + '/schedules/delete_resource?id=' + resource.id + '"><i class="pull-right fa fa-trash"></i></a>')
+                },
+                eventClick: function (calEvent, jsEvent, view) {
+                    if (is_organizer)
+                        $('#modal').modal({
+                            remote: '/schedules/edit_event?id=' + calEvent.id,
+                            backdrop: 'static'
+                        })
+                },
+                select: function (start, end, jsEvent, view, resource) {
+                    if (is_organizer)
+                        $('#modal').modal({
+                            remote: '/schedules/new_event?conference_id=' + conference.id + '&resource_id=' + resource.id + '&start_date=' + start.format() + '&end_date=' + end.format(),
+                            backdrop: 'static'
+                        })
+                }
+            });
+        });
+    });
+}
+
+function initializeAddScheduleResource() {
+    initializeSelectize();
 
     try {
-        var $this = $('#conference_build_text');
-        var master = $this.data('dependsOn').toString();
-        var value = $this.data('dependsOnValue');
-        if (typeof(value) != 'undefined') {
-            $this.dependsOn(master, value);
-        } else {
-            $this.dependsOn(master);
-        }
-    } catch (err) { }
+        $('*[data-depends-on]').each(function () {
+            var $this = $(this);
+            var master = $this.data('dependsOn').toString();
+            var value = $this.data('dependsOnValue');
+            if (typeof(value) != 'undefined') {
+                $this.dependsOn(master, value);
+            } else {
+                $this.dependsOn(master);
+            }
+        });
+    } catch (err) {
+    }
 
     $('#add_resource_form').validate({
         rules: {
@@ -139,5 +333,91 @@ function initializeAddScheduleResource() {
                 required: true
             }
         }
+    });
+}
+
+function initializeAddScheduleEvent(start_date, end_date) {
+    initializeSelectize();
+
+    var options = {
+        sideBySide: true,
+        minDate: start_date,
+        maxDate: end_date,
+        stepping: 15,
+        format: 'DD MMM YYYY h:mm A'
+    };
+
+    $('.datetime').datetimepicker(options);
+
+    var auditorium_depend, $auditorium_depend;
+    var room_depend, $room_depend;
+
+    $auditorium_depend = $('#auditorium_depend').selectize({
+        sortField: 'text',
+        onChange: function (value) {
+            if (!value.length) return;
+
+            room_depend.disable();
+            room_depend.clearOptions();
+            room_depend.load(function (callback) {
+                $.ajax({
+                    url: '/schedules/get_rooms',
+                    data: {
+                        'id': value
+                    },
+                    success: function (results) {
+                        room_depend.enable();
+                        callback(results);
+                        room_depend.addItem('No Room', false);
+                    },
+                    error: function () {
+                        callback();
+                    }
+                })
+            });
+            room_depend.refreshOptions();
+        }
+    });
+
+    $room_depend = $('#room_depend').selectize({
+        sortField: 'text'
+    });
+
+    auditorium_depend = $auditorium_depend[0].selectize
+    room_depend = $room_depend[0].selectize
+
+    jQuery.validator.addMethod("greaterThan",
+        function (value, element, params) {
+
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) > Number($(params).val()));
+        }, 'End Date must be greated than Start Date.');
+
+    $('#event_form').validate({
+        rules: {
+            'event[title]': {
+                required: true
+            },
+            'event[resource_auditorium]': {
+                required: true
+            },
+            'event[start_date]': {
+                required: true
+            },
+            'event[end_date]': {
+                required: true,
+                greaterThan: "#start_date_datepicker"
+            }
+        }
+    });
+}
+
+function initializeSelectize() {
+    $('.select').selectize({
+        sortField: 'text'
     });
 }
