@@ -1,0 +1,8 @@
+$('.papers').append('<%= j render @papers %>');
+
+<% if @papers.next_page %>
+  $('.pagination').replaceWith('<%= j will_paginate @papers %>');
+<% else %>
+  $(window).off('scroll');
+  $('.pagination').remove();
+<% end %>
