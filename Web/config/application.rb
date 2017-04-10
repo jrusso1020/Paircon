@@ -36,6 +36,8 @@ module PairCon
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.exceptions_app = self.routes
+
     config.before_initialize do
       require File.join(Rails.root, 'config', 'paircon_constants.rb')
     end

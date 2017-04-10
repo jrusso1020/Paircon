@@ -76,7 +76,14 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
+    if !@is_organizer and !@conference.publish
+      respond_to do |format|
+        format.html { render template: 'errors/unauthorized_access', layout: 'layouts/application', status: 403 }
+        format.all  { render nothing: true, status: 403 }
+      end
+    else
+      @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
+    end
   end
 
   def delete

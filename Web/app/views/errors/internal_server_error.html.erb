@@ -1,0 +1,23 @@
+<%= header_title 'Internal Server Error' %>
+
+<div class="container body">
+  <div class="main_container">
+    <!-- page content -->
+    <div class="col-md-12">
+      <div class="col-middle">
+        <div class="text-center">
+          <h1 class="error-number">500</h1>
+          <h2>Internal Server Error</h2>
+          <p>Oh My! Something bad happened. We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing. <a href="<%= PairConConfig::url['support'] %>">Report this?</a>
+          </p>
+          <div class="mid_center">
+            <h3>Search</h3>
+            <%= render 'layouts/application/search' %>
+          </div>
+          <%= image_tag 'sad.png', style: 'margin-top: 30px' %>
+        </div>
+      </div>
+    </div>
+    <!-- /page content -->
+  </div>
+</div>
