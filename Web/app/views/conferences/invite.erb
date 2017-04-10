@@ -1,0 +1,76 @@
+<%= header_title 'Invite' %>
+
+<%= form_tag create_invites_conference_path(), html: {method: :post} do %>
+    <div class="modal-header">
+      <h1 class="modal-title" id="myModalLabel">
+        <i class="fa fa-users" style="margin-right: 5px;"></i>
+        Invite To '<%= @conference.get_name %>'
+      </h1>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h4 class="font-light" align="center">Enter the emails of people you wish to invite
+            to <%= @conference.get_name %>.
+          </h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <div class="input-label">Invite People</div>
+            <div style="margin-bottom: 5px;">
+              <%= text_field_tag :emails2, '', class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div id="send_copy_field_advanced" class="form-group">
+            <%= check_box_tag 'send_copy', '1', false, class: 'js-switch', style: 'display: none;' %>
+            Send me a copy
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div id="send_mail_field_advanced" class="form-group">
+            <%= check_box_tag 'add_custom_message', '1', false, class: 'js-switch', style: 'display: none;' %>
+            <span id="addMessageLink">Add a Custom Message</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div id="email_field_advanced" style="margin-top: 10px;background: #F7F8FA !important; display: none;">
+            <%= text_area_tag 'mail_message_2', '', placeholder: 'Add a message (Optional)',
+                              :class => 'email-note inline form-control autosize', style: 'height: 100px;' %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top:-5px;">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <% if !is_mobile_device? %>
+          <span style="float: left !important; margin-top: 5px;">
+            <small>Note: This operation is permanent
+              and cannot be
+              reversed later.
+            </small>
+          </span>
+          <% end %>
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <button id="submitButton" type="button" class="btn btn-paircon btn-disabled">Send Invitations</button>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<%= javascript_tag "instantiateInvites('" + @conference.id + "'," + raw(@emails_json) + ')' %>

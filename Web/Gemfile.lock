@@ -281,6 +281,8 @@ GEM
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-jquery-tokeninput (0.2.6)
+      jquery-rails (>= 2)
     railties (5.0.2)
       actionpack (= 5.0.2)
       activesupport (= 5.0.2)
@@ -402,6 +404,7 @@ DEPENDENCIES
   rack-pjax
   rails (~> 5.0.2)
   rails-erd
+  rails-jquery-tokeninput
   rdoc
   recaptcha
   ruby-lint
@@ -409,6 +412,7 @@ DEPENDENCIES
   selectize-rails
   sidekiq
   stackprof
+  switchery-rails
   therubyracer
   timezone
   turbolinks (~> 5)

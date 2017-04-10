@@ -36,6 +36,8 @@ module PairCon
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.exceptions_app = self.routes
+
     config.before_initialize do
       require File.join(Rails.root, 'config', 'paircon_constants.rb')
     end
@@ -50,6 +52,7 @@ module PairCon
     # Mailer Settings
     config.active_record.raise_in_transactional_callbacks = true
     config.action_mailer.raise_delivery_errors = false
+    config.active_job.queue_adapter = :sidekiq
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {

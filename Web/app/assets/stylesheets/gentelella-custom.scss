@@ -1650,7 +1650,7 @@ a {
         text-shadow: $black_25 0 -1px 0;
         background: linear-gradient($color_pickled_bluewood_approx, $color_pickled_bluewood_approx), $color_pickled_bluewood_approx;
         //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-        box-shadow: $black_25 0 1px 0, inset $white_16 0 1px 0;
+        //box-shadow: $black_25 0 1px 0, inset $white_16 0 1px 0;
       }
     }
   }
