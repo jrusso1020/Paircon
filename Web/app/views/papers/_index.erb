@@ -1,4 +1,4 @@
 
-<% Paper.includes(:conference_papers).where(conference_papers: {conference_id: conference_id}).order(:created_at).each do |paper| %>
+<% papers_by_conference(conference_id).each do |paper| %>
     <%= render 'papers/paper', paper: paper %>
 <% end %>

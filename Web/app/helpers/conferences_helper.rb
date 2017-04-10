@@ -20,7 +20,7 @@ module ConferencesHelper
   end
 
   def papers_by_conference conference_id
-    Paper.includes(:conference_papers).where(conference_papers: {conference_id: conference_id}).order(:created_at)
+    Conference.find_by_id(conference_id).papers.order(:created_at)
   end
 
 end
