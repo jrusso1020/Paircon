@@ -10,11 +10,6 @@ class PapersController < ApplicationController
     render layout: false
   end
 
-  def set_user
-    @user = current_user
-  end
-
-
   def paper_params1
     uploaded_io = params[:paper][:file]
     pdf_path = Rails.root.join('public', 'conference', params[:conference_id], 'pdf', uploaded_io.original_filename)
@@ -36,16 +31,10 @@ class PapersController < ApplicationController
     paper_params
   end
 
-
-  def paper_params
-    params.require(:paper).permit(:pdf, :title)
-  end
-
   def create
     @paper = Paper.new(paper_params)
     if @paper.save
-      @conferencePaper = ConferencePaper.new(:conference_id => params[:conference_id], :paper_id => @paper.id)
-      if @conferencePaper.save
+      if Conference.find(params[:conference_id]).papers.create!(paper_id: @paper.id)
         flash[:notice] = "Successfully created paper!"
       else
         flash[:alert] = "Error creating new paper!"
@@ -60,7 +49,6 @@ class PapersController < ApplicationController
     render layout: false
   end
 
-  # The destroy action removes the conference permanently from the database
   def destroy
     paper = Paper.find(params[:id])
     conferencePaper = ConferencePaper.find_by_paper_id(params[:id])
@@ -76,12 +64,21 @@ class PapersController < ApplicationController
 
   def update
     paper = Paper.find(params[:id])
-    #params_paper = params.require(:paper).permit!
     if paper.update_attributes(paper_params)
       render json: {status: :success, text: paper.title}
     else
       render json: {status: :error, text: paper.title}
     end
+  end
+
+  private
+
+  def set_user
+    @user = current_user
+  end
+
+  def paper_params
+    params.require(:paper).permit(:pdf, :title)
   end
 
 
