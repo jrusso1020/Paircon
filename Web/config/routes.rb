@@ -58,6 +58,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :papers do
+    member do
+      get :new
+      post :create
+      get :delete
+    end
+  end
   resources :conferences do
     member do
       get :delete
@@ -72,6 +79,7 @@ Rails.application.routes.draw do
       get :recommendations
       get :posts
       get :schedule
+
     end
   end
 
