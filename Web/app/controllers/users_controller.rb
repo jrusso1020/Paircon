@@ -11,7 +11,20 @@ class UsersController < ApplicationController
   end
 
   def pending_organizers
-    Organizer.where(approved: false)
+    @user = current_user
+    @pending_organizers = User.where("EXISTS(SELECT user_id from organizers where approved=FALSE and users.id=organizers.user_id)")
+  end
+
+  def approve_organizer
+    respond_to do |format|
+      user_id = params[:id]
+      user = User.where(id: user_id).first
+      organizer = Organizer.where(user_id: user_id).first
+      user.update(:user_type => "organizer")
+      organizer.update(:approved => true)
+      format.html { redirect_back(fallback_location: :back, notice: "You Have Approved #{user.full_name} As An Organizer.") }
+      format.json { render :show, status: :ok, location: :back }
+    end
   end
 
   # request organizer privilege

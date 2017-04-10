@@ -33,8 +33,9 @@
         <div class="menu_section">
           <h3>ADMIN</h3>
           <ul class="nav side-menu">
-            <li><a href="">Pending Organizers</a></li>
-          <ul>
+            <li><a href="<%= pending_organizers_user_path(current_user) %>">Pending Organizers</a></li>
+          </ul>
+        </div>
       <% end %>
 
       <% i = 1 %>

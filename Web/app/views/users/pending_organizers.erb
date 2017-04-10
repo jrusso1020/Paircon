@@ -1,0 +1,12 @@
+<%= header_title 'Approve Organizers' %>
+
+<h1>Pending Organizers</h1>
+<% @pending_organizers.each do |organizer| %>
+  <div class="row">
+    <%= form_for @user, url: approve_organizer_user_path(organizer.id), method: 'POST' do |f| %>
+      <p><%= organizer.full_name %></p>
+      <p><%= organizer.user_organization %></p>
+      <%= f.submit 'Approve', :class => 'form-control', :class => 'btn btn-paircon' %>
+    <% end %>
+  </div>
+<% end %>
