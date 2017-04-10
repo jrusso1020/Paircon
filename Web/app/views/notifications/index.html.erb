@@ -1,0 +1,54 @@
+<%= header_title 'Notifications' %>
+<% page_title 'Notifications' %>
+
+<% is_notifications = false %>
+<div id="page-heading">
+  <h1 class="font-light"><%= 'Notifications' %></h1>
+  <hr />
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+
+      <% day_count = 0 %>
+      <% index = 0 %>
+      <% while (index < @notifications.size && day_count <= Notification::MAX_DAYS) do %>
+          <% date = Date.today - day_count %>
+          <% if (@notifications[index].created_at.to_date == date) %>
+              <h4>
+                <% if (day_count==0) %>
+                    <%= t('today') %>
+                <% elsif (day_count==1) %>
+                    <%= 'Yesterday' %>
+                <% else %>
+                    <%= l(date) %>
+                <% end %>
+              </h4>
+              <ul class="list-group">
+                <% while (index < @notifications.size &&
+                    @notifications[index].created_at.to_date == date) do %>
+                    <% @activity = @notifications[index] %>
+                    <div class="list-group-item full-notification">
+                      <% is_notifications = true %>
+                      <%= render_activity @notifications[index] %>
+                    </div>
+                    <% index = index + 1 %>
+                <% end %>
+              </ul>
+          <% end %>
+          <% day_count = day_count+1 %>
+      <% end %>
+
+      <% unless is_notifications %>
+          <div style="width: 100%; text-align: center; font-style: italic;">
+            <br/>
+            <br/>
+            <br/>
+            <%= image_tag 'sad.png' %>
+            <div style="margin-top: 30px;">You have no notifications ...</div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

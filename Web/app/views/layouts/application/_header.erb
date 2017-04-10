@@ -14,7 +14,12 @@
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag 'application-layout', media: 'all' %>
+  <%= stylesheet_link_tag 'conference/calendar/fullcalendar.print.min', media: 'print' %>
+  <%= stylesheet_link_tag 'conference/calendar/scheduler.min' %>
+
+
   <%= javascript_include_tag 'application-layout' %>
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=<%= PairConConfig.google_api_key %>" async defer></script>
 
   <%= locale_setting_js() %>
   <%= time_zone_setting_js() %>

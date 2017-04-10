@@ -1,0 +1,9 @@
+<div class="posts">
+  <%= render @posts %>
+</div>
+
+<div class="infinite-scrolling">
+  <%= will_paginate @posts %>
+</div>
+
+<%= javascript_tag 'initializePostLoading()' %>

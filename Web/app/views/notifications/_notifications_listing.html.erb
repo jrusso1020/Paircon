@@ -1,0 +1,29 @@
+<% if signed_in?(:user) %>
+    <%= link_to content_tag(:span, nil, :class => 'fa fa-bell') +
+                    (@total_notifications != 0 ? raw("<span id='notification_div' style='margin-left:3px !important;' class='badge bg-green'>#{@total_notifications}</span>") : ""), "#",
+                {:class => 'dropdown-toggle info-number', :id => 'notification_link', data: {referer: REFERERS[:mini_activity_listing], toggle: 'dropdown'}} %>
+    <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+      <div tabindex="5006" id="view-notifications">
+        <% is_notifications = false %>
+        <% @notifications.each do |activity| %>
+            <% @activity = activity %>
+            <%= render_activity activity %>
+            <hr class="notifications-divider"/>
+            <% is_notifications = true %>
+        <% end %>
+
+        <% unless is_notifications %>
+            <div style="width: 100%; text-align: center; font-style: italic;">
+              <br/>
+              <br/>
+              <br/>
+              <%= image_tag 'sad.png' %>
+              <div style="margin-top: 30px;">You have no notifications ...</div>
+            </div>
+        <% end %>
+      </div>
+      <li class="text-center dd-footer">
+        <%= link_to 'View All Notifications', notifications_path %></li>
+    </ul>
+<% end %>
+

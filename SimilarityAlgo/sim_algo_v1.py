@@ -29,13 +29,63 @@ class Cosine_Similiarity:
     """
     return self.stem_tokens(nltk.word_tokenize(text.lower().translate(self.punctuation_dict)))
 
-  def compute_cosine_sim(self, user_dir, conference_dir, k):
+  def compute_cosine_sim_one(self, user_file_path, conference_dir):
     """
-    compute the conside similiarity between two documents after being tokenized
+    compute the cosine similiarity between one user document and the entire confernce directory
+    PARAMS: user_file_path = the absolute path to a txt file of a user document
+            conference_dir = = the absolute path to a directory containing the text versions of all a conference documents
+    RETURNS: a value 
+    """
+    user_docs = [user_file_path]
+    user_papers = []
+    for doc in user_docs:
+      with open(doc, 'r') as my_file:
+        user_papers.append(my_file.read())
+
+    conference_docs = glob.glob(conference_dir + "/*.txt")
+    conference_papers = []
+    for doc in conference_docs:
+      with open(doc, 'r') as my_file:
+        conference_papers.append(my_file.read())
+
+    # change to numpy arrays for list indexing
+    both_papers = np.array(user_papers + conference_papers)
+    user_docs = np.array(user_docs)
+    user_papers = np.array(user_papers)
+    conference_docs = np.array(conference_docs)
+    conference_papers = np.array(conference_papers)
+
+    # create tf idf vectors for user papers and conference papers
+    tf_idf = self.tfidf_vectorizer.fit_transform(both_papers)
+
+    # compute consine similiarity
+    cosine_sim = linear_kernel(tf_idf[0:len(user_papers)], tf_idf[len(user_papers):])
+
+     # get the indices and scores for the most similiar user paper to each conference paper
+    indices_top_docs = np.argsort(cosine_sim, axis=0)[:-2:-1].flatten()
+    scores_top_docs = np.sort(cosine_sim, axis=0)[:-2:-1].flatten()
+
+    # get the top k indices from the most similiar papers and only use those
+    top_paper_idx = np.argsort(scores_top_docs)[:-2:-1]
+
+    # get the file names for the top k user and conference papers
+    top_user_paper = user_docs[indices_top_docs[top_paper_idx]]
+    top_conference_paper = conference_docs[top_paper_idx]
+
+    result = {'user_paper': top_user_paper[0],
+              'conference_paper': top_conference_paper[0],
+              'score': scores_top_docs[top_paper_idx[0]]}
+
+    return result
+
+
+  def compute_cosine_sim_all(self, user_dir, conference_dir, k):
+    """
+    compute the consine similiarity between two directories after being tokenized
     PARAMS: user_dir = the absolute path to a directory containing the text versions of all a users documents
-            conference_dir = the absolute path to a directory contaiing the text versoins of all a conference documents
+            conference_dir = the absolute path to a directory containing the text versions of all a conference documents
             k = number of similiar documents to return
-    RETURNS: a value which is the cosine similiarity of two academic papers
+    RETURNS: a dictionary containg the top k conference papers with their user paper and score
     """
     # save all text into documents
     user_docs = glob.glob(user_dir + "/*.txt")

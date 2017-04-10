@@ -11,6 +11,8 @@ machine_learning_development_api_url: 'http://127.0.0.1:5000'
 google_api_client_id: ''
 google_api_client_secret: ''
 
+google_map_api_key: 'AIzaSyDgLSmgNiwLUcEzT5Tapx0T4981wIGqeBI'
+
 # Facebook
 facebook_app_id: ''
 facebook_app_secret: ''

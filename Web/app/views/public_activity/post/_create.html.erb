@@ -1,0 +1,20 @@
+<% post = Hashie::Mash.new(YAML::load(@activity.parameters[:post])) %>
+
+<% @post = Post.find_by_id(post.id) %>
+<% unless @post.nil? %>
+    <li class="item-success border-left-blue notification-box">
+      <div class="notification-time label label-success pull-right"><%= notification_created_time %></div>
+      <div class="row row-vertical-align-notification">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+      <span class="desc desc-nopadding notification-text">
+          <% if @post.conference.logo.blank? %>
+              <%= image_tag 'Paircon_logo.png', class: 'paircon_notification_logo' %>
+          <% else %>
+              <%= image_tag @post.conference.logo.url, class: 'paircon_notification_logo' %>
+          <% end %>
+        <span>&nbsp;&nbsp;<a href="<%= conference_path(@post.conference) %>">'<%= @post.conference.name.blank? ? 'Conference' : @post.conference.name %>'</a> just posted some updates regarding the Conference</span>
+      </span>
+        </div>
+      </div>
+    </li>
+<% end %>

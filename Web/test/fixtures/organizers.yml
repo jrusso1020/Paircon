@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: organizers
+#
+# *id*::         <tt>string(30), not null, primary key</tt>
+# *user_id*::    <tt>string</tt>
+# *approved*::   <tt>boolean, default(FALSE)</tt>
+# *created_at*:: <tt>datetime, not null</tt>
+# *updated_at*:: <tt>datetime, not null</tt>
+#
+# Indexes
+#
+#  index_organizers_on_user_id  (user_id) UNIQUE
+#--
+# == Schema Information End
+#++
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one: {}
+# column: value
+#
+two: {}
+# column: value

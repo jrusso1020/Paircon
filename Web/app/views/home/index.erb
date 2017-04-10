@@ -1,7 +1,7 @@
 <% page_title('Dashboard') %>
 
 <%= form_for(current_user, url: submit_url_user_path(current_user),
-             html: {class: 'form-horizontal', id: 'submit_url', method: :post}) do |f| %>
+             html: {class: 'form-horizontal', id: 'submit_url', method: :posts}) do |f| %>
 
     <%= content_tag :div, class: 'panel-body' do %>
         <%= content_tag :p, 'Enter the URL to your publication page to get started', style: 'margin-top:-20px;' %>
@@ -27,6 +27,8 @@
   </tr>
 </table>
 
+
+<%= button_to "Conferences" , conferences_path(), method: :get %>
 
 <script>
     $('#getResult').click(function () {

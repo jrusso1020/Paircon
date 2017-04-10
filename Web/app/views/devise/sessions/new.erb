@@ -47,8 +47,8 @@
     <%= content_tag :div, class: 'footer-login' do %>
         <%= content_tag :div, 'Login with', class: 'pull-left text' %>
         <%= content_tag :div, class: 'pull-right btn-social' do %>
-            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-facebook'), class: 'btn btn-facebook btn-footer-social', href: "#{user_facebook_omniauth_authorize_path}" %>
-            <%= content_tag :a, content_tag(:i, '', class: 'fa fa-google-plus'), class: 'btn btn-google-plus btn-footer-social', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
+            <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-facebook'), class: 'btn btn-facebook btn-footer-social', href: "#{user_facebook_omniauth_authorize_path}" %>
+            <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-google-plus'), class: 'btn btn-google-plus btn-footer-social', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
         <% end %>
     <% end %>
 <% end %>

@@ -1,0 +1,86 @@
+<%= header_title 'Edit Event' %>
+
+<%= form_for :event, url: update_event_schedules_path(), html: {method: :post, id: 'event_form'} do |f| %>
+    <div class="modal-header">
+      <h1 class="modal-title" id="myModalLabel">
+        <i class="fa fa-calendar" style="margin-right: 5px;"></i>
+        Edit Event
+      </h1>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h4 class="font-light" align="center">Fill in the following options to create an Event. Defining a Room is
+            optional and will create the event for that specific Room.
+          </h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <%= f.label :title, 'Event Name (*)' %>
+            <%= f.text_field :title, placeholder: 'Event Name', class: 'form-control', value: @conference_event.title %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <%= f.label :resource_auditorium, 'Auditorium Name (*)' %>
+            <%= f.select :resource_auditorium, @auditoriums, {}, id: 'auditorium_depend', value: @auditorium_name %>
+
+            <%= f.label :resource_room, 'Room Name' %>
+            <%= f.select :resource_room, @rooms, {}, id: 'room_depend', value: @room_name %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <%= f.label :start_date, 'Start Date and Time (*)' %>
+            <div class="input-prepend input-group">
+              <span class="add-on input-group-addon"><i class="fa fa-calendar"></i></span>
+              <%= f.text_field :start_date, placeholder: 'Start Date and Time', id: 'start_date_datepicker', class: 'datetime form-control', value: @conference_event.start_date_str %>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <%= f.label :end_date, 'End Date and Time (*)' %>
+            <div class="input-prepend input-group">
+              <span class="add-on input-group-addon"><i class="fa fa-calendar"></i></span>
+              <%= f.text_field :end_date, placeholder: 'End Date and Time', class: 'datetime form-control', value: @conference_event.end_date_str %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer" style="margin-top:-5px;">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <% if !is_mobile_device? %>
+                <span style="float: left !important; margin-top: 5px;">
+                  <small>Note: (*) This is a required field.
+                  </small>
+                </span>
+          <% end %>
+          <%= link_to_modal 'Delete', delete_event_schedules_path(id: @conference_event.id), style: 'margin-right: 10px;' %>
+
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <%= f.submit 'Edit', :class => 'btn btn-paircon' %>
+        </div>
+      </div>
+    </div>
+<% end %>
+
+<%= javascript_tag "initializeAddScheduleEvent('" + @conference.start_date_str + "', '" + @conference.end_date_str + "')" %>

@@ -23,11 +23,62 @@ Rails.application.routes.draw do
       root 'devise/sessions#new', as: :new_user_session
     end
 
-    # get 'login/(:id)', to: 'devise/sessions#new', as: :new_user_session
-
     get '/recover', to: 'devise/passwords#new'
     post 'user_session', to: 'devise/sessions#create'
     delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
+
+  end
+
+  mount PdfjsViewer::Rails::Engine => "/pdf", as: 'pdf'
+
+  resources :posts do
+    member do
+      get :delete
+    end
+  end
+
+  resources :schedules do
+    collection do
+      get :get_rooms
+      get :get_resources
+      get :get_events
+
+      get :new_resource
+      post :create_resource
+      get :delete_resource
+      delete :destroy_resource
+
+      get :new_event
+      post :create_event
+      get :delete_event
+      delete :destroy_event
+
+      get :edit_event
+      post :update_event
+    end
+  end
+
+  resources :conferences do
+    member do
+      get :delete
+      post :destroy_cover
+      post :destroy_logo
+      post :save_cover
+      post :save_logo
+      post :attend_conference
+
+      get :home
+      get :about
+      get :recommendations
+      get :posts
+      get :schedule
+    end
+  end
+
+  resources :notifications do
+    collection do
+      post :read_notification
+    end
   end
 
   resources :home, path: '' do
@@ -38,8 +89,6 @@ Rails.application.routes.draw do
       get :privacy_policy
     end
   end
-
-
   resources :users, except: [:index] do
     member do
       get :delete
@@ -51,6 +100,8 @@ Rails.application.routes.draw do
       post :destroy_logo
       delete :delete_account
       post :submit_url
+      get :become_organizer
+      post :request_organizer
     end
 
     collection do
@@ -61,5 +112,5 @@ Rails.application.routes.draw do
   get '/user/:action/(:id)', controller: 'users'
   get '/auth/failure' => 'application#auth_failure', as: :auth_failure
   get '*path' => 'application#not_found', as: :not_found
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
 end

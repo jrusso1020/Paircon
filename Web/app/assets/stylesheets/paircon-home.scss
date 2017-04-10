@@ -66,6 +66,10 @@ login-text-size {
   margin-right: 0px !important;
 }
 
+.required{
+  color: $error-small-text-color;
+}
+
 /* ********* ERROR ***********/
 .error-small-text {
   color:$error-small-text-color;
@@ -440,6 +444,18 @@ Landing
   margin: auto;
 }
 
+.statistics-font {
+  font-size: 80px;
+}
+
+.welcome-btn {
+  position: static; 
+  opacity: 1; 
+  font-size: 14px; 
+  margin-top: 5px;
+}
+
+
 /***********************************
 ************************************
 Signup banner
@@ -447,4 +463,21 @@ Signup banner
 ***********************************/
 .dark-gray {
   background-color: $dark-grey;
+}
+
+/***********************************
+************************************
+Privacy and Terms Pages
+************************************
+***********************************/
+.header-bg {
+  min-height: 300px;
+}
+
+.body-margin {
+  padding: 30px;  
+}
+
+.list-circle {
+  list-style-type: circle;
 }

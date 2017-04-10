@@ -1,0 +1,7 @@
+<% diff = (@conference.end_date - @conference.start_date).to_i / 1.day %>
+<%= javascript_tag "initializeConference('" + @conference.id.to_s + "', '" + @conference.description + "', '" + @conference.start_date_str + "', '" + @conference.end_date_str + "')" %>
+<%= javascript_tag 'initializePanels()' %>
+
+<% if !scheduler.blank? and scheduler %>
+    <%= javascript_tag "initializeSchedule('" + @conference.start_date_str.to_s + "', '" + @conference.end_date_str.to_s + "', " + diff.to_s + ', ' + @is_organizer.to_s + ", '" + @conference.id.to_s + "')" %>
+<% end %>

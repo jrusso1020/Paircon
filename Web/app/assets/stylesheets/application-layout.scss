@@ -11,11 +11,13 @@
  * It is generally better to create a new file per style scope.
  *
  *= require jquery-ui
- *= require home/index
  *= require common/index
  *= require user/index
+ *= require conference/index
+ *= require introjs
+ *= require selectize
+ *= require selectize.default
  */
-
 @import 'gentelella';
 @import 'compass';
 @import 'googleFonts';
@@ -26,6 +28,10 @@
 @import 'font-awesome';
 @import 'paircon-common';
 @import 'paircon-home';
+@import 'paircon-user';
+@import 'paircon-conference';
+@import 'paircon-notification';
 @import 'gentelella-custom';
 @import 'jquery.fileupload';
 @import 'jquery.fileupload-ui';
+@import 'bootstrap-datetimepicker';

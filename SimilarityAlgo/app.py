@@ -18,7 +18,30 @@ def compare_papers():
   if request.headers['Content-Type'] == 'application/json':
     app.logger.debug(request.data)
     data = request.get_json()
-    similiarities = Cosine_Similiarity().compute_cosine_sim(data["user_dir"], data["conference_dir"], data["k"])
+    similiarities = Cosine_Similiarity().compute_cosine_sim_all(data["user_dir"], data["conference_dir"], data["k"])
+    resp = jsonify(similiarities)
+    resp.status_code = 200
+
+  else:
+    message = {
+            'status': 404,
+            'message': 'Incorrect Content-Type',
+    }
+    resp = jsonify(message)
+    resp.status_code = 404
+
+  return resp
+
+@app.route('/similiarity/v1/compare/single', methods = ['POST'])
+def compare_paper_to_conference():
+  """
+  Method to compare two papers and return their similiarity score
+  """
+  resp = None
+  if request.headers['Content-Type'] == 'application/json':
+    app.logger.debug(request.data)
+    data = request.get_json()
+    similiarities = Cosine_Similiarity().compute_cosine_sim_one(data["user_file"], data["conference_dir"])
     resp = jsonify(similiarities)
     resp.status_code = 200
 
@@ -42,4 +65,8 @@ def after(response):
   app.logger.debug(response.data)
   return response
 
-app.run(debug=True)
+# run in debug mode
+#app.run(debug=True)
+
+# run in production multithreaded
+app.run(threaded=True)
