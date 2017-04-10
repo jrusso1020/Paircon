@@ -10,6 +10,10 @@ class UsersController < ApplicationController
     redirect_to root_path unless current_user
   end
 
+  def pending_organizers
+    Organizer.where(approved: false)
+  end
+
   # request organizer privilege
   def request_organizer
     respond_to do |format|
