@@ -26,23 +26,25 @@
             </div>
           </div>
           <div class="row top-buffer">
-            <div class = "col-md-3 col-sm-4 col-xs-6">
+            <div class = "col-md-4 col-sm-5 col-xs-6">
               <div class="thumbnail" id="map-img">
                 <div class="image view view-first">
-                  <img src="<%= asset_path 'floorplan_map.jpg' %>" alt="image" id ="conf-map">
+                  <img src="<%= asset_path 'floorplan_map.jpg' %>" alt="map" id ="conf-map">
                   <div class="mask">
                     <p> Conference Map </p>
                     <div class="tools tools-bottom">
-                      <a href="#"><i class="fa fa-download"></i></a>
+                      <a download="map.jpg" href="<%= asset_path 'floorplan_map.jpg' %>" title="ConfMap">
+                        <i class="fa fa-download"></i>
+                      </a>
                     </div>
                   </div>
                 </div>
                 <div class="caption">
-                  <p>Conference Map</p>
+                  <p>Conference Layout</p>
                 </div>
               </div>
             </div>
-            <div class = "text-center col-md-3 col-sm-4 col-xs-6 col-md-push-6 col-sm-push-4">
+            <div class = "text-center col-md-3 col-sm-4 col-xs-6 col-md-push-5 col-sm-push-3">
               <h3>Attendance</h3>
               <% if @is_organizer %>
                   <div>
