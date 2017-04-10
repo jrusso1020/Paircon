@@ -1,7 +1,7 @@
 require 'digest/md5'
 class SchedulesController < ApplicationController
 
-  before_action :authenticate_user!, except: [:validation]
+  before_action :authenticate_user!, except: [:get_resources, :get_events]
   before_action :find_resource, only: [:delete_resource, :destroy_resource]
   before_action :find_event, only: [:delete_event, :destroy_event, :update_event]
 
@@ -58,14 +58,14 @@ class SchedulesController < ApplicationController
     @start_date = params[:start_date].blank? ? '' : DateTime.parse(params[:start_date]).strftime(DATEFORMAT)
     @end_date = params[:end_date].blank? ? '' : DateTime.parse(params[:end_date]).strftime(DATEFORMAT)
 
-    unless params[:resource_id].blank?
+    if !params[:resource_id].blank?
       resource = ConferenceResource.find(params[:resource_id])
-      if (resource.parent_id.nil?)
+      if resource.parent_id.nil? or resource.parent_id.blank?
         @room_name = 'None'
         @auditorium_name = resource.title
       else
         @room_name = resource.title
-        @auditorium_name = ConferenceResource.where(id: resource.parent_id).title
+        @auditorium_name = ConferenceResource.find(resource.parent_id).title
       end
     else
       @auditorium_name = ''

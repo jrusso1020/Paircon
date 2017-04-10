@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<%= render 'layouts/application/header' %>
+
+<body class="nav-md">
+<div class="container body">
+  <div class="main_container">
+    <%#= render 'layouts/public/top_nav' %>
+    <%#= render 'layouts/public/left_bar' %>
+    <%= render 'layouts/application/modal', id: 'modal' %>
+
+    <div class="right_col" role="main">
+      <%= render 'layouts/application/flash_message' %>
+      <div data-pjax-container>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<%= javascript_tag 'initializeApplication()' %>
+<%= javascript_tag 'loadApplicationLayout()' %>
+</html>
+
