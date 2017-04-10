@@ -29,8 +29,8 @@
         </ul>
       </div>
 
-      <% attending = my_attending_conferences_active(current_user) %>
       <% i = 1 %>
+      <% attending = Conference.my_attending_conferences_active(current_user) %>
       <% if attending.length != 0 %>
           <div class="menu_section">
             <h3>ATTENDING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'attendee'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
@@ -47,7 +47,7 @@
       <% end %>
 
       <% unless current_user.attendee? %>
-          <% organizing = my_organizing_conferences_active(current_user) %>
+          <% organizing = Conference.my_organizing_conferences_active(current_user) %>
           <% if organizing.length != 0 %>
               <div class="menu_section">
                 <h3>ORGANIZING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'organizer'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>

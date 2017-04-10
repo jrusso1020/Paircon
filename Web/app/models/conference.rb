@@ -61,11 +61,17 @@ class Conference < ApplicationRecord
   def logo_picture
     if !self.logo_file_name.blank?
       return self.logo.try(:url)
+    else
+      return 'Paircon_logo.png'
     end
   end
 
-  def logo_picture_full_link
-    return "#{PairConConfig::root_domain + ActionController::Base.helpers.asset_path(self.logo_picture)}"
+  def logo_path
+    if !self.logo.path.blank?
+      return self.logo.path
+    else
+      return Rails.root.join('app/assets/images/Paircon_logo.png')
+    end
   end
 
   def cover_photo
@@ -74,9 +80,6 @@ class Conference < ApplicationRecord
     end
   end
 
-  def cover_photo_full_link
-    return "#{PairConConfig::root_domain + ActionController::Base.helpers.asset_path(self.cover_photo)}"
-  end
 
   def save_image(params, is_logo=true)
     FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
@@ -117,6 +120,36 @@ class Conference < ApplicationRecord
 
   def start_date_str
     self.start_date.strftime(DATEFORMAT)
+  end
+
+  def get_counts(post = true, interested = true, resources = true, events = true)
+    result = []
+    result = result + [self.posts.count] if post
+    result = result + [self.users.count] if interested
+    result = result + [self.conference_resources.length] if resources
+    result = result + [self.conference_events.length] if events
+
+    result
+  end
+
+  def is_organizer user
+    self.conference_organizers.exists?(user_id: user.id) and !user.attendee?
+  end
+
+  def self.my_organizing_conferences_published user
+    Conference.published.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+  end
+
+  def self.my_attending_conferences_published user
+    Conference.published.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
+  end
+
+  def self.my_organizing_conferences_active user
+    Conference.active.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+  end
+
+  def self.my_attending_conferences_active user
+    Conference.active.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
   private

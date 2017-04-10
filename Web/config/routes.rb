@@ -64,7 +64,7 @@ Rails.application.routes.draw do
       get :invite
       get :delete
 
-      post :process_invites
+      post :create_invites
       post :destroy_cover
       post :destroy_logo
       post :save_cover

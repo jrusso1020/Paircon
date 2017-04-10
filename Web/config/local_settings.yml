@@ -2,7 +2,7 @@
 #different environments ie staging, production.
 
 production_environment: 'https://www.paircon.com'
-development_environment: 'http://wwwdevparicon.com:3000'
+development_environment: 'http://devparicon.com:3000'
 product_name: 'PairCon'
 product_url: 'https://www.paircon.com'
 machine_learning_development_api_url: 'http://127.0.0.1:5000'
@@ -18,11 +18,11 @@ facebook_app_id: ''
 facebook_app_secret: ''
 
 # Mail
-mail_address: ''
+mail_address: 'smtp.gmail.com'
 mail_port: 587
-mail_domain: ''
-mail_username: ''
-mail_password: ''
+mail_domain: 'gmail.com'
+mail_username: 'pairconferences@gmail.com'
+mail_password: 'pa1rc0n@'
 
 # Email addresses
 contact_us_recipients: 'support@paircon.com'
@@ -40,5 +40,5 @@ marketing_email: 'support@paircon.com'
 # Others
 privacy_url: ''
 terms_url: ''
-feedbacK_url: ''
+support_url: ''
 help_url: ''

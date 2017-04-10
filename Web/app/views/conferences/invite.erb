@@ -1,6 +1,6 @@
 <%= header_title 'Invite' %>
 
-<%= form_tag process_invites_conference_path(), html: {method: :post} do %>
+<%= form_tag create_invites_conference_path(), html: {method: :post} do %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-users" style="margin-right: 5px;"></i>
@@ -22,7 +22,7 @@
           <div class="form-group">
             <div class="input-label">Invite People</div>
             <div style="margin-bottom: 5px;">
-              <%= text_field_tag :emails2, '', class: 'tags form-control' %>
+              <%= text_field_tag :emails2, '', class: 'form-control' %>
             </div>
           </div>
         </div>
@@ -67,144 +67,10 @@
           </span>
           <% end %>
           <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-paircon">Send Invitations</button>
+          <button id="submitButton" type="button" class="btn btn-paircon btn-disabled">Send Invitations</button>
         </div>
       </div>
     </div>
 <% end %>
 
-<script>
-
-    //    var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
-    //        '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
-    //
-    //    $("#emails2").tokenInput({}, {
-    //        placeholder: "Enter email addresses ...",
-    //        hintText: "Please type email addresses and press enter",
-    //        noResultsText: "No results found ",
-    //        searchingText: "Looking for email address ...",
-    //        preventDuplicates: true,
-    //        zindex: '99999',
-    //        invalidTokenText: 'Enter a valid Email Address',
-    //        theme: 'facebook',
-    //        allowFreeTagging: true,
-    //        propertyToSearch: "name",
-    //        onAdd: function () {
-    //            changeEmailButtonVisibilityAdvanced();
-    //        },
-    //        onDelete: function () {
-    //            changeEmailButtonVisibilityAdvanced();
-    //        },
-    //        resultsFormatter: function (item) {
-    //            item.id = item.id.toLowerCase();
-    //            item.name = item.name.toLowerCase();
-    //            return "<li><span style='margin-left: 5px;'> " + item.name + "</span></li>";
-    //        },
-    //        tokenFormatter: function (item) {
-    //            item.id = item.id.toLowerCase();
-    //            item.name = item.name.toLowerCase();
-    //            var color;
-    //
-    //            if (!checkIfEmail(item.name) || item.name == $('#current_email').html())
-    //                return "<li style='background: #800000; border-color: #800000; color: #E6E7E8'><p>" + item.name + "</p></li>";
-    //            else
-    //                return "<li><p>" + item.name + "</p></li>";
-    //        }
-    //    });
-
-    function checkIfEmail(email) {
-        var re = new RegExp('^' + REGEX_EMAIL + '$', 'i');
-        return email.match(re);
-    }
-
-
-    function onAddTag(tag) {
-        alert("Added a tag: " + tag);
-    }
-
-    function onRemoveTag(tag) {
-        alert("Removed a tag: " + tag);
-    }
-
-    function onChangeTag(input, tag) {
-        alert("Changed a tag: " + tag);
-    }
-
-    //tags input
-        $('#emails2').tagsInput({
-            width: 'auto'
-        });
-
-    $('#select-to').selectize({
-        persist: false,
-        maxItems: null,
-        valueField: 'email',
-        labelField: 'name',
-        searchField: ['name', 'email'],
-        options: [
-            {email: 'brian@thirdroute.com', name: 'Brian Reavis'},
-            {email: 'nikola@tesla.com', name: 'Nikola Tesla'},
-            {email: 'someone@gmail.com'}
-        ],
-        render: {
-            item: function (item, escape) {
-                return '<div>' +
-                    (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-                    (item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
-                    '</div>';
-            },
-            option: function (item, escape) {
-                var label = item.name || item.email;
-                var caption = item.name ? item.email : null;
-                return '<div>' +
-                    '<span class="label">' + escape(label) + '</span>' +
-                    (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
-                    '</div>';
-            }
-        },
-        createFilter: function (input) {
-            var match, regex;
-
-            // email@address.com
-            regex = new RegExp('^' + REGEX_EMAIL + '$', 'i');
-            match = input.match(regex);
-            if (match) return !this.options.hasOwnProperty(match[0]);
-
-            // name <email@address.com>
-            regex = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
-            match = input.match(regex);
-            if (match) return !this.options.hasOwnProperty(match[2]);
-
-            return false;
-        },
-        create: function (input) {
-            if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
-                return {email: input};
-            }
-            var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
-            if (match) {
-                return {
-                    email: match[2],
-                    name: $.trim(match[1])
-                };
-            }
-            alert('Invalid email address.');
-            return false;
-        }
-    });
-
-    enableSwitchery();
-
-    $('#send_mail_field_advanced > .switchery').click(function () {
-        if (!$('#add_custom_message').is(":checked")) {
-            $('#addMessageLink').html('Add a Custom Message');
-            $('#email_field_advanced').hide();
-            $('#email_field_advanced').val("");
-        } else {
-            $('#addMessageLink').html('Discard message');
-            $('#email_field_advanced').show();
-            $('#email_field_advanced').val("");
-        }
-    });
-
-</script>
+<%= javascript_tag "instantiateInvites('" + @conference.id + "'," + raw(@emails_json) + ')' %>
