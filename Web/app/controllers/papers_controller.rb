@@ -15,7 +15,7 @@ class PapersController < ApplicationController
   end
 
 
-  def paper_params
+  def paper_params1
     uploaded_io = params[:paper][:file]
     pdf_path = Rails.root.join('public', 'conference', params[:conference_id], 'pdf', uploaded_io.original_filename)
     pdf_folder = Rails.root.join('public', 'conference', params[:conference_id], 'pdf')
@@ -34,6 +34,11 @@ class PapersController < ApplicationController
         "pdf_link" => pdf_path
     }
     paper_params
+  end
+
+
+  def paper_params
+    params.require(:paper).permit(:pdf, :title)
   end
 
   def create
@@ -71,8 +76,8 @@ class PapersController < ApplicationController
 
   def update
     paper = Paper.find(params[:id])
-    params_paper = params.require(:paper).permit!
-    if paper.update_attributes(params_paper)
+    #params_paper = params.require(:paper).permit!
+    if paper.update_attributes(paper_params)
       render json: {status: :success, text: paper.title}
     else
       render json: {status: :error, text: paper.title}
