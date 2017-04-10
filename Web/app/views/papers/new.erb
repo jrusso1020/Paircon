@@ -1,6 +1,6 @@
 <%= header_title @title %>
 
-<%= form_for :paper, url: paper_path(conference_id: params[:conference_id]), html: {method: :post, id: 'add_paper_form'} do |f| %>
+<%= form_for Paper.new, url: papers_path(conference_id: params[:conference_id]), method: 'POST' do |f| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-group" style="margin-right: 5px;"></i>
