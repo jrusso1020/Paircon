@@ -60,11 +60,11 @@ Rails.application.routes.draw do
 
   resources :papers do
     member do
-      get :new
-      post :create
-      get :delete
+     get :delete
+     delete :destroy
     end
   end
+
   resources :conferences do
     member do
       get :delete

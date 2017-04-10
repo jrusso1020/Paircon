@@ -1,10 +1,10 @@
 <%= header_title 'Delete' %>
 
-<%= form_for @paper, method: 'DELETE' do |f| %>
+<%= form_for :paper, url: paper_path(), method: 'DELETE' do |f| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-trash" style="margin-right: 5px;"></i>
-        Delete Post
+        Delete Paper
       </h1>
     </div>
 
