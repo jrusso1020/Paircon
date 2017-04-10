@@ -61,6 +61,9 @@ Recommendation
 #rec-modal-btn-wrapper{
   text-align: center;
 }
+.modal-backdrop.in {
+  z-index: auto!important;
+}
 
 
 /***********************************

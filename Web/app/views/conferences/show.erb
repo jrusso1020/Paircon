@@ -58,6 +58,6 @@
     </div>
   </div>
 </div>
-
+<%= render 'conferences/panels/view_all_recs' %>
 <%= javascript_tag "initializeConference('" + @conference.id.to_s + "', '" + @conference.description + "')" %>
 <%= javascript_tag 'initializePanels()' %>
