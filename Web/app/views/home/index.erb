@@ -2,7 +2,18 @@
 
 <%= render '/home/conferences_list' %>
 
-
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12" >
+      <%= render '/home/recommendations_list'%>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <%= render '/home/upcoming_events'%>
+      <div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--
 <button class="btn" id="getResult">Get Recommendations</button>
