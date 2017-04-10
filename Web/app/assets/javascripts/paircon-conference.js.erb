@@ -36,7 +36,7 @@ function initializeTabPanes(id) {
 function initializeConference(id, description, start_date, end_date) {
     initializeInPlaceEditing(id);
     retrievePosts(id);
-    retrievePapers(id);
+
     $('#reservation-time').daterangepicker({
         startDate: start_date,
         endDate: end_date,
@@ -177,19 +177,6 @@ function retrievePosts(id) {
     });
 }
 
-function retrievePapers(id) {
-    $.ajax({
-        type: 'GET',
-        url: '/papers',
-        data: {
-            'conference_id': id
-        },
-        success: function (html) {
-            $('.paper_div').html(html);
-            initializeInPlaceEditing(id);
-        }
-    });
-}
 
 function initCharts(count) {
 

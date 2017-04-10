@@ -51,16 +51,6 @@ class PapersController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-
-  def index
-    @is_organizer = is_organizer(params[:conference_id], current_user)
-    @papers = papers_by_conference params[:conference_id]
-    respond_to do |format|
-      format.html
-      format.js
-    end
-  end
-
   def delete
     render layout: false
   end
