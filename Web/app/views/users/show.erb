@@ -43,6 +43,10 @@
             <td class="table-accountinfo"><%= @user.gender == 1 ? "Male" : "Female" %></td>
           </tr>
           <tr>
+            <td class="profile-title table-accountinfo">Publication URL:</td>
+            <td class="table-accountinfo"><%= @user.user_organization.blank? ? 'N/A' : @user.user_organization %></td>
+          </tr>
+          <tr>
             <td class="profile-title table-accountinfo">Organization:</td>
             <td class="table-accountinfo"><%= @user.user_organization.blank? ? 'N/A' : @user.user_organization %></td>
           </tr>
@@ -56,6 +60,12 @@
           </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h3>Publication URL</h3>
+        <%= render 'publication_url' %>
       </div>
     </div>
 

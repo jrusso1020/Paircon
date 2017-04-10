@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<section>
+    <div class="wrapper">
+      <div class="container">
+          <div class="conf-box">
+             <div style="text-align:center">Conferences that you may be attending</div>
+            <div> <%= button_to "Conferences" , conferences_path(), method: :get %> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+    $('#getResult').click(function () {
+        jQuery.support.cors = true;
+
+        var data = {
+            user_dir: '<%= current_user.get_pdf_text_path %>',
+            conference_dir: '<%= "#{Rails.root}/public/conference_papers" %>',
+            k: 3
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '<%= "#{PairConConfig.recommendation_system_domain}/similiarity/v1/compare" %>',
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data) {
+                var trHTML = '';
+                $.each(data, function (i) {
+                    trHTML += '<tr><td>' + data[i].conference_paper + '</td><td>' + data[i].score + '</td><td>' + data[i].user_paper + '</td></tr>';
+                });
+
+                $('#result').append(trHTML);
+            },
+
+            error: function (msg) {
+                alert(msg.responseText);
+            }
+        });
+    })
+    ;
+</script>
