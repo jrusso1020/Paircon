@@ -69,4 +69,15 @@ class PapersController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def update
+    paper = Paper.find(params[:id])
+    params_paper = params.require(:paper).permit!
+    if paper.update_attributes(params_paper)
+      render json: {status: :success, text: paper.title}
+    else
+      render json: {status: :error, text: paper.title}
+    end
+  end
+
+
 end
