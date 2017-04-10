@@ -1,9 +1,13 @@
  <div class="x_panel">
     <div class="x_title">
       <div class="jumbotron text-center" id = "conf-title">
-        <h1>Conference Name</h1>
-        <p>Convention Center, City, State</p>
-        <p>January 1-3, 2018</p>
+        <div class = "col-md-6 col-sm-6 col-xs-12">
+          <h2>Conference Name</h2>
+        </div>
+        <div class = "col-md-6 col-sm-6 col-xs-12">
+          <p>Convention Center, City, State</p>
+          <p>January 1-3, 2018</p>
+        </div>
       </div>
       <div class="clearfix"></div>
     </div>
@@ -25,7 +29,7 @@
         </div>
       </div>
       <div class="row top-buffer">
-        <div class = "col-md-4 col-sm-5 col-xs-6">
+        <div class = "col-md-4 col-sm-5 col-xs-6 top-buffer">
           <div class="thumbnail" id="map-img">
             <div class="image view view-first">
               <img src="<%= asset_path 'floorplan_map.jpg' %>" alt="map" id ="conf-map">
@@ -43,7 +47,7 @@
             </div>
           </div>
         </div>
-        <div class = "text-center col-md-3 col-sm-4 col-xs-6 col-md-push-5 col-sm-push-3">
+        <div class = "text-center col-md-4 col-sm-5 col-xs-6 col-md-push-4 col-sm-push-2">
           <h3>Attendance</h3>
           <% if @is_organizer %>
               <div>
@@ -57,11 +61,14 @@
               <% else %>
                   <% unless @conference.description.blank? %>
                       <%= @conference.description %>
-                      <hr />
+                      <hr/>
                   <% end %>
               <% end %>
           <% end %>
-          <h3 class="navy-background light-grey-text"><%= @interested_count %> Interested</h3>
+
+          <div class="text-center">
+            <h3 class="navy-background light-grey-text"><%= @interested_count %> Interested</h3>
+          </div>
           <br/>
 
           <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) or @is_organizer %>
@@ -75,7 +82,7 @@
           <% end %>
 
           <% if !@conference.location.blank? or @is_organizer %>
-              <div><strong>Location:</strong> &lt;&lt;Conference Location&gt;&gt; </div>
+              <div><strong>Location:</strong> <%= best_in_place @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %> </div>
               <br/>
           <% end %>
 
@@ -97,7 +104,9 @@
               </div>
           <% end %>
           <br/>
-          <p><a href=#>Invite Attendees <i class="fa fa-user-plus" aria-hidden="true"></i></a></p>
+          <div class="text-center">
+            <%= link_to_modal 'Invite Attendees', invite_conference_path() %> <i class="fa fa-user-plus left-buffer" aria-hidden="true"></i>
+          </div>
         </div>
       </div>
     </div>
