@@ -2,7 +2,7 @@
 
 <%= render 'header' %>
 
-<div class="row">
+<div class="row top-buffer">
   <div class="col-md-2 col-sm-2 col-xs-2">
     <ul class="nav nav-tabs tabs-left">
       <li class="active"><a href="#home" data-toggle="tab">Home</a></li>
@@ -21,32 +21,39 @@
       <% end %>
     </ul>
   </div>
-  <div class="tab-content">
-    <div id="home" class="tab-pane active">
-      <div class="col-md-7 col-sm-7 col-xs-10">
-        <% if !@is_organizer %>
-            <%= render 'conferences/panels/recommendations' %>
-        <% else %>
-            <%= render 'posts/new' %>
-        <% end %>
+  <div class="col-md-10 col-sm-10 col-xs-10">
+    <%= render 'conferences/panels/conf_info' %>
+    <div class = "col-md-12 col-sm-12 col-xs-12">
+      <div class="tab-content">
+        <div id="home" class="tab-pane active">
+          <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <% if !@is_organizer %>
+                  <%= render 'conferences/panels/recommendations' %>
+              <% else %>
+                  <%= render 'posts/new' %>
+              <% end %>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+              <%= render 'conferences/panels/organizer_notif' %>
+            </div>
+          </div>
 
-        <%= render 'conferences/panels/schedule' %>
-        <%= render 'conferences/panels/papers' %>
-        <%#= render 'conferences/panels/location' %>
-        <%= render 'conferences/panels/posts' %>
-      </div>
-      <div class="col-md-3 col-sm-3 col-xs-12 hidden-xs">
-        <%= render 'conferences/panels/about' %>
-      </div>
-    </div>
+            <%= render 'conferences/panels/schedule' %>
+            <%= render 'conferences/panels/papers' %>
+            <%#= render 'conferences/panels/location' %>
+            <%= render 'conferences/panels/posts' %>
+        </div>
 
-    <div id="posts" class="tab-pane">
-      <div class="col-md-8 col-sm-8 col-xs-10">
-        <% if @is_organizer %>
-            <%= render 'posts/new' %>
-        <% end %>
+        <div id="posts" class="tab-pane">
+          <div class="col-md-8 col-sm-8 col-xs-10">
+            <% if @is_organizer %>
+                <%= render 'posts/new' %>
+            <% end %>
 
-        <%= render 'conferences/panels/posts' %>
+            <%= render 'conferences/panels/posts' %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

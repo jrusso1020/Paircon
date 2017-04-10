@@ -1,6 +1,11 @@
 <%= header_title @title %>
 <% page_title @title %>
 
+<%= render 'conferences/panels/conf_info' %>
+<div class ="row">
+  <%= render 'conferences/panels/organizer_notif' %>
+</div>
+
 <div id="page-heading">
   <h1 class="font-light"><%= @title %></h1>
   <hr />

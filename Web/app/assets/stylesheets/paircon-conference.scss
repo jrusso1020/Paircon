@@ -23,6 +23,27 @@ Header
 
 /***********************************
 ************************************
+Conference Description
+************************************
+***********************************/
+
+#conf-title{
+  background-color: transparent;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+#conf-map{
+  height: 100%;
+  display: block;
+}
+#map-img {
+  height: 200px;
+  overflow: hidden;
+}
+
+/***********************************
+************************************
 Footer
 ************************************
 ***********************************/
@@ -60,3 +81,4 @@ Footer
   margin-top: 5px;
   margin-bottom: 0;
 }
+

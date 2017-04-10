@@ -1,0 +1,123 @@
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+          <div class="jumbotron text-center" id = "conf-title">
+            <h1>Conference Name</h1>
+            <p>Convention Center, City, State</p>
+            <p>January 1-3, 2018</p>
+          </div>
+            <!--<div class="clearfix"></div>-->
+        </div>
+        <div class="x_content">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue
+                laoreet rutrum faucibus dolor auctor.Aenean lacinia bibendum nulla sed consectetur.
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui.
+                Donec ullamcorper nulla non metus auctor fringilla. Raw denim you probably haven't heard of them jean
+                shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor,
+                williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby
+                sweater eu banh mi, qui irure terr.
+              </p>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-12 col-sm-12 col-xs-12 text-center top-buffer">
+              <button type="button" class="btn btn-paircon">Conference Website</button>
+            </div>
+          </div>
+          <div class="row top-buffer">
+            <div class = "col-md-3 col-sm-4 col-xs-6">
+              <div class="thumbnail" id="map-img">
+                <div class="image view view-first">
+                  <img src="<%= asset_path 'floorplan_map.jpg' %>" alt="image" id ="conf-map">
+                  <div class="mask">
+                    <p> Conference Map </p>
+                    <div class="tools tools-bottom">
+                      <a href="#"><i class="fa fa-download"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="caption">
+                  <p>Conference Map</p>
+                </div>
+              </div>
+            </div>
+            <div class = "text-center col-md-3 col-sm-4 col-xs-6 col-md-push-6 col-sm-push-4">
+              <h3>Attendance</h3>
+              <% if @is_organizer %>
+                  <div>
+                    <%= best_in_place @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
+                    <hr/>
+                  </div>
+              <% else %>
+                  <% if @conference.description.length > 250 %>
+                      <%= truncate(@conference.description, length: 250) %>
+                      <%= link_to ' ... Read more', '', class: "read-more-description-#{@conference.id}" %>
+                  <% else %>
+                      <% unless @conference.description.blank? %>
+                          <%= @conference.description %>
+                          <hr />
+                      <% end %>
+                  <% end %>
+              <% end %>
+              <h3 class="navy-background light-grey-text"><%= @interested_count %> Interested</h3>
+              <br/>
+
+              <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) or @is_organizer %>
+                  <strong>Event Date:</strong>
+
+                  <div class="input-prepend input-group">
+                    <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                    <input name="reservation-time" id="reservation-time" class="form-control" type="text">
+                  </div>
+                  <br/>
+              <% end %>
+
+              <% if !@conference.location.blank? or @is_organizer %>
+                  <div><strong>Location:</strong> &lt;&lt;Conference Location&gt;&gt; </div>
+                  <br/>
+              <% end %>
+
+              <% if !@conference.url.blank? or @is_organizer %>
+                  <div>
+                    <strong>Website:</strong> <%= best_in_place @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
+                  </div>
+              <% end %>
+
+              <% if !@conference.phone.blank? or @is_organizer %>
+                  <div>
+                    <strong>Phone:</strong> <%= best_in_place @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
+                  </div>
+              <% end %>
+
+              <% if !@conference.email.blank? or @is_organizer %>
+                  <div><strong>Email
+                    Address:</strong> <%= best_in_place @conference, :description, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
+                  </div>
+              <% end %>
+              <br/>
+              <p><a href=#>Invite Attendees <i class="fa fa-user-plus" aria-hidden="true"></i></a></p>
+          </div>
+        </div>
+          <!--<div class="col-md-55">-->
+            <!--<div class="thumbnail">-->
+              <!--<div class="image view view-first">-->
+                <!--<img style="width: 100%; display: block;" src="images/media.jpg" alt="image">-->
+                <!--<div class="mask">-->
+                  <!--<p>Your Text</p>-->
+                  <!--<div class="tools tools-bottom">-->
+                    <!--<a href="#"><i class="fa fa-link"></i></a>-->
+                    <!--<a href="#"><i class="fa fa-pencil"></i></a>-->
+                    <!--<a href="#"><i class="fa fa-times"></i></a>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="caption">-->
+                <!--<p>Conference Map</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+
+        </div>
+    </div>
+</div>
