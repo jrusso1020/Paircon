@@ -1,3 +1,4 @@
+require 'scrapper/pdf_scrapper'
 class PapersController < ApplicationController
   include ConferencesHelper
   before_action :authenticate_user!, except: [:validation]
