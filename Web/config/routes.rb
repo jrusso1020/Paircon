@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'errors/not_found'
+
+  get 'errors/internal_server_error'
+
   get '*path' => redirect { |_, request|
     "https://#{request.host_with_port.sub(/^www\./, '')}#{request.fullpath}" },
       constraints: lambda { |request| request.subdomain =~ /^www\./i }
@@ -29,6 +33,10 @@ Rails.application.routes.draw do
 
   end
 
+  match '/404', :to => 'errors#not_found', :via => :all
+  match '/403', :to => 'errors#unauthorized_access', :via => :all
+  match '/500', :to => 'errors#internal_server_error', :via => :all
+
   mount PdfjsViewer::Rails::Engine => "/pdf", as: 'pdf'
 
   resources :posts do
@@ -42,25 +50,29 @@ Rails.application.routes.draw do
       get :get_rooms
       get :get_resources
       get :get_events
-
-      get :new_resource
-      post :create_resource
       get :delete_resource
-      delete :destroy_resource
-
+      get :new_resource
       get :new_event
-      post :create_event
       get :delete_event
-      delete :destroy_event
-
       get :edit_event
+
+      post :create_resource
+      post :create_event
+      post :create_resource
+      post :create_event
       post :update_event
+
+      delete :destroy_event
+      delete :destroy_resource
     end
   end
 
   resources :conferences do
     member do
+      get :invite
       get :delete
+
+      post :create_invites
       post :destroy_cover
       post :destroy_logo
       post :save_cover
@@ -94,13 +106,15 @@ Rails.application.routes.draw do
       get :delete
       get :change_active_status
       get :password_reset
-      post :update_email_password
       get :timezone
+      get :become_organizer
+
+      delete :delete_account
+
+      post :update_email_password
       post :save_logo
       post :destroy_logo
-      delete :delete_account
       post :submit_url
-      get :become_organizer
       post :request_organizer
     end
 

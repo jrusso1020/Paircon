@@ -5,11 +5,11 @@ class HomeController < ApplicationController
   end
 
   def privacy_policy
-    render layout: 'home/privacy_policy', layout: false
+    render layout: 'home/privacy_policy'
   end
 
   def terms
-    render layout: 'home/terms', layout: false
+    render layout: 'home/terms'
   end
 
 end

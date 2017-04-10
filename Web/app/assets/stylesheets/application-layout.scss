@@ -14,10 +14,8 @@
  *= require common/index
  *= require user/index
  *= require conference/index
- *= require introjs
- *= require selectize
- *= require selectize.default
  */
+
 @import 'gentelella';
 @import 'compass';
 @import 'googleFonts';
@@ -35,3 +33,7 @@
 @import 'jquery.fileupload';
 @import 'jquery.fileupload-ui';
 @import 'bootstrap-datetimepicker';
+@import 'switchery';
+@import 'introjs';
+@import 'selectize';
+@import 'selectize.default';

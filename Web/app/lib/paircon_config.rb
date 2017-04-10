@@ -90,8 +90,8 @@ class PairConConfig
       {
           privacy: local_settings['privacy_url'],
           terms: local_settings['terms_url'],
-          feedback: local_settings['feedback_url'],
           help: local_settings['help_url'],
+          support: local_settings['support_url']
       }
     end
     

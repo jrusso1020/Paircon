@@ -20,6 +20,8 @@ gem 'introjs-rails'                                               # Used for Int
 gem 'pdfjs_viewer-rails'                                          # Used to view PDFs
 gem 'jquery-datatables-rails'                                     # Bootstrap Datatables
 gem 'bootstrap3-datetimepicker-rails'                             # Bootstrap datetimepicker
+gem 'switchery-rails'                                             # iOS like switches
+gem 'rails-jquery-tokeninput'                                     # Token based inputs
 
 # Utility
 gem 'rack-pjax'                                                   # PJax to make page loading faster

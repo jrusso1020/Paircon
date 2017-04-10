@@ -27,7 +27,7 @@ class Notification < PublicActivity::Activity
   belongs_to :creator, :class_name => 'User', :foreign_key => 'owner_id'
 
   scope :of_user, lambda { |user_id| where(recipient_id: user_id) }
-  scope :filter_only, -> { where(key: ['user.create', 'conference.create', 'conference.archive', 'conference.publish']) }
+  scope :filter_only, -> { where(key: ['user.create', 'conference.create', 'conference.archive', 'conference.publish', 'conference.invite']) }
   scope :from_user, lambda { |user_id| where(owner_id: user_id) }
   scope :post_subscribers, lambda { |post_ids| where(key: ['post.create']).where(trackable_id: post_ids) }
   scope :recent, lambda { |from_time| where("created_at >= ?", from_time) }

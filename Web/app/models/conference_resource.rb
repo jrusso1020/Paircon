@@ -1,6 +1,6 @@
 class ConferenceResource < ApplicationRecord
   belongs_to :conference
-  has_many :conference_events, dependent: :destroy
+  has_many :conference_events
   before_create :init_id
 
   TYPE = {

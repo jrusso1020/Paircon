@@ -4,7 +4,7 @@ function initializeHeader() {
     });
 }
 
-var current_tab = 'home'
+var current_tab = 'home';
 function requestTabPane(id, tab_name) {
     $.ajax({
         type: 'GET',
@@ -25,7 +25,7 @@ function requestTabPane(id, tab_name) {
 }
 
 function initializeTabPanes(id) {
-    $('.tab_ajax').click(function() {
+    $('.tab_ajax').click(function () {
         current_tab = $(this).attr('id');
         requestTabPane(id, current_tab);
     });
@@ -213,6 +213,110 @@ function initCharts(count) {
     catch (e) {
     }
 }
+/****************************************************/
+/********************** INVITES *********************/
+/****************************************************/
+function changeEmailButtonVisibilityAdvanced() {
+    if ($('#emails2').tokenInput("get").length > 0) {
+        $('#submitButton').removeClass('btn-disabled');
+    } else {
+        $('#submitButton').addClass('btn-disabled');
+    }
+}
+
+function checkIfEmail(email) {
+    var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
+        '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
+    var re = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+    return email.match(re);
+}
+
+function instantiateInvites(id, json) {
+    $("#emails2").tokenInput(json, {
+        placeholder: "Email address",
+        hintText: "Please type email addresses and press enter",
+        noResultsText: "No results found. Please add email manually ...",
+        searchingText: "Looking for Email Address ...",
+        preventDuplicates: true,
+        zindex: '99999',
+        invalidTokenText: 'Enter a valid Email Address',
+        theme: 'bootstrap',
+        allowFreeTagging: true,
+        propertyToSearch: "name",
+        onAdd: function () {
+            changeEmailButtonVisibilityAdvanced();
+        },
+        onDelete: function () {
+            changeEmailButtonVisibilityAdvanced();
+        },
+        resultsFormatter: function (item) {
+            item.id = item.id.toLowerCase();
+            item.name = item.name.toLowerCase();
+            return "<li><span style='margin-left: 5px;'> " + item.name + "</span></li>";
+        },
+        tokenFormatter: function (item) {
+            item.id = item.id.toLowerCase();
+            item.name = item.name.toLowerCase();
+            var color;
+
+            if (!checkIfEmail(item.name))
+                return "<li style='background: #800000; border-color: #800000; color: #E6E7E8'><p>" + item.name + "</p></li>";
+            else
+                return "<li><p>" + item.name + "</p></li>";
+        }
+    });
+
+    $('.email-note').autosize({placeholder: false});
+
+    enableSwitchery();
+
+    $('#send_mail_field_advanced > .switchery').click(function () {
+        if (!$('#add_custom_message').is(":checked")) {
+            $('#addMessageLink').html('Add a Custom Message');
+            $('#email_field_advanced').hide();
+            $('#email_field_advanced').val("");
+        } else {
+            $('#addMessageLink').html('Discard message');
+            $('#email_field_advanced').show();
+            $('#email_field_advanced').val("");
+        }
+    });
+
+    $('#submitButton').click(function () {
+        var arr = [];
+        var tokens = $("#emails2").tokenInput("get");
+        for (var i = 0; i < tokens.length; i++) {
+            if (checkIfEmail(tokens[i].name)) {
+                if (tokens[i].id != tokens[name]) {
+                    arr.push(tokens[i].id);
+                } else {
+                    arr.push(tokens[i].name);
+                }
+            }
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/conferences/' + id + '/create_invites',
+            data: {
+                emails: arr.join(),
+                sendcopy: $('#send_copy').is(':checked'),
+                notifyemail: $('#add_custom_message').is(':checked'),
+                optionalmessage: $('#mail_message_2').val()
+            },
+            beforeSend: function () {
+                showProcessingMsg();
+            },
+            success: function (text, status, xhr) {
+                $.pjax.reload('#wrap');
+                showNotificationMsg(text);
+            },
+            error: function (xhr, status, text) {
+                showErrorMsg(xhr.responseText);
+            }
+        });
+    });
+}
 
 /*****************************************************/
 /********************** SCHEDULE *********************/
@@ -234,21 +338,21 @@ function updateEvent(id, resource_id, start_date, end_date, revertFunc) {
     });
 }
 
-function initializeSchedule(start_date_str, end_date_str, date_diff, is_organizer, conference_id) {
+function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, conference_id) {
     $(function () { // document ready
         $('.scheduler').each(function () {
             $(this).fullCalendar({
                 schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
                 now: moment(new Date(start_date_str)),
-                selectable: is_organizer,
-                selectHelper: is_organizer,
-                editable: is_organizer,
-                eventStartEditable: is_organizer,
-                eventDurationEditable: is_organizer,
-                filterResourcesWithEvents: !is_organizer,
+                selectable: enabled,
+                selectHelper: enabled,
+                editable: enabled,
+                eventStartEditable: enabled,
+                eventDurationEditable: enabled,
+                filterResourcesWithEvents: !enabled,
                 validRange: {
                     start: moment(new Date(start_date_str)),
-                    end: moment(new Date(end_date_str))
+                    end: moment(new Date(end_date_str)),
                 },
                 aspectRatio: 1.8,
                 scrollTime: '00:00',
@@ -277,28 +381,28 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, is_organize
                 resources: '/schedules/get_resources?id=' + conference_id,
                 events: '/schedules/get_events?id=' + conference_id,
                 eventResize: function (event, delta, revertFunc) {
-                    if (is_organizer)
+                    if (enabled)
                         updateEvent(event.id, event.resourceId, event.start.format(), event.end.format(), revertFunc);
                 },
                 eventDrop: function (event, delta, revertFunc) {
-                    if (is_organizer)
+                    if (enabled)
                         updateEvent(event.id, event.resourceId, event.start.format(), event.end.format(), revertFunc);
                 },
                 resourceRender: function (resource, cellEls) {
-                    if (is_organizer)
+                    if (enabled)
                         cellEls.find('div:last').append('<a class="flex-grow" style="margin-right: 10px;" data-toggle="modal" data-target="#modal" data-backdrop="static" href="' + '/schedules/delete_resource?id=' + resource.id + '"><i class="pull-right fa fa-trash"></i></a>')
                 },
                 eventClick: function (calEvent, jsEvent, view) {
-                    if (is_organizer)
+                    if (enabled)
                         $('#modal').modal({
                             remote: '/schedules/edit_event?id=' + calEvent.id,
                             backdrop: 'static'
                         })
                 },
                 select: function (start, end, jsEvent, view, resource) {
-                    if (is_organizer)
+                    if (enabled)
                         $('#modal').modal({
-                            remote: '/schedules/new_event?conference_id=' + conference.id + '&resource_id=' + resource.id + '&start_date=' + start.format() + '&end_date=' + end.format(),
+                            remote: '/schedules/new_event?conference_id=' + conference_id + '&resource_id=' + resource.id + '&start_date=' + start.format() + '&end_date=' + end.format(),
                             backdrop: 'static'
                         })
                 }
