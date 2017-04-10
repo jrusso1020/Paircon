@@ -1,0 +1,150 @@
+<div class="modal fade view-all-recs" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title">View all PairCon Recommendations</h4>
+      </div>
+      <div class="modal-body container">
+          <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+        <% percentage = 0.3 %>
+        <div class="usage-graph" style="transform: scale(1.2,1.2);">
+          <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+            <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+          </div>
+          <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+            <p>
+              <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+              <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+            </p>
+          </label>
+        </div>
+        <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+        <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+      </div>
+        <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+              <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+            </div>
+            <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+              <p>
+                <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+              </p>
+            </label>
+          </div>
+          <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+          <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+        </div>
+        <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+              <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+            </div>
+            <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+              <p>
+                <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+              </p>
+            </label>
+          </div>
+          <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+          <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+        </div>
+        <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+              <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+            </div>
+            <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+              <p>
+                <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+              </p>
+            </label>
+          </div>
+          <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+          <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+        </div>
+        <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+          <% percentage = 0.3 %>
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+              <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+            </div>
+            <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+              <p>
+                <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+              </p>
+            </label>
+          </div>
+          <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+          <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+        </div>
+        <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+              <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+            </div>
+            <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+              <p>
+                <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+              </p>
+            </label>
+          </div>
+          <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+          <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+        </div>
+        <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+              <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+            </div>
+            <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+              <p>
+                <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+              </p>
+            </label>
+          </div>
+          <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+          <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+        </div>
+        <div class = "col-md-3 col-sm-4 col-xs-6 text-center">
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
+              <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
+            </div>
+            <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+              <p>
+                <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+                <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+              </p>
+            </label>
+          </div>
+          <p><b>Keywords: </b><br>Word 1, Word 2, Word 3</p>
+          <p><b>Recommended Based On: </b><br>Paper 1, Paper 2</p>
+        </div>
+
+        <script>
+            var count = 3 <%#= @drives.count >= 3 ? 3 : @drives.count %>;
+            if (window.innerWidth < 768) {
+                count = 2 <%#= @drives.count >= 2 ? 2 : @drives.count %>;
+            }
+
+            initCharts(count);
+        </script>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-paircon" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
