@@ -10,31 +10,11 @@ class PapersController < ApplicationController
     render layout: false
   end
 
-  def paper_params1
-    uploaded_io = params[:paper][:file]
-    pdf_path = Rails.root.join('public', 'conference', params[:conference_id], 'pdf', uploaded_io.original_filename)
-    pdf_folder = Rails.root.join('public', 'conference', params[:conference_id], 'pdf')
-    FileUtils::mkdir_p pdf_folder
-    File.open(pdf_path, 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
-    scrapper = PDFScrapper.new("dummy", PDFScrapper::PageType[:personal])
-    txt_file = Rails.root.join('public', 'conference', params[:conference_id], 'txt', File.basename(uploaded_io.original_filename, File.extname(uploaded_io.original_filename)) + ".txt")
-    txt_folder = Rails.root.join('public', 'conference', params[:conference_id], 'txt')
-    FileUtils::mkdir_p txt_folder
-    scrapper.convertSinglePdfToText(pdf_path, txt_folder)
-    paper_params = {
-        "title" => params[:paper][:title],
-        "path" => txt_file,
-        "pdf_link" => pdf_path
-    }
-    paper_params
-  end
-
   def create
     @paper = Paper.new(paper_params)
     if @paper.save
-      if Conference.find(params[:conference_id]).papers.create!(paper_id: @paper.id)
+      if Conference.find(params[:conference_id]).conference_papers.create!(paper_id: @paper.id)
+        PaperScrapperJob.perform_later(@paper, params[:conference_id])
         flash[:notice] = "Successfully created paper!"
       else
         flash[:alert] = "Error creating new paper!"
