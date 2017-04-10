@@ -1,6 +1,6 @@
-<div class="x_panel">
+<div class="x_panel top-buffer">
   <div class="x_title">
-    <h3>Paircon Recommendations For You
+    <h3>Paircon Top Recommendations For You
       <ul class="nav navbar-right panel_toolbox">
         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
       </ul>
@@ -10,32 +10,52 @@
   </div>
   <div class="x_content">
 
-    <div id="owl-demo" class="owl-carousel" style="margin-top: 10px">
+    <div id="owl-demo" class="owl-carousel top-buffer">
       <%# @drives.each do |drive| %>
       <% percentage = 0.3 %>
       <div class="usage-graph" style="transform: scale(1.2,1.2);">
         <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
           <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
         </div>
-        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+          <p>
+            <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+          </p>
+        </label>
       </div>
       <div class="usage-graph" style="transform: scale(1.2,1.2);">
         <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
           <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
         </div>
-        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+          <p>
+            <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+          </p>
+        </label>
       </div>
       <div class="usage-graph" style="transform: scale(1.2,1.2);">
         <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
           <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
         </div>
-        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+          <p>
+            <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+          </p>
+        </label>
       </div>
       <div class="usage-graph" style="transform: scale(1.2,1.2);">
         <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
           <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
         </div>
-        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %></label>
+        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
+          <p>
+            <a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>
+            <a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>
+          </p>
+        </label>
       </div>
     </div>
 
@@ -49,7 +69,6 @@
     </script>
 
     <%# end %>
-
 
   </div>
 </div>

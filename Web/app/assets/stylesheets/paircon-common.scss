@@ -283,7 +283,17 @@ DASHBOARD
 ************************************
 ***********************************/
 .top-buffer {
-  margin-top:20px;
+  margin-top:15px;
+}
+.right-buffer {
+  margin-right:10px;
+}
+.left-buffer {
+  margin-left:10px;
+}
+.btn-center{
+  display: inline-block;
+  margin: 0 auto;
 }
 
 /***********************************
