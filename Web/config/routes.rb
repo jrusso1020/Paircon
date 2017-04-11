@@ -80,7 +80,7 @@ Rails.application.routes.draw do
       post :attend_conference
 
       get :home
-      get :about_conf
+      get :about_panel
       get :recommendations
       get :posts
       get :schedule

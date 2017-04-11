@@ -159,9 +159,9 @@ class ConferencesController < ApplicationController
     render template: 'conferences/tab_panes/recommendations'
   end
 
-  def about_conf
+  def about_panel
     @interested_count = @conference.get_counts(false, true, false, false)
-    render template: 'conferences/tab_panes/about_conf'
+    render template: 'conferences/tab_panes/about_panel'
   end
 
   def papers
