@@ -17,7 +17,7 @@
                   <% elsif @conferences_attendee_list.length>0 %>
                   <h3>ATTENDING </h3>
                   <ul  class="to_do">
-                    <% @conferences_attendee_list[0..5].each do |conference| %>
+                    <% @conferences_attendee_list[0..@conferences_attendee_list.length].each do |conference| %>
                         <li>
                           <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
                         </li>
@@ -31,7 +31,7 @@
                       <div >
                         <h3>ORGANIZING </h3>
                         <ul  class="to_do">
-                          <% @conferences_organizer_list[0..5].each do |conference| %>
+                          <% @conferences_organizer_list[0..@conferences_organizer_list.length].each do |conference| %>
                               <li>
                                <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
                               </li>

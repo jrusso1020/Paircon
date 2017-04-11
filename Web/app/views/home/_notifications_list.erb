@@ -7,7 +7,7 @@
   <div class="x_content">
     <ul class="to_do">
       <% is_notifications = false %>
-      <% @notifications.each do |activity| %>
+      <% @notifications[0..5].each do |activity| %>
           <% @activity = activity %>
           <%= render_activity activity %>
           <hr class="notifications-divider"/>
