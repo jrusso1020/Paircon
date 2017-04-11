@@ -41,11 +41,13 @@
               <%= @conference.get_name %>
           <% end %>
         </h1>
-        <h3>
-          <span><%= icon_text('tag fa-lg', '') if (@is_organizer or !@conference.domain.blank?) %>
+        <% if (@is_organizer or !@conference.domain.blank?) %>
+            <h3>
+          <span><%= icon_text('tag fa-lg', '') %>
             <%= best_in_place_if @is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %>
           </span>
-        </h3>
+            </h3>
+        <% end %>
       </div>
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
         <% if user_signed_in? %>
@@ -54,7 +56,8 @@
               <span class="caret"></span>
             </button>
         <% else %>
-            <a data-no-pjax href="<%= new_user_session_url(anchor: 'main-header') %>" target="_blank" class="btn btn-paircon">Join Paircons!</a>
+            <a data-no-pjax href="<%= new_user_session_url(anchor: 'main-header') %>" target="_blank" class="btn btn-paircon">Join
+              Paircon!</a>
         <% end %>
 
         <%= form_for @conference, url: attend_conference_conference_path(), method: :post do |f| %>
@@ -77,7 +80,7 @@
                     <%= f.hidden_field :publish, value: !@conference.publish %>
                     <div class="form_toggle_button">
                       <%= f.submit @conference.publish? ? 'Hide' : 'Publish' %>
-                      <i class="pull-right fa fa-comments dropdown-user-icons"></i>
+                      <i class="pull-right fa fa-users dropdown-user-icons"></i>
                     </div>
                 <% end %> </li>
               <li><%= form_for @conference do |f| %>
