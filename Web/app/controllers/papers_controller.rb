@@ -1,6 +1,7 @@
 require 'scrapper/pdf_scrapper'
 class PapersController < ApplicationController
   include ConferencesHelper
+  include PapersHelper
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
@@ -14,7 +15,11 @@ class PapersController < ApplicationController
     @paper = Paper.new(paper_params)
     if @paper.save
       if Conference.find(params[:conference_id]).conference_papers.create!(paper_id: @paper.id)
-        PaperScrapperJob.perform_later(@paper, params[:conference_id])
+        begin
+          PaperScrapperJob.perform_later(@paper, params[:conference_id])
+        rescue => e
+          extractTextFromPdf(@paper, params[:conference_id])
+        end
         flash[:notice] = "Successfully created paper!"
       else
         flash[:alert] = "Error creating new paper!"
