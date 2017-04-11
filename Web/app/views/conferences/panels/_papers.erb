@@ -3,7 +3,7 @@
     <h3>Papers
       <ul class="nav navbar-right panel_toolbox">
         <% if @is_organizer %>
-            <li class="dropdown">
+            <li>
               <%= link_to_modal icon_text("plus"), new_paper_path(conference_id: @conference.id) %>
             </li>
         <% end %>
