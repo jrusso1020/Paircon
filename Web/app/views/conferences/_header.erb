@@ -22,7 +22,7 @@
       <% if @is_organizer %>
           <div class="profile-image dropzone" data-resize="false" data-width="200" data-height="200"
                data-url="<%= save_logo_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.logo_picture)}" unless @conference.logo.blank? %>
-               data-removeurl="<%= destroy_logo_conference_url(@conference) %>">
+               data-removeurl="<%= destroy_logo_conference_url(@conference) %>" data-step="3" data-intro="Upload your profile photo" data-position='right'>
             <input class="invisible" class="image-upload" id="logo-image-upload" type="file" name="thumb" accept="image/*"/>
           </div>
       <% else %>
@@ -34,14 +34,19 @@
       <% end %>
 
       <div style="margin-left:30px; margin-right: 30px;" class="flex-grow">
-        <h1> <%= best_in_place_if @is_organizer, @conference, :name, as: :input, place_holder: "&lt;&lt;Conference Name&gt;&gt;" %> </h1>
-        <h3>
-          <span><%= icon_text('tag fa-lg', '') if (@is_organizer or !@conference.domain.blank?) %>
-            <%= best_in_place_if @is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %>
-          </span>
-        </h3>
+        <div data-step="1" data-intro="Name your conference" data-position='right'>
+          <h1> <%= best_in_place_if @is_organizer, @conference, :name, as: :input, place_holder: "&lt;&lt;Conference Name&gt;&gt;" %> </h1>
+        </div>
+        <div data-step="2" data-intro="Domain" data-position='right'>
+          <h3>
+            <span><%= icon_text('tag fa-lg', '') if (@is_organizer or !@conference.domain.blank?) %>
+              <%= best_in_place_if @is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %>
+            </span>
+          </h3>
+        </div>
       </div>
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
+        <a class="btn btn-paircon" href="javascript:void(0);" onclick="javascript:introJs().start();" style="margin-right:5px">How to create</a> 
         <a class="btn btn-paircon" onclick="document.getElementById('interested').click()"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
         <button type="button" class="btn btn-paircon dropdown-toggle" data-toggle="dropdown">
           <span class="caret"></span>
@@ -84,7 +89,7 @@
                 </a>
               </li>
           <% end %>
-        </ul>
+        </ul> 
       </div>
     </div>
   </div>
