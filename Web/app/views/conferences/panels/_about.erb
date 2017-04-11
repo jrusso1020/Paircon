@@ -31,18 +31,26 @@
     </div>
     <br/>
 
-    <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) or @is_organizer %>
+    <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) %>
         <strong>Event Date:</strong>
 
-        <div class="input-prepend input-group">
-          <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-          <input name="reservation-time" id="reservation-time" class="form-control" type="text">
-        </div>
+        <% if @is_organizer %>
+            <div class="input-prepend input-group">
+              <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+              <input name="reservation-time" id="reservation-time" class="form-control" type="text">
+            </div>
+        <% else %>
+            <div class="text-center">
+              <%= @conference.start_date_str + ' - ' + @conference.end_date_str %>
+            </div>
+        <% end %>
         <br/>
     <% end %>
 
     <% if !@conference.location.blank? or @is_organizer %>
-        <div><strong>Location:</strong> <%= best_in_place @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %> </div>
+        <div>
+          <strong>Location:</strong> <%= best_in_place @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
+        </div>
         <br/>
     <% end %>
 
@@ -63,10 +71,12 @@
           Address:</strong> <%= best_in_place @conference, :description, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
         </div>
     <% end %>
-    <br/>
-    <div class="text-center">
-      <%= link_to_modal 'Invite People', invite_conference_path() %>
-    </div>
+    <% if user_signed_in? %>
+        <br/>
+        <div class="text-center">
+          <%= link_to_modal 'Invite People', invite_conference_path() %>
+        </div>
+    <% end %>
   </div>
 </div>
 
