@@ -6,12 +6,18 @@
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
-            <div class="text-center"> <%= button_to "Conferences" , conferences_path(), method: :get %> </div>
+              <% if @conferences_attendee %>
+                  <p> You are an attendee</p>
+              <% end %>
+                  <%if @conferences_organizer  %>
+                    <p> you are an organizer</p>
+              <% end %>
+
+
             </div>
 </div>
 
-
-
+<!-- <div class="text-center"> <%= button_to "Conferences" , conferences_path(), method: :get %> </div> -->
 
 <script>
     $('#getResult').click(function () {
