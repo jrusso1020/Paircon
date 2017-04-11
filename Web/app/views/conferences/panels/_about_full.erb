@@ -103,7 +103,7 @@
 
           <% if !@conference.email.blank? or @is_organizer %>
               <div><strong>Email
-                Address:</strong> <%= best_in_place @conference, :description, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
+                Address:</strong> <%= best_in_place @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
               </div>
           <% end %>
           <br/>
