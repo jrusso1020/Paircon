@@ -9,10 +9,7 @@ class HomeController < ApplicationController
       @conferences_attendee_list = Conference.my_attending_conferences_active(current_user)
       @conferences_organizer_list = Conference.my_organizing_conferences_active(current_user)
 
-     Rails.logger.debug(@conferences_attendee_list.inspect)
-     Rails.logger.debug(@conferences_organizer_list.inspect)
 
-      # render :partial => 'notifications/notifications_listing'
   end
 
   def privacy_policy
