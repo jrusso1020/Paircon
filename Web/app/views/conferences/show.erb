@@ -11,7 +11,7 @@
           <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
       <% end %>
 
-      <li><a href="#recommendations" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
+      <li><a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
       </li>
       <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
 
@@ -19,7 +19,7 @@
           <li><a href="#schedule" class="tab_ajax" id="schedule" data-toggle="tab">Schedule</a></li>
       <% end %>
 
-      <li><a href="#about" class="tab_ajax" id="about" data-toggle="tab">About</a></li>
+      <li><a href="#about_panel" class="tab_ajax" id="about_panel" data-toggle="tab">About</a></li>
       <hr/>
       <% if @is_organizer %>
           <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>

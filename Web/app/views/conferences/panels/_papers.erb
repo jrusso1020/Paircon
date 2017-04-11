@@ -12,5 +12,35 @@
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
+      <table id = "datatable-papers" class="table table-striped">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Publication</th>
+          <th>Keywords</th>
+          <th>Link</th>
+        </tr>
+        </thead>
+        <% $i = 1 %>
+        <% $num = 15 %>
+        <tbody>
+          <% until $i > $num  do %>
+            <tr>
+              <th scope="row"><%= "#{$i}"%></th>
+              <td>Title</td>
+              <td>Author</td>
+              <td>Year</td>
+              <td>Keywords</td>
+              <td><a href="#">Link<i class="left-buffer fa fa-link" aria-hidden="true"></i></a></td>
+            </tr>
+            <% $i +=1; %>
+          <% end %>
+        </tbody>
+      </table>
   </div>
 </div>
+<script>
+    $('#datatable-papers').DataTable();
+</script>
