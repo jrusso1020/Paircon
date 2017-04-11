@@ -1,7 +1,7 @@
 class ConferencesController < ApplicationController
   include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
-  before_action :authenticate_user!, except: [:show, :home, :schedule, :posts, :about_panel, :show]
+  before_action :authenticate_user!, except: [:show, :home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_is_organizer, only: [:home, :schedule, :posts, :about_panel, :show]
 
@@ -108,35 +108,47 @@ class ConferencesController < ApplicationController
   end
 
   def invite
-    conferences_ids = Conference.joins(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:id)
-    user_ids = ConferenceAttendee.where(conference_id: conferences_ids).select(:user_id).distinct
-    @emails_json = User.where(id: user_ids).map { |obj| {id: obj.id, name: obj.email} }.to_json
+    if user_signed_in?
+      conferences_ids = Conference.joins(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:id)
+      user_ids = ConferenceAttendee.where(conference_id: conferences_ids).select(:user_id).distinct
+      @emails_json = User.where(id: user_ids).map { |obj| {id: obj.id, name: obj.email} }.to_json
+    else
+      @email_json = {}
+    end
+
     render layout: false
   end
 
   def create_invites
     emails = params[:emails].split(',')
+    if user_signed_in?
+      user_email = current_user.email
+      full_name = current_user.full_name
+    else
+      user_email = ''
+      full_name = 'Guest'
+    end
 
     emails.each do |email|
-      if email != current_user.email
+      if email != user_email
         user = User.find_by_id(email)
         if !user.blank?
           @conference.activity(:invite, user)
         end
 
         begin
-          Notifier.conference_invite(@conference, current_user, email, params[:optionalmessage]).deliver_later
+          Notifier.conference_invite(@conference, full_name, email, params[:optionalmessage]).deliver_later
         rescue
-          Notifier.conference_invite(@conference, current_user, email, params[:optionalmessage]).deliver
+          Notifier.conference_invite(@conference, full_name, email, params[:optionalmessage]).deliver
         end
       end
     end
 
-    if params[:sendcopy] == 'true'
+    if user_signed_in? and params[:sendcopy] == 'true'
       begin
-        Notifier.conference_invite(@conference, current_user, current_user.email, params[:optionalmessage]).deliver_later
+        Notifier.conference_invite(@conference, full_name, user_email, params[:optionalmessage]).deliver_later
       rescue
-        Notifier.conference_invite(@conference, current_user, current_user.email, params[:optionalmessage]).deliver
+        Notifier.conference_invite(@conference, full_name, user_email, params[:optionalmessage]).deliver
       end
     end
 
@@ -154,7 +166,7 @@ class ConferencesController < ApplicationController
   end
 
   def posts
-    @post_count = @conference.get_counts(true, false, false, false)
+    @post_count = @conference.get_counts(true, false, false, false)[0]
     render template: 'conferences/tab_panes/posts'
   end
 
@@ -163,7 +175,7 @@ class ConferencesController < ApplicationController
   end
 
   def about_panel
-    @interested_count = @conference.get_counts(false, true, false, false)
+    @interested_count = @conference.get_counts(false, true, false, false)[0]
     render template: 'conferences/tab_panes/about_panel'
   end
 
