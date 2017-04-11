@@ -3,10 +3,14 @@ class HomeController < ApplicationController
 
   def index
     # notification section
+
       @notifications = Notification.find_all_notifications(current_user, Notification::NOTIFICATION_LIST_LIMIT)
       @total_notifications = Notification.find_new_notifications(@notifications, current_user)
-      @conferences_attendee = Conference.my_attending_conferences_active(current_user)
-      @conferences_organizer = Conference.my_organizing_conferences_active(current_user)
+      @conferences_attendee_list = Conference.my_attending_conferences_active(current_user)
+      @conferences_organizer_list = Conference.my_organizing_conferences_active(current_user)
+
+     Rails.logger.debug(@conferences_attendee_list.inspect)
+     Rails.logger.debug(@conferences_organizer_list.inspect)
 
       # render :partial => 'notifications/notifications_listing'
   end
