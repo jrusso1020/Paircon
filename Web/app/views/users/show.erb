@@ -78,9 +78,9 @@
       </div>
       <div class="col-md-4 col-sm-4 col-xs-4">
         <h4>Plan</h4>
-        <% if !@user.organizer? and !@user.pending_organizer %>
+        <% if @user.attendee? and !@user.pending_organizer %>
             <div><%= link_to_modal 'Become an Organizer', become_organizer_user_path(@user.id) %></div>
-        <% elsif !@user.organizer? and @user.pending_organizer %>
+        <% elsif @user.attendee? and @user.pending_organizer %>
             <div style="opacity: 0.8">Your Organizer Request is Pending</div>
         <% end %>
 

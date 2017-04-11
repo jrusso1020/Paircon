@@ -38,7 +38,5 @@ notification_email: "PairCon <noreply@paircon.com>"
 marketing_email: 'support@paircon.com'
 
 # Others
-privacy_url: ''
-terms_url: ''
 support_url: ''
 help_url: ''
