@@ -5,11 +5,11 @@
 
 <body class="nav-md footer_fixed">
 
-<div class="container body footer_fixed">
+<%= render 'layouts/application/signup_top_nav' %>
+<div class="container body footer_fixed signup_container">
   <div class="main_container">
-    <%= render 'layouts/application/signup_top_nav' %>
 
-    <div id="main-form" class="form-group flex-autoresize-middle">
+    <div id="main-form" class="form-group">
       <div class="col-md-10 col-sm-12 col-xs-12 col-md-offset-1 full-height">
         <div class="x_panel">
           <div class="x_content">
@@ -208,9 +208,9 @@
       </div>
     </div>
 
-    <%= render 'layouts/application/footer' %>
   </div>
 </div>
+<%= render 'layouts/application/footer' %>
 
 <%= javascript_tag 'initSignup()' %>
 

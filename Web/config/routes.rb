@@ -15,8 +15,9 @@ Rails.application.routes.draw do
 
   devise_for :users, path: '', path_names: { sign_in: 'login', sign_up: 'register', sign_out: 'logout'}, controllers: {
       omniauth_callbacks: 'users/omniauth_callbacks',
-      registrations: 'users/registrations'
-  }, skip: [:sessions]
+      registrations: 'users/registrations',
+      sessions: 'users/sessions'
+  }
 
   devise_scope :user do
     authenticated :user do
@@ -24,12 +25,12 @@ Rails.application.routes.draw do
     end
 
     unauthenticated do
-      root 'devise/sessions#new', as: :new_user_session
+      root 'users/sessions#new'
     end
 
     get '/recover', to: 'devise/passwords#new'
-    post 'user_session', to: 'devise/sessions#create'
-    delete 'logout', to: 'devise/sessions#destroy', as: :destroy_user_session
+    post 'user_session', to: 'users/sessions#create'
+    delete 'logout', to: 'users/sessions#destroy'
 
   end
 
@@ -80,10 +81,11 @@ Rails.application.routes.draw do
       post :attend_conference
 
       get :home
-      get :about
+      get :about_panel
       get :recommendations
       get :posts
       get :schedule
+      get :papers
     end
   end
 
@@ -95,12 +97,11 @@ Rails.application.routes.draw do
 
   resources :home, path: '' do
     collection do
-      get :about
-      get :features
       get :terms
       get :privacy_policy
     end
   end
+
   resources :users, except: [:index] do
     member do
       get :delete
@@ -108,6 +109,7 @@ Rails.application.routes.draw do
       get :password_reset
       get :timezone
       get :become_organizer
+      get :pending_organizers
 
       delete :delete_account
 
@@ -116,6 +118,7 @@ Rails.application.routes.draw do
       post :destroy_logo
       post :submit_url
       post :request_organizer
+      post :approve_organizer
     end
 
     collection do

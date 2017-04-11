@@ -1,9 +1,9 @@
 class ConferencesController < ApplicationController
   include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
-  before_action :authenticate_user!, except: [:validation]
+  before_action :authenticate_user!, except: [:show, :home, :schedule, :posts, :about_panel, :show]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_is_organizer, only: [:show, :home, :schedule, :posts, :about]
+  before_action :set_is_organizer, only: [:home, :schedule, :posts, :about_panel, :show]
 
   def index
     if params[:view] == 'organizer'
@@ -76,13 +76,16 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    if !@is_organizer and !@conference.publish
+    logged_in = user_signed_in?
+
+    if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
-        format.html { render template: 'errors/unauthorized_access', layout: 'layouts/application', status: 403 }
+        format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
         format.all  { render nothing: true, status: 403 }
       end
     else
       @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
+      render layout: 'public' unless logged_in
     end
   end
 
@@ -159,9 +162,13 @@ class ConferencesController < ApplicationController
     render template: 'conferences/tab_panes/recommendations'
   end
 
-  def about
+  def about_panel
     @interested_count = @conference.get_counts(false, true, false, false)
-    render template: 'conferences/tab_panes/about'
+    render template: 'conferences/tab_panes/about_panel'
+  end
+
+  def papers
+    render template: 'conferences/tab_panes/papers'
   end
 
   def save_logo
@@ -222,6 +229,10 @@ class ConferencesController < ApplicationController
   end
 
   def set_is_organizer
-    @is_organizer = @conference.is_organizer(current_user)
+    if user_signed_in?
+      @is_organizer = @conference.is_organizer(current_user)
+    else
+      @is_organizer = false
+    end
   end
 end

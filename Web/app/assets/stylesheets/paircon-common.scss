@@ -44,7 +44,6 @@ footer {
 
 .footer_fixed footer {
   height: 40px;
-  position: inherit !important;
   overflow: hidden;
 }
 
@@ -283,7 +282,17 @@ DASHBOARD
 ************************************
 ***********************************/
 .top-buffer {
-  margin-top:20px;
+  margin-top:15px;
+}
+.right-buffer {
+  margin-right:10px;
+}
+.left-buffer {
+  margin-left:10px;
+}
+.btn-center{
+  display: inline-block;
+  margin: 0 auto;
 }
 
 /***********************************
@@ -293,6 +302,10 @@ Top Nav
 ***********************************/
 #conf-searchbar{
   margin: auto;
+}
+
+.nav-no-margin {
+  margin-left: 0 !important;
 }
 
 /***********************************
