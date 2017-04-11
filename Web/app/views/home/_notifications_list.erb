@@ -10,7 +10,6 @@
       <% @notifications[0..3].each do |activity| %>
           <% @activity = activity %>
           <%= render_activity activity %>
-          <hr class="notifications-divider"/>
           <% is_notifications = true %>
       <% end %>
 
