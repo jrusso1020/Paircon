@@ -146,4 +146,8 @@ class PDFScrapper
     end
   end
 
+  def convertSinglePdfToText(pdf, txtFolder)
+    Docsplit.extract_text(pdf, :ocr => false, :output => txtFolder, :clean => true)
+  end
+
 end
