@@ -109,6 +109,7 @@ Rails.application.routes.draw do
       get :password_reset
       get :timezone
       get :become_organizer
+      get :pending_organizers
 
       delete :delete_account
 
@@ -117,6 +118,7 @@ Rails.application.routes.draw do
       post :destroy_logo
       post :submit_url
       post :request_organizer
+      post :approve_organizer
     end
 
     collection do
