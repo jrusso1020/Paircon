@@ -218,6 +218,10 @@ function initSignup() {
     }
 
     function showAStepCallback(obj, context) {
+        if (context.toStep == 1 || context.toStep == 2) {
+            $('.buttonFinish').hide();
+        }
+
         if (context.toStep == 2 || context.toStep == 3) {
             $('.buttonPrevious').removeClass('buttonDisabled');
         }
@@ -227,13 +231,14 @@ function initSignup() {
         }
 
         if (context.fromStep == 3) {
-            $('.buttonNext').show();
+            $('.buttonNext').css('display', 'inline-block');
+            $('.buttonFinish').css('display', 'none');
         }
-
 
         if (context.toStep == 3) {
             $('.buttonFinish').addClass('buttonDisabled');
-            $('.buttonNext').hide();
+            $('.buttonNext').css('display', 'none');
+            $('.buttonFinish').css('display', 'inline-block');
         }
     }
 
