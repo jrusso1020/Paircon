@@ -12,18 +12,25 @@ class UsersController < ApplicationController
 
   def pending_organizers
     @user = current_user
-    @pending_organizers = User.where("EXISTS(SELECT user_id from organizers where approved=FALSE and users.id=organizers.user_id)")
+    @pending_organizers = User.includes(:organizer).where(organizers: {approved: false})
   end
 
   def approve_organizer
-    respond_to do |format|
-      user_id = params[:id]
-      user = User.where(id: user_id).first
-      organizer = Organizer.where(user_id: user_id).first
-      user.update(:user_type => "organizer")
-      organizer.update(:approved => true)
-      format.html { redirect_back(fallback_location: :back, notice: "You Have Approved #{user.full_name} As An Organizer.") }
-      format.json { render :show, status: :ok, location: :back }
+    tran_success = false
+    user = User.find(params[:id])
+    Organizer.transaction do
+      tran_success = user.update!(user_type: User.user_types[:organizer])
+      tran_success = tran_success and (Organizer.find_by_user_id(params[:id]).update!(approved: true)) 
+
+      unless tran_success
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    if tran_success
+      render status: :ok, text: "You Have Approved #{user.full_name} As An Organizer."
+    else
+      render status: :internal_server_error, text: "There was some problem while trying to approving #{user.full_name}. Please try again later ..."
     end
   end
 

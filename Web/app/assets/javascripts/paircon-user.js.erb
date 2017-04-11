@@ -1,4 +1,32 @@
 /***************************************/
+//------------APPROVE ORGANIZER--------------//
+/***************************************/
+function clickOrganizer() {
+    $('.organizer-approval').click(function () {
+        user_id = $(this).attr('id');
+        approveOrganizer(user_id);
+    });
+}
+
+function approveOrganizer(user_id) {
+    $.ajax({
+        type: 'POST',
+        url: '/users/' + user_id + '/approve_organizer',
+        data: {id: user_id},
+        beforeSend: function () {
+            showProcessingMsg();
+        },
+        success: function (test, status, xhr) {
+            showNotificationMsg('User Approved As Organizer');
+            $.pjax.reload('[data-pjax-container]');
+        },
+        error: function (xhr, status, text) {
+            showErrorMsg(xhr.responseText);
+        }
+    });
+}
+
+/***************************************/
 //------------DELETE VIEW--------------//
 /***************************************/
 function initializeUserDelete() {
