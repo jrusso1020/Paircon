@@ -2,17 +2,20 @@
 <html>
 <%= render 'layouts/application/header' %>
 
-<body class="nav-md">
+<body>
 <div class="container body">
   <div class="main_container">
-    <%#= render 'layouts/public/top_nav' %>
-    <%#= render 'layouts/public/left_bar' %>
-    <%= render 'layouts/application/modal', id: 'modal' %>
+    <%= render 'layouts/public/top_nav' %>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 col-xs-12 col-sm-12">
+        <%= render 'layouts/application/modal', id: 'modal' %>
 
-    <div class="right_col" role="main">
-      <%= render 'layouts/application/flash_message' %>
-      <div data-pjax-container>
-        <%= yield %>
+        <div class="right_col" role="main">
+          <%= render 'layouts/application/flash_message' %>
+          <div data-pjax-container>
+            <%= yield %>
+          </div>
+        </div>
       </div>
     </div>
   </div>

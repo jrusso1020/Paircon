@@ -73,7 +73,7 @@ class User < ApplicationRecord
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_organizers, dependent: :destroy
 
-  belongs_to :organizer, dependent: :destroy, foreign_key: :id
+  belongs_to :organizer, dependent: :destroy, foreign_key: :id, primary_key: :user_id
   has_many :identities, dependent: :destroy
 
   has_many :conferences, through: :conference_attendees
