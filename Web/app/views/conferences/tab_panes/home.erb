@@ -1,5 +1,5 @@
 <div id="home" class="tab-pane active">
-  <div class="col-md-9 col-sm-9 col-xs-12" data-step="9" data-intro="Everything will display here" data-position='right'>
+  <div class="col-md-9 col-sm-9 col-xs-12">
     <% if !@is_organizer %>
         <% if user_signed_in? %>
             <%= render 'conferences/panels/recommendations' %>

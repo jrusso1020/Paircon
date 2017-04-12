@@ -6,35 +6,23 @@
   <div class="col-md-2 col-sm-2 col-xs-2">
     <ul class="nav nav-tabs tabs-left">
       <li class="active"><a href="#home" class="tab_ajax" data-toggle="tab" id="home">Home</a></li>
-      <div data-step="8" data-intro="Post any news here" data-position='right'>
         <% if @is_organizer or (!@is_organizer and @post_count != 0) %>
             <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
         <% end %>
-      </div>
-      <div data-step="7" data-intro="See the recommendation" data-position='right'>
         <% if !@is_organizer and user_signed_in? %>
             <li>
               <a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
             </li>
         <% end %>
-      </div>
-      <div data-step="6" data-intro="Upload author's publication and paper" data-position='right'>
-        <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
-      </div>
-      <div data-step="5" data-intro="Schedule the meetings" data-position='right'>
+          <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
         <% if @is_organizer or (!@is_organizer and @total_resources != 0 and @total_events != 0) %>
             <li><a href="#schedule" class="tab_ajax" id="schedule" data-toggle="tab">Schedule</a></li>
         <% end %>
-      </div>
-      <div data-step="4" data-intro="Provide general infomration about the conference" data-position='right'>
-        <li><a href="#about_panel" class="tab_ajax" id="about_panel" data-toggle="tab">About</a></li>
-      </div>
-      <hr/>
-      <div>
+          <li><a href="#about_panel" class="tab_ajax" id="about_panel" data-toggle="tab">About</a></li>
+        <hr/>
         <% if @is_organizer %>
             <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>
         <% end %>
-      </div>
     </ul>
   </div>
   <div class="col-md-10 col-sm-10 col-xs-10">

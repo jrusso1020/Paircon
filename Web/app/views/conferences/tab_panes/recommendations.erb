@@ -2,8 +2,16 @@
   <div class="col-md-12 col-sm-12 col-xs-12">
     <%#= render 'conferences/panels/recommendations' %>
     <%= render 'conferences/panels/recommendations_full' %>
-
   </div>
 </div>
 
 <%= render 'conferences/footer', scheduler: false %>
+
+<%# IntroJS multi-page %>
+<script type="text/javascript">
+  document.getElementById('startButton').onclick = function() {
+    introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
+      //TODO: add a link
+    });
+  };
+</script>
