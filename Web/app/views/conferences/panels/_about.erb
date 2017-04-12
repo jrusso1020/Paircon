@@ -11,7 +11,7 @@
   <div class="x_content">
     <% if @is_organizer %>
         <div>
-          <%= best_in_place @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
+          <%= best_in_place_if @is_organizer,  @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
           <hr/>
         </div>
     <% else %>
@@ -27,7 +27,7 @@
     <% end %>
 
     <div class="text-center">
-      <h3 class="navy-background light-grey-text"><%= @interested_count %> Interested</h3>
+      <h3 class="navy-background light-grey-text">[<%= @interested_count %>] Interested</h3>
     </div>
     <br/>
 
@@ -49,33 +49,32 @@
 
     <% if !@conference.location.blank? or @is_organizer %>
         <div>
-          <strong>Location:</strong> <%= best_in_place @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
+          <strong>Location:</strong> <%= best_in_place_if @is_organizer,  @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
         </div>
         <br/>
     <% end %>
 
     <% if !@conference.url.blank? or @is_organizer %>
         <div>
-          <strong>Website:</strong> <%= best_in_place @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
+          <strong>Website:</strong> <%= best_in_place_if @is_organizer,  @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
         </div>
     <% end %>
 
     <% if !@conference.phone.blank? or @is_organizer %>
         <div>
-          <strong>Phone:</strong> <%= best_in_place @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
+          <strong>Phone:</strong> <%= best_in_place_if @is_organizer,  @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
         </div>
     <% end %>
 
     <% if !@conference.email.blank? or @is_organizer %>
-        <div><strong>Email Address:</strong> <%= best_in_place @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
+        <div><strong>Email
+          Address:</strong> <%= best_in_place_if @is_organizer,  @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
         </div>
     <% end %>
-    <% if user_signed_in? %>
-        <br/>
-        <div class="text-center">
-          <%= link_to_modal 'Invite People', invite_conference_path() %>
-        </div>
-    <% end %>
+    <br/>
+    <div class="text-center">
+      <%= link_to_modal 'Invite People', invite_conference_path() %>
+    </div>
   </div>
 </div>
 

@@ -39,9 +39,15 @@ class UsersController < ApplicationController
   def request_organizer
     respond_to do |format|
       @user = current_user
-      @organizer = Organizer.create(user_id: @user.id)
-      format.html { redirect_to @user, notice: 'Your Have Requested Organizer Access, Please Wait For Your Request To Be Processed.' }
-      format.json { render :show, status: :ok, location: @user }
+      @organizer = Organizer.create!(user_id: @user.id)
+
+      if @organizer
+        flash[:notice] = 'Your Have Requested Organizer Access, Please Wait For Your Request To Be Processed.'
+      else
+        flash[:error] = 'There was some error while trying to process your request. Please try again later.'
+      end
+
+      redirect_back(fallback_location: :back)
     end
   end
 
@@ -50,26 +56,6 @@ class UsersController < ApplicationController
   end
 
   def show
-  end
-
-  # This function will be removed at a later stage and update command will be used
-  def submit_url
-    if !params[:user][:url].blank?
-      pdf_folder = current_user.get_pdf_folder_path
-      FileUtils::mkdir_p pdf_folder
-      txt_folder = current_user.get_pdf_text_path
-      FileUtils::mkdir_p txt_folder
-      q = params[:user][:url]
-      current_user.url = q
-      current_user.save!(validate: false)
-      scrapper = PDFScrapper.new(q, PDFScrapper::PageType[:personal])
-      scrapper.downloadAllPdfs(pdf_folder)
-      scrapper.convertPdfToText(pdf_folder, txt_folder)
-
-      flash[:notice] = 'Your personal URL has been updated successfully'
-    end
-
-    redirect_back(fallback_location: :back)
   end
 
   def edit
