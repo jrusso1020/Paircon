@@ -236,12 +236,8 @@ class SchedulesController < ApplicationController
 
   def get_events_user
 
-    # @current_user = User.get_by_id(params[:id])
-    Rails.logger.debug("User Object Id: ${@current_user.inspect}")
     @conferences = Conference.my_attending_conferences_active(current_user)
-    Rails.logger.debug("User Object Id: ${@conference.inspect}")
 
-    #resources = @conference.conference_resources
     for conference in @conferences[0..@conferences.length]
         events = conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
     end
