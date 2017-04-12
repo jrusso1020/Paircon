@@ -234,6 +234,29 @@ class SchedulesController < ApplicationController
 
   end
 
+  def get_events_user
+
+    @current_user = User.get_by_id(params[:id])
+    Rails.logger.debug("User Object Id: ${@current_user.inspect}")
+    @conference = Conference.my_attending_conferences_active(@current_user)
+    Rails.logger.debug("User Object Id: ${@conference.inspect}")
+
+    resources = @conference.conference_resources
+    events = @conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
+
+    if events.length == 0 and resources.length == 0
+      sample_events = [
+          {id: '1', resourceId: 'a1', start: @conference.start_date.iso8601.to_s, end: (@conference.start_date + 2.hours).to_time.iso8601.to_s, title: 'Sample Event 1', color: 'Red'},
+          {id: '2', resourceId: 'a2', start: (@conference.start_date + 1.hours).to_time.iso8601.to_s, end: (@conference.start_date + 12.hours).to_time.iso8601.to_s, title: 'Sample Event 2', color: 'Blue'},
+      ]
+
+      render json: sample_events.to_json
+    else
+      render json: events.to_json
+    end
+
+  end
+
   def get_rooms
     rooms = [{text: 'No Room', value: 'No Room'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
     render json: rooms.to_json
