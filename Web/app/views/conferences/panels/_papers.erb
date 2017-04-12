@@ -14,7 +14,24 @@
     <div class="clearfix"></div>
   </div>
   <div class="x_content" >
-    <%= render 'papers/index', conference_id: @conference.id %>
+
+    <table id = "datatable-papers" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publication</th>
+        <th>Keywords</th>
+        <th>Link</th>
+        <% if @is_organizer %>
+            <th><th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody>
+      <%= render @conference.papers %>
+      </tbody>
+    </table>
   </div>
 </div>
 <script>
