@@ -276,6 +276,11 @@ form textarea {
   background: transparent !important;
 }
 
+a.disabled {
+  color: grey;
+  pointer-events: none;
+  cursor: default;
+}
 /***********************************
 ************************************
 DASHBOARD

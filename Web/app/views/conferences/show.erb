@@ -12,7 +12,11 @@
         <% end %>
       </div>
       <div data-step="7" data-intro="See the recommendation" data-position='right'>
-        <li><a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a></li>
+        <% if !@is_organizer and user_signed_in? %>
+            <li>
+              <a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
+            </li>
+        <% end %>
       </div>
       <div data-step="6" data-intro="Upload author's publication and paper" data-position='right'>
         <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
