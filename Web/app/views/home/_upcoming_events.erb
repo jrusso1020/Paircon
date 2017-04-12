@@ -9,7 +9,7 @@
           <div class="clearfix"></div>
         </div>
         <div class="x_content">
-          <div id="calendar"></div>
+          <div class="scheduler"></div>
         </div>
       </div>
     </div>
@@ -18,12 +18,14 @@
 
 <script>
     $(document).ready(function() {
+        callstring= '/schedules/get_events_user?id=' + '<%= @user_id%>'
+        $('.scheduler').fullCalendar({
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+            events: callstring
 
-        $('#calendar').fullCalendar({
-            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives'
-        })
-
+        });
     });
 
 </script>
+
 
