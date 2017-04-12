@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20170420060318) do
     t.text     "pdf_link"
     t.string   "md5hash"
     t.text     "path"
+<<<<<<< HEAD
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "pdf_file_name"
@@ -144,6 +145,10 @@ ActiveRecord::Schema.define(version: 20170420060318) do
     t.datetime "pdf_updated_at"
     t.text     "keywords"
     t.date     "year"
+=======
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+>>>>>>> 3caa4a2... Merging dashboard_attend
   end
 
   create_table "posts", force: :cascade do |t|
@@ -207,6 +212,7 @@ ActiveRecord::Schema.define(version: 20170420060318) do
     t.string   "user_industry",                      default: ""
     t.integer  "user_grad_year"
     t.string   "user_organization",                  default: ""
+<<<<<<< HEAD
     t.string   "invitation_token"
     t.datetime "invitation_created_at"
     t.datetime "invitation_sent_at"
@@ -216,11 +222,10 @@ ActiveRecord::Schema.define(version: 20170420060318) do
     t.integer  "invited_by_id"
     t.integer  "invitations_count",                  default: 0
     t.boolean  "is_scraped",                         default: false
+=======
+>>>>>>> 3caa4a2... Merging dashboard_attend
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
-    t.index ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
-    t.index ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 

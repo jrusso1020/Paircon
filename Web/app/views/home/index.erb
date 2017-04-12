@@ -1,64 +1,32 @@
 <% page_title('Dashboard') %>
 
-<%= form_for(current_user, url: submit_url_user_path(current_user),
-             html: {class: 'form-horizontal', id: 'submit_url', method: :posts}) do |f| %>
+<%= render '/home/conferences_list' %>
 
-    <%= content_tag :div, class: 'panel-body' do %>
-        <%= content_tag :p, 'Enter the URL to your publication page to get started', style: 'margin-top:-20px;' %>
-    <% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-sm-12 col-xs-12" >
+      <%= render '/home/notifications_list'%>
 
-    <%= content_tag :div, class: 'input-group', style: 'margin-top:0px' do %>
-        <%= content_tag :span, content_tag(:i, '', class: 'fa fa-external-link'), class: 'input-group-addon' %>
-        <%= f.url_field :url, placeholder: 'URL', autofocus: true, class: 'form-control' %>
-    <% end %>
+    </div>
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <%= render '/home/upcoming_events'%>
+      <div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <%= content_tag :div, class: 'form-actions clearfix' do %>
-        <%= f.submit 'Submit URL', :class => 'btn btn-block btn-paircon' %>
-    <% end %>
-<% end %>
+<!--
+<button class="btn" id="getResult">Get Recommendations</button>
+-->
 
-<button id="getResult">Get Recommendations</button>
-
+<!--
 <table id="result" border='1'>
   <tr>
     <th>Conference Paper</th>
     <th>Score</th>
     <th>User Paper</th>
   </tr>
-</table>
+</table> -->
 
 
-<%= button_to "Conferences" , conferences_path(), method: :get %>
-
-<script>
-    $('#getResult').click(function () {
-        jQuery.support.cors = true;
-
-        var data = {
-            user_dir: '<%= current_user.get_pdf_text_path %>',
-            conference_dir: '<%= "#{Rails.root}/public/conference_papers" %>',
-            k: 3
-        };
-
-        $.ajax({
-            type: 'POST',
-            url: '<%= "#{PairConConfig.recommendation_system_domain}/similiarity/v1/compare" %>',
-            data: JSON.stringify(data),
-            dataType: "json",
-            contentType: "application/json",
-            success: function (data) {
-                var trHTML = '';
-                $.each(data, function (i) {
-                    trHTML += '<tr><td>' + data[i].conference_paper + '</td><td>' + data[i].score + '</td><td>' + data[i].user_paper + '</td></tr>';
-                });
-
-                $('#result').append(trHTML);
-            },
-
-            error: function (msg) {
-                alert(msg.responseText);
-            }
-        });
-    })
-    ;
-</script>
