@@ -17,7 +17,7 @@ Rails.application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Show full error reports.
-  config.consider_all_requests_local = false
+  config.consider_all_requests_local = true
 
   # Enable/disable caching. By default caching is disabled.
   config.sass.cache = false
