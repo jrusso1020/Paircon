@@ -202,6 +202,14 @@ function initializeFileUploader(conferenceid) {
         $('#fileName').text("");
     });
 
+    $('#new_paper').validate({
+        rules: {
+            'paper[title]': {
+                required: true
+            }
+        }
+    });
+
     $('input[name="fileData"]').fileupload({
         singleFileUploads: true,
 
@@ -227,42 +235,47 @@ function initializeFileUploader(conferenceid) {
             $('#fileName').text("[" + data.files[0].name + "]");
             $('#uploadButton').removeClass('disabled');
             var uploadurl = $('input[name="fileData"]').fileupload('option', 'url');
-            $('input[name="fileData"]').fileupload('option', 'url', uploadurl + "&filename=" + data.files[0].name + "&filesize=" + data.files[0].size + "&paper[title]=" + $('#paper_title').val() + "&paper[author]=" + $('#paper_author').val() + "&paper[keywords]=" + $('#paper_keywords').val() + "&paper[year]=" + $('#paper_year').val());
             $('#uploadButton').unbind();
             data.context = $('#uploadButton').click(function () {
-                $('#uploadButton').text("Uploading");
-                $('#progress').fadeIn('slow');
-                $('#uploadButton').addClass('disabled');
-                $('#select-button').addClass('disabled');
-                $('#closeButton').hide();
-                $('#cancelButton').show();
-                var jqXHR = data.submit()
-                    .success(function (result, textStatus, jqXHR) {
-                        var result_string = JSON.stringify(result);
-                        showNotificationMsg(JSON.parse(result_string).message);
-                        $('#modal').modal('hide');
-                    })
-                    .error(function (jqXHR, textStatus, errorThrown) {
-                        var result_string = JSON.stringify(jqXHR.responseJSON);
-                        result_string = JSON.parse(result_string);
-                        showErrorMsg(result_string.message);
-                    })
-                    .complete(function (result, textStatus, jqXHR) {
-                        $('#closeButton').show();
-                        $('#cancelButton').hide();
-                        $('#closeButton').click();
-                        $.pjax.reload('[data-pjax-container]');
+                if($('#new_paper').valid()){
+                    $('#uploadButton').text("Uploading");
+                    $('#progress').fadeIn('slow');
+                    $('#uploadButton').addClass('disabled');
+                    $('#select-button').addClass('disabled');
+                    $('#closeButton').hide();
+                    $('#cancelButton').show();
+                    $('input[name="fileData"]').fileupload('option', 'url', uploadurl + "&filename=" + data.files[0].name + "&filesize=" + data.files[0].size + "&paper[title]=" + $('#paper_title').val() + "&paper[author]=" + $('#paper_author').val() + "&paper[keywords]=" + $('#paper_keywords').val() + "&paper[year]=" + $('#paper_year').val());
+                    var jqXHR = data.submit()
+                        .success(function (result, textStatus, jqXHR) {
+                            var result_string = JSON.stringify(result);
+                            showNotificationMsg(JSON.parse(result_string).message);
+                            $('#modal').modal('hide');
+                        })
+                        .error(function (jqXHR, textStatus, errorThrown) {
+                            var result_string = JSON.stringify(jqXHR.responseJSON);
+                            result_string = JSON.parse(result_string);
+                            showErrorMsg(result_string.message);
+                        })
+                        .complete(function (result, textStatus, jqXHR) {
+                            $('#closeButton').show();
+                            $('#cancelButton').hide();
+                            $('#closeButton').click();
+                            $.pjax.reload('[data-pjax-container]');
+                            $('#uploadButton').removeClass('disabled');
+                            $('#select-button').removeClass('disabled');
+                        });
+
+                    $('#cancelButton').click(function (e) {
+                        $('#uploadButton').text("Upload");
                         $('#uploadButton').removeClass('disabled');
                         $('#select-button').removeClass('disabled');
+                        $('#progress').hide();
+                        jqXHR.abort();
                     });
 
-                $('#cancelButton').click(function (e) {
-                    $('#uploadButton').text("Upload");
-                    $('#uploadButton').removeClass('disabled');
-                    $('#select-button').removeClass('disabled');
-                    $('#progress').hide();
-                    jqXHR.abort();
-                });
+                }else{
+                    return false;
+                }
 
             });
         }
