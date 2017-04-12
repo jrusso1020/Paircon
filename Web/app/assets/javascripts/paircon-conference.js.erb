@@ -42,6 +42,7 @@ function initializeConference(id, description, start_date, end_date) {
         endDate: end_date,
         timePicker: true,
         timePickerIncrement: 15,
+        opens: "left",
         locale: {
             format: 'DD MMM YYYY h:mm A'
         }
@@ -50,8 +51,8 @@ function initializeConference(id, description, start_date, end_date) {
             type: 'PUT',
             url: '/conferences/' + id,
             data: {
-                'conference[start_date]': start,
-                'conference[end_date]': end,
+                'conference[start_date]': moment(new Date(start)).format('ddd, D MMM YYYY H:mm:ss'),
+                'conference[end_date]': moment(new Date(end)).format('ddd, D MMM YYYY H:mm:ss'),
                 'redirect': false
             },
             success: function (text, status, xhr) {
