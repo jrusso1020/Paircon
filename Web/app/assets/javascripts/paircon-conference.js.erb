@@ -35,8 +35,7 @@ function initializeTabPanes(id) {
         current_tab = $(this).attr('id');
         requestTabPane(id, current_tab);
     });
-
-    if (typeof Cookies.get(id + '_current_tab') == 'Undefined') {
+    if (Cookies.get(id + '_current_tab') == 'undefined') {
         current_tab = 'home';
         Cookies.set(id + '_current_tab', 'home');
     } else {
