@@ -14,20 +14,23 @@ class PapersController < ApplicationController
   def create
     @paper = Paper.new(paper_params)
     if @paper.save
+      unless params[:filename].blank?
+        @paper.save_pdf(params[:conference_id], params[:filename], request.body)
+      end
+
       if Conference.find(params[:conference_id]).conference_papers.create!(paper_id: @paper.id)
         begin
           PaperScrapperJob.perform_later(@paper, params[:conference_id])
         rescue => e
           extractTextFromPdf(@paper, params[:conference_id])
         end
-        flash[:notice] = "Successfully created paper!"
+        render status: :ok, json: {message: 'Paper was successfully updated.'}.to_json
       else
-        flash[:alert] = "Error creating new paper!"
+        render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
       end
     else
-      flash[:alert] = "Error creating new paper!"
+      render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
     end
-    redirect_back(fallback_location: root_path)
   end
 
   def delete

@@ -1,6 +1,6 @@
 <%= header_title @title %>
 
-<%= form_for Paper.new, url: papers_path(conference_id: params[:conference_id]), method: 'POST' do |f| %>
+<%= form_for Paper.new, id: 'add_new_paper' do |f| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-group" style="margin-right: 5px;"></i>
@@ -52,24 +52,42 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="form-group">
-            <%= f.label :path, 'Paper Upload Path (*)' %>
-            <%= f.file_field :pdf, class: "form-control" %>
-          </div>
-        </div>
-      </div>
+
+
+
+    <%= content_tag :div, class: 'row' do %>
+        <%= content_tag :div, class: 'col-md-12 col-sm-12 col-xs-12' do %>
+              <%= content_tag :div, class: "form-group" do %>
+                  <%= f.label :path, 'Paper Upload Path' %>
+                  <%= content_tag :div, class: 'row fileupload-buttonbar' do %>
+                      <%= content_tag :span, id: 'select-button', class: 'btn btn-cloudmerge fileinput-button' do %>
+                          <%= content_tag :i, '', class: 'fa fa-cloud-upload' %>
+                          <%= content_tag :span, 'Select File' %>
+                          <%= content_tag :input, '', id: 'fileupload', type: 'file', name: 'fileData' %>
+                      <% end %>
+
+                      <%= content_tag :div, content_tag(:div, '', class: 'progress-bar bar'), id: 'progress', class: 'progress progress-striped', style: 'border-radius: 5px; margin-top: 10px; margin-bottom: 10px;' %>
+                  <% end %>
+            <% end %>
+          <% end %>
+    <% end %>
+
     </div>
 
-    <div class="modal-footer" style="margin-top:-5px;">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-          <%= f.submit 'Create', :class => 'btn btn-paircon' %>
-        </div>
-      </div>
-    </div>
+    <%= content_tag :div, class: 'modal-footer' do %>
+        <% if !is_mobile_device? %>
+            <%= content_tag :span, content_tag(:small, 'Note: This operation is permanent and cannot be reversed later'), style: 'float: left !important; margin-top: 5px;' %>
+        <% end %>
+
+        <%= content_tag :button, t('close'), type: 'button', id: 'closeButton', class: 'btn btn-default', data: {dismiss: 'modal'} %>
+        <%= content_tag :button, 'Cancel', type: 'button', id: 'cancelButton', class: 'btn btn-default', style: 'display: none;' %>
+        <%= content_tag :button, 'Upload', type: 'button', id: 'uploadButton', class: 'btn btn-cloudmerge disabled' %>
+    <% end %>
+
 <% end %>
 
-<%#= javascript_tag 'initializeAddScheduleResource()' %>
+<%= javascript_tag "initializeFileUploader('" + params[:conference_id] + "')" %>
+
+
+
+

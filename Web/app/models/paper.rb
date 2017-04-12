@@ -21,6 +21,22 @@ class Paper < ApplicationRecord
   validates_attachment :pdf, content_type: { content_type: ["application/pdf"] }
   before_create :init_id
 
+  def save_pdf(conference_id, filename, request_body)
+    pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
+    FileUtils.mkdir_p pdf_folder
+    new_file = Rails.root.join('public', 'conference', conference_id, 'pdf/' + filename)
+
+    File.open(new_file, 'wb') do |file|
+      file.binmode
+      file.puts(request_body.read)
+    end
+
+    self.pdf = File.open(new_file, 'r')
+    self.save!(validate: false)
+
+    File.delete(new_file)
+  end
+
   private
 
   def init_id

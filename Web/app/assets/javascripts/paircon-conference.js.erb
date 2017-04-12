@@ -176,7 +176,90 @@ function retrievePosts(id) {
         }
     });
 }
+function initializeFileUploader(conferenceid) {
+    $('#uploadButton').text("Upload");
+    $('#progress').hide();
+    $('#fileName').text("");
+    $(document).bind('drop dragover', function (e) {
+        e.preventDefault();
+    });
 
+    $('#closeButton').click(function () {
+        $('#uploadButton').text("Upload");
+        $('#progress').hide();
+        $('#fileName').text("");
+    });
+
+    $('input[name="fileData"]').fileupload({
+        singleFileUploads: true,
+
+        multipart: false,
+        url: '/papers?conference_id=' + conferenceid ,
+        sequentialUploads: true,
+        singleFileUploads: true,
+        dataType: 'json',
+        dropZone: $('#drag-area'),
+        method: 'POST',
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css(
+                'width',
+                progress + '%'
+            );
+        },
+        done: function (e, data) {
+            $('#closeButton').show();
+            $('#cancelButton').hide();
+        },
+        add: function (e, data) {
+            $('#fileName').text("[" + data.files[0].name + "]");
+            $('#uploadButton').removeClass('disabled');
+            var uploadurl = $('input[name="fileData"]').fileupload('option', 'url');
+            $('input[name="fileData"]').fileupload('option', 'url', uploadurl + "&filename=" + data.files[0].name + "&filesize=" + data.files[0].size + "&paper[title]=" + $('#paper_title').val() + "&paper[author]=" + $('#paper_author').val() + "&paper[keywords]=" + $('#paper_keywords').val() + "&paper[year]=" + $('#paper_year').val());
+            $('#uploadButton').unbind();
+            data.context = $('#uploadButton').click(function () {
+                $('#uploadButton').text("Uploading");
+                $('#progress').fadeIn('slow');
+                 $('#uploadButton').addClass('disabled');
+                 $('#select-button').addClass('disabled');
+                 $('#closeButton').hide();
+                 $('#cancelButton').show();
+                var jqXHR = data.submit()
+                    .success(function (result, textStatus, jqXHR) {
+                        var result_string = JSON.stringify(result);
+                        showNotificationMsg(JSON.parse(result_string).message);
+                    })
+                    .error(function (jqXHR, textStatus, errorThrown) {
+                        var result_string = JSON.stringify(jqXHR.responseJSON);
+                        result_string = JSON.parse(result_string);
+                        showErrorMsg(result_string.message);
+                    })
+                    .complete(function (result, textStatus, jqXHR) {
+                        $('#closeButton').show();
+                         $('#cancelButton').hide();
+                        $('#modal').removeClass('in');
+                        $('#modal').modal('hide');
+                         $.pjax.reload('[data-pjax-container]');
+                         $('#uploadButton').removeClass('disabled');
+                         $('#select-button').removeClass('disabled');
+                    });
+
+                $('#cancelButton').click(function (e) {
+                    $('#uploadButton').text("Upload");
+                    $('#uploadButton').removeClass('disabled');
+                    $('#select-button').removeClass('disabled');
+                    $('#progress').hide();
+                    jqXHR.abort();
+                });
+
+            });
+        }
+    });
+
+//    $('input[name="fileData"]').bind('fileuploadsubmit', function (e, data)) {
+//        data.formData = {'paper[title]': 'test'};
+//    }
+}
 
 function initCharts(count) {
 
