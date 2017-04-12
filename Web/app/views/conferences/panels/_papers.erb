@@ -13,23 +13,24 @@
 
     <div class="clearfix"></div>
   </div>
-  <div class="x_content" >
-
-    <table id = "datatable-papers" class="table table-striped">
+  <div class="x_content">
+    <table id="datatable-papers" class="table table-striped">
       <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Publication</th>
-        <th>Keywords</th>
-        <th>Link</th>
-        <% if @is_organizer %>
-            <th><th>
-        <% end %>
-      </tr>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Publication</th>
+          <th>Keywords</th>
+          <th>Link</th>
+          <% if @is_organizer %>
+              <th>
+              <th>
+          <% end %>
+        </tr>
       </thead>
       <tbody>
-      <%= render @conference.papers %>
+        <%= render @conference.papers %>
       </tbody>
     </table>
   </div>

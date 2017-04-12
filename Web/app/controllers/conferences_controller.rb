@@ -1,9 +1,9 @@
 class ConferencesController < ApplicationController
   include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
-  before_action :authenticate_user!, except: [:validation]
+  before_action :authenticate_user!, except: [:show, :home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_is_organizer, only: [:show, :home, :schedule, :posts, :about]
+  before_action :set_is_organizer, only: [:home, :schedule, :posts, :about_panel, :show]
 
   def index
     if params[:view] == 'organizer'
@@ -76,13 +76,16 @@ class ConferencesController < ApplicationController
 
   # The show action renders the individual conference after retrieving the the id
   def show
-    if !@is_organizer and !@conference.publish
+    logged_in = user_signed_in?
+
+    if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
-        format.html { render template: 'errors/unauthorized_access', layout: 'layouts/application', status: 403 }
+        format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
         format.all  { render nothing: true, status: 403 }
       end
     else
       @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
+      render layout: 'public' unless logged_in
     end
   end
 
@@ -105,35 +108,47 @@ class ConferencesController < ApplicationController
   end
 
   def invite
-    conferences_ids = Conference.joins(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:id)
-    user_ids = ConferenceAttendee.where(conference_id: conferences_ids).select(:user_id).distinct
-    @emails_json = User.where(id: user_ids).map { |obj| {id: obj.id, name: obj.email} }.to_json
+    if user_signed_in?
+      conferences_ids = Conference.joins(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:id)
+      user_ids = ConferenceAttendee.where(conference_id: conferences_ids).select(:user_id).distinct
+      @emails_json = User.where(id: user_ids).map { |obj| {id: obj.id, name: obj.email} }.to_json
+    else
+      @email_json = {}
+    end
+
     render layout: false
   end
 
   def create_invites
     emails = params[:emails].split(',')
+    if user_signed_in?
+      user_email = current_user.email
+      full_name = current_user.full_name
+    else
+      user_email = ''
+      full_name = 'Guest'
+    end
 
     emails.each do |email|
-      if email != current_user.email
+      if email != user_email
         user = User.find_by_id(email)
         if !user.blank?
           @conference.activity(:invite, user)
         end
 
         begin
-          Notifier.conference_invite(@conference, current_user, email, params[:optionalmessage]).deliver_later
+          Notifier.conference_invite(@conference, full_name, email, params[:optionalmessage]).deliver_later
         rescue
-          Notifier.conference_invite(@conference, current_user, email, params[:optionalmessage]).deliver
+          Notifier.conference_invite(@conference, full_name, email, params[:optionalmessage]).deliver
         end
       end
     end
 
-    if params[:sendcopy] == 'true'
+    if user_signed_in? and params[:sendcopy] == 'true'
       begin
-        Notifier.conference_invite(@conference, current_user, current_user.email, params[:optionalmessage]).deliver_later
+        Notifier.conference_invite(@conference, full_name, user_email, params[:optionalmessage]).deliver_later
       rescue
-        Notifier.conference_invite(@conference, current_user, current_user.email, params[:optionalmessage]).deliver
+        Notifier.conference_invite(@conference, full_name, user_email, params[:optionalmessage]).deliver
       end
     end
 
@@ -151,7 +166,7 @@ class ConferencesController < ApplicationController
   end
 
   def posts
-    @post_count = @conference.get_counts(true, false, false, false)
+    @post_count = @conference.get_counts(true, false, false, false)[0]
     render template: 'conferences/tab_panes/posts'
   end
 
@@ -160,7 +175,7 @@ class ConferencesController < ApplicationController
   end
 
   def about_panel
-    @interested_count = @conference.get_counts(false, true, false, false)
+    @interested_count = @conference.get_counts(false, true, false, false)[0]
     render template: 'conferences/tab_panes/about_panel'
   end
 
@@ -226,6 +241,10 @@ class ConferencesController < ApplicationController
   end
 
   def set_is_organizer
-    @is_organizer = @conference.is_organizer(current_user)
+    if user_signed_in?
+      @is_organizer = @conference.is_organizer(current_user)
+    else
+      @is_organizer = false
+    end
   end
 end

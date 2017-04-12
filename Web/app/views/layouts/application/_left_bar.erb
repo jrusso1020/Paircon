@@ -29,6 +29,15 @@
         </ul>
       </div>
 
+      <% if current_user.admin? %>
+        <div class="menu_section">
+          <h3>ADMIN</h3>
+          <ul class="nav side-menu">
+            <li><a href="<%= pending_organizers_user_path(current_user) %>">Pending Organizers</a></li>
+          </ul>
+        </div>
+      <% end %>
+
       <% i = 1 %>
       <% attending = Conference.my_attending_conferences_active(current_user) %>
       <% if attending.length != 0 %>

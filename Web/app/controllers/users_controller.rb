@@ -10,13 +10,43 @@ class UsersController < ApplicationController
     redirect_to root_path unless current_user
   end
 
+  def pending_organizers
+    @user = current_user
+    @pending_organizers = User.includes(:organizer).where(organizers: {approved: false})
+  end
+
+  def approve_organizer
+    tran_success = false
+    user = User.find(params[:id])
+    Organizer.transaction do
+      tran_success = user.update!(user_type: User.user_types[:organizer])
+      tran_success = tran_success and (Organizer.find_by_user_id(params[:id]).update!(approved: true)) 
+
+      unless tran_success
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    if tran_success
+      render status: :ok, text: "You Have Approved #{user.full_name} As An Organizer."
+    else
+      render status: :internal_server_error, text: "There was some problem while trying to approving #{user.full_name}. Please try again later ..."
+    end
+  end
+
   # request organizer privilege
   def request_organizer
     respond_to do |format|
       @user = current_user
-      @organizer = Organizer.create(user_id: @user.id)
-      format.html { redirect_to @user, notice: 'Your Have Requested Organizer Access, Please Wait For Your Request To Be Processed.' }
-      format.json { render :show, status: :ok, location: @user }
+      @organizer = Organizer.create!(user_id: @user.id)
+
+      if @organizer
+        flash[:notice] = 'Your Have Requested Organizer Access, Please Wait For Your Request To Be Processed.'
+      else
+        flash[:error] = 'There was some error while trying to process your request. Please try again later.'
+      end
+
+      redirect_back(fallback_location: :back)
     end
   end
 
@@ -25,26 +55,6 @@ class UsersController < ApplicationController
   end
 
   def show
-  end
-
-  # This function will be removed at a later stage and update command will be used
-  def submit_url
-    if !params[:user][:url].blank?
-      pdf_folder = current_user.get_pdf_folder_path
-      FileUtils::mkdir_p pdf_folder
-      txt_folder = current_user.get_pdf_text_path
-      FileUtils::mkdir_p txt_folder
-      q = params[:user][:url]
-      current_user.url = q
-      current_user.save!(validate: false)
-      scrapper = PDFScrapper.new(q, PDFScrapper::PageType[:personal])
-      scrapper.downloadAllPdfs(pdf_folder)
-      scrapper.convertPdfToText(pdf_folder, txt_folder)
-
-      flash[:notice] = 'Your personal URL has been updated successfully'
-    end
-
-    redirect_back(fallback_location: :back)
   end
 
   def edit

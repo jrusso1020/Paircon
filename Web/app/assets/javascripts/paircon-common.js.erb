@@ -175,15 +175,17 @@ function switchContainer() {
 //------------Notifications---------------//
 /******************************************/
 function bind_notification_listing() {
-    $.ajax({
-        type: 'GET',
-        url: '/notifications',
-        data: 'referer=2',
-        success: function (html) {
-            $('#notification_panel').html(html);
-            bind_notification_read();
-        }
-    });
+    if ($('#notification_panel').length) {
+        $.ajax({
+            type: 'GET',
+            url: '/notifications',
+            data: 'referer=2',
+            success: function (html) {
+                $('#notification_panel').html(html);
+                bind_notification_read();
+            }
+        });
+    }
 }
 
 function bind_notification_read() {
@@ -347,6 +349,10 @@ function loadApplicationLayout() {
         });
     });
     // /Tooltip
+
+    $(document).ready(function() {
+        $('.avatar_label').initial();
+    });
 
     enableSwitchery();
     init_sidebar();

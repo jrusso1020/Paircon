@@ -34,18 +34,31 @@
       <% end %>
 
       <div style="margin-left:30px; margin-right: 30px;" class="flex-grow">
-        <h1> <%= best_in_place_if @is_organizer, @conference, :name, as: :input, place_holder: "&lt;&lt;Conference Name&gt;&gt;" %> </h1>
-        <h3>
-          <span><%= icon_text('tag fa-lg', '') if (@is_organizer or !@conference.domain.blank?) %>
+        <h1>
+          <% if @is_organizer %>
+              <%= best_in_place @conference, :name, as: :input, place_holder: "&lt;&lt;Conference Name&gt;&gt;" %>
+          <% else %>
+              <%= @conference.get_name %>
+          <% end %>
+        </h1>
+        <% if (@is_organizer or !@conference.domain.blank?) %>
+            <h3>
+          <span><%= icon_text('tag fa-lg', '') %>
             <%= best_in_place_if @is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %>
           </span>
-        </h3>
+            </h3>
+        <% end %>
       </div>
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
-        <a class="btn btn-paircon" onclick="document.getElementById('interested').click()"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
-        <button type="button" class="btn btn-paircon dropdown-toggle" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
+        <% if user_signed_in? %>
+            <a class="btn btn-paircon" onclick="document.getElementById('interested').click()"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
+            <button type="button" class="btn btn-paircon dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+            </button>
+        <% else %>
+            <a data-no-pjax href="<%= new_user_session_url(anchor: 'main-header') %>" target="_blank" class="btn btn-paircon">Join
+              Paircon!</a>
+        <% end %>
 
         <%= form_for @conference, url: attend_conference_conference_path(), method: :post do |f| %>
             <%= f.submit '', id: 'interested', class: 'hidden' %>
@@ -57,7 +70,7 @@
               </li>
               <li class="divider"></li>
           <% else %>
-              <li><a href="#about" data-toggle="tab">About<i class="pull-right fa fa-info dropdown-user-icons"></i></a>
+              <li><a href="#" onclick="document.getElementById('about_panel').click()">About<i class="pull-right fa fa-info dropdown-user-icons"></i></a>
               </li>
           <% end %>
 
@@ -67,7 +80,7 @@
                     <%= f.hidden_field :publish, value: !@conference.publish %>
                     <div class="form_toggle_button">
                       <%= f.submit @conference.publish? ? 'Hide' : 'Publish' %>
-                      <i class="pull-right fa fa-comments dropdown-user-icons"></i>
+                      <i class="pull-right fa fa-users dropdown-user-icons"></i>
                     </div>
                 <% end %> </li>
               <li><%= form_for @conference do |f| %>

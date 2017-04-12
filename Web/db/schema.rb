@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170411005519) do
+=======
+ActiveRecord::Schema.define(version: 20170410171217) do
+>>>>>>> 9639e07f6dca5cb17cc3a24dedf1c8f1f72e7ffb
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,9 +138,12 @@ ActiveRecord::Schema.define(version: 20170411005519) do
     t.string   "pdf_content_type"
     t.integer  "pdf_file_size"
     t.datetime "pdf_updated_at"
+<<<<<<< HEAD
     t.string   "author"
     t.text     "keywords"
     t.string   "year"
+=======
+>>>>>>> 9639e07f6dca5cb17cc3a24dedf1c8f1f72e7ffb
   end
 
   create_table "posts", force: :cascade do |t|
@@ -194,8 +201,19 @@ ActiveRecord::Schema.define(version: 20170411005519) do
     t.string   "user_industry",                      default: ""
     t.integer  "user_grad_year"
     t.string   "user_organization",                  default: ""
+    t.string   "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.string   "invited_by_type"
+    t.integer  "invited_by_id"
+    t.integer  "invitations_count",                  default: 0
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
+    t.index ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
