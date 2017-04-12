@@ -2,7 +2,8 @@
 //------------APPROVE ORGANIZER--------------//
 /***************************************/
 function initializePendingOrganizer() {
-    $('#datatable-responsive').DataTable();
+//    $('#datatable-pendingOrganizer').DataTable();
+    $('table.display').DataTable();
     $('.organizer-approval').click(function () {
         user_id = $(this).attr('id');
         approveOrganizer(user_id);
