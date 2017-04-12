@@ -30,9 +30,11 @@
         <li><a href="#about_panel" class="tab_ajax" id="about_panel" data-toggle="tab">About</a></li>
       </div>
       <hr/>
+      <div>
         <% if @is_organizer %>
             <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>
         <% end %>
+      </div>
     </ul>
   </div>
   <div class="col-md-10 col-sm-10 col-xs-10">

@@ -1,5 +1,5 @@
 .introjs-tooltip {
-  background-color: rgba(000, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5) !important;
   color: #fff;
 }
 
@@ -29,7 +29,7 @@
   border: 10px solid #fff;
 }
 .introjs-arrow.top, .introjs-arrow.top-middle, .introjs-arrow.top-right {
-  border-color: transparent transparent rgba(000, 0, 0, 0.5);
+  border-color: transparent transparent rgba(0, 0, 0, 0.5);
   top: -20px;
   left: 20px;
 }
@@ -47,9 +47,9 @@
 
 .introjs-arrow.left, .introjs-arrow.left-bottom {
   left: -20px;
-  border-color: rgba(000, 0, 0, 0.5) transparent transparent transparent;
+  border-color: rgba(0, 0, 0, 0.5) transparent transparent transparent;
 }
 .introjs-arrow.right, .introjs-arrow.right-bottom {
   right: -20px;
-  border-color: transparent transparent transparent rgba(000, 0, 0, 0.5);
+  border-color: transparent transparent transparent rgba(0, 0, 0, 0.5);
 }
