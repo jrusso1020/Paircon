@@ -44,6 +44,7 @@ footer {
 
 .footer_fixed footer {
   height: 40px;
+  position: inherit !important;
   overflow: hidden;
 }
 
@@ -276,11 +277,6 @@ form textarea {
   background: transparent !important;
 }
 
-a.disabled {
-  color: grey;
-  pointer-events: none;
-  cursor: default;
-}
 /***********************************
 ************************************
 DASHBOARD
@@ -307,10 +303,6 @@ Top Nav
 ***********************************/
 #conf-searchbar{
   margin: auto;
-}
-
-.nav-no-margin {
-  margin-left: 0 !important;
 }
 
 /***********************************

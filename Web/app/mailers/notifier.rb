@@ -3,7 +3,7 @@ class Notifier < ActionMailer::Base
 
   default from: 'Paircon <no-reply@paircon.com>'
 
-  def conference_invite(conference, full_name, email, custom_message)
+  def conference_invite(conference, from_user, email, custom_message)
     @conference = conference
     @custom_message = custom_message
     @email = email
@@ -11,7 +11,7 @@ class Notifier < ActionMailer::Base
 
     mail(
         :to => email,
-        :subject => "#{full_name} has invited you to #{conference.get_name}"
+        :subject => "#{from_user.full_name} has invited you to #{conference.get_name}"
     )
   end
 end

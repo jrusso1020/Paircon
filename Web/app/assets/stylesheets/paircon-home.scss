@@ -11,19 +11,16 @@
 .main_container .sign_up_nav {
   margin-left: 0px !important;
 }
-
 .login-text {
   color: $login-text-color;
 }
-
 login-text-size {
   font-size: 14px !important;
 }
 
-#loginbox {
+#loginbox{
   //display: inline-block;
-  text-align: center;
-}
+  text-align: center;}
 
 .dropdown-user-icons {
   position: absolute;
@@ -41,8 +38,7 @@ login-text-size {
 }
 
 .stepContainer2 {
-  height: inherit;
-  padding-bottom: 65px;
+  height: 100% !important;
 }
 
 .x_content {
@@ -70,30 +66,13 @@ login-text-size {
   margin-right: 0px !important;
 }
 
-.required {
+.required{
   color: $error-small-text-color;
-}
-
-.signup_container {
-  overflow-y: hidden;
-  height: 100%;
-  padding-top: 65px !important;
-  padding-bottom: 50px !important;
-
-  .main_container {
-    height: inherit;
-
-    .form-group {
-      height: inherit !important;
-      margin-bottom: 0 !important;
-    }
-
-  }
 }
 
 /* ********* ERROR ***********/
 .error-small-text {
-  color: $error-small-text-color;
+  color:$error-small-text-color;
   font-size: 11px;
   font-weight: 400;
   margin-top: 3px !important;
@@ -124,6 +103,7 @@ login-text-size {
 .stacked_horizontal_input_2 .error-small-text {
   margin-right: -9px;
 }
+
 
 /* ********* CUSTOM TOOLTIP ********* */
 a.custom-tooltip {
@@ -288,7 +268,7 @@ span.callout {
   width: initial !important;
 }
 
-.navbar-user, .navbar-user-no-margin {
+.navbar-user {
   position: absolute;
   right: 0;
   margin-top: -5px !important;
@@ -332,6 +312,7 @@ span.callout {
   margin-right: 0px !important;
 }
 
+
 /***********************************
 ************************************
 Header
@@ -341,19 +322,16 @@ Header
   color: $header-navbar-default-color;
   background-color: transparent;
 }
-
 .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
   background-color: transparent;
   color: $header-navbar-default-color;
 }
-
 .header {
   background: image_url('home/conference-pic.jpg') no-repeat fixed;
   background-size: cover;
   min-height: 720px;
   position: relative;
 }
-
 .btn-download {
   background-color: $header-btn-default-color;
 }
@@ -363,16 +341,13 @@ Header
   border: 1px solid $header-btn-default-color;
   color: $header-btn-default-color;
 }
-
 .btn-more:hover {
   background: $header-btn-default-color;
   color: $header-btn-more-hover-color;
 }
-
-.logo-dec {
+.logo-dec{
   color: $header-btn-default-color;
 }
-
 .pad-bt50 {
   padding-bottom: 50px;
 }
@@ -383,20 +358,16 @@ h1.bnr-sub-title {
   font-weight: 700;
   font-color: $header-h1-bnr-sub-title-font-color;
 }
-
 .top-banner {
   padding-top: 100px;
 }
-
 .navbar-background-color {
   //TODO: need to fix Mobile / Tablet view Dropdown missing background
 }
-
 .dropdown-background-color {
   background-color: $header-navbar-background-color;
-  color: $header-navbar-background-color;
+  color:  $header-navbar-background-color;
 }
-
 .dropdown-text-color {
   color: $header-h1-bnr-sub-title-font-color !important;
 }
@@ -414,27 +385,25 @@ About
 .light-grey-text {
   color: $about-bg-color !important;
 }
-
 /***********************************
 ************************************
 Users
 ************************************
 ***********************************/
 
-.centered-icon {
+.centered-icon{
   display: inline-block;
   width: 100%;
   text-align: center;
 }
 
-.navy-text {
+.navy-text{
   color: $users-navy-text-color;
 }
 
-.navy-background {
+.navy-background{
   background-color: $users-navy-text-color;
 }
-
 .bottom-line {
   margin-top: 20px;
   margin-bottom: 40px;
@@ -453,12 +422,10 @@ Footer
 .footer-text {
   padding: 10px 20px 10px 20px;
 }
-
 #users {
   background-color: $footer-bg-color;
 }
-
-#users p {
+#users p{
   font-size: 20px;
 }
 
@@ -467,11 +434,11 @@ Footer
 Landing
 ************************************
 ***********************************/
-#landing {
+#landing{
   display: block;
 }
 
-#macbook {
+#macbook{
   width: 100%;
   height: auto;
   margin: auto;
@@ -482,11 +449,12 @@ Landing
 }
 
 .welcome-btn {
-  position: static;
-  opacity: 1;
-  font-size: 14px;
+  position: static; 
+  opacity: 1; 
+  font-size: 14px; 
   margin-top: 5px;
 }
+
 
 /***********************************
 ************************************
@@ -507,7 +475,7 @@ Privacy and Terms Pages
 }
 
 .body-margin {
-  padding: 30px;
+  padding: 30px;  
 }
 
 .list-circle {

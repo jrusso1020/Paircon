@@ -22,7 +22,6 @@ gem 'jquery-datatables-rails'                                     # Bootstrap Da
 gem 'bootstrap3-datetimepicker-rails'                             # Bootstrap datetimepicker
 gem 'switchery-rails'                                             # iOS like switches
 gem 'rails-jquery-tokeninput'                                     # Token based inputs
-gem 'js_cookie_rails'                                             # For creating javascript cookies
 
 # Utility
 gem 'rack-pjax'                                                   # PJax to make page loading faster

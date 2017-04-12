@@ -1,33 +1,4 @@
 /***************************************/
-//------------APPROVE ORGANIZER--------------//
-/***************************************/
-function initializePendingOrganizer() {
-    $('#datatable-responsive').DataTable();
-    $('.organizer-approval').click(function () {
-        user_id = $(this).attr('id');
-        approveOrganizer(user_id);
-    });
-}
-
-function approveOrganizer(user_id) {
-    $.ajax({
-        type: 'POST',
-        url: '/users/' + user_id + '/approve_organizer',
-        data: {id: user_id},
-        beforeSend: function () {
-            showProcessingMsg();
-        },
-        success: function (test, status, xhr) {
-            showNotificationMsg('User Approved As Organizer');
-            $.pjax.reload('[data-pjax-container]');
-        },
-        error: function (xhr, status, text) {
-            showErrorMsg(xhr.responseText);
-        }
-    });
-}
-
-/***************************************/
 //------------DELETE VIEW--------------//
 /***************************************/
 function initializeUserDelete() {
@@ -247,10 +218,6 @@ function initSignup() {
     }
 
     function showAStepCallback(obj, context) {
-        if (context.toStep == 1 || context.toStep == 2) {
-            $('.buttonFinish').hide();
-        }
-
         if (context.toStep == 2 || context.toStep == 3) {
             $('.buttonPrevious').removeClass('buttonDisabled');
         }
@@ -260,14 +227,13 @@ function initSignup() {
         }
 
         if (context.fromStep == 3) {
-            $('.buttonNext').css('display', 'inline-block');
-            $('.buttonFinish').css('display', 'none');
+            $('.buttonNext').show();
         }
+
 
         if (context.toStep == 3) {
             $('.buttonFinish').addClass('buttonDisabled');
-            $('.buttonNext').css('display', 'none');
-            $('.buttonFinish').css('display', 'inline-block');
+            $('.buttonNext').hide();
         }
     }
 

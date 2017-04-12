@@ -36,7 +36,7 @@
                       <tr>
                         <td height="45" align="center" width="169">
                           <div>
-                            <a style='color: #34495e; text-decoration: none;' href="<%= conference_path(@conference) %>">
+                            <a style='color: #34495e; text-decoration: none;' href="<%= '#' %>">
                               <%= image_tag attachments['logo.jpg'].url, style: 'width: 200px; display:block;border:none;outline:none;text-decoration:none;text-align:center;font-size:20px', title: @conference.get_name, alt: @conference.get_name, align: 'middle', border: '0' %>
                             </a>
                           </div>
@@ -185,7 +185,8 @@
                               <tbody>
                               <tr>
                                 <td style="border-radius:4px;color:#ffffff;display:block" height="auto" align="center" bgcolor="#34495e" width="auto">
-                                  <a style="color: #34495e; font-size: 20px; font-weight: bold; font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif; text-decoration: none; line-height: 40px; width: auto; display: inline-block;" href="<%= conference_path(@conference) %>" target="_blank"><span style="color:#ffffff"><strong style="font-weight:300">Join Conference</strong></span></a>
+                                  <a style="color: #34495e; font-size: 20px; font-weight: bold; font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif; text-decoration: none; line-height: 40px; width: auto; display: inline-block;" href="<%= '#' %>" target="_blank"><span style="color:#ffffff"><strong style="font-weight:300">Join Conference</strong></span></a>
+
                                 </td>
                               </tr>
                               </tbody>

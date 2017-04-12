@@ -1,0 +1,103 @@
+Shivam Kumar Garg
+DOB: Dec 02, 1993
+TECHNICAL SKILLS
+
+
+Language:
+ Basic C, C#, XML
+ Standard Commands for Programmable Instruments (SCPI) commands
+ Hardware: Oscilloscope (M9000 series), Arbitrary Wave generator (M8196 with
+92GSa/s)
+ Analog Circuits: Feedback Amplifier, Operational Amplifier
+ Communication System: Modulation Technique, Digital Communication.
+ Control System: Time Response Analysis, Frequency Response Analysis, Compensator and
+Controllers.
+ Digital Electronics: Sequential Circuits, Combinational Circuits, Logic Families
+ Electronics Device & Circuits: Bipolar Junction Transistor, JFET, MOSFET.
+ Signal & System: Fourier Transformation Analysis, LTI System, Digital Filters
+WORK EXPERIENCE:
+
+
+R&D Software Engineer, Keysight Technologies, India (Sep’16 - Present):
+o Thunderbolt 3 Compliance Application: Testing and Development of USB Type C
+Port with high data rate up to 40 Gbits/s and compatible with PCI-express, Display
+Port etc.
+o USB 3.1 Compliance Application: Testing and Development of 2nd Generation USB
+3.0 (USB 3.1 now) with 10Gbits/sec data rate and multiple signal patterns.
+o PCIE 4th Generation Compliance Application: Testing and Development of New
+Technology with high Data Rate and more compatibility.
+o PAM-4 Compliance Application: Testing and Development of the Next Generation
+Technology with Multi-Level Signals to fasten the data transfer.
+o Automatic Regression Testing (ART): Development of test cases using XML and
+automatic regression of compliance application.
+o M8070 Bit Error Ratio (BERT) Software: Testing of Noise Generator feature in
+Arbitrary Wave Generator (M8196).
+
+INTERNSHIP
+
+
+Bharat Sanchar Nigam Limited (BSNL), Karnal (June’14 – July'14) – Completed
+Internship on the topic “Transmission” under the supervision of Sub Divisional Engineer
+(SDE), Mr. Raj Kumar
+
+
+
+Northern Railways, Electric Loco Shed, Ghaziabad (June’15 – July’15) – attended vocational
+training of 6 weeks on “Communication System”
+
+2071, Sector -7, Urban Estate, Karnal, Haryana
+shivamgarg.ipu@gmail.com | Ph. +91-8377846226
+
+ACADEMIC DETAILS:
+ B.Tech, Electronics and Communication
+USICT, GGSIPU, New Delhi
+ XII , CBSE
+Dyal Singh Public School
+Karnal, Haryana
+ X, CBSE
+Dyal Singh Public School
+Karnal, Haryana
+
+Year: 2012 - 2016
+
+Marks/CGPA: 70
+
+Year: 2011 - 2012
+
+Marks/CGPA: 77
+
+Year:2009 - 2010
+
+Marks/CGPA: 9.4
+
+PROJECT
+ Minor Project - Configuring Routing Protocol
+Configuration of Routers using EIGRP and OSPF algorithm including VLAN and DHCP
+concept
+ Major Project - Multiprotocol Label Switching (MPLS) Networks
+Configuration of Routers using MPLS algorithm including DHCP and Access Lists concepts
+ACHIEVEMENTS
+
+
+
+
+Secured 99.4 Percentile with All India Rank 895 in GATE 2016.
+Selected in State level football team (Haryana).
+Participated in District level Marathon.
+
+VOLUNTEER AND COMMUNITY SERVICE
+ Volunteered in Weekend Education Program conducted by Vikalp Law Society.
+INTERESTS
+
+
+
+Enjoy playing Lawn Tennis and Basket Ball.
+Enjoy playing Musical Instruments.
+
+2071, Sector -7, Urban Estate, Karnal, Haryana
+shivamgarg.ipu@gmail.com | Ph. +91-8377846226
+
+2071, Sector -7, Urban Estate, Karnal, Haryana
+shivamgarg.ipu@gmail.com | Ph. +91-8377846226
+
+

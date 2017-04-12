@@ -3,7 +3,8 @@
     <h3>Papers
       <ul class="nav navbar-right panel_toolbox">
         <% if @is_organizer %>
-            <li><a><i class="fa fa-plus"></i></a><%#= link_to_modal icon_text('trash', ''), delete_post_path(post) %>
+            <li>
+              <%= link_to_modal icon_text("plus"), new_paper_path(conference_id: @conference.id) %>
             </li>
         <% end %>
         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
@@ -12,32 +13,23 @@
 
     <div class="clearfix"></div>
   </div>
-  <div class="x_content">
-    <table id="datatable-papers" class="table table-striped">
+  <div class="x_content" >
+
+    <table id = "datatable-papers" class="table table-striped">
       <thead>
       <tr>
-        <th>#</th>
         <th>Title</th>
         <th>Author</th>
         <th>Publication</th>
         <th>Keywords</th>
         <th>Link</th>
+        <% if @is_organizer %>
+            <th><th>
+        <% end %>
       </tr>
       </thead>
-      <% $i = 1 %>
-      <% $num = 15 %>
       <tbody>
-      <% until $i > $num do %>
-          <tr>
-            <th scope="row"><%= "#{$i}" %></th>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Year</td>
-            <td>Keywords</td>
-            <td><a href="#">Link<i class="left-buffer fa fa-link" aria-hidden="true"></i></a></td>
-          </tr>
-          <% $i +=1; %>
-      <% end %>
+      <%= render @conference.papers %>
       </tbody>
     </table>
   </div>

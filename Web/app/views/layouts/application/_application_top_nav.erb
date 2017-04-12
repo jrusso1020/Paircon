@@ -23,19 +23,19 @@
               <i class=" fa fa-angle-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-usermenu pull-right">
+              <li><a href="<%= user_path(current_user) %>">Settings
+                <i class="pull-right fa fa-cog dropdown-user-icons"></i>
+              </a></li>
               <li>
-                <% if current_user.attendee? and !current_user.pending_organizer %>
+                <% if !current_user.organizer? and !current_user.pending_organizer %>
                     <a data-toggle="modal" data-target="#modal" data-backdrop="static" href="<%= become_organizer_user_path(current_user.id) %>">Become
                       an Organizer
                       <i class="pull-right fa fa-users dropdown-user-icons"></i>
                     </a>
-                <% elsif current_user.attendee? and current_user.pending_organizer %>
-                    <a href="#" class="disabled">Your Organizer Request is Pending</a>
+                <% elsif !current_user.organizer? and current_user.pending_organizer %>
+                    <div style="opacity: 0.8">Your Organizer Request is Pending</div>
                 <% end %>
               </li>
-              <li><a href="<%= user_path(current_user) %>">Settings
-                <i class="pull-right fa fa-cog dropdown-user-icons"></i>
-              </a></li>
               <li><a href="<%= PairConConfig::url['feedback'] %>" target="_blank">Feedback
                 <i class="pull-right fa fa-comments dropdown-user-icons"></i></a>
               </li>

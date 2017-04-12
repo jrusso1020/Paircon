@@ -1,28 +1,32 @@
-<div class="x_panel">
-  <div class="x_title">
-    <h3>Posts
-      <ul class="nav navbar-right panel_toolbox">
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-      </ul>
-    </h3>
+<% if @is_organizer or (!@is_organizer and @post_count != 0) %>
+    <div class="x_panel">
+      <div class="x_title">
+        <h3>Posts
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          </ul>
+        </h3>
 
-    <div class="clearfix"></div>
-  </div>
-  <div class="x_content">
-    <% if @post_count == 0 %>
-        <div class="">
-          <div style="width: 100%; text-align: center; font-style: italic;">
-            <div><%= image_tag 'sad.png', style: 'opacity: 0.3; ' %></div>
-            <br/>
-            <div><%= @conference.get_name %> is yet to post any updates ...
+        <div class="clearfix"></div>
+      </div>
+      <div class="x_content">
+        <% if @post_count == 0 %>
+            <div class="">
+              <div style="width: 100%; text-align: center; font-style: italic;">
+                <div><%= image_tag 'sad.png', style: 'opacity: 0.3; ' %></div>
+                <br/>
+                <div>You have not posted any updates yet. This panel will not be visible to Attendees until you populate
+                  it
+                  ...
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-    <% else %>
-        <div class="post_div">
-          <!-- Populated via Ajax -->
-        </div>
+        <% else %>
+            <div class="post_div" >
+              <!-- Populated via Ajax -->
+            </div>
 
-    <% end %>
-  </div>
-</div>
+        <% end %>
+      </div>
+    </div>
+<% end %>

@@ -21,7 +21,6 @@
 //= require best_in_place.jquery-ui
 //= require selectize
 //= require rails-jquery-tokeninput
-//= require js.cookie
 
 //= require i18n
 //= require i18n/translations

@@ -88,6 +88,8 @@ class PairConConfig
 
     def url
       {
+          privacy: local_settings['privacy_url'],
+          terms: local_settings['terms_url'],
           help: local_settings['help_url'],
           support: local_settings['support_url']
       }
