@@ -102,6 +102,16 @@ function initializeApplication() {
         $(this).removeData('bs.modal');
     });
 
+
+    $('body').on('shown.bs.modal', '.modal', function () {
+    });
+
+    $('body').on('loaded.bs.modal', '.modal', function () {
+    });
+
+    $('body').on('hidden.bs.modal', '#modal', function () {
+    });
+
     if (("onhashchange" in window)) {
         $(window).bind('hashchange', function () {
             window.location.hash = ''
@@ -350,7 +360,7 @@ function loadApplicationLayout() {
     });
     // /Tooltip
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.avatar_label').initial();
     });
 

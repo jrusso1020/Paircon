@@ -18,12 +18,12 @@ function requestTabPane(id, tab_name) {
         beforeSend: function () {
             $('#content').empty();
             showProcessingMsg('Please wait while we process your request ...');
-            $('#progress').show();
+            $('#spinner').show();
             $('#content').hide();
         },
         success: function (html) {
             hideProcessingMsg();
-            $('#progress').hide();
+            $('#spinner').hide();
             $('#content').show();
             $('#content').html(html);
         }
@@ -241,7 +241,6 @@ function initializeFileUploader(conferenceid) {
                         var result_string = JSON.stringify(result);
                         showNotificationMsg(JSON.parse(result_string).message);
                         $('#modal').modal('hide');
-//                        $.pjax.reload('[data-pjax-container]');
                     })
                     .error(function (jqXHR, textStatus, errorThrown) {
                         var result_string = JSON.stringify(jqXHR.responseJSON);
@@ -251,8 +250,8 @@ function initializeFileUploader(conferenceid) {
                     .complete(function (result, textStatus, jqXHR) {
                         $('#closeButton').show();
                         $('#cancelButton').hide();
-//                        $('#modal').modal('hide');
-//                        $.pjax.reload('[data-pjax-container]');
+                        $('#closeButton').click();
+                        $.pjax.reload('[data-pjax-container]');
                         $('#uploadButton').removeClass('disabled');
                         $('#select-button').removeClass('disabled');
                     });
