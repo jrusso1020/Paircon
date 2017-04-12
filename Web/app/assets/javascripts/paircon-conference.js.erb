@@ -206,7 +206,7 @@ function initializeFileUploader(conferenceid) {
         singleFileUploads: true,
 
         multipart: false,
-        url: '/papers?conference_id=' + conferenceid ,
+        url: '/papers?conference_id=' + conferenceid,
         sequentialUploads: true,
         singleFileUploads: true,
         dataType: 'json',
@@ -232,14 +232,16 @@ function initializeFileUploader(conferenceid) {
             data.context = $('#uploadButton').click(function () {
                 $('#uploadButton').text("Uploading");
                 $('#progress').fadeIn('slow');
-                 $('#uploadButton').addClass('disabled');
-                 $('#select-button').addClass('disabled');
-                 $('#closeButton').hide();
-                 $('#cancelButton').show();
+                $('#uploadButton').addClass('disabled');
+                $('#select-button').addClass('disabled');
+                $('#closeButton').hide();
+                $('#cancelButton').show();
                 var jqXHR = data.submit()
                     .success(function (result, textStatus, jqXHR) {
                         var result_string = JSON.stringify(result);
                         showNotificationMsg(JSON.parse(result_string).message);
+                        $('#modal').modal('hide');
+//                        $.pjax.reload('[data-pjax-container]');
                     })
                     .error(function (jqXHR, textStatus, errorThrown) {
                         var result_string = JSON.stringify(jqXHR.responseJSON);
@@ -248,12 +250,11 @@ function initializeFileUploader(conferenceid) {
                     })
                     .complete(function (result, textStatus, jqXHR) {
                         $('#closeButton').show();
-                         $('#cancelButton').hide();
-                        $("#modal").removeClass("in");
-                        $('#modal').modal('hide');
-                         $.pjax.reload('[data-pjax-container]');
-                         $('#uploadButton').removeClass('disabled');
-                         $('#select-button').removeClass('disabled');
+                        $('#cancelButton').hide();
+//                        $('#modal').modal('hide');
+//                        $.pjax.reload('[data-pjax-container]');
+                        $('#uploadButton').removeClass('disabled');
+                        $('#select-button').removeClass('disabled');
                     });
 
                 $('#cancelButton').click(function (e) {
@@ -443,7 +444,7 @@ function getCachedDate(conference_id, start_date_str, end_date_str) {
     var start_date_moment = moment(start_date);
     var end_date_moment = moment(end_date);
 
-    if (typeof Cookies.get(conference_id + '_current_date') == 'Undefined') {
+    if (Cookies.get(conference_id + '_current_date') == 'undefined') {
         return start_date_moment;
     } else {
         var cached_date = new Date(Cookies.get(conference_id + '_current_date'));
@@ -483,14 +484,14 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
             customButtons: {
                 prev: {
                     icon: 'left-single-arrow',
-                    click: function() {
+                    click: function () {
                         $('.scheduler').fullCalendar('prev');
                         cacheEventDate(conference_id);
                     }
                 },
                 next: {
                     icon: 'right-single-arrow',
-                    click: function() {
+                    click: function () {
                         $('.scheduler').fullCalendar('next');
                         cacheEventDate(conference_id);
                     }
