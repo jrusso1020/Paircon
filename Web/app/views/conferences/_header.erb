@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="col-md-12 col-sm-12 col-xs-12" data-step="4" data-intro="Add your background profile" data-position='bottom'>
     <% if @is_organizer %>
         <div class="profile-image dropzone cover-photo" data-height="250"
              data-url="<%= save_cover_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.cover_photo)}" unless @conference.cover.blank? %>
@@ -33,7 +33,7 @@
                 <%= image_tag @conference.logo.url, class: 'profile-image dropzone static conference-logo' %>
             <% end %>
         <% end %>
-        </div>
+      </div>
       <div style="margin-left:30px; margin-right: 30px;" class="flex-grow">
         <div data-step="1" data-intro="Name your conference" data-position='right'>
           <h1>
@@ -57,10 +57,11 @@
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
         <% if user_signed_in? %>
             <a id="startButton" class="btn btn-paircon" href="javascript:void(0);" onclick="javascript:introJs().start();" style="margin-right:5px">How to create</a>
-            <a class="btn btn-paircon" onclick="document.getElementById('interested').click()"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
-            <button type="button" class="btn btn-paircon dropdown-toggle" data-toggle="dropdown">
+            <a class="btn btn-paircon" onclick="document.getElementById('interested').click()" data-toggle="dropdown" data-step="5" data-intro="Follow this conference"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
+            <button type="button" class="btn btn-paircon dropdown-toggle">
               <span class="caret"></span>
             </button>
+
         <% else %>
             <a data-no-pjax href="<%= new_user_session_url(anchor: 'main-header') %>" target="_blank" class="btn btn-paircon">Join
               Paircon!</a>
@@ -112,12 +113,12 @@
 
 <%= javascript_tag 'initializeHeader()' %>
 
-<%# IntroJS multi-page %>
-<script type="text/javascript">
-  document.getElementById('startButton').onclick = function() {
-    introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
-      //TODO: add a link to render about_panel
-        $('#show').html("<%=escape_javascript render(:partial => 'conferences/panels/about_full') %>");
-    });
-  };
+<script>
+    document.getElementById('startButton').onclick = function() {
+      introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
+        // TODO: link to about page in partial view
+        // current_tab = 'about_panel';
+        // requestTabPane(@conference.id, current_tab);
+      });
+    };
 </script>

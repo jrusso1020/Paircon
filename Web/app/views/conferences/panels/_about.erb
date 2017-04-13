@@ -5,35 +5,33 @@
         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
       </ul>
     </h3>
-
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
-    <% if @is_organizer %>
-        <div>
-          <%= best_in_place_if @is_organizer, @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
-          <hr/>
-        </div>
-    <% else %>
-        <% if @conference.description.length > 250 %>
-            <%= truncate(@conference.description, length: 250) %>
-            <%= link_to ' ... Read more', '', class: "read-more-description-#{@conference.id}" %>
-        <% else %>
-            <% unless @conference.description.blank? %>
-                <%= @conference.description %>
-                <hr/>
-            <% end %>
-        <% end %>
-    <% end %>
-
-    <div class="text-center">
+   <div data-step="7" data-intro="Add description about the conference" data-position='left'>
+      <% if @is_organizer %>
+            <%= best_in_place_if @is_organizer, @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
+            <hr/>
+      <% else %>
+          <% if @conference.description.length > 250 %>
+              <%= truncate(@conference.description, length: 250) %>
+              <%= link_to ' ... Read more', '', class: "read-more-description-#{@conference.id}" %>
+          <% else %>
+              <% unless @conference.description.blank? %>
+                  <%= @conference.description %>
+                  <hr/>
+              <% end %>
+          <% end %>
+      <% end %>
+    </div>
+    <div class="text-center" data-step="6" data-intro="Numbers of people following this conference" data-position='left'>
       <h3 class="navy-background light-grey-text">[<%= @interested_count %>] Interested</h3>
     </div>
     <br/>
 
     <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) %>
+      <div data-step="8" data-intro="What is period of the conference" data-position='left'>
         <strong>Event Date:</strong>
-
         <% if @is_organizer %>
             <div class="input-prepend input-group">
               <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
@@ -45,29 +43,30 @@
             </div>
         <% end %>
         <br/>
+      </div>
     <% end %>
 
     <% if !@conference.location.blank? or @is_organizer %>
-        <div>
+        <div data-step="9" data-intro="What is the conferece hold" data-position='left'>
           <strong>Location:</strong> <%= best_in_place_if @is_organizer, @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
         </div>
         <br/>
     <% end %>
 
     <% if !@conference.url.blank? or @is_organizer %>
-        <div>
+        <div data-step="10" data-intro="Add the conference website" data-position='left'>
           <strong>Website:</strong> <%= best_in_place_if @is_organizer, @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
         </div>
     <% end %>
 
     <% if !@conference.phone.blank? or @is_organizer %>
-        <div>
+        <div data-step="11" data-intro="Add a general phone information for the conference" data-position='left'>
           <strong>Phone:</strong> <%= best_in_place_if @is_organizer, @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
         </div>
     <% end %>
 
     <% if !@conference.email.blank? or @is_organizer %>
-        <div><strong>Email
+        <div data-step="12" data-intro="Add an e-mail for the conference" data-position='left'><strong>Email
           Address:</strong> <%= best_in_place_if @is_organizer, @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
         </div>
     <% end %>
