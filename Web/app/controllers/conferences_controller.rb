@@ -1,7 +1,7 @@
 class ConferencesController < ApplicationController
   include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
-  before_action :authenticate_user!, except: [:show, :home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
+  before_action :authenticate_user!, except: [:home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_is_organizer, only: [:home, :schedule, :posts, :about_panel, :show]
 

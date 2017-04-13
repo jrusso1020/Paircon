@@ -12,11 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
-//= require gentelella
 //= require switchery
-//= require bootstrap
 //= require turbolinks
+//#= require bootstrap
+//= require gentelella
 //= require best_in_place
 //= require best_in_place.jquery-ui
 //= require selectize

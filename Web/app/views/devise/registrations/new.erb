@@ -95,7 +95,7 @@
     <%= content_tag :div, (form.submit 'Sign up', class: 'btn btn-block btn-paircon'), class: 'form-actions clearfix' %>
 
     <%= content_tag :div, class: 'form-actions clearfix hidden-xs', style: 'text-align: left' do %>
-      <small>By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', PairConConfig::url['terms'] %> and that you have read our Data Use <%= link_to 'Privacy', PairConConfig::url['privacy'] %>.</small>
+      <small>By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions',  terms_home_index_url() %> and that you have read our Data Use <%= link_to 'Privacy', privacy_home_index_url() %>.</small>
     <% end %>
 
     <%= content_tag :div, class: 'footer-login' do %>
