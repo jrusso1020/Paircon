@@ -56,7 +56,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
             <%= f.label :year, 'Publication year' %>
-            <%= f.text_field :year, placeholder: 'e.g 2017', class: 'form-control' %>
+            <%= f.select :year, (Time.zone.now.year + 1)..(Time.zone.now.year - 100), placeholder: 'e.g 2017', class: 'form-control' %>
           </div>
         </div>
       </div>
