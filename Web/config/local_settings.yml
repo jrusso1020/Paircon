@@ -8,14 +8,17 @@ product_url: 'https://www.paircon.com'
 machine_learning_development_api_url: 'http://127.0.0.1:5000'
 
 # Google
-google_api_client_id: ''
-google_api_client_secret: ''
+google_api_client_id: '990887925576-ku0bpvfpnsv8597prpl8s7oseulsmk6b.apps.googleusercontent.com'
+google_api_client_secret: 'aV4tgUGibCKHUSIWWoteDrlk'
 
 google_map_api_key: 'AIzaSyDgLSmgNiwLUcEzT5Tapx0T4981wIGqeBI'
 
 # Facebook
-facebook_app_id: ''
-facebook_app_secret: ''
+facebook_app_id: '1841457912844005'
+facebook_app_secret: '2d1bfa39c30a3585777aef41331a5740'
+
+production_facebook_app_id: ''
+production_facebook_app_secret: ''
 
 # Mail
 mail_address: 'smtp.gmail.com'

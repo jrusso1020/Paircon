@@ -54,9 +54,7 @@
       <div class="col-md-12 col-sm-12 col-xs-12 text-center top-buffer">
 
         <% if !@conference.url.blank? or @is_organizer %>
-            <a href="<%= @conference.url %>" target="_blank">
-              <button type="button" class="btn btn-paircon">Conference Website</button>
-            </a>
+            <%= link_to content_tag(:button, 'Conference Website', class: 'btn btn-paircon'), conference_path(@conference), target: '_blank' %>
         <% end %>
 
       </div>
@@ -111,8 +109,12 @@
         <% end %>
 
         <% if !@conference.url.blank? or @is_organizer %>
-            <div>
-              <strong>Website:</strong> <%= best_in_place_if @is_organizer, @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
+            <div><strong>Website:</strong>
+              <% if @is_organizer %>
+                  <%= best_in_place_if @is_organizer, @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
+              <% else %>
+                  <%= link_to @conference.url, @conference.url, target: '_blank' %>
+              <% end %>
             </div>
         <% end %>
 
@@ -127,11 +129,13 @@
               Address:</strong> <%= best_in_place_if @is_organizer, @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
             </div>
         <% end %>
-        <br/>
-        <div class="text-center">
-          <%= link_to_modal 'Invite Attendees', invite_conference_path() %>
-          <i class="fa fa-user-plus left-buffer" aria-hidden="true"></i>
-        </div>
+        <% if @conference.publish %>
+            <br/>
+            <div class="text-center">
+              <%= link_to_modal 'Invite Attendees', invite_conference_path() %>
+              <i class="fa fa-user-plus left-buffer" aria-hidden="true"></i>
+            </div>
+        <% end %>
       </div>
     </div>
   </div>
