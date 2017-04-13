@@ -3,13 +3,13 @@
     <% authors = paper.paper_authors %>
 
     <% if authors.count != 0 %>
-      <td><%= authors.select(:name).distinct.map(&:name) %></td>
+      <td><%= authors.select(:name).order(:name).distinct.map(&:name) %></td>
     <% else %>
     <td></td>
     <% end %>
 
     <% if authors.count != 0 %>
-      <td><%= authors.select(:affiliation).distinct.map(&:affiliation) %></td>
+      <td><%= authors.select(:name, :affiliation).order(:name).distinct.map(&:affiliation) %></td>
     <% else %>
       <td></td>
     <% end %>
