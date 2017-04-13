@@ -17,7 +17,24 @@ class PapersController < ApplicationController
       unless params[:filename].blank?
         @paper.save_pdf(params[:conference_id], params[:filename], request.body)
       end
-
+      unless author_params[:author].blank?
+        count = 0
+        affiliation_arr = Array.new
+        unless author_params[:affiliation].blank?
+          affiliation_arr = author_params[:affiliation].split(',')
+        end
+        length = affiliation_arr.size
+        for author in author_params[:author].split(',')
+          affiliation = ""
+          if length > count
+            affiliation = affiliation_arr[count]
+          end
+          count += 1
+          if not @paper.paper_authors.create!({name: author, affiliation: affiliation})
+            render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
+          end
+        end
+      end
       if Conference.find(params[:conference_id]).conference_papers.create!(paper_id: @paper.id)
         begin
           PaperScrapperJob.perform_later(@paper, params[:conference_id])
@@ -66,7 +83,11 @@ class PapersController < ApplicationController
   end
 
   def paper_params
-    params.require(:paper).permit(:pdf, :title, :author, :keywords, :year)
+    params.require(:paper).permit(:pdf, :title, :keywords, :year)
+  end
+
+  def author_params
+    params.require(:paper).permit(:author, :affiliation)
   end
 
 

@@ -17,9 +17,12 @@ class Paper < ApplicationRecord
   has_many :conference_papers
   has_many :similiarities
   has_many :conferences, through: :conference_papers
+  has_many :paper_authors
   has_attached_file :pdf
   validates_attachment :pdf, content_type: { content_type: ["application/pdf"] }
   before_create :init_id
+  attr_accessor :affiliation
+  attr_accessor :author
 
   def save_pdf(conference_id, filename, request_body)
     pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
