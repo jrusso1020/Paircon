@@ -100,6 +100,8 @@ function initializeApplication() {
     $('body').on('show.bs.modal', '#modal', function () {
         $('.modal-dialog').removeClass('modal-mg');
         $(this).removeData('bs.modal');
+
+        $('#modal').modal('hide')
     });
 
     if (("onhashchange" in window)) {

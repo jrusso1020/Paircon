@@ -38,6 +38,6 @@ class Identity < ActiveRecord::Base
   private
 
   def init_id
-    self.id = CodeGenerator.code(Identitiy.new, 'id', 30)
+    self.id = CodeGenerator.code(Identity.new, 'id', 30)
   end
 end

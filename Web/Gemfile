@@ -11,10 +11,8 @@ end
 
 # JS & Assets Related
 gem 'gentelella-rails'                                            # Gentelella Theme
-gem 'bootstrap', '~> 4.0.0.alpha6'                                # Bootstrap 4
 gem 'font-awesome-sass'                                           # Font Awesome
 gem 'jquery-rails', '~> 4.1.1'                                    # JQuery
-gem 'jquery-ui-rails', '~> 6.0.1'                                 # JQuery Helpers
 gem 'turbolinks', '~> 5'                                          # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'introjs-rails'                                               # Used for Intros
 gem 'pdfjs_viewer-rails'                                          # Used to view PDFs
