@@ -56,9 +56,9 @@ class PapersController < ApplicationController
 
   def destroy
     paper = Paper.find(params[:id])
-    conferencePaper = ConferencePaper.find_by_paper_id(params[:id])
+    #conferencePaper = ConferencePaper.find_by_paper_id(params[:id])
     Paper.transaction do
-      if paper.destroy and conferencePaper.destroy
+      if paper.destroy
         flash[:notice] = 'Paper has been successfully deleted.'
       else
         flash[:error] = 'Unable to delete Paper due to some error. Please try again later ...'

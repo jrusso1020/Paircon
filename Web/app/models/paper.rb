@@ -14,10 +14,10 @@
 #++
 
 class Paper < ApplicationRecord
-  has_many :conference_papers
+  has_many :conference_papers, dependent: :destroy
   has_many :similiarities
   has_many :conferences, through: :conference_papers
-  has_many :paper_authors
+  has_many :paper_authors, dependent: :destroy
   has_attached_file :pdf
   validates_attachment :pdf, content_type: { content_type: ["application/pdf"] }
   before_create :init_id
