@@ -1,10 +1,10 @@
-<form>
+<%= form_tag search_path method: 'GET' data: {pjax: true} do %>
   <div class="col-xs-12 form-group pull-right top_search">
     <div class="input-group">
-      <input class="form-control" placeholder="Search for..." type="text">
+      <input class="form-control" id="search_val" name="search_val" value="<%= params[:search_val] %>" placeholder="Search for..." type="text">
       <span class="input-group-btn">
-                              <button class="btn btn-default" type="button">Go!</button>
-                          </span>
+        <button id="app_search_btn" class="btn btn-default" type="submit">Go!</button>
+      </span>
     </div>
   </div>
-</form>
+<% end %>

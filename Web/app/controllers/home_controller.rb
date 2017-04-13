@@ -12,4 +12,14 @@ class HomeController < ApplicationController
     render layout: false
   end
 
+  def search
+    query = params[:search_val]
+    @conferences = []
+    @conferences += Conference.where("name like ?", "%#{query}%")
+    @conferences += Conference.where("location like ?", "%#{query}%")
+    @conferences += Conference.where("domain like ?", "%#{query}%")
+
+    render :search_results
+  end
+
 end
