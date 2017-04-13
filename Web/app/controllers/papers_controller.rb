@@ -12,7 +12,7 @@ class PapersController < ApplicationController
   end
 
   def create
-    paper_params[:year] = DateTime.new(paper_params[:year])
+    paper_params[:year] = DateTime.new(paper_params[:year].to_i)
     @paper = Paper.new(paper_params)
     if @paper.save
       unless params[:filename].blank?
