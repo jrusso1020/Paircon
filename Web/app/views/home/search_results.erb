@@ -1,0 +1,40 @@
+<div id="page-heading">
+  <%= header_title "Search" %>
+
+  <% title = "Search Results For '#{params[:search_val]}'" %>
+
+  <div id="page-heading">
+    <%= page_title title %>
+    <hr/>
+  </div>
+
+  <div class="x_panel">
+  <div class="x_title">
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <table class="display table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
+      <thead>
+      <tr role="row">
+        <th>Conference Name</th>
+        <th>Conference Location</th>
+        <th>Conference Domain</th>
+        <th>Conference Page</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @conferences.each do |conference| %>
+          <tr>
+            <td><%= conference.name %></td>
+            <td><%= conference.location %></td>
+            <td><%= conference.domain.blank? ? 'N/A' : conference.domain %></td>
+            <td><%= link_to "View", conference_path(conference) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= javascript_tag 'initializeSearch()' %>
+</div>
