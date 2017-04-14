@@ -11,8 +11,10 @@
           <p>Oh My! Something bad happened. We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing. <a href="<%= PairConConfig::url[:support] %>">Report this?</a>
           </p>
           <div class="mid_center">
+          <% if user_signed_in? %>
             <h3>Search</h3>
             <%= render 'layouts/application/search' %>
+          <% end %>
           </div>
           <%= image_tag 'sad.png', style: 'margin-top: 30px' %>
         </div>

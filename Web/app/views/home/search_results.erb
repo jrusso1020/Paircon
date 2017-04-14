@@ -3,6 +3,11 @@
 
   <% title = "Search Results For '#{params[:search_val]}'" %>
 
+  <div id="page-heading">
+    <%= page_title title %>
+    <hr/>
+  </div>
+
   <div class="x_panel">
   <div class="x_title">
     <div class="clearfix"></div>
@@ -23,7 +28,7 @@
             <td><%= conference.name %></td>
             <td><%= conference.location %></td>
             <td><%= conference.domain.blank? ? 'N/A' : conference.domain %></td>
-            <td><%= button_to "View", conference_path(conference), :method => "get" %></td>
+            <td><%= link_to "View", conference_path(conference) %></td>
           </tr>
       <% end %>
       </tbody>
