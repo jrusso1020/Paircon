@@ -245,9 +245,7 @@ class SchedulesController < ApplicationController
   def get_events_user
 
     @conferences = Conference.my_attending_conferences_active(current_user)
-
-    #for conference in @conferences[0..@conferences.length]
-    @conference.each do |conference|
+    for conference in @conferences
         events = conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
     end
     render json: events.to_json

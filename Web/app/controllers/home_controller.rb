@@ -2,7 +2,6 @@ class HomeController < ApplicationController
 
 
   def index
-    # notification section
       authenticate_user!
       @notifications = Notification.find_all_notifications(current_user, Notification::NOTIFICATION_LIST_LIMIT)
       @total_notifications = Notification.find_new_notifications(@notifications, current_user)
