@@ -49,7 +49,7 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
     $(function () { // document ready
         dateNow = getCachedDate(conference_id, start_date_str, end_date_str);
 
-        $('.scheduler').fullCalendar({
+        $('#conference_scheduler').fullCalendar({
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             now: dateNow,
             selectable: enabled,
@@ -251,10 +251,42 @@ function initializeSelectize() {
 
 function initializeScheduleUserEvents() {
     $(document).ready(function() {
-        $('.scheduler').fullCalendar({
+        $('#user_scheduler').fullCalendar({
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-            events: '/schedules/get_events_user'
+            contentHeight: 650,
+            selectable: false,
+            selectHelper: false,
+            editable: false,
+            eventStartEditable: false,
+            eventDurationEditable: false,
+            filterResourcesWithEvents: false,
+            eventLimit: true,
+            scrollTime: '08:00',
+            header: {
+                left: 'title',
+                right: 'monthView,weekView,dayView,listWeekView prev,next'
+            },
+            defaultView: 'month',
+            views: {
+                weekView: {
+                    type: 'agendaWeek',
+                    buttonText: 'Week'
+                },
+                listWeekView: {
+                    type: 'listWeek',
+                    buttonText: 'List'
+                },
+                dayView: {
+                    type: 'agendaDay',
+                    buttonText: 'Day'
+                },
+                monthView: {
+                    type: 'month',
+                    buttonText: 'Month'
+                }
+            },
 
+            events: '/schedules/get_events_user'
         });
     });
 }

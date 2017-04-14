@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require switchery
 //= require turbolinks
-//#= require bootstrap
 //= require gentelella
 //= require best_in_place
 //= require best_in_place.jquery-ui
@@ -35,6 +34,7 @@
 //= require user
 //= require common
 //= require conference
+//= require scheduler
 //= require paircon-common
 //= require paircon-user
 //= require paircon-post
