@@ -35,7 +35,7 @@ function initializeTabPanes(id) {
         current_tab = $(this).attr('id');
         requestTabPane(id, current_tab);
     });
-    if (Cookies.get(id + '_current_tab') == 'undefined') {
+    if (typeof Cookies.get(id + '_current_tab') === 'undefined') {
         current_tab = 'home';
         Cookies.set(id + '_current_tab', 'home');
     } else {
@@ -456,7 +456,7 @@ function getCachedDate(conference_id, start_date_str, end_date_str) {
     var start_date_moment = moment(start_date);
     var end_date_moment = moment(end_date);
 
-    if (Cookies.get(conference_id + '_current_date') == 'undefined') {
+    if (typeof Cookies.get(conference_id + '_current_date') === 'undefined') {
         return start_date_moment;
     } else {
         var cached_date = new Date(Cookies.get(conference_id + '_current_date'));
