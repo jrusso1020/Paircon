@@ -22,7 +22,7 @@
           <tr>
             <td><%= conference.name %></td>
             <td><%= conference.location %></td>
-            <td><%= conference.domain.blank? ? 'N/A' : organizer.domain %></td>
+            <td><%= conference.domain.blank? ? 'N/A' : conference.domain %></td>
             <td><%= button_to "View", conference_path(conference), :method => "get" %></td>
           </tr>
       <% end %>
