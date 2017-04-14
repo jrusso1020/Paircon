@@ -20,13 +20,13 @@
 //= require best_in_place.jquery-ui
 //= require selectize
 //= require rails-jquery-tokeninput
+//= require jquery-fileupload/basic
 //= require js.cookie
 
 //= require i18n
 //= require i18n/translations
 //= require gentelella-custom
 
-//= require jquery-fileupload/basic
 //= require introjs
 
 //= require moment

@@ -68,6 +68,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :papers do
+    member do
+     get :delete
+     delete :destroy
+    end
+  end
+
   resources :conferences do
     member do
       get :invite

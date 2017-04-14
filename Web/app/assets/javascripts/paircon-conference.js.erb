@@ -4,20 +4,26 @@ function initializeHeader() {
     });
 }
 
-var current_tab = 'home';
+var current_tab;
+
 function requestTabPane(id, tab_name) {
+    Cookies.set(id + '_current_tab', tab_name);
+    $('.tab_ajax').parent().removeClass('active');
+    $('#' + tab_name).parent().addClass('active');
+
+
     $.ajax({
         type: 'GET',
         url: '/conferences/' + id + '/' + tab_name,
         beforeSend: function () {
             $('#content').empty();
             showProcessingMsg('Please wait while we process your request ...');
-            $('#progress').show();
+            $('#spinner').show();
             $('#content').hide();
         },
         success: function (html) {
             hideProcessingMsg();
-            $('#progress').hide();
+            $('#spinner').hide();
             $('#content').show();
             $('#content').html(html);
         }
@@ -29,6 +35,12 @@ function initializeTabPanes(id) {
         current_tab = $(this).attr('id');
         requestTabPane(id, current_tab);
     });
+    if (typeof Cookies.get(id + '_current_tab') === 'undefined') {
+        current_tab = 'home';
+        Cookies.set(id + '_current_tab', 'home');
+    } else {
+        current_tab = Cookies.get(id + '_current_tab');
+    }
 
     requestTabPane(id, current_tab);
 }
@@ -176,6 +188,100 @@ function retrievePosts(id) {
             initializeInPlaceEditing(id);
         }
     });
+}
+function initializeFileUploader(conferenceid) {
+    $('#uploadButton').text("Upload");
+    $('#progress').hide();
+    $('#fileName').text("");
+    $(document).bind('drop dragover', function (e) {
+        e.preventDefault();
+    });
+
+    $('#closeButton').click(function () {
+        $('#uploadButton').text("Upload");
+        $('#progress').hide();
+        $('#fileName').text("");
+    });
+
+    $('#new_paper').validate({
+        rules: {
+            'paper[title]': {
+                required: true
+            }
+        }
+    });
+
+    $('input[name="fileData"]').fileupload({
+        singleFileUploads: true,
+
+        multipart: false,
+        url: '/papers?conference_id=' + conferenceid,
+        sequentialUploads: true,
+        singleFileUploads: true,
+        dataType: 'json',
+        dropZone: $('#drag-area'),
+        method: 'POST',
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css(
+                'width',
+                progress + '%'
+            );
+        },
+        done: function (e, data) {
+            $('#closeButton').show();
+            $('#cancelButton').hide();
+        },
+        add: function (e, data) {
+            $('#fileName').text("[" + data.files[0].name + "]");
+            $('#uploadButton').removeClass('disabled');
+            var uploadurl = $('input[name="fileData"]').fileupload('option', 'url');
+            $('#uploadButton').unbind();
+            data.context = $('#uploadButton').click(function () {
+                if($('#new_paper').valid()){
+                    $('#uploadButton').text("Uploading");
+                    $('#progress').fadeIn('slow');
+                    $('#uploadButton').addClass('disabled');
+                    $('#select-button').addClass('disabled');
+                    $('#closeButton').hide();
+                    $('#cancelButton').show();
+                    $('input[name="fileData"]').fileupload('option', 'url', uploadurl + "&filename=" + data.files[0].name + "&filesize=" + data.files[0].size + "&paper[title]=" + $('#paper_title').val() + "&paper[author]=" + $('#paper_author').val() + "&paper[keywords]=" + $('#paper_keywords').val() + "&paper[year]=" + $('#paper_year').val() + "&paper[affiliation]=" + $('#paper_affiliation').val());
+                    var jqXHR = data.submit()
+                        .success(function (result, textStatus, jqXHR) {
+                            var result_string = JSON.stringify(result);
+                            showNotificationMsg(JSON.parse(result_string).message);
+                            $('#modal').modal('hide');
+                        })
+                        .error(function (jqXHR, textStatus, errorThrown) {
+                            var result_string = JSON.stringify(jqXHR.responseJSON);
+                            result_string = JSON.parse(result_string);
+                            showErrorMsg(result_string.message);
+                        })
+                        .complete(function (result, textStatus, jqXHR) {
+                            $('#closeButton').show();
+                            $('#cancelButton').hide();
+                            $('#closeButton').click();
+                            $.pjax.reload('[data-pjax-container]');
+                            $('#uploadButton').removeClass('disabled');
+                            $('#select-button').removeClass('disabled');
+                        });
+
+                    $('#cancelButton').click(function (e) {
+                        $('#uploadButton').text("Upload");
+                        $('#uploadButton').removeClass('disabled');
+                        $('#select-button').removeClass('disabled');
+                        $('#progress').hide();
+                        jqXHR.abort();
+                    });
+
+                }else{
+                    return false;
+                }
+
+            });
+        }
+    });
+
 }
 
 function initCharts(count) {
@@ -351,7 +457,7 @@ function getCachedDate(conference_id, start_date_str, end_date_str) {
     var start_date_moment = moment(start_date);
     var end_date_moment = moment(end_date);
 
-    if (typeof Cookies.get(conference_id + '_current_date') == 'Undefined') {
+    if (typeof Cookies.get(conference_id + '_current_date') === 'undefined') {
         return start_date_moment;
     } else {
         var cached_date = new Date(Cookies.get(conference_id + '_current_date'));
@@ -391,14 +497,14 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
             customButtons: {
                 prev: {
                     icon: 'left-single-arrow',
-                    click: function() {
+                    click: function () {
                         $('.scheduler').fullCalendar('prev');
                         cacheEventDate(conference_id);
                     }
                 },
                 next: {
                     icon: 'right-single-arrow',
-                    click: function() {
+                    click: function () {
                         $('.scheduler').fullCalendar('next');
                         cacheEventDate(conference_id);
                     }
