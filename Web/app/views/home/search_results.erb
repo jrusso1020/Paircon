@@ -5,11 +5,6 @@
 
   <div class="x_panel">
   <div class="x_title">
-    <h3>Search Results
-      <ul class="nav navbar-right panel_toolbox">
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-      </ul>
-    </h3>
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
@@ -19,6 +14,7 @@
         <th>Conference Name</th>
         <th>Conference Location</th>
         <th>Conference Domain</th>
+        <th>Conference Page</th>
       </tr>
       </thead>
       <tbody>
@@ -27,6 +23,7 @@
             <td><%= conference.name %></td>
             <td><%= conference.location %></td>
             <td><%= conference.domain.blank? ? 'N/A' : organizer.domain %></td>
+            <td><%= button_to "View", conference_path(conference), :method => "get" %></td>
           </tr>
       <% end %>
       </tbody>

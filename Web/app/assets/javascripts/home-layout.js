@@ -11,3 +11,4 @@
 // = require common
 // = require paircon-common
 // = require paircon-user
+// = require paircon-search
