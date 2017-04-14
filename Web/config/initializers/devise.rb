@@ -22,16 +22,16 @@ Devise.setup do |config|
   config.timeout_in = 720.minutes
   config.allow_unconfirmed_access_for = 720.days
 
-  config.omniauth :google_oauth2, PairConConfig.google_settings['client_id'],
-                  PairConConfig.google_settings['client_secret'], {
+  config.omniauth :google_oauth2, PairConConfig.google_settings[:client_id],
+                  PairConConfig.google_settings[:client_secret], {
                       approval_prompt: 'force',
                       scope: GOOGLE_OAUTH2_SCOPE,
                       name: 'google_oauth2',
                       access_type: 'offline'
                   }
 
-  config.omniauth :facebook, PairConConfig.facebook_settings['app_id'],
-                  PairConConfig.facebook_settings['app_secret'], {
+  config.omniauth :facebook, (Rails.env == 'development' || Rails.env == 'test') ? PairConConfig.facebook_settings[:app_id] : PairConConfig.facebook_settings_production[:app_id],
+                  (Rails.env == 'development' || Rails.env == 'test') ? PairConConfig.facebook_settings[:app_secret] : PairConConfig.facebook_settings_production[:app_secret], {
                       approval_prompt: 'force',
                       name: 'facebook',
                       access_type: 'offline'

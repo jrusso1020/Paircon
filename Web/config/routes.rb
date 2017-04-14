@@ -69,6 +69,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :papers do
+    member do
+     get :delete
+     delete :destroy
+    end
+  end
+
   resources :conferences do
     member do
       get :invite
@@ -110,6 +117,7 @@ Rails.application.routes.draw do
       get :password_reset
       get :timezone
       get :become_organizer
+      get :approved_organizers
       get :pending_organizers
 
       delete :delete_account

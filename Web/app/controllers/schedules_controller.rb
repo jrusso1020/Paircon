@@ -22,12 +22,20 @@ class SchedulesController < ApplicationController
   def create_resource
     conference_resource_params = params.require(:resource).permit!
 
+    if conference_resource_params[:building] == 'Other'
+      building_name = conference_resource_params[:building_other]
+    elsif conference_resource_params[:building] == 'None'
+      building_name = ''
+    else
+      building_name = conference_resource_params[:building]
+    end
+
     if params[:view] == ConferenceResource::TYPE[:auditorium]
       ConferenceResource.create!(
           conference_id: params[:conference_id],
           title: conference_resource_params[:title],
           parent_id: nil,
-          building: conference_resource_params[:building] != 'Other' ? conference_resource_params[:building] : conference_resource_params[:building_other],
+          building: building_name,
           eventColor: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
       )
       flash[:notice] = "You have successfully created '#{conference_resource_params[:title]}' Auditorium."
@@ -125,7 +133,7 @@ class SchedulesController < ApplicationController
     unless params[:update_dates].blank?
       attributes = {start_date: conference_event_params[:start_date],
                     end_date: conference_event_params[:end_date],
-                    conference_resource_id: conference_event_params[:resource_id] }
+                    conference_resource_id: conference_event_params[:resource_id]}
     else
       if !conference_event_params[:resource_room].blank? and conference_event_params[:resource_room] != 'No Room'
         resource_id = conference_event_params[:resource_room]
@@ -149,7 +157,7 @@ class SchedulesController < ApplicationController
     end
 
     unless params[:update_dates].blank?
-      render json: {status: status, text: @event.title.nil? ? 'Event' : @event.title }
+      render json: {status: status, text: @event.title.nil? ? 'Event' : @event.title}
     else
       redirect_back(fallback_location: root_path)
     end
