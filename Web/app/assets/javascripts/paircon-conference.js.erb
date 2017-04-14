@@ -567,3 +567,13 @@ function initializeSelectize() {
         sortField: 'text'
     });
 }
+
+function initializeScheduleUserEvents() {
+    $(document).ready(function() {
+        $('.scheduler').fullCalendar({
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+            events: '/schedules/get_events_user'
+
+        });
+    });
+}
