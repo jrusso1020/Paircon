@@ -2,7 +2,6 @@ class HomeController < ApplicationController
   before_action :authenticate_user!, only: [:home, :search]
 
   def index
-    # notification section
       authenticate_user!
       @notifications = Notification.find_all_notifications(current_user, Notification::NOTIFICATION_LIST_LIMIT)
       @total_notifications = Notification.find_new_notifications(@notifications, current_user)
