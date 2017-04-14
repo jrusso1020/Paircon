@@ -1,0 +1,28 @@
+<div class="x_panel">
+  <div class="x_title">
+    <h3>Notifications</h3>
+    <div class="clearfix"></div>
+
+  </div>
+  <div class="x_content">
+    <ul class="to_do">
+      <% is_notifications = false %>
+      <% @notifications[0..3].each do |activity| %>
+          <% @activity = activity %>
+          <%= render_activity activity %>
+          <hr class="notifications-divider"/>
+          <% is_notifications = true %>
+      <% end %>
+
+      <% unless is_notifications %>
+          <div style="width: 100%; text-align: center; font-style: italic;">
+            <br/>
+            <br/>
+            <br/>
+            <%= image_tag 'sad.png' %>
+            <div style="margin-top: 30px;">You have no notifications ...</div>
+          </div>
+      <% end %>
+    </ul>
+  </div>
+</div>
