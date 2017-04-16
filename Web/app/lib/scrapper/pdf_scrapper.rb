@@ -130,7 +130,7 @@ class PDFScrapper
           end
         end
       rescue => ex
-        puts 'Could not download ' + link
+        Rails.logger.debug('Could not download ' + link)
       end
 
     end
@@ -142,7 +142,13 @@ class PDFScrapper
     Dir.foreach(pdfFolder) do |item|
       next if item == '.' or item == '..'
       filepath = pdfFolder + '/' + item
-      Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
+      begin
+        Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
+      rescue => e
+        Rails.logger.debug("Error while extracting : " + filepath)
+        puts "Error while extracting : " + filepath
+      end
+
     end
   end
 

@@ -75,7 +75,15 @@ class UsersController < ApplicationController
         save_logo
       end
 
+      scrape_profile = false
+      if @user.is_app_init and (not user_params[:url].blank?) and (user_params[:url] != @user.url)
+        scrape_profile = true
+      end
+
       if @user.update_attributes(user_params)
+        if scrape_profile
+          @user.scrape_profile
+        end
         if params[:referer] == REFERERS[:app_init]
           unless Identity.find_by_user_id(@user.id).nil?
             sign_in @user, :bypass => true

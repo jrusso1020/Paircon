@@ -62,6 +62,7 @@
 
 class User < ApplicationRecord
   include PublicActivity::Common
+  include UserHelper
 
   devise :database_authenticatable, :async, :registerable, :recoverable, :rememberable,
          :trackable, :validatable, :timeoutable, :omniauthable,
@@ -112,11 +113,11 @@ class User < ApplicationRecord
   end
 
   def get_pdf_text_path
-    return "#{Rails.root}/public/docs/txt/#{self.id}"
+    return "#{Rails.root}/public/users/#{self.id}/txt"
   end
 
   def get_pdf_folder_path
-    return "#{Rails.root}/public/docs/pdfs/#{self.id}"
+    return "#{Rails.root}/public/users/#{self.id}/pdfs"
   end
 
   def pending_organizer
@@ -126,6 +127,16 @@ class User < ApplicationRecord
   def activity key
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: self, recipient: self, params: {:user => self.to_json})
+  end
+
+  def scrape_profile
+    self.is_scraped = false
+    self.save
+    begin
+      UserProfileScrapperJob.perform_later(self)
+    rescue => e
+      scrapeUserProfile(self)
+    end
   end
 
   private
