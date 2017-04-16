@@ -11,7 +11,7 @@
           <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
       <% end %>
 
-      <% if !@is_organizer and user_signed_in? %>
+      <% if user_signed_in? %>
           <li>
             <a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
           </li>
