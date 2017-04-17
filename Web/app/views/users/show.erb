@@ -58,6 +58,11 @@
             <td class="profile-title table-accountinfo">Graduation Year:</td>
             <td class="table-accountinfo"><%= @user.user_grad_year.blank? ? 'N/A' : @user.user_grad_year %></td>
           </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Academic Profile:</td>
+            <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
+          </tr>
+
           </tbody>
         </table>
       </div>

@@ -11,10 +11,12 @@
           <h2>Ouch! Sorry but we couldn't find this page</h2>
           <p>This page you are looking for does not exist <a href="<%= PairConConfig::url[:support] %>">Report this?</a>
           </p>
-          <div class="mid_center">
-            <h3>Search</h3>
-            <%= render 'layouts/application/search' %>
-          </div>
+          <% if user_signed_in? %>
+            <div class="mid_center">
+              <h3>Search</h3>
+              <%= render 'layouts/application/search' %>
+            </div>
+          <% end %>
           <%= image_tag 'sad.png', style: 'margin-top: 30px' %>
         </div>
       </div>

@@ -107,6 +107,7 @@ Rails.application.routes.draw do
     collection do
       get :terms
       get :privacy_policy
+      get :search
     end
   end
 
