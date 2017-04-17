@@ -43,14 +43,13 @@ class PDFScrapper
     ary = Set.new()
     begin
       page = Nokogiri::HTML(open(@link, 'User-Agent' => USER_AGENT))
-      #puts page
       page.css('a').each do |pdflink|
         if pdflink['href'] =~ /\b.+.pdf/
           ary.add(pdflink['href'])
         end
       end
     rescue => ex
-      puts 'Something went wrong....'
+      Rails.logger.debug('Something went wrong....')
     end
     ary.to_a
   end
@@ -92,7 +91,7 @@ class PDFScrapper
           end
           end
       rescue => ex
-          puts 'Something went wrong....'
+          Rails.logger.debug('Something went wrong....')
       end
     end
     ary.to_a
@@ -110,7 +109,7 @@ class PDFScrapper
           IO.copy_stream(download, f)
         end
       rescue => ex
-        puts 'Could not download ' + link
+        Rails.logger.debug('Could not download ' + link)
       end
 
     end
@@ -146,7 +145,6 @@ class PDFScrapper
         Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
       rescue => e
         Rails.logger.debug("Error while extracting : " + filepath)
-        puts "Error while extracting : " + filepath
       end
 
     end
