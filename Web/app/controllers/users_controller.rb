@@ -70,12 +70,15 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
 
+      scrape_profile = false
       if params[:referer] == REFERERS[:app_init]
         init_app_after_first_sign_up
         save_logo
+        if(not @user.url.blank?)
+          scrape_profile = true
+        end
       end
 
-      scrape_profile = false
       if @user.is_app_init and (not user_params[:url].blank?) and (user_params[:url] != @user.url)
         scrape_profile = true
       end

@@ -1,3 +1,4 @@
+require "scrapper/pdf_scrapper"
 module UserHelper
 
   def scrapeUserProfile(user)
