@@ -13,3 +13,4 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += ['phone-codes.json', 'home-layout.scss', 'home-layout.js', 'application-layout.scss', 'application-layout.js', 'scheduler/calendar/fullcalendar.print.min', 'scheduler/calendar/scheduler.min']
 Rails.application.config.assets.paths += ['vendor/assets', 'lib/assets', '/assets']
+Rails.application.config.assets.precompile += %w( scheduler/calendar/fullcalendar.print.min.css )
