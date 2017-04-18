@@ -28,3 +28,9 @@
   </div>
 </div>
 <% end %>
+
+<script>
+  if (Cookies.get('first_conference') != 1) {
+      Cookies.set('first_conference', '0');
+  } 
+</script>
