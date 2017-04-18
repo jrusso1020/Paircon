@@ -61,7 +61,6 @@
             <button type="button" class="btn btn-paircon dropdown-toggle">
               <span class="caret"></span>
             </button>
-
         <% else %>
             <a data-no-pjax href="<%= new_user_session_url(anchor: 'main-header') %>" target="_blank" class="btn btn-paircon">Join
               Paircon!</a>
@@ -112,13 +111,3 @@
 </div>
 
 <%= javascript_tag 'initializeHeader()' %>
-
-<script>
-    document.getElementById('startButton').onclick = function() {
-      introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
-        // TODO: link to about page in partial view
-        // current_tab = 'about_panel';
-        // requestTabPane(@conference.id, current_tab);
-      });
-    };
-</script>

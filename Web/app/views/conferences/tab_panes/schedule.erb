@@ -1,7 +1,13 @@
-<div id="schedule" class="tab-pane">
-  <div class="col-md-12 col-sm-12 col-xs-12">
+<div id="schedule" class="tab-panez">
+  <div class="col-md-12 col-sm-12 col-xs-12" data-step="18" data-intro="Your schedule for conference and meetings" data-position='top'>
     <%= render 'conferences/panels/schedule' %>
   </div>
 </div>
 
 <%= render 'conferences/footer', scheduler: true %>
+
+<script>
+    introJs().setOption('doneLabel', 'Next page').goToStepNumber(18).start().oncomplete(function() {
+        $("#about_panel").click();
+    });
+</script>

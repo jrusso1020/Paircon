@@ -68,6 +68,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :papers do
+    member do
+     get :delete
+     delete :destroy
+    end
+  end
+
   resources :conferences do
     member do
       get :invite
@@ -99,6 +106,7 @@ Rails.application.routes.draw do
     collection do
       get :terms
       get :privacy_policy
+      get :search
     end
   end
 

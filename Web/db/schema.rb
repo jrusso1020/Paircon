@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170408035141) do
+=======
+ActiveRecord::Schema.define(version: 20170413002130) do
+>>>>>>> b0e361f3b9f1f7063bd80ed6e8a5a9d4b6ae3958
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,13 +127,32 @@ ActiveRecord::Schema.define(version: 20170408035141) do
     t.index ["user_id"], name: "index_organizers_on_user_id", unique: true, using: :btree
   end
 
+  create_table "paper_authors", force: :cascade do |t|
+    t.string   "name"
+    t.string   "affiliation"
+    t.string   "paper_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "papers", force: :cascade do |t|
     t.string   "title"
     t.text     "pdf_link"
     t.string   "md5hash"
     t.text     "path"
+<<<<<<< HEAD
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+=======
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "pdf_file_name"
+    t.string   "pdf_content_type"
+    t.integer  "pdf_file_size"
+    t.datetime "pdf_updated_at"
+    t.text     "keywords"
+    t.date     "year"
+>>>>>>> b0e361f3b9f1f7063bd80ed6e8a5a9d4b6ae3958
   end
 
   create_table "posts", force: :cascade do |t|

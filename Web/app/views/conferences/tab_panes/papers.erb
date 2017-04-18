@@ -1,7 +1,13 @@
 <div id="papers" class="tab-pane active">
-  <div class="col-md-12 col-sm-12 col-xs-12 top-buffer">
+  <div class="col-md-12 col-sm-12 col-xs-12 top-buffer" data-step="17" data-intro="Upload papers here" data-position='top'>
     <%= render 'conferences/panels/papers' %>
   </div>
 </div>
 
 <%= render 'conferences/footer', scheduler: false %>
+
+<script>
+    introJs().setOption('doneLabel', 'Next page').goToStepNumber(17).start().oncomplete(function() {
+        $("#schedule").click();
+    });
+</script>
