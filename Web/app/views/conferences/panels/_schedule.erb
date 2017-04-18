@@ -1,4 +1,30 @@
 <% if @is_organizer or (!@is_organizer and @total_resources != 0 and @total_events != 0) %>
+    <!--<div class="x_panel top-buffer">-->
+      <!--<div class="x_title">-->
+        <!--<h3>Schedule-->
+          <!--<ul class="nav navbar-right panel_toolbox">-->
+            <!--<#% if @is_organizer %>-->
+                <!--<li class="dropdown">-->
+                  <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus"></i></a>-->
+                  <!--<ul class="dropdown-menu" role="menu">-->
+                    <!--<li><%#= link_to_modal 'Add Auditorium', new_resource_schedules_path(conference_id: @conference.id, view: 'auditorium') %></li>-->
+                    <!--<li><%#= link_to_modal 'Add Room', new_resource_schedules_path(conference_id: @conference.id, view: 'room') %></li>-->
+                    <!--<li><%#= link_to_modal 'Add Event', new_event_schedules_path(conference_id: @conference.id) %></li>-->
+                  <!--</ul>-->
+                <!--</li>-->
+            <!--<#% end %>-->
+            <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>-->
+          <!--</ul>-->
+        <!--</h3>-->
+
+        <!--<div class="clearfix"></div>-->
+      <!--</div>-->
+      <!--<div class="x_content">-->
+        <!--<div class='scheduler'></div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+
     <div class="x_panel top-buffer">
       <div class="x_title">
         <h3>Schedule
@@ -20,8 +46,107 @@
         <div class="clearfix"></div>
       </div>
       <div class="x_content">
-        <div class='scheduler'></div>
+        <% if @is_organizer %>
+          <div class = "text-center">
+            <button class = "btn btn-paircon">Upload New Schedule CSV</button>
+            <button class = "btn btn-paircon">Add New Single Event</button>
+          </div>
+        <% end %>
+        <table class="table table-striped top-buffer">
+        <!--<table class="datatable-schedule table table-striped">-->
+          <% $days = %w(Monday Tuesday Wednesday Thursday Friday) %>    <%# Make these dynamic. Should be days of conference%>
+          <% $days.each do |day| %>
+          <thead>
+          <tr>
+            <th><%=day%></th>
+            <% $areas = %w(Location1 Location2 Location3 Location4 Location5) %>    <%# Make these dynamic. Should be areas of conference%>
+            <% $areas.each do |area| %>
+            <th><%=area%></th>
+            <% end %>
+          </tr>
+          </thead>
+
+            <% $num = 5 %>
+            <% $timeslots = %w(08:30–09:30 09:30-10:30 10:30-13:00 13:00-15:00 15:00-18:00) %>
+            <% $timeslots.each do |timeslot| %>
+            <tbody>
+                <tr>
+                  <th scope="row"><%= timeslot %></th>
+                  <% $i = 1 %>
+                  <% until $i > $areas.length do %>
+                    <td><a href="#"><%= "Topic #{$i}" %></a></td>
+                  <% $i +=1; %>
+                  <% end %>
+                </tr>
+
+            <% end %>
+            </tbody>
+          <% end %>
+        </table>
       </div>
     </div>
 
 <% end %>
+
+<div class="x_panel">
+  <div class="x_title">
+    <h3>Detailed Schedule
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+      </ul>
+    </h3>
+
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">1. What is HTML?</a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+          <div class="panel-body">
+            <p>HTML stands for HyperText Markup Language. HTML is the main markup language for describing the structure of Web pages. <a href="http://www.tutorialrepublic.com/html-tutorial/" target="_blank">Learn more.</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">2. What is Bootstrap?</a>
+          </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+          <div class="panel-body">
+            <p>Bootstrap is a powerful front-end framework for faster and easier web development. It is a collection of CSS and HTML conventions. <a href="http://www.tutorialrepublic.com/twitter-bootstrap-tutorial/" target="_blank">Learn more.</a></p>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">3. What is CSS?</a>
+          </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+          <div class="panel-body">
+            <p>CSS stands for Cascading Style Sheet. CSS allows you to specify various style properties for a given HTML element such as colors, backgrounds, fonts etc. <a href="http://www.tutorialrepublic.com/css-tutorial/" target="_blank">Learn more.</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+</div>
+
+
+<!--<script>-->
+<!--$('.datatable-schedule').DataTable();-->
+<!--</script>-->
