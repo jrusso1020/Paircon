@@ -1,0 +1,38 @@
+<%= header_title 'Approve Organizers' %>
+
+<div class="x_panel">
+  <div class="x_title">
+    <h3>Approved Organizers
+      <ul class="nav navbar-right panel_toolbox">
+        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+      </ul>
+    </h3>
+    <div class="clearfix"></div>
+  </div>
+  <div class="x_content">
+    <table class="display table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
+      <thead>
+      <tr role="row">
+        <th>User Name</th>
+        <th>Contact</th>
+        <th>User Industry</th>
+        <th>User Organization</th>
+        <th>Date Approved</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @approved_organizers.each do |organizer| %>
+          <tr>
+            <td><%= organizer.full_name %></td>
+            <td><%= organizer.email %></td>
+            <td><%= organizer.user_industry.blank? ? 'N/A' : organizer.user_industry %></td>
+            <td><%= organizer.user_organization %></td>
+            <td><%= organizer.updated_at %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%= javascript_tag 'initializeAdmin()' %>

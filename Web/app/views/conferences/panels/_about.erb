@@ -11,7 +11,7 @@
   <div class="x_content">
     <% if @is_organizer %>
         <div>
-          <%= best_in_place_if @is_organizer,  @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
+          <%= best_in_place_if @is_organizer, @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
           <hr/>
         </div>
     <% else %>
@@ -49,29 +49,28 @@
 
     <% if !@conference.location.blank? or @is_organizer %>
         <div>
-          <strong>Location:</strong> <%= best_in_place_if @is_organizer,  @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
+          <strong>Location:</strong> <%= best_in_place_if @is_organizer, @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
         </div>
         <br/>
     <% end %>
 
     <% if !@conference.url.blank? or @is_organizer %>
         <div>
-          <strong>Website:</strong> <%= best_in_place_if @is_organizer,  @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
+          <strong>Website:</strong> <%= best_in_place_if @is_organizer, @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
         </div>
     <% end %>
 
     <% if !@conference.phone.blank? or @is_organizer %>
         <div>
-          <strong>Phone:</strong> <%= best_in_place_if @is_organizer,  @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
+          <strong>Phone:</strong> <%= best_in_place_if @is_organizer, @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
         </div>
     <% end %>
 
     <% if !@conference.email.blank? or @is_organizer %>
-        <div><strong>Email
-          Address:</strong> <%= best_in_place @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
+        <div><strong>Email Address:</strong> <%= best_in_place @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
         </div>
     <% end %>
-    <% if user_signed_in? %>
+    <% if @conference.publish %>
         <br/>
         <div class="text-center">
           <%= link_to_modal 'Invite People', invite_conference_path() %>

@@ -11,7 +11,7 @@
           <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
       <% end %>
 
-      <% if !@is_organizer and user_signed_in? %>
+      <% if user_signed_in? %>
           <li>
             <a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
           </li>
@@ -30,7 +30,7 @@
     </ul>
   </div>
   <div class="col-md-10 col-sm-10 col-xs-10">
-    <div id="progress">
+    <div id="spinner">
       <h1 class="text-center">Loading ...</h1>
       <div class="cssload-thecube">
         <div class="cssload-cube cssload-c1"></div>
