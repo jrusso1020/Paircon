@@ -62,21 +62,28 @@ class Cosine_Similiarity:
     cosine_sim = linear_kernel(tf_idf[0:len(user_papers)], tf_idf[len(user_papers):])
 
      # get the indices and scores for the most similiar user paper to each conference paper
-    indices_top_docs = np.argsort(cosine_sim, axis=0)[:-2:-1].flatten()
-    scores_top_docs = np.sort(cosine_sim, axis=0)[:-2:-1].flatten()
+    indices_top_docs = np.argsort(cosine_sim, axis=0)[::-1].flatten()
+    scores_top_docs = np.sort(cosine_sim, axis=0)[::-1].flatten()
 
     # get the top k indices from the most similiar papers and only use those
-    top_paper_idx = np.argsort(scores_top_docs)[:-2:-1]
+    top_paper_idx = np.argsort(scores_top_docs)[::-1]
 
     # get the file names for the top k user and conference papers
     top_user_paper = user_docs[indices_top_docs[top_paper_idx]]
     top_conference_paper = conference_docs[top_paper_idx]
 
-    result = {'user_paper': top_user_paper[0],
-              'conference_paper': top_conference_paper[0],
-              'score': scores_top_docs[top_paper_idx[0]]}
+    results = {
+                'user_paper': top_user_paper[0],
+                'papers_scores' : []
+                }
+    for idx in range(len(top_paper_idx)):
+        results['papers_scores'].append({
+                                    'rank' : idx,
+                                    'conference_paper' : top_conference_paper[idx],
+                                    'score' : scores_top_docs[top_paper_idx[idx]]
+                                    })
 
-    return result
+    return results
 
 
   def compute_cosine_sim_all(self, user_dir, conference_dir, k):
