@@ -10,11 +10,15 @@ class UsersController < ApplicationController
     redirect_to root_path unless current_user
   end
 
+  def approved_organizers
+    @user = current_user
+    @approved_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :user_industry, :user_organization, 'organizers.updated_at').where(organizers: {approved: false})
+  end
+
   def pending_organizers
     @user = current_user
     @pending_organizers = User.includes(:organizer).where(organizers: {approved: false})
-    @approved_organizers = User.select("users.id, users.first_name, users.last_name, users.email, users.user_organization, organizers.updated_at").joins(:organizer).where(:organizers => {:approved => true})
-
+    @approved_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :user_organization, :user_industry, 'organizers.updated_at').where(organizers: {approved: false})
   end
 
   def approve_organizer

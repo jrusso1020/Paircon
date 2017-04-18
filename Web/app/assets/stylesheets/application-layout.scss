@@ -10,18 +10,16 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require jquery-ui
  *= require common/index
  *= require user/index
  *= require conference/index
  */
 
-@import 'gentelella';
 @import 'compass';
 @import 'googleFonts';
 @import 'variables';
 @import 'mixins';
-@import 'bootstrap';
+@import 'gentelella';
 @import 'font-awesome-sprockets';
 @import 'font-awesome';
 @import 'paircon-common';

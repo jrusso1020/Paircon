@@ -57,11 +57,18 @@ class PairConConfig
     def marketing_email
       local_settings['marketing_email']
     end
-    
+
     def facebook_settings
       {
           app_id: local_settings['facebook_app_id'],
           app_secret: local_settings['facebook_app_secret']
+      }
+    end
+
+    def facebook_settings_production
+      {
+          app_id: local_settings['production_facebook_app_id'],
+          app_secret: local_settings['production_facebook_app_secret']
       }
     end
 

@@ -8,12 +8,14 @@
         <div class="text-center text-center">
           <h1 class="error-number">403</h1>
           <h2>Access denied</h2>
-          <p>Oops! You are not allowed to access this this resource. <a href="<%= PairConConfig::url['support'] %>">Report this?</a>
+          <p>Oops! You are not allowed to access this this resource. <a href="<%= PairConConfig::url[:support] %>">Report this?</a>
           </p>
-          <div class="mid_center">
-            <h3>Search</h3>
-            <%= render 'layouts/application/search' %>
-          </div>
+          <% if user_signed_in? %>
+            <div class="mid_center">
+              <h3>Search</h3>
+              <%= render 'layouts/application/search' %>
+            </div>
+          <% end %>
           <%= image_tag 'sad.png', style: 'margin-top: 30px' %>
         </div>
       </div>

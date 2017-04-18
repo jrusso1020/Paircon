@@ -123,13 +123,27 @@ ActiveRecord::Schema.define(version: 20170408035141) do
     t.index ["user_id"], name: "index_organizers_on_user_id", unique: true, using: :btree
   end
 
+  create_table "paper_authors", force: :cascade do |t|
+    t.string   "name"
+    t.string   "affiliation"
+    t.string   "paper_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "papers", force: :cascade do |t|
     t.string   "title"
     t.text     "pdf_link"
     t.string   "md5hash"
     t.text     "path"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "pdf_file_name"
+    t.string   "pdf_content_type"
+    t.integer  "pdf_file_size"
+    t.datetime "pdf_updated_at"
+    t.text     "keywords"
+    t.date     "year"
   end
 
   create_table "posts", force: :cascade do |t|
