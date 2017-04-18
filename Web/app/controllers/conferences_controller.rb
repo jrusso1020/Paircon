@@ -180,6 +180,7 @@ class ConferencesController < ApplicationController
   end
 
   def papers
+    @total_resources, @total_events = @conference.get_counts(false, false, true, true)
     render template: 'conferences/tab_panes/papers'
   end
 
