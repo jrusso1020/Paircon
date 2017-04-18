@@ -9,10 +9,15 @@
         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
       </ul>
     </h3>
-
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
+    <% if @is_organizer %>
+    <div class ="text-center">
+      <button class = "btn btn-paircon left-buffer">Upload New Papers CSV</button>
+      <button class = "btn btn-paircon">Add New Single Paper</button>
+    </div>
+    <% end %>
     <table id="datatable-papers" class="table table-striped">
       <thead>
       <tr>
