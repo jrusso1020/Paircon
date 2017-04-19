@@ -1,4 +1,14 @@
 function initializeIntroJS(id) {
+
+
+
+    if (typeof Cookies.get(id) === 'undefined') {
+        Cookies.set(id + '_first_conference', 0);
+    }
+    startIntroJS();
+}
+
+function startIntroJS(id) {
     $('#startButton').click( function() {
         introJs().goToStepNumber(1).start();
         completeIntroJS();
@@ -7,11 +17,10 @@ function initializeIntroJS(id) {
 
 function completeIntroJS(id) {
     $('.introjs-skipbutton').click( function() {
-        Cookies.set('first_conference', '1');
+        Cookies.set(id + '_first_conference', '1');
     });
 
     $('.introjs-overlay').click( function() {
-        Cookies.set('first_conference', '1');
+        Cookies.set(id + '_first_conference', '1');
     });
 }
-

@@ -17,27 +17,29 @@
   </div>
 </div>
 
+<div>
+  <input type="checkbox" class="js-switch" checked />
+</div>
+
 <div class="modal-footer" style="margin-top:-5px;">
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <% if request.xhr? %>
           <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
       <% end %>
-          <%= f.submit 'Continue', :class => 'form-control', :class => 'btn btn-paircon' %>
+          <button class="btn btn-paircon" id="continue_button">Continue</button>
+          <%= f.submit 'Continue', :class => 'form-control', id: 'form_submit', :class => 'hide btn btn-paircon' %>
     </div>
   </div>
 </div>
 <% end %>
 
 <script>
-  // Create a cookies to store whether user has gone through tutorial (value = 1) or not (value = 0)
-  if (Cookies.get('first_conference') != 1) {
-      Cookies.set('first_conference', '0');
-  }
+    enableSwitchery();
+    $('#continue_button').click(function( ){
+        // Type your code to set cookie here
 
-
-
-
-
+       $('#form_submit').click();
+    });
 
 </script>
