@@ -15,7 +15,9 @@
 <%= render 'conferences/footer', scheduler: false %>
 
 <script>
-    introJs().setOption('doneLabel', 'Next page').goToStepNumber(15).start().oncomplete(function() {
+    if (Cookies.set('first_conference') == 0) {
+      introJs().setOption('doneLabel', 'Next page').goToStepNumber(15).start().oncomplete(function() {
         $("#papers").click();
-    });
+      });
+    };
 </script>

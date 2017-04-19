@@ -795,11 +795,11 @@
         elementPosition = _getOffset(targetElement.element);
 
     //check for a current step highlight class
-    if (typeof (targetElement.highlightClass) == 'string') {
+    if (typeof (targetElement.highlightClass) === 'string') {
       highlightClass += (' ' + targetElement.highlightClass);
     }
     //check for options highlight class
-    if (typeof (this._options.highlightClass) == 'string') {
+    if (typeof (this._options.highlightClass) === 'string') {
       highlightClass += (' ' + this._options.highlightClass);
     }
 

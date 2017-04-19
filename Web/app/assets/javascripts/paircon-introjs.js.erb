@@ -1,14 +1,10 @@
 function resetIntroJS() {
-    if (Cookies.set('first_conference') != 0) {
     Cookies.set('first_conference', '0');        
-    }
+    introJs().goToStepNumber(1).start();
 }
 
 function initializeIntroJS() {
-    if (Cookies.set('first_conference') == 0) {
-    $("#startButton").click();
-    Cookies.set('first_conference', '1');        
+    if (Cookies.get('first_conference') == 0) {
+        $("#startButton").click();     
     }
 }
-
-

@@ -7,7 +7,9 @@
 <%= render 'conferences/footer', scheduler: true %>
 
 <script>
-    introJs().setOption('doneLabel', 'Next page').goToStepNumber(18).start().oncomplete(function() {
+    if (Cookies.set('first_conference') == 0) {
+      introJs().setOption('doneLabel', 'Next page').goToStepNumber(18).start().oncomplete(function() {
         $("#about_panel").click();
-    });
+      });
+    }; 
 </script>
