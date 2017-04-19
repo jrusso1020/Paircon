@@ -1,6 +1,6 @@
 <%= header_title 'Approve Organizers' %>
 
-<div class="x_panel">
+<div class="x_panel top-buffer">
   <div class="x_title">
     <h3>Pending Organizers
       <ul class="nav navbar-right panel_toolbox">
@@ -27,9 +27,7 @@
             <td><%= organizer.email %></td>
             <td><%= organizer.user_industry.blank? ? 'N/A' : organizer.user_industry %></td>
             <td><%= organizer.user_organization %></td>
-            <td>
-              <button id='<%= organizer.id %>' class="organizer-approval btn btn-paircon" type="button">Approve</button>
-            </td>
+            <td><button id='<%= organizer.id %>' class="organizer-approval btn btn-paircon" type="button">Approve</button></td>
           </tr>
       <% end %>
       </tbody>
