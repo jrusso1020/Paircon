@@ -18,13 +18,34 @@
         </div>
     <% elsif @conferences_attendee_list.length>0 %>
         <h3>ATTENDING </h3>
-        <ul class="to_do">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Conference Name</th>
+            <th>Start Date</th>
+            <th>End date</th>
+            <th> Location</th>
+          </tr>
+          </thead>
+          <tbody>
           <% @conferences_attendee_list[0..@conferences_attendee_list.length].each do |conference| %>
-              <li>
-                <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
-              </li>
+              <tr>
+               <td> <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
+               </td>
+                <td>
+                <p><%= conference.start_date_str() %> </p>
+                </td>
+                <td>
+                  <p><%= conference.end_date_str() %> </p>
+                </td>
+                <td>
+                  <p><%= conference.location() %> </p>
+                </td>
+              </tr>
+
           <% end %>
-        </ul>
+          </tbody>
+        </table>
         </div>
 
     <% end %>
@@ -32,13 +53,34 @@
     <% if @conferences_organizer_list.length !=0 %>
         <div>
           <h3>ORGANIZING </h3>
-          <ul class="to_do">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Conference Name</th>
+              <th>Start Date</th>
+              <th>End date</th>
+              <th>Location</th>
+            </tr>
+            </thead>
+            <tbody>
             <% @conferences_organizer_list[0..@conferences_organizer_list.length].each do |conference| %>
-                <li>
-                  <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
-                </li>
+                <tr>
+                  <td> <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
+                  </td>
+                  <td>
+                    <p><%= conference.start_date_str() %> </p>
+                  </td>
+                  <td>
+                    <p><%= conference.end_date_str() %> </p>
+                  </td>
+                  <td>
+                    <p><%= conference.location() %> </p>
+                  </td>
+
+
+                </tr>
             <% end %>
-          </ul>
+          </table>
         </div>
 
     <% end %>
