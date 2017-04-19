@@ -214,9 +214,7 @@ Recommendation
 .deny{
   color: darkred;
 }
-//.modal-backdrop.in {
-//  z-index: auto!important;
-//}
+
 .modal {
   text-align: center;
   padding: 0!important;
@@ -255,4 +253,21 @@ Conference About
 #map-img {
   height: 165px;
   overflow: hidden;
+}
+
+
+/***********************************
+************************************
+Top-Navbar
+************************************
+***********************************/
+
+.top-nav-search-bar {
+  width: 50%;
+  padding-top: 6px;
+  margin-left: -13px;
+}
+
+.top-nav-search-submit {
+  
 }
