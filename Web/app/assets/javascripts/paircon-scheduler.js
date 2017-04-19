@@ -266,7 +266,7 @@ function initializeScheduleUserEvents() {
                 left: 'title',
                 right: 'monthView,weekView,dayView,listWeekView prev,next'
             },
-            defaultView: 'month',
+            defaultView: 'timelineDay',
             views: {
                 weekView: {
                     type: 'agendaWeek',
