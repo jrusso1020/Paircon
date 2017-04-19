@@ -125,8 +125,7 @@
         <% end %>
 
         <% if !@conference.email.blank? or @is_organizer %>
-            <div><strong>Email
-              Address:</strong> <%= best_in_place_if @is_organizer, @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
+            <div><strong>Email Address:</strong> <%= best_in_place_if @is_organizer, @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
             </div>
         <% end %>
         <% if @conference.publish %>
