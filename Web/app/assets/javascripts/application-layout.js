@@ -27,8 +27,6 @@
 //= require i18n/translations
 //= require gentelella-custom
 
-//= require introjs
-
 //= require moment
 //= require bootstrap-datetimepicker
 

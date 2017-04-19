@@ -56,7 +56,7 @@
       </div>
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
         <% if user_signed_in? %>
-            <a id="startButton" class="btn btn-paircon" href="javascript:void(0);" onclick="javascript:resetIntroJS();" style="margin-right:5px">Show me again</a>
+            <a id="startButton" class="btn btn-paircon" href="javascript:void(0);" style="margin-right:5px">Show me again</a>
             <a class="btn btn-paircon" onclick="document.getElementById('interested').click()" data-toggle="dropdown" data-step="5" data-intro="Follow this conference"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
             <button type="button" class="btn btn-paircon dropdown-toggle">
               <span class="caret"></span>
