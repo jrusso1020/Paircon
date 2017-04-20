@@ -67,6 +67,12 @@ class UsersController < ApplicationController
     render layout: 'sign_up' if params[:referer] == REFERERS[:app_init] && !current_user.is_app_init
   end
 
+  def refresh_profile
+    if not @user.url.blank?
+      @user.scrape_profile
+    end
+  end
+
   def update
     respond_to do |format|
 
@@ -107,10 +113,8 @@ class UsersController < ApplicationController
   def delete_account
     # Need to verify current password and delete the user and logout from the current session
     @user = current_user
-
     if verify_recaptcha
       if @user.valid_password?(params[:user][:current_password])
-
         @user.destroy
         sign_out @user
         flash[:notice] = 'Your account has been successfully deleted from PairCon.'
