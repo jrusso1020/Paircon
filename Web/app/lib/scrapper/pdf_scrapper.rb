@@ -49,7 +49,7 @@ class PDFScrapper
         end
       end
     rescue => ex
-      Rails.logger.debug('Something went wrong....')
+      Rails.logger.error(ex.backtrace)
     end
     ary.to_a
   end
@@ -91,7 +91,7 @@ class PDFScrapper
           end
           end
       rescue => ex
-          Rails.logger.debug('Something went wrong....')
+          Rails.logger.error(ex.backtrace)
       end
     end
     ary.to_a
@@ -104,12 +104,12 @@ class PDFScrapper
     links.each do |link|
       begin
         download = open(link, 'User-Agent' => USER_AGENT)
-        filePath = folderName + '/' + link.split('/').last
+        filePath = folderName + '/' + link.split('/').last + ".pdf"
         File.open(filePath, 'w') do |f|
           IO.copy_stream(download, f)
         end
       rescue => ex
-        Rails.logger.debug('Could not download ' + link)
+        Rails.logger.error('Could not download ' + link)
       end
 
     end
@@ -129,7 +129,7 @@ class PDFScrapper
           end
         end
       rescue => ex
-        Rails.logger.debug('Could not download ' + link)
+        Rails.logger.error('Could not download ' + link)
       end
 
     end
@@ -144,7 +144,7 @@ class PDFScrapper
       begin
         Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
       rescue => e
-        Rails.logger.debug("Error while extracting : " + filepath)
+        Rails.logger.error("Error while extracting : " + filepath)
       end
 
     end

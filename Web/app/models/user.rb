@@ -80,6 +80,9 @@ class User < ApplicationRecord
 
   has_one :organizer, dependent: :destroy
 
+  has_many :user_papers, dependent: :destroy
+  has_many :papers, through: :user_papers
+
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}, default_url: 'Male.jpg'
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
 
@@ -132,6 +135,8 @@ class User < ApplicationRecord
   def scrape_profile
     self.is_scraped = false
     self.save
+    # delete earlier profile
+    cleanUserProfile(self)
     begin
       UserProfileScrapperJob.perform_later(self)
     rescue => e
