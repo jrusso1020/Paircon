@@ -81,7 +81,7 @@ class ConferencesController < ApplicationController
     if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
         format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
-        format.all  { render nothing: true, status: 403 }
+        format.all { render nothing: true, status: 403 }
       end
     else
       @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
@@ -153,6 +153,16 @@ class ConferencesController < ApplicationController
     end
 
     redirect_back(fallback_location: root_path)
+  end
+
+  def bulk_upload
+    render layout: false
+  end
+
+  def process_bulk_upload
+    bulk_params = params[:bulk]
+    message = @conference.bulk_upload(bulk_params[:csv], bulk_params[:zip])
+    render json: {status: 'success', message: message}
   end
 
   def home

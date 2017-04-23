@@ -57,7 +57,6 @@ class PapersController < ApplicationController
 
   def destroy
     paper = Paper.find(params[:id])
-    #conferencePaper = ConferencePaper.find_by_paper_id(params[:id])
     Paper.transaction do
       if paper.destroy
         flash[:notice] = 'Paper has been successfully deleted.'

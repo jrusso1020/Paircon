@@ -122,6 +122,10 @@ class Conference < ApplicationRecord
     self.start_date.strftime(DATEFORMAT)
   end
 
+  def bulk_upload csv, zip
+    #http://www.rubydoc.info/docs/rails/4.1.7/ActionDispatch/Http/UploadedFile --> This is the object
+  end
+
   def get_counts(post = true, interested = true, resources = true, events = true)
     result = []
     result = result + [self.posts.count] if post

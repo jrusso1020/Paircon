@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :author, 'Paper Authors (Separated by ,)' %>
+            <%= f.label :author, "Paper Authors (Separated by ',')" %>
             <%= f.text_field :author, placeholder: 'Author of the paper', class: 'form-control' %>
           </div>
         </div>
@@ -37,7 +37,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :affiliation, 'Author Affiliation (Separated by ,)' %>
+            <%= f.label :affiliation, "Author Affiliation (Separated by ',')" %>
             <%= f.text_field :affiliation, placeholder: 'Author Affiliation', class: 'form-control' %>
           </div>
         </div>
@@ -63,12 +63,11 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :path, 'Paper upload path' %>
-            <div class="row fileupload-buttonbar">
+            <div class="row fileupload-buttonbar text-center">
               <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
                 <i class="fa fa-upload"></i>
-                <span>Select File</span>
-                <%= content_tag :input, '', id: 'fileupload', type: 'file', name: 'fileData' %>
+                <span>Select Paper (PDF)</span>
+                <%= content_tag :input, '', id: 'fileupload', type: 'file', name: 'fileData', accept: 'application/pdf' %>
               </div>
 
               <div id="progress" class="progress progress-striped" style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
@@ -82,19 +81,14 @@
     </div>
 
     <div class="modal-footer">
-      <% if !is_mobile_device? %>
-          <span style="float: left !important; margin-top: 5px;"><small>Note: This operation is permanent and cannot be reversed later</small></span>
-      <% end %>
-
       <button type="button" id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="button" id="cancelButton" class="btn btn-default" data-dismiss="modal" style="display: none;">Cancel</button>
       <button type="button" id="uploadButton" class="btn btn-paircon disabled" data-dismiss="modal">Upload</button>
 
     </div>
 
 <% end %>
 
-<%= javascript_tag "initializeFileUploader('" + params[:conference_id] + "')" %>
+<%= javascript_tag "initializePaperFileUploader('" + params[:conference_id] + "')" %>
 
 
 
