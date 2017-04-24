@@ -261,6 +261,7 @@ function initializeScheduleUserEvents() {
             eventDurationEditable: false,
             filterResourcesWithEvents: false,
             eventLimit: true,
+            aspectRatio: 1.80,
             scrollTime: '08:00',
             header: {
                 left: 'title',
@@ -287,6 +288,7 @@ function initializeScheduleUserEvents() {
             },
 
             events: '/schedules/get_events_user'
+
         });
     });
 }
