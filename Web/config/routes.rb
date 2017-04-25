@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       get :get_rooms
       get :get_resources
       get :get_events
+      get :get_events_user
       get :delete_resource
       get :new_resource
       get :new_event
