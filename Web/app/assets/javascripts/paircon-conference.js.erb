@@ -2,6 +2,14 @@ function initializeHeader() {
     $(document).ready(function () {
         $('.dropzone').not('.static').html5imageupload();
     });
+
+    $('#followButton').click(function () {
+        document.getElementById('interested').click(); 
+    });
+    
+    $('#aboutButton').click(function () {
+        document.getElementById('about_panel').click(); 
+    });
 }
 
 var current_tab;

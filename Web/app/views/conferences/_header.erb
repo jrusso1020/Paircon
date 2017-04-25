@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12 col-sm-12 col-xs-12" data-step="4" data-intro="Add your background profile" data-position='bottom'>
+  <div class="col-md-12 col-sm-12 col-xs-12" data-step="4" data-intro="Add a cover photo for your conference. If you don't add one, a default will be shown." data-position='bottom'>
     <% if @is_organizer %>
         <div class="profile-image dropzone cover-photo" data-height="250"
              data-url="<%= save_cover_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.cover_photo)}" unless @conference.cover.blank? %>
@@ -19,7 +19,7 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top: -175px; padding-left: 50px; z-index: 100">
     <div class="display-flex-row" style="align-items: center; <%= 'justify-content: center; flex-flow: column;' if is_mobile_device? %>">
-      <div data-step="3" data-intro="Upload your profile photo" data-position='right'>
+      <div data-step="3" data-intro="Add a logo for your conference. If you don't add one, a default will be shown." data-position='right'>
         <% if @is_organizer %>
             <div class="profile-image dropzone" data-resize="false" data-width="200" data-height="200"
                 data-url="<%= save_logo_conference_url(@conference) %>" <%= "data-image=#{asset_path(@conference.logo_picture)}" unless @conference.logo.blank? %>
@@ -35,7 +35,7 @@
         <% end %>
       </div>
       <div style="margin-left:30px; margin-right: 30px;" class="flex-grow">
-        <div data-step="1" data-intro="Name your conference" data-position='right'>
+        <div data-step="1" data-intro="What is the name of your conference?" data-position='right'>
           <h1>
             <% if @is_organizer %>
                 <%= best_in_place @conference, :name, as: :input, place_holder: "&lt;&lt;Conference Name&gt;&gt;" %>
@@ -44,7 +44,7 @@
             <% end %>
           </h1>
         </div>
-        <div data-step="2" data-intro="Add your domain" data-position='right'>
+        <div data-step="2" data-intro="What domain does your conference belong to?" data-position='right'>
           <% if (@is_organizer or !@conference.domain.blank?) %>
             <h3>
               <span><%= icon_text('tag fa-lg', '') %>
@@ -57,7 +57,7 @@
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
         <% if user_signed_in? %>
             <a id="startButton" class="btn btn-paircon" href="javascript:void(0);" style="margin-right:5px">Show me again</a>
-            <a class="btn btn-paircon" onclick="document.getElementById('interested').click()" data-toggle="dropdown" data-step="5" data-intro="Follow this conference"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
+            <a id="followButton" class="btn btn-paircon" data-toggle="dropdown" data-step="5" data-intro="Follow this conference"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
             <button type="button" class="btn btn-paircon dropdown-toggle">
               <span class="caret"></span>
             </button>
@@ -77,7 +77,7 @@
               </li>
               <li class="divider"></li>
           <% else %>
-              <li><a href="#" onclick="document.getElementById('about_panel').click()">About<i class="pull-right fa fa-info dropdown-user-icons"></i></a>
+              <li><a href="#" id="aboutButton">About<i class="pull-right fa fa-info dropdown-user-icons"></i></a>
               </li>
           <% end %>
 

@@ -6,4 +6,4 @@
     <%= javascript_tag "initializeSchedule('" + @conference.start_date_str.to_s + "', '" + @conference.end_date_str.to_s + "', " + diff.to_s + ', ' + (@is_organizer and @conference.conference_resources.length > 0).to_s + ", '" + @conference.id.to_s + "')" %>
 <% end %>
 
-<%= javascript_tag "initializeIntroJS('" + @conference.id.to_s + '_first_conference' + "')" %>
+<%= javascript_tag "initializeIntroJS('" + @conference.id.to_s "')" %>

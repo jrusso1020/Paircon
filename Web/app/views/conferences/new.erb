@@ -17,18 +17,19 @@
   </div>
 </div>
 
-<div>
-  <input type="checkbox" class="js-switch" checked />
-</div>
-
 <div class="modal-footer" style="margin-top:-5px;">
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-      <% if request.xhr? %>
-          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-      <% end %>
-          <button class="btn btn-paircon" id="continue_button">Continue</button>
-          <%= f.submit 'Continue', :class => 'form-control', id: 'form_submit', :class => 'hide btn btn-paircon' %>
+      <div class="js-switch-box">
+        <input type="checkbox" id="introjs_checkbox" class="js-switch" value="checked" checked /><span class="js-switch-text">Show the tutorial</span>
+      </div>
+      <div>
+        <% if request.xhr? %>
+            <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+        <% end %>
+        <button class="btn btn-paircon" id="continue_button">Continue</button>
+        <%= f.submit 'Continue', :class => 'form-control', id: 'form_submit', :class => 'hide btn btn-paircon' %>
+      </div>
     </div>
   </div>
 </div>
@@ -37,9 +38,13 @@
 <script>
     enableSwitchery();
     $('#continue_button').click(function( ){
-        // Type your code to set cookie here
-
+        var x = document.getElementById("introjs_checkbox").checked;
+        if (x) {
+          Cookies.set("introjs_checked", true);
+        } else {
+          Cookies.set("introjs_checked", false);
+        }
+        alert(Cookies.get("introjs_checked"));
        $('#form_submit').click();
     });
-
 </script>
