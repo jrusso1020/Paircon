@@ -95,6 +95,7 @@ class ConferencesController < ApplicationController
 
   def attend_conference
     attendee = @conference.conference_attendees.where(user_id: current_user.id)
+    ConferencePaperRecommendationJob.perform_async(current_user, @conference)
 
     if attendee.blank?
       @conference.conference_attendees.create(user_id: current_user.id)

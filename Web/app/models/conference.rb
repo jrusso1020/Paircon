@@ -154,6 +154,10 @@ class Conference < ApplicationRecord
     Conference.active.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
+  def get_pdf_text_path
+    return "#{Rails.root}/public/docs/txt/#{self.id}"
+  end
+
   private
 
   def init_conference_id
