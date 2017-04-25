@@ -43,14 +43,13 @@ class PDFScrapper
     ary = Set.new()
     begin
       page = Nokogiri::HTML(open(@link, 'User-Agent' => USER_AGENT))
-      #puts page
       page.css('a').each do |pdflink|
         if pdflink['href'] =~ /\b.+.pdf/
           ary.add(pdflink['href'])
         end
       end
     rescue => ex
-      puts 'Something went wrong....'
+      Rails.logger.error(ex.backtrace)
     end
     ary.to_a
   end
@@ -92,7 +91,7 @@ class PDFScrapper
           end
           end
       rescue => ex
-          puts 'Something went wrong....'
+          Rails.logger.error(ex.backtrace)
       end
     end
     ary.to_a
@@ -105,12 +104,12 @@ class PDFScrapper
     links.each do |link|
       begin
         download = open(link, 'User-Agent' => USER_AGENT)
-        filePath = folderName + '/' + link.split('/').last
+        filePath = folderName + '/' + link.split('/').last + ".pdf"
         File.open(filePath, 'w') do |f|
           IO.copy_stream(download, f)
         end
       rescue => ex
-        puts 'Could not download ' + link
+        Rails.logger.error('Could not download ' + link)
       end
 
     end
@@ -130,7 +129,7 @@ class PDFScrapper
           end
         end
       rescue => ex
-        puts 'Could not download ' + link
+        Rails.logger.error('Could not download ' + link)
       end
 
     end
@@ -142,7 +141,12 @@ class PDFScrapper
     Dir.foreach(pdfFolder) do |item|
       next if item == '.' or item == '..'
       filepath = pdfFolder + '/' + item
-      Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
+      begin
+        Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
+      rescue => e
+        Rails.logger.error("Error while extracting : " + filepath)
+      end
+
     end
   end
 

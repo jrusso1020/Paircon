@@ -1,4 +1,3 @@
-require 'scrapper/pdf_scrapper'
 class PaperScrapperJob < ApplicationJob
   queue_as :default
   include PapersHelper

@@ -117,6 +117,7 @@ Rails.application.routes.draw do
       get :password_reset
       get :timezone
       get :become_organizer
+      get :refresh_profile
       get :approved_organizers
       get :pending_organizers
 
