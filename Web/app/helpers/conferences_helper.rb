@@ -36,10 +36,9 @@ module ConferencesHelper
       params[:paper][:title] = row_hash["Title"]
       params[:paper][:year] = row_hash["Publication Year"]
       params[:paper][:abstract] = row_hash["Abstract"]
-      params[:author] = {}
-      params[:author][:author] = row_hash["Authors"]
-      params[:author][:affiliation] = row_hash["Affiliation"]
-      params[:author][:email] = row_hash["Emails"]
+      params[:paper][:author] = row_hash["Authors"].split(";")
+      params[:paper][:affiliation] = row_hash["Affiliation"].split(";")
+      params[:paper][:email] = row_hash["Emails"].split(";")
       params[:session] = {}
       params[:session][:title] = row_hash["Session Name"]
       params[:session][:start_date] = row_hash["Start DateTime"]
@@ -53,7 +52,7 @@ module ConferencesHelper
       if pdf_map.has_key?(pdf_name)
         paper_pdf_path = pdf_map[pdf_name]
       end
-      paper = create_paper(params[:paper], params[:author], conference_id, paper_pdf_path)
+      paper = create_paper(params[:paper], conference_id, paper_pdf_path)
       if not paper.nil?
         create_conference_events(params[:session], params[:resource], conference_id, paper.id)
       end
@@ -88,7 +87,7 @@ module ConferencesHelper
           start_date: start_date,
           end_date: end_date,
           presenter: session_params[:presenter],
-          event_type: ConferenceEvent.event_types[session_params[:event_type]],
+          event_type: ConferenceEvent.event_types[session_params[:event_type].downcase],
           paper_id: paper_id,
           color: '#' + Digest::MD5.hexdigest(session_params[:title])[0..5]
       )

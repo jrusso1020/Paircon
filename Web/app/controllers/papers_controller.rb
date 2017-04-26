@@ -25,8 +25,12 @@ class PapersController < ApplicationController
       end
       paper_pdf_path = new_file
     end
+    paper_params = paper_params()
+    paper_params[:author] = paper_params[:author].split(",")
+    paper_params[:affiliation] = paper_params[:affiliation].split(",")
+    paper_params[:email] = paper_params[:email].split(",")
 
-    if create_paper(paper_params, author_params, params[:conference_id], paper_pdf_path).nil?
+    if create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
       render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
     elsif
       render status: :ok, json: {message: 'Paper was successfully updated.'}.to_json
@@ -51,15 +55,21 @@ class PapersController < ApplicationController
 
   def update
     paper = Paper.find(params[:id])
+    paper_params = paper_params()
+    unless paper_params[:author].nil?
+      paper_params[:author] = paper_params[:author].split(";")
+    end
+    unless paper_params[:affiliation].nil?
+      paper_params[:affiliation] = paper_params[:affiliation].split(";")
+    end
+    unless paper_params[:email].nil?
+      paper_params[:email] = paper_params[:email].split(";")
+    end
     if paper.update_attributes(paper_params)
       render json: {status: :success, text: paper.title}
     else
       render json: {status: :error, text: paper.title}
     end
-  end
-
-  def update_authors
-    # TODO: find best way to update paper authors
   end
 
   private
@@ -69,11 +79,7 @@ class PapersController < ApplicationController
   end
 
   def paper_params
-    params.require(:paper).permit(:pdf, :title, :abstract, :year, :pdf_link)
-  end
-
-  def author_params
-    params.require(:paper).permit(:author, :affiliation, :email)
+    params.require(:paper).permit(:pdf, :title, :abstract, :year, :pdf_link, :author, :affiliation, :email)
   end
 
 
