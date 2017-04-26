@@ -58,6 +58,9 @@ class SchedulesController < ApplicationController
     @conference = Conference.find_by_id(params[:conference_id])
     auditoriums = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
     @auditoriums = auditoriums.map { |obj| [obj.title, obj.id] }
+    papers = @conference.papers.select(:title, :id).order(:title)
+
+    @papers = papers.map{|obj| [obj.title, obj.id]}
     @rooms = [['No Room', 'No Room']]
     unless @auditoriums.blank?
       @rooms = @rooms + @conference.conference_resources.where(parent_id: auditoriums.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
@@ -98,6 +101,9 @@ class SchedulesController < ApplicationController
         title: conference_event_params[:title],
         start_date: conference_event_params[:start_date],
         end_date: conference_event_params[:end_date],
+        presenter: conference_event_params[:presenter],
+        event_type: ConferenceEvent.event_types[conference_event_params[:event_type]],
+        paper_id: conference_event_params[:paper_id],
         color: '#' + Digest::MD5.hexdigest(conference_event_params[:title])[0..5]
     )
 
@@ -145,6 +151,9 @@ class SchedulesController < ApplicationController
                     title: conference_event_params[:title],
                     start_date: conference_event_params[:start_date],
                     end_date: conference_event_params[:end_date],
+                    presenter: conference_event_params[:presenter],
+                    event_type: ConferenceEvent.event_types[conference_event_params[:event_type]],
+                    paper_id: conference_event_params[:paper_id],
                     color: '#' + Digest::MD5.hexdigest(conference_event_params[:title])[0..5]}
     end
 

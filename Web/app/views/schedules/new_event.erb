@@ -63,6 +63,46 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <%= f.label :presenter, 'Presenter Name (*)' %>
+            <%= f.text_field :presenter, placeholder: 'Presenter Name', class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <%= f.label :event_type, 'Event type (*)' %>
+            <%=  f.select :event_type, ConferenceEvent.event_types.map { |k, v| [k.humanize, v] } %>
+          </div>
+        </div>
+      </div>
+
+      <% if @papers.blank? %>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <h4 class="font-light" align="center">
+                <strong>Please add a Paper before adding an event.</strong>
+              </h4>
+            </div>
+          </div>
+
+      <% else %>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <%= f.label :Paper, 'Paper (*)' %>
+                <%= f.select :paper_id, @papers, {}, id: 'conference_paper_select', class: 'select' %>
+              </div>
+            </div>
+          </div>
+      <% end %>
+
+
     </div>
 
     <div class="modal-footer" style="margin-top:-5px;">

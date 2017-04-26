@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :author, "Paper Authors (Separated by ',')" %>
+            <%= f.label :author, "Paper Authors (Separated by ';')" %>
             <%= f.text_field :author, placeholder: 'Author of the paper', class: 'form-control' %>
           </div>
         </div>
@@ -37,7 +37,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :affiliation, "Author Affiliation (Separated by ',')" %>
+            <%= f.label :affiliation, "Author Affiliation (Separated by ';')" %>
             <%= f.text_field :affiliation, placeholder: 'Author Affiliation', class: 'form-control' %>
           </div>
         </div>
@@ -46,8 +46,17 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :keywords, 'Keywords' %>
-            <%= f.text_field :keywords, placeholder: 'keywords separated by ,', class: 'form-control' %>
+            <%= f.label :email, "Author Email (Separated by ';')" %>
+            <%= f.text_field :email, placeholder: 'Author Email', class: 'form-control' %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <%= f.label :abstract, 'Abstract' %>
+            <%= f.text_field :abstract, placeholder: 'Paper abstract', class: 'form-control' %>
           </div>
         </div>
       </div>

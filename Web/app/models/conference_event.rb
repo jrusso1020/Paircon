@@ -3,6 +3,8 @@ class ConferenceEvent < ApplicationRecord
   belongs_to :conference_resource
   before_create :init_id
 
+  enum event_type: [:presentation, :keynote, :poster, :other]
+
   def end_date_str
     self.end_date.strftime(DATEFORMAT)
   end

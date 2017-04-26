@@ -68,6 +68,7 @@ gem 'dalli'                                                       # For caching
 
 # Utility
 gem 'pdf-reader'                                                  # For reading PDFS
+gem 'rubyzip'
 gem 'docsplit'                                                    # For Splitting Documents
 gem 'i18n-js', '>= 3.0.0.rc11'
 gem 'hashie'                                                      # Getting hashes

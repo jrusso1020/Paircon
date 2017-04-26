@@ -13,8 +13,14 @@
   <% else %>
       <td></td>
   <% end %>
+
+  <% if authors.count != 0 %>
+      <td><%= authors.select(:name, :email).order(:name).distinct.map(&:email) %></td>
+  <% else %>
+      <td></td>
+  <% end %>
   <td><%= paper.year %></td>
-  <td><%= paper.keywords %></td>
+  <td><%= paper.abstract %></td>
   <td><%= link_to paper.pdf_file_name, pdf.full_path(file: paper.pdf.url), target: '_blank' %></a></td>
   <% if @is_organizer %>
       <td><%= link_to_modal icon_text('trash', ''), delete_paper_path(paper) %></td>

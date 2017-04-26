@@ -23,21 +23,13 @@ class Paper < ApplicationRecord
   before_create :init_id
   attr_accessor :affiliation
   attr_accessor :author
+  attr_accessor :email
 
-  def save_pdf(conference_id, filename, request_body)
-    pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
-    FileUtils.mkdir_p pdf_folder
-    new_file = Rails.root.join('public', 'conference', conference_id, 'pdf/' + filename)
-
-    File.open(new_file, 'wb') do |file|
-      file.binmode
-      file.puts(request_body.read)
-    end
-
-    self.pdf = File.open(new_file, 'r')
-    self.save!(validate: false)
-
-    File.delete(new_file)
+  def save_pdf_path(filepath)
+    self.pdf = File.open(filepath, "r")
+    self.pdf_link = ""
+    self.save!()
+    File.delete(filepath)
   end
 
   private
