@@ -14,15 +14,21 @@
 #++
 
 class Paper < ApplicationRecord
-  has_many :conference_papers, dependent: :destroy
   has_many :similiarities
+
   has_many :conferences, through: :conference_papers
+  has_many :users, through: :user_papers
+
+  has_many :conference_papers, dependent: :destroy
+  has_many :user_papers, dependent: :destroy
   has_many :paper_authors, dependent: :destroy
-  has_attached_file :pdf
-  validates_attachment :pdf, content_type: { content_type: ["application/pdf"] }
-  before_create :init_id
+
   attr_accessor :affiliation
   attr_accessor :author
+
+  has_attached_file :pdf
+  validates_attachment :pdf, content_type: { content_type: ['application/pdf'] }
+  before_create :init_id
 
   def save_pdf(conference_id, filename, request_body)
     pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
