@@ -253,7 +253,7 @@ function initializeScheduleUserEvents() {
     $(document).ready(function() {
         $('#user_scheduler').fullCalendar({
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-            contentHeight: 650,
+            contentHeight: 300,
             selectable: false,
             selectHelper: false,
             editable: false,
