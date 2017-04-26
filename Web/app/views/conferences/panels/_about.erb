@@ -1,4 +1,4 @@
-<div class="x_panel" data-step="6" data-intro="Add details of the conference here" data-position='left'>
+<div class="x_panel" data-step="6" data-intro="In the about section, you will find details about the conference." data-position='left'>
   <div class="x_title">
     <h3>About
       <ul class="nav navbar-right panel_toolbox">
@@ -8,7 +8,7 @@
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
-   <div data-step="8" data-intro="Description about the conference" data-position='left'>
+   <div data-step="8" data-intro="Add description about the conference here." data-position='left'>
       <% if @is_organizer %>
             <%= best_in_place_if @is_organizer, @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
             <hr/>
@@ -30,7 +30,7 @@
     <br/>
 
     <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) %>
-      <div data-step="9" data-intro="What is period of the conference" data-position='left'>
+      <div data-step="9" data-intro="When are you planning to hold your conference event?" data-position='left'>
         <strong>Event Date:</strong>
         <% if @is_organizer %>
             <div class="input-prepend input-group">
@@ -47,14 +47,14 @@
     <% end %>
 
     <% if !@conference.location.blank? or @is_organizer %>
-        <div data-step="10" data-intro="What is the conferece hold" data-position='left'>
+        <div data-step="10" data-intro="Where are you holding your conference?" data-position='left'>
           <strong>Location:</strong> <%= best_in_place_if @is_organizer, @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
         </div>
         <br/>
     <% end %>
 
     <% if !@conference.url.blank? or @is_organizer %>
-        <div data-step="11" data-intro="Add the conference website" data-position='left'>
+        <div data-step="11" data-intro="Add website for the conference here" data-position='left'>
           <strong>Website:</strong> <%= best_in_place_if @is_organizer, @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
         </div>
     <% end %>
@@ -66,7 +66,7 @@
     <% end %>
 
     <% if !@conference.email.blank? or @is_organizer %>
-        <div data-step="13" data-intro="Add an e-mail for the conference" data-position='left'><strong>Email
+        <div data-step="13" data-intro="Add a contact email for the conference." data-position='left'><strong>Email
           Address:</strong> <%= best_in_place_if @is_organizer, @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
         </div>
     <% end %>

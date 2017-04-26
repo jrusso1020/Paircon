@@ -42,13 +42,3 @@
 </div>
 
 <%= javascript_tag "initializeTabPanes('" + @conference.id + "')" %>
-
-<script>
-    if (Cookies.set('first_conference') == 0) {
-      document.getElementById('startButton').onclick = function() {
-        introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
-            $("#posts").click();
-        });
-      };
-    };
-</script>

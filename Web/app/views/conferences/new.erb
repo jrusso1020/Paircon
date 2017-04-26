@@ -40,11 +40,10 @@
     $('#continue_button').click(function( ){
         var x = document.getElementById("introjs_checkbox").checked;
         if (x) {
-          Cookies.set("introjs_checked", true);
+          Cookies.set("introjs_checked", "true");
         } else {
-          Cookies.set("introjs_checked", false);
+          Cookies.set("introjs_checked", "false");
         }
-        alert(Cookies.get("introjs_checked"));
        $('#form_submit').click();
     });
 </script>
