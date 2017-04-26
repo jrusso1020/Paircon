@@ -5,8 +5,8 @@
   <hr/>
 </div>
 
-<div class="row">
-  <div class="col-md-4 col-sm-6 col-xs-12">
+<div class="container">
+  <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="text-center">
       <h3 id="name">
         <%= @user.full_name %>
@@ -20,84 +20,100 @@
       </div>
 
       <div>
-        <button id="upload_image_btn" style="margin-top: 20px; margin-bottom: 20px;" class="btn btn-paircon btn-label btn-profile btn-padding">
+        <button id="upload_image_btn" style="margin-top: 20px; margin-bottom: 20px;" class="btn btn-paircon btn-label btn-profile btn-padding" data-toggle="tooltip" title="Please wait while your publications are refreshing">
           <i class="fa fa-upload"></i> Upload Image
         </button>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-responsive pull-left">
-          <tbody>
-          <tr>
-            <td class="profile-title table-accountinfo">Email Address:</td>
-            <td class="table-accountinfo"><a href="<%= user_path(@user) %>"><%= @user.email %></a>
-            </td>
-          </tr>
-          <tr>
-            <td class="profile-title table-accountinfo">Phone Number:</td>
-            <td class="table-accountinfo"><%= @user.phone_number.blank? ? 'N/A' : @user.phone_number %></td>
-          </tr>
-          <tr>
-            <td class="profile-title table-accountinfo">Gender:</td>
-            <td class="table-accountinfo"><%= @user.gender == 1 ? "Male" : "Female" %></td>
-          </tr>
-          <tr>
-            <td class="profile-title table-accountinfo">Publication URL:</td>
-            <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
-          </tr>
-          <tr>
-            <td class="profile-title table-accountinfo">Organization:</td>
-            <td class="table-accountinfo"><%= @user.user_organization.blank? ? 'N/A' : @user.user_organization %></td>
-          </tr>
-          <tr>
-            <td class="profile-title table-accountinfo">Industry:</td>
-            <td class="table-accountinfo"><%= @user.user_industry.blank? ? 'N/A' : @user.user_industry %></td>
-          </tr>
-          <tr>
-            <td class="profile-title table-accountinfo">Graduation Year:</td>
-            <td class="table-accountinfo"><%= @user.user_grad_year.blank? ? 'N/A' : @user.user_grad_year %></td>
-          </tr>
-          <tr>
-            <td class="profile-title table-accountinfo">Academic Profile:</td>
-            <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
-          </tr>
-
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12 col-sm-12 col-xs-12">
-        <h3>Preferences</h3>
-      </div>
-
-      <div class="col-md-4 col-sm-4 col-xs-4">
-        <h4>Account</h4>
-
-        <div>
-          <%= link_to_modal 'Delete Account', delete_user_path(current_user) %>
-        </div>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-4">
-        <h4>Password</h4>
-
-        <div><%= link_to_modal 'Change Password', password_reset_user_path(current_user) %></div>
-      </div>
-      <div class="col-md-4 col-sm-4 col-xs-4">
-        <h4>Plan</h4>
-        <% if @user.attendee? and !@user.pending_organizer %>
-            <div><%= link_to_modal 'Become an Organizer', become_organizer_user_path(@user.id) %></div>
-        <% elsif @user.attendee? and @user.pending_organizer %>
-            <div style="opacity: 0.8">Your Organizer Request is Pending</div>
-        <% end %>
-
-      </div>
-    </div>
-
   </div>
-</div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <table class="table table-responsive pull-left">
+        <tbody>
+        <tr>
+          <td class="profile-title table-accountinfo">Email Address:</td>
+          <td class="table-accountinfo"><a href="<%= user_path(@user) %>"><%= @user.email %></a>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="profile-title table-accountinfo">Phone Number:</td>
+          <td class="table-accountinfo"><%= @user.phone_number.blank? ? 'N/A' : @user.phone_number %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="profile-title table-accountinfo">Gender:</td>
+          <td class="table-accountinfo"><%= @user.gender == 1 ? "Male" : "Female" %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="profile-title table-accountinfo">Publication URL:</td>
+          <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
+          <% if true %>
+              <td class="text-center">
+                <button class="btn btn-paircon">Refresh Publication List</button>
+              </td>
+          <% else %>
+              <td>
+                <div class="tooltip-wrapper text-center" data-toggle="tooltip" title = "Please wait while your publication list is refreshing">
+                  <button id = "refresh_publication" class="btn btn-paircon disabled">Refresh Publication List</button>
+                </div>
+              </td>
+          <% end %>
+
+        </tr>
+        <tr>
+          <td class="profile-title table-accountinfo">Organization:</td>
+          <td class="table-accountinfo"><%= @user.user_organization.blank? ? 'N/A' : @user.user_organization %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="profile-title table-accountinfo">Industry:</td>
+          <td class="table-accountinfo"><%= @user.user_industry.blank? ? 'N/A' : @user.user_industry %></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="profile-title table-accountinfo">Graduation Year:</td>
+          <td class="table-accountinfo"><%= @user.user_grad_year.blank? ? 'N/A' : @user.user_grad_year %></td>
+          <td></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <h3>Preferences</h3>
+    </div>
+
+    <div class="col-md-4 col-sm-4 col-xs-4">
+      <h4>Account</h4>
+
+      <div>
+        <%= link_to_modal 'Delete Account', delete_user_path(current_user) %>
+      </div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-4">
+      <h4>Password</h4>
+
+      <div><%= link_to_modal 'Change Password', password_reset_user_path(current_user) %></div>
+    </div>
+    <div class="col-md-4 col-sm-4 col-xs-4">
+      <h4>Plan</h4>
+      <% if @user.attendee? and !@user.pending_organizer %>
+          <div><%= link_to_modal 'Become an Organizer', become_organizer_user_path(@user.id) %></div>
+      <% elsif @user.attendee? and @user.pending_organizer %>
+          <div style="opacity: 0.8">Your Organizer Request is Pending</div>
+      <% end %>
+
+    </div>
+  </div>
+
 </div>
 
 <%= javascript_tag "initializeUserShow(#{@user.gender.to_i})" %>
+<script>
+    $('#refresh_publication').tooltip();
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
