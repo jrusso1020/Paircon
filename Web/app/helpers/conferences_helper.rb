@@ -42,8 +42,8 @@ module ConferencesHelper
       params[:author][:email] = row_hash["Emails"]
       params[:session] = {}
       params[:session][:title] = row_hash["Session Name"]
-      params[:session][:start_date] = row_hash["Session Date"]
-      params[:session][:end_date] = row_hash["Session Date"]
+      params[:session][:start_date] = row_hash["Start DateTime"]
+      params[:session][:end_date] = row_hash["End DateTime"]
       params[:session][:presenter] = row_hash["Presenter"]
       params[:session][:event_type] = row_hash["Session Type"]
       params[:resource] = {}
