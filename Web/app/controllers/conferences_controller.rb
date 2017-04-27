@@ -95,10 +95,10 @@ class ConferencesController < ApplicationController
 
   def attend_conference
     attendee = @conference.conference_attendees.where(user_id: current_user.id)
-    ConferencePaperRecommendationJob.perform_async(current_user, @conference)
 
     if attendee.blank?
       @conference.conference_attendees.create(user_id: current_user.id)
+      ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
       attendee.destroy_all
@@ -106,6 +106,25 @@ class ConferencesController < ApplicationController
     end
 
     redirect_back(fallback_location: root_path)
+  end
+
+  def user_recommendations
+    conference = Conference.find_by(id: params[:conference_id])
+    user = User.find_by(id: params[:user_id])
+
+    similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
+    @papers_with_scores = []
+    similarities.each do |item|
+      @papers_with_scores << { user_paper: Paper.find_by(id: item.user_paper_id), 
+                              conference_paper: Paper.find_by(id: item.conference_paper_id),
+                              similarity_score: item.similarity_score
+                            }
+    end
+
+    respond_to do |format|
+      format.json { render json: @papers_with_scores }
+      format.html
+    end
   end
 
   def invite

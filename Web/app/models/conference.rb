@@ -155,7 +155,11 @@ class Conference < ApplicationRecord
   end
 
   def get_pdf_text_path
-    return "#{Rails.root}/public/docs/txt/#{self.id}"
+    return "#{Rails.root}/public/conferences/#{self.id}/txt"
+  end
+        
+  def get_pdf_folder_path
+    return "#{Rails.root}/public/conferences/#{self.id}/pdf"
   end
 
   private

@@ -144,6 +144,7 @@ class PDFScrapper
       begin
         Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
       rescue => e
+        Rails.logger.error(e)
         Rails.logger.error("Error while extracting : " + filepath)
       end
 
