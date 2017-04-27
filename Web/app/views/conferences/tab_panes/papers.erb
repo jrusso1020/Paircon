@@ -6,14 +6,4 @@
 
 <%= render 'conferences/footer', scheduler: false %>
 
-<script>
-  if (Cookies.get(introjs_conference_id + '_introjs') == "true") {
-    introJs().setOption('doneLabel', 'Next page').goToStepNumber(17).start().oncomplete(function() {
-      $("#schedule").click();
-    });
-  };
-</script>
-
-<script>
-    console.log("papers");
-</script>
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + ", 17, schedule')" %>

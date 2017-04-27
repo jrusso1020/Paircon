@@ -19,17 +19,4 @@
 
 <%= render 'conferences/footer', scheduler: true %>
 
-<script>
-  if (Cookies.get(introjs_conference_id + '_introjs') == "true") {
-    introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
-        $("#posts").click();
-    });
-  console.log("home_start");    
-  };
-</script>
-
-
-
-<script>
-  console.log("home");
-</script>
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + ", 1, posts')" %>

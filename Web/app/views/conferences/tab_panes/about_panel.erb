@@ -6,13 +6,4 @@
 
 <%= render 'conferences/footer', scheduler: false %>
 
-<script type="text/javascript">
-  if (Cookies.get(introjs_conference_id + '_introjs') == 'true') {
-    introJs().goToStepNumber(19).start();
-  };
-  Cookies.set(introjs_conference_id + '_introjs', false);
-</script>
-
-<script>
-    console.log("about");
-</script>
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + ", 19, N/A')" %>
