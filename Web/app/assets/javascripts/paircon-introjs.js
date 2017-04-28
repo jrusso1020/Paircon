@@ -14,37 +14,31 @@ function startIntroJS(id) {
         Cookies.set("introjs_checked", true);
         Cookies.set(id + '_introjs', true);
         completeIntroJS(id);
-        introJs().goToStepNumber(3).start();
+        nextIntroJS(id, 1, 'posts');
     });
 }
 
 function nextIntroJS(id, nextStep, nextPage) {
-    console.log("next_start"); 
     completeIntroJS(id);
     if (Cookies.get(introjs_conference_id + '_introjs') == "true") {
-        introJs().setOption('doneLabel', 'Next page').goToStepNumber(nextStep).start().oncomplete(function() {
-            $("#" + nextPage).click();
-        });
-        console.log("next_start_end");        
+        if (nextPage == "N/A") {
+            Cookies.set(introjs_conference_id + '_introjs', false);     
+        } else {
+            introJs().setOption('doneLabel', 'Next page').goToStepNumber(nextStep).start().oncomplete(function() {
+                $("#" + nextPage).click();
+            });
+        }    
     };
-
-    if (nextPage == "N/A") {
-        Cookies.set(introjs_conference_id + '_introjs', false);   
-        console.log("about");    
-    }
 }
 
-function completeIntroJS(id) {
-    console.log("complete 0");    
+function completeIntroJS(id) {  
     $('.introjs-skipbutton').click(function () {
         Cookies.remove("introjs_checked");
         Cookies.set(id + '_introjs', false);
-        console.log("complete 1");
     });
     
     $('.introjs-overlay').click(function () {
         Cookies.remove("introjs_checked");
         Cookies.set(id + '_introjs', false);
-        console.log("complete 1");
     });
 }
