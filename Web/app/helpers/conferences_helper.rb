@@ -1,5 +1,6 @@
 require "csv"
 require "zip"
+require "roo"
 
 module ConferencesHelper
   include PapersHelper
@@ -27,11 +28,14 @@ module ConferencesHelper
   #Parses the csv and save a paper
   def parse_csv csv, zip_path, conference_id
     pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_conference_pdf_path)
+    xlsx = Roo::Spreadsheet.open(csv)
     csv_text = File.read(csv)
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
       params = {}
       row_hash  = row.to_hash
+      # Paper ID ,Title ,Publication Year ,Authors ,Affiliation ,Emails ,Abstract ,Event Title ,\
+      # Event Date ,Event Start Time ,Event End Time ,Event Room ,Session Name ,Presenter ,Session Type ,Session Start Time ,Session End Time ,Pdf file name
       params[:paper] = {}
       params[:paper][:title] = row_hash["Title"]
       params[:paper][:year] = row_hash["Publication Year"]
@@ -40,13 +44,17 @@ module ConferencesHelper
       params[:paper][:affiliation] = row_hash["Affiliation"].split(";")
       params[:paper][:email] = row_hash["Emails"].split(";")
       params[:session] = {}
-      params[:session][:title] = row_hash["Session Name"]
-      params[:session][:start_date] = row_hash["Start DateTime"]
-      params[:session][:end_date] = row_hash["End DateTime"]
+      params[:session][:title] = row_hash["Event Title"]
+      params[:session][:session_title] = row_hash["Session Name"]
+      Rails.logger.debug(row_hash["Event Date"])
+      params[:session][:event_start_date] = (row_hash["Event Date"] + " " + row_hash["Event Start Time"]).gsub! '/', '//'
+      params[:session][:event_end_date] = (row_hash["Event Date"] + " " + row_hash["Event End Time"]).gsub! '/', '//'
+      params[:session][:session_start_date] = (row_hash["Event Date"] + " " + row_hash["Session Start Time"]).gsub! '/', '//'
+      params[:session][:session_end_date] = (row_hash["Event Date"] + " " + row_hash["Session End Time"]).gsub! '/', '//'
       params[:session][:presenter] = row_hash["Presenter"]
       params[:session][:event_type] = row_hash["Session Type"]
-      params[:resource] = {}
-      params[:resource][:title] = row_hash["Session Room"]
+      # params[:resource] = {}
+      params[:session][:room] = row_hash["Event Room"]
       pdf_name = row_hash["Pdf file name"]
       paper_pdf_path = nil
       if pdf_map.has_key?(pdf_name)
@@ -54,42 +62,62 @@ module ConferencesHelper
       end
       paper = create_paper(params[:paper], conference_id, paper_pdf_path)
       if not paper.nil?
-        create_conference_events(params[:session], params[:resource], conference_id, paper.id)
+        create_conference_events(params[:session], conference_id, paper.id)
       end
     end
   end
 
-  def create_conference_events(session_params, resource_params, conference_id, paper_id)
-      # "Look for the resource with the same name in the conference"
+  def create_conference_events(session_params, conference_id, paper_id)
+    Rails.logger.debug(session_params[:event_start_date])
+    event_start_date = DateTime.parse(session_params[:event_start_date])
+    event_end_date = DateTime.parse(session_params[:event_end_date])
+    session_start_date = DateTime.parse(session_params[:session_start_date])
+    session_end_date = DateTime.parse(session_params[:session_end_date])
+
+    # "Look for the resource with the same name in the conference"
       # "If not found, then create one"
-      room_title = resource_params[:title]
-      resource = Conference.find(conference_id).conference_resources.find_by_title(room_title)
-      if resource.nil?
-        resource = ConferenceResource.create!(
+      event_title = session_params[:title]
+      event_resource = Conference.find(conference_id).conference_resources.find_by_title(event_title)
+      if event_resource.nil?
+        #create the resource for the event
+        event_resource = ConferenceResource.create!(
             conference_id: conference_id,
-            title: resource_params[:title],
+            title: session_params[:title],
             parent_id: nil,
-            building: nil,
-            eventColor: '#' + Digest::MD5.hexdigest(resource_params[:title])[0..5]
+            building: session_params[:room],
+            eventColor: '#' + Digest::MD5.hexdigest(session_params[:title])[0..5]
+        )
+        #create the corresponding event for the event_resource
+        event_event = ConferenceEvent.create!(
+            conference_id: conference_id,
+            conference_resource_id: event_resource.id,
+            title: session_params[:title],
+            start_date: event_start_date,
+            end_date: event_end_date,
+            color: '#' + Digest::MD5.hexdigest(session_params[:title])[0..5]
         )
       end
 
-      #create the event
-      start_date = DateTime.parse(session_params[:start_date])
-      Rails.logger.debug("Parsed date time")
-      Rails.logger.debug(start_date.inspect)
-      end_date = DateTime.parse(session_params[:end_date])
-      Rails.logger.debug(end_date.inspect)
-      event = ConferenceEvent.create!(
+      #create the resource for the session
+      session_resource = ConferenceResource.create!(
           conference_id: conference_id,
-          conference_resource_id: resource.id,
-          title: session_params[:title],
-          start_date: start_date,
-          end_date: end_date,
+          title: session_params[:session_title],
+          parent_id: event_resource.id,
+          building: session_params[:room],
+          eventColor: '#' + Digest::MD5.hexdigest(session_params[:session_title])[0..5]
+      )
+
+      #create the event data for the session
+      session_event = ConferenceEvent.create!(
+          conference_id: conference_id,
+          conference_resource_id: session_resource.id,
+          title: session_params[:session_title],
+          start_date: session_start_date,
+          end_date: session_end_date,
           presenter: session_params[:presenter],
           event_type: ConferenceEvent.event_types[session_params[:event_type].downcase],
           paper_id: paper_id,
-          color: '#' + Digest::MD5.hexdigest(session_params[:title])[0..5]
+          color: '#' + Digest::MD5.hexdigest(session_params[:session_title])[0..5]
       )
   end
 end
