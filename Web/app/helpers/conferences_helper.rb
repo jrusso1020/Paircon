@@ -29,50 +29,59 @@ module ConferencesHelper
   def parse_csv csv, zip_path, conference_id
     pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_conference_pdf_path)
     xlsx = Roo::Spreadsheet.open(csv)
-    csv_text = File.read(csv)
-    csv = CSV.parse(csv_text, :headers => true)
-    csv.each do |row|
-      params = {}
-      row_hash  = row.to_hash
-      # Paper ID ,Title ,Publication Year ,Authors ,Affiliation ,Emails ,Abstract ,Event Title ,\
-      # Event Date ,Event Start Time ,Event End Time ,Event Room ,Session Name ,Presenter ,Session Type ,Session Start Time ,Session End Time ,Pdf file name
-      params[:paper] = {}
-      params[:paper][:title] = row_hash["Title"]
-      params[:paper][:year] = row_hash["Publication Year"]
-      params[:paper][:abstract] = row_hash["Abstract"]
-      params[:paper][:author] = row_hash["Authors"].split(";")
-      params[:paper][:affiliation] = row_hash["Affiliation"].split(";")
-      params[:paper][:email] = row_hash["Emails"].split(";")
-      params[:session] = {}
-      params[:session][:title] = row_hash["Event Title"]
-      params[:session][:session_title] = row_hash["Session Name"]
-      Rails.logger.debug(row_hash["Event Date"])
-      params[:session][:event_start_date] = (row_hash["Event Date"] + " " + row_hash["Event Start Time"]).gsub! '/', '//'
-      params[:session][:event_end_date] = (row_hash["Event Date"] + " " + row_hash["Event End Time"]).gsub! '/', '//'
-      params[:session][:session_start_date] = (row_hash["Event Date"] + " " + row_hash["Session Start Time"]).gsub! '/', '//'
-      params[:session][:session_end_date] = (row_hash["Event Date"] + " " + row_hash["Session End Time"]).gsub! '/', '//'
-      params[:session][:presenter] = row_hash["Presenter"]
-      params[:session][:event_type] = row_hash["Session Type"]
-      # params[:resource] = {}
-      params[:session][:room] = row_hash["Event Room"]
-      pdf_name = row_hash["Pdf file name"]
-      paper_pdf_path = nil
-      if pdf_map.has_key?(pdf_name)
-        paper_pdf_path = pdf_map[pdf_name]
-      end
-      paper = create_paper(params[:paper], conference_id, paper_pdf_path)
-      if not paper.nil?
-        create_conference_events(params[:session], conference_id, paper.id)
+    if (xlsx.sheets.count != 0)
+      sheet = xlsx.sheet(0)
+      headers = sheet.row(0)
+      # csv_text = File.read(csv)
+      # csv = CSV.parse(csv_text, :headers => true)
+      # csv.each do |row|
+      sheet.each_row_streaming(offset: 1) do |row| # Will exclude first (inevitably header) row
+        params = {}
+        # row_hash  = row.to_hash
+        params[:paper] = {}
+        params[:paper][:title] = row[1].to_s
+        params[:paper][:year] = row[2].to_s
+        params[:paper][:author] = row[3].to_s.split(";")
+        params[:paper][:affiliation] = row[4].to_s.split(";")
+        params[:paper][:email] = row[5].to_s.split(";")
+        params[:paper][:abstract] = row[6].to_s
+        params[:session] = {}
+        params[:session][:title] = row[7].to_s
+        params[:session][:session_title] = row[12].to_s
+        d = DateTime.parse(row[8].to_s.gsub! '/', '//')
+        time = Time.at(row[9].value).in_time_zone
+        time = time.change(day: d.day, month: d.month, year: d.year)
+        params[:session][:event_start_date] = time
+        time = Time.at(row[10].value).in_time_zone
+        time = time.change(day: d.day, month: d.month, year: d.year)
+        params[:session][:event_end_date] = time
+        time = Time.at(row[15].value).in_time_zone
+        time = time.change(day: d.day, month: d.month, year: d.year)
+        params[:session][:session_start_date] = time
+        time = Time.at(row[16].value).in_time_zone
+        time = time.change(day: d.day, month: d.month, year: d.year)
+        params[:session][:session_end_date] = time
+        params[:session][:presenter] = row[13].to_s
+        params[:session][:event_type] = row[14].to_s
+        params[:session][:room] = row[11].to_s
+        pdf_name = row[17].to_s
+        paper_pdf_path = nil
+        if pdf_map.has_key?(pdf_name)
+          paper_pdf_path = pdf_map[pdf_name]
+        end
+        paper = create_paper(params[:paper], conference_id, paper_pdf_path)
+        if not paper.nil?
+          create_conference_events(params[:session], conference_id, paper.id)
+        end
       end
     end
   end
 
   def create_conference_events(session_params, conference_id, paper_id)
-    Rails.logger.debug(session_params[:event_start_date])
-    event_start_date = DateTime.parse(session_params[:event_start_date])
-    event_end_date = DateTime.parse(session_params[:event_end_date])
-    session_start_date = DateTime.parse(session_params[:session_start_date])
-    session_end_date = DateTime.parse(session_params[:session_end_date])
+    event_start_date = session_params[:event_start_date]
+    event_end_date = session_params[:event_end_date]
+    session_start_date = session_params[:session_start_date]
+    session_end_date = session_params[:session_end_date]
 
     # "Look for the resource with the same name in the conference"
       # "If not found, then create one"
