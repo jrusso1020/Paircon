@@ -6,52 +6,91 @@ class SchedulesController < ApplicationController
   before_action :find_event, only: [:delete_event, :destroy_event, :update_event]
 
   def new_resource
-    if params[:view] == ConferenceResource::TYPE[:auditorium]
-      @title = 'Add Auditorium'
-      @body = 'Please enter the name of the Auditorium and select the Building. You can define an Auditorium without a building.'
-      @buildings = [['None', 'None'], ['Other', 'Other']] + Conference.find_by_id(params[:conference_id]).conference_resources.select(:building).distinct().map { |obj| [obj.building, obj.building] }
+    if params[:view] == ConferenceResource::TYPE[:event]
+      @title = 'Add Event'
+      @body = 'Please add the event details.'
+      @buildings = [['Other', 'Other']] + Conference.find_by_id(params[:conference_id]).conference_resources.select(:building).distinct().map { |obj| [obj.building, obj.building] }
     else
-      @title = 'Add Room'
-      @body = 'Please enter the name of the Room you want to add and select the Auditorium to which it belongs.'
-      @auditoriums = Conference.find_by_id(params[:conference_id]).conference_resources.select(:title, :id).distinct().map { |obj| [obj.title, obj.id] }
+      @title = 'Add Session'
+      @body = 'Please enter the session details.'
+      @events = Conference.find_by_id(params[:conference_id]).conference_resources.select(:title, :id).distinct().where({:parent_id => nil}).map { |obj| [obj.title, obj.id] }
+      papers = Conference.find_by_id(params[:conference_id]).papers.select(:title, :id).order(:title)
+      @papers = papers.map{|obj| [obj.title, obj.id]}
     end
-
     render layout: false
   end
 
   def create_resource
     conference_resource_params = params.require(:resource).permit!
-
     if conference_resource_params[:building] == 'Other'
       building_name = conference_resource_params[:building_other]
-    elsif conference_resource_params[:building] == 'None'
-      building_name = ''
     else
       building_name = conference_resource_params[:building]
     end
 
-    if params[:view] == ConferenceResource::TYPE[:auditorium]
-      ConferenceResource.create!(
+    if params[:view] == ConferenceResource::TYPE[:event]
+      event_start_date = DateTime.civil(conference_resource_params["date(1i)"].to_i,
+                                        conference_resource_params["date(2i)"].to_i,
+                                        conference_resource_params["date(3i)"].to_i,
+                                        conference_resource_params["start_time(4i)"].to_i,
+                                        conference_resource_params["start_time(5i)"].to_i)
+      event_end_date = DateTime.civil(conference_resource_params["date(1i)"].to_i,
+                                      conference_resource_params["date(2i)"].to_i,
+                                      conference_resource_params["date(3i)"].to_i,
+                                      conference_resource_params["end_time(4i)"].to_i,
+                                      conference_resource_params["end_time(5i)"].to_i)
+      event_resource = ConferenceResource.create!(
           conference_id: params[:conference_id],
           title: conference_resource_params[:title],
           parent_id: nil,
           building: building_name,
           eventColor: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
       )
-      flash[:notice] = "You have successfully created '#{conference_resource_params[:title]}' Auditorium."
+      #create the corresponding event for the event_resource
+      event_event = ConferenceEvent.create!(
+          conference_id: params[:conference_id],
+          conference_resource_id: event_resource.id,
+          title: conference_resource_params[:title],
+          start_date: event_start_date,
+          end_date: event_end_date,
+          color: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
+      )
+      flash[:notice] = "You have successfully created '#{conference_resource_params[:title]}' Event."
     else
-      ConferenceResource.create!(
+      event_date = ConferenceEvent.find_by_conference_resource_id(conference_resource_params[:parent_id]).start_date.to_datetime
+      session_start_date = DateTime.civil(event_date.year,
+                                          event_date.month,
+                                          event_date.day,
+                                        conference_resource_params["start_time(4i)"].to_i,
+                                        conference_resource_params["start_time(5i)"].to_i)
+      session_end_date = DateTime.civil(event_date.year,
+                                        event_date.month,
+                                        event_date.day,
+                                      conference_resource_params["end_time(4i)"].to_i,
+                                      conference_resource_params["end_time(5i)"].to_i)
+
+      session_resource = ConferenceResource.create!(
           conference_id: params[:conference_id],
           title: conference_resource_params[:title],
           parent_id: conference_resource_params[:parent_id],
           building: nil,
           eventColor: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
       )
-      flash[:notice] = "You have successfully created '#{conference_resource_params[:title]}' Room."
+      session_event = ConferenceEvent.create!(
+          conference_id: params[:conference_id],
+          conference_resource_id: session_resource.id,
+          title: conference_resource_params[:title],
+          start_date: session_start_date,
+          end_date: session_end_date,
+          presenter: conference_resource_params[:presenter],
+          event_type: ConferenceEvent.event_types[conference_resource_params[:event_type].downcase],
+          paper_id: conference_resource_params[:paper_id],
+          color: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
+      )
+      flash[:notice] = "You have successfully created '#{conference_resource_params[:title]}' Session."
     end
 
     redirect_back(fallback_location: root_path)
-
   end
 
   def new_event

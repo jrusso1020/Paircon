@@ -26,16 +26,14 @@
             <div class="row fileupload-buttonbar text-center">
               <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
                 <i class="fa fa-upload"></i>
-                <span>Select Comma Seperated File (CSV)</span>
+                <span>Select Excel File (XLSX) </span>
                 <%= f.file_field :csv, id: 'csvFileUpload', type: 'file', class: 'file-upload' %>
-                <%#=  f.file_field :csv, id: 'csvFileUpload', type: 'file', accept: 'text/csv', class: 'file-upload' %>
               </div>
 
               <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
                 <i class="fa fa-upload"></i>
                 <span>Select Zip File</span>
                 <%= f.file_field :zip, id: 'zipFileUpload', type: 'file', class: 'file-upload' %>
-                <%#=  f.file_field :zip, id: 'zipFileUpload', type: 'file', accept: 'application/zip', class: 'file-upload' %>
               </div>
 
               <div id="progress" class="progress progress-striped" style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">

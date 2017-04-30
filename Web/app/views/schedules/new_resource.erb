@@ -16,12 +16,12 @@
         </div>
       </div>
 
-      <% if params[:view] == ConferenceResource::TYPE[:auditorium] %>
+      <% if params[:view] == ConferenceResource::TYPE[:event] %>
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
-                <%= f.label :title, 'Auditorium Name (*)' %>
-                <%= f.text_field :title, placeholder: 'Name of Auditorium', class: 'form-control' %>
+                <%= f.label :title, 'Event Title (*)' %>
+                <%= f.text_field :title, placeholder: 'Event Title', class: 'form-control' %>
               </div>
             </div>
           </div>
@@ -35,12 +35,40 @@
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <%= f.label :date, 'Event Date (*)' %>
+                <%= f.date_select :date, placeholder: Date.today , class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <%= f.label :start_time, 'Event Start Time (*)' %>
+                <%= f.time_select :start_time , class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
+                <%= f.label :end_time, 'Event End Time (*)' %>
+                <%= f.time_select :end_time, class: 'form-control' %>
+              </div>
+            </div>
+          </div>
+
       <% else %>
-          <% if @auditoriums.blank? %>
+          <% if @events.blank? %>
               <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                   <h4 class="font-light" align="center">
-                    <strong>Please create an Auditorium before adding a room.</strong>
+                    <strong>Please create an Event before adding a session.</strong>
                   </h4>
                 </div>
               </div>
@@ -49,8 +77,8 @@
               <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="form-group">
-                    <%= f.label :title, 'Room Name (*)' %>
-                    <%= f.text_field :title, placeholder: 'Name of Room', class: 'form-control' %>
+                    <%= f.label :title, 'Session Tittle (*)' %>
+                    <%= f.text_field :title, placeholder: 'Session Tittle', class: 'form-control' %>
                   </div>
                 </div>
               </div>
@@ -58,19 +86,78 @@
               <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                   <div class="form-group">
-                    <%= f.label :parent_id, 'Auditorium Name (*)' %>
-                    <%= f.select :parent_id, @auditoriums, {}, id: 'conference_build_select', class: 'select' %>
+                    <%= f.label :parent_id, 'Event (*)' %>
+                    <%= f.select :parent_id, @events, {}, id: 'conference_build_select', class: 'select' %>
                   </div>
                 </div>
               </div>
-          <% end %>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                    <%= f.label :start_time, 'Session Start Time (*)' %>
+                    <%= f.time_select :start_time , class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                    <%= f.label :end_time, 'Session End Time (*)' %>
+                    <%= f.time_select :end_time, class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                    <%= f.label :presenter, 'Presenter Name (*)' %>
+                    <%= f.text_field :presenter, placeholder: 'Presenter Name', class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <div class="form-group">
+                    <%= f.label :event_type, 'Event type (*)' %>
+                    <%=  f.select :event_type, ConferenceEvent.event_types.map { |k, v| [k.humanize, v] } %>
+                  </div>
+                </div>
+              </div>
+
+              <% if @papers.blank? %>
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <h4 class="font-light" align="center">
+                        <strong>Please add a Paper before adding an session.</strong>
+                      </h4>
+                    </div>
+                  </div>
+
+              <% else %>
+
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <div class="form-group">
+                        <%= f.label :paper_id, 'Paper (*)' %>
+                        <%= f.select :paper_id, @papers, {}, id: 'conference_paper_select', class: 'select' %>
+                      </div>
+                    </div>
+                  </div>
+              <% end %>
+
+
+    <% end %>
       <% end %>
     </div>
 
     <div class="modal-footer" style="margin-top:-5px;">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <% unless params[:view] == ConferenceResource::TYPE[:room] and @auditoriums.blank? %>
+          <% unless params[:view] == ConferenceResource::TYPE[:session] and @events.blank? %>
               <% if !is_mobile_device? %>
                 <span style="float: left !important; margin-top: 5px;">
                   <small>Note: (*) This is a required field.
