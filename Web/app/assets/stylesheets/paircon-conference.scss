@@ -243,9 +243,7 @@ Recommendation
 .deny{
   color: darkred;
 }
-//.modal-backdrop.in{
-//  z-index: auto!important;
-//}
+
 .modal {
   text-align: center;
   padding: 0!important;
@@ -275,6 +273,8 @@ Conference About
   background-color: transparent;
   margin-bottom: 0px;
   padding-bottom: 0px;
+  margin-top: -10px;
+  padding-top: 0px;
 }
 
 #conf-map{

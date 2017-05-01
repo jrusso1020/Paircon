@@ -1,4 +1,4 @@
-class Identifier
+class IdentifierService
   def initialize auth, user=nil
     @auth = Hashie::Mash.new auth
     @user = user

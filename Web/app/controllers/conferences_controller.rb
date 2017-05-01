@@ -1,4 +1,3 @@
-require "recommendation/recommendation_generator"
 class ConferencesController < ApplicationController
   include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
@@ -77,7 +76,7 @@ class ConferencesController < ApplicationController
 
   def create_schedule_dictionary(conference)
     output = {}
-    all_resources = conference.conference_resources.map { |obj| {id: obj.id, parent_id: obj.parent_id, room: obj.room, title: obj.title } }
+    all_resources = conference.conference_resources.map { |obj| {id: obj.id, parent_id: obj.parent_id, room: obj.room, title: obj.title} }
     #separate the events and sessions
     events = {}
     sessions = {}
@@ -89,13 +88,13 @@ class ConferencesController < ApplicationController
       end
     end
 
-    all_papers = conference.papers.map { |obj| {id: obj.id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url } }
+    all_papers = conference.papers.map { |obj| {id: obj.id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url} }
     papers = {}
     all_papers.each do |paper|
       papers[paper[:id]] = paper
     end
 
-    all_details = conference.conference_events.order(:start_date).map { |obj| {id: obj.conference_resource_id, title: obj.title, start_date: obj.start_date, end_date: obj.end_date, presenter: obj.presenter, paper_id: obj.paper_id, event_type: obj.event_type } }
+    all_details = conference.conference_events.order(:start_date).map { |obj| {id: obj.conference_resource_id, title: obj.title, start_date: obj.start_date, end_date: obj.end_date, presenter: obj.presenter, paper_id: obj.paper_id, event_type: obj.event_type} }
 
     ordered_event = []
     all_details.each do |details|
@@ -175,7 +174,7 @@ class ConferencesController < ApplicationController
       begin
         ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
       rescue Redis::CannotConnectError => e
-        RecommendationGenerator.new(user_id, conference_id).getRecommendationsForEachPaper()
+        RecommendationService.new(user_id, conference_id).getRecommendationsForEachPaper()
       end
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
@@ -193,11 +192,7 @@ class ConferencesController < ApplicationController
     similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
     @papers_with_scores = []
     similarities.each do |item|
-      @papers_with_scores << { 
-                              user_paper: Paper.find_by(id: item.user_paper_id), 
-                              conference_paper: Paper.find_by(id: item.conference_paper_id),
-                              similarity_score: item.similarity_score
-                             }
+      @papers_with_scores << {user_paper: Paper.find_by(id: item.user_paper_id), conference_paper: Paper.find_by(id: item.conference_paper_id), similarity_score: item.similarity_score}
     end
 
     respond_to do |format|

@@ -3,7 +3,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def self.provides_callback_for(provider)
     define_method provider do
       auth = env['omniauth.auth']
-      @user = Identifier.new(auth, current_user).resolve
+      @user = IdentifierService.new(auth, current_user).resolve
 
       if @user.persisted?
         sign_in_and_redirect @user, event: :authentication

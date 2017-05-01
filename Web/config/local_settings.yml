@@ -5,7 +5,7 @@ production_environment: 'https://www.paircon.com'
 development_environment: 'http://devparicon.com:3000'
 product_name: 'PairCon'
 product_url: 'https://www.paircon.com'
-machine_learning_development_api_url: 'http://127.0.0.1:5000'
+machine_learning_development_api_url: 'http://127.0.0.1:5000/similiarity/v1/compare'
 
 # Google
 google_api_client_id: '990887925576-ku0bpvfpnsv8597prpl8s7oseulsmk6b.apps.googleusercontent.com'
