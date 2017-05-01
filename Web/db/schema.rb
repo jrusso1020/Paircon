@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501165516) do
+ActiveRecord::Schema.define(version: 20170501180806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,7 +129,6 @@ ActiveRecord::Schema.define(version: 20170501165516) do
 
   create_table "papers", force: :cascade do |t|
     t.string   "title"
-    t.text     "pdf_link"
     t.string   "md5hash"
     t.text     "path"
     t.datetime "created_at",                    null: false

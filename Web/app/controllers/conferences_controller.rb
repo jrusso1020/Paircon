@@ -4,6 +4,7 @@ class ConferencesController < ApplicationController
   before_action :authenticate_user!, except: [:home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_is_organizer, only: [:home, :schedule, :papers, :posts, :about_panel, :show]
+  before_action :set_view, only: [:posts, :recommendations, :papers]
 
   def index
     if params[:view] == 'organizer'
@@ -118,7 +119,7 @@ class ConferencesController < ApplicationController
             sessions_params = {title: details[:title],
                                start_time: details[:start_date],
                                end_time: details[:end_date],
-                               pdf_link: paper[:url],
+                               # pdf_link: paper[:url],
                                type: details[:event_type],
                                author: paper[:author],
                                affiliation: paper[:affiliation]
@@ -186,7 +187,6 @@ class ConferencesController < ApplicationController
   end
 
   def user_recommendations
-    conference = Conference.find_by(id: params[:conference_id])
     user = User.find_by(id: params[:user_id])
 
     similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
@@ -351,5 +351,9 @@ class ConferencesController < ApplicationController
     else
       @is_organizer = false
     end
+  end
+
+  def set_view
+    params[:view] = 'full'
   end
 end

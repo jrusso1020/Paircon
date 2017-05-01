@@ -16,7 +16,7 @@
         </div>
     <% else %>
         <% if @conference.description.length > 250 %>
-            <%= truncate(@conference.description, length: 250) %>
+            <%= @conference.description.truncate(250) %>
             <%= link_to ' ... Read more', '', class: "read-more-description-#{@conference.id}" %>
         <% else %>
             <% unless @conference.description.blank? %>

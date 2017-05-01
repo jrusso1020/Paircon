@@ -13,7 +13,7 @@ class SchedulesController < ApplicationController
       @rooms = [['Other', 'Other']] + @conference.conference_resources.select(:room).distinct().map { |obj| [obj.room, obj.room] }
     else
       @title = 'Add Session'
-      @body = 'Please information about the Session along with the type of Session.'
+      @body = 'Please information about the Session along with the type of Session, name of Paper and the Event to which this Session belongs.'
       @events = @conference.conference_resources.select(:title, :id).distinct().where({:parent_id => nil}).map { |obj| [obj.title, obj.id] }
       papers = @conference.papers.select(:title, :id).order(:title)
       @papers = papers.map{|obj| [obj.title, obj.id]}
@@ -53,9 +53,9 @@ class SchedulesController < ApplicationController
       )
       flash[:notice] = "You have successfully created '#{conference_resource_params[:title]}' Event."
     else
-      event_date = ConferenceEvent.find_by_conference_resource_id(conference_resource_params[:parent_id]).start_date.to_datetime
-      session_start_date = DateTime.civil(event_date.year, event_date.month, event_date.day, conference_resource_params['start_time(4i)'].to_i, conference_resource_params['start_time(5i)'].to_i)
-      session_end_date = DateTime.civil(event_date.year, event_date.month, event_date.day, conference_resource_params['end_time(4i)'].to_i, conference_resource_params['end_time(5i)'].to_i)
+      event_date = ConferenceEvent.find_by_conference_resource_id(conference_resource_params[:parent_id]).start_date.to_date
+      session_start_date = DateTime.parse(event_date.to_s + ' ' + conference_resource_params[:start_time])
+      session_end_date = DateTime.parse(event_date.to_s + ' ' + conference_resource_params[:end_time])
 
       session_resource = ConferenceResource.create!(
           conference_id: params[:conference_id],

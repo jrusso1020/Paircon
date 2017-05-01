@@ -4,7 +4,7 @@
       <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
         <span class="percent"><%= result.similarity_score.nan? ? 0 : (result.similarity_score*100).round(2) %></span>
       </div>
-      <label><%= link_to "#{result.conference_paper.title}", pdf.full_path(file: "#{result.conference_paper.pdf_link}") %><br>
+      <label><%= link_to "#{result.conference_paper.title}", pdf.full_path(file: "#{result.conference_paper.pdf.url}", target: '_blank') %><br>
         <!--<p>-->
           <!--<a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>-->
           <!--<a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>-->

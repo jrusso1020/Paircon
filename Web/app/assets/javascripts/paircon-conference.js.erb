@@ -6,13 +6,13 @@ function initializeHeader() {
 
 var current_tab;
 
-function requestUserRecommendations(conference_id, user_id){
-    setInterval(function() {
+function requestUserRecommendations(conference_id, user_id) {
+    setInterval(function () {
         $.ajax({
             type: 'GET',
             dataType: "json",
             url: '/conferences/' + conference_id + '/user_recommendations',
-            data:{
+            data: {
                 'conference_id': conference_id,
                 'user_id': user_id
             },
@@ -27,7 +27,6 @@ function requestTabPane(id, tab_name) {
     Cookies.set(id + '_current_tab', tab_name);
     $('.tab_ajax').parent().removeClass('active');
     $('#' + tab_name).parent().addClass('active');
-
 
     $.ajax({
         type: 'GET',
@@ -49,7 +48,7 @@ function requestTabPane(id, tab_name) {
 
 function initializeTabPanes(id) {
     $('.tab_ajax').click(function (e) {
-        if (!$(e.target).is('i')) {
+        if (!$(e.target).is('i') && !$(e.target).is('a[data-toggle="modal"]')) {
             current_tab = $(this).attr('id');
             requestTabPane(id, current_tab);
         }

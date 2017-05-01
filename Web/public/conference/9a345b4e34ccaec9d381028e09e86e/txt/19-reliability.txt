@@ -1,0 +1,543 @@
+Cornell	University 
+Compu1ng	and	Informa1on	Science
+
+CS	5150	So(ware	Engineering	
+Reliability	
+William	Y.	Arms
+
+Bugs,	Faults,	and	Failures
+
+Bug	(fault):		
+	
+
+Programming	or	design	error	whereby	the	delivered	system	does	
+not	conform	to	speciﬁcaHon	(e.g.,	coding	error,	protocol	error)
+
+Failure:		
+	
+
+So(ware	does	not	deliver	the	service	expected	by	the	user	(e.g.,	
+mistake	in	requirements,	confusing	user	interface)
+
+Failure	of	Requirements
+
+An	actual	example
+	
+
+The	head	of	an	organizaHon	is	not	paid	his	salary	because	it	is	
+greater	than	the	maximum	allowed	by	the	program.	
+(Requirements	problem.)
+
+Bugs	and	Features
+That's	not	a	bug.		That's	a	feature!	
+						Users	will	o(en	report	that	a	program	behaves	in	a	manner	that	
+they	consider	wrong,	even	though	it	is	behaving	as	intended.
+That’s	not	a	bug.		That’s	a	failure!
+The	decision	whether	this	needs	to	be	changed	should	be	made	by	
+the	client	not	by	the	developers.
+
+Terminology
+Fault	avoidance
+	
+
+Build	systems	with	the	objecHve	of	creaHng	fault-free	(bugfree)	so(ware.
+
+Fault	detec1on	(tes1ng	and	veriﬁca1on)
+	
+
+Detect	faults	(bugs)	before	the	system	is	put	into	operaHon	
+or	when	discovered	a(er	release.
+
+Fault	tolerance
+	
+
+Build	systems	that	conHnue	to	operate	when	problems	
+(bugs,	overloads,	bad	data,	etc.)	occur.
+
+Failures:	A	Case	Study
+
+A	passenger	ship	with	1,509	persons	on	board	grounded	on	a	
+shoal	near	Nantucket	Island,	MassachuseYs.		At	the	Hme	the	
+vessel	was	about	17	miles	from	where	the	oﬃcers	thought	they	
+were.	The	vessel	was	en	route	from	Bermuda	to	Boston.
+
+Case	Study:	Analysis
+From	the	report	of	the	Na1onal	Transporta1on	Safety	Board:
+•
+
+The	ship	was	steered	by	an	autopilot	that	relied	on	posiHon	informaHon	from	
+the	Global	PosiHoning	System	(GPS).
+
+•
+
+If	the	GPS	could	not	obtain	a	posiHon	from	satellites,	it	provided	an	esHmated	
+posiHon	based	on	Dead	Reckoning	(distance	and	direcHon	traveled	from	a	
+known	point).
+
+•
+
+The	GPS	failed	one	hour	a(er	leaving	Bermuda.
+
+•
+
+The	crew	failed	to	see	the	warning	message	on	the	display	(or	to	check	the	
+instruments).
+
+•
+
+34	hours	and	600	miles	later,	the	Dead	Reckoning	error	was	17	miles.
+
+Case	Study:	So(ware	Lessons
+All	the	soIware	worked	as	speciﬁed	(no	bugs),	but	...
+•
+
+A(er	the	GPS	so(ware	was	speciﬁed,	the	requirements	changed	(stand	alone	
+system	now	part	of	integrated	system).
+
+•
+
+The	manufacturers	of	the	autopilot	and	GPS	adopted	diﬀerent	design	
+philosophies	about	the	communicaHon	of	mode	changes.
+
+•
+
+The	autopilot	was	not	programmed	to	recognize	valid/invalid	status	bits	in	
+messages	from	the	GPS.
+
+•
+
+The	warnings	provided	by	the	user	interface	were	not	suﬃciently	conspicuous	
+to	alert	the	crew.
+
+•
+
+The	oﬃcers	had	not	been	properly	trained	on	this	equipment.
+
+Reliable	soIware	needs	all	parts	of	the	soIware	development	process	to	be	
+carried	out	well.
+
+Key	Factors	for	Reliable	So(ware
+•
+
+OrganizaHon	culture	that	expects	quality.		This	comes	from	the	management	
+and	the	senior	technical	staﬀ.
+
+•
+
+Precise,	unambiguous	agreement	on	requirements.
+
+•
+
+Design	and	implementaHon	that	hides	complexity	(e.g.,	structured	design,	
+object-oriented	programming).
+
+•
+
+Programming	style	that	emphasizes	simplicity,	readability,	and	avoidance	of	
+dangerous	constructs.
+
+•
+
+SoIware	tools	that	restrict	or	detect	errors	(e.g.,	strongly	typed	languages,	
+source	control	systems,	debuggers).
+
+•
+
+SystemaHc	veriﬁca1on	at	all	stages	of	development,	including	requirements,	
+system	architecture,	program	design,	implementaHon,	and	user	tesHng.
+
+•
+
+ParHcular	aYenHon	to	changes	and	maintenance.
+
+Building	Dependable	Systems:	OrganizaHonal	Culture
+Good	organiza1ons	create	good	systems:
+•
+
+Managers	and	senior	technical	staﬀ	must	lead	by	example.
+
+•
+
+Acceptance	of	the	group's	style	of	work	(e.g.,	meeHngs,	preparaHon,	
+support	for	juniors).
+
+•
+
+Visibility.
+
+•
+
+CompleHon	of	a	task	before	moving	to	the	next	(e.g.,	
+documentaHon,	comments	in	code).	
+
+Example:	A	library	consorHum
+
+Building	Reliable	So(ware:	 
+Quality	Management	Processes
+Assump1on:
+	
+
+Good	so(ware	is	impossible	without	good	processes	
+
+The	importance	of	rou1ne:
+	
+
+Standard	terminology	(requirements,	design,	acceptance,	etc.)
+
+	
+
+So(ware	standards	(coding	standards,	naming	conven4ons,	etc.)
+
+	
+
+Regular	builds	of	complete	system	(o5en	daily)
+
+	
+
+Internal	and	external	documentaHon
+
+	
+
+ReporHng	procedures
+
+This	rouHne	is	important	for	both	heavyweight	and	lightweight	
+development	processes.
+
+Building	Reliable	So(ware:	 
+Quality	Management	Processes
+When	1me	is	short...
+	
+
+Pay	extra	aYenHon	to	the	early	stages	of	the	process:	feasibility,	
+requirements,	design.
+
+	
+
+If	mistakes	are	made	in	the	requirements	process,	there	will	be	liYle	
+Hme	to	ﬁx	them	later.
+
+	
+
+Experience	shows	that	taking	extra	Hme	on	the	early	stages	will	
+usually	reduce	the	total	Hme	to	release.		
+
+Building	Reliable	So(ware:	 
+CommunicaHon	with	the	Client
+A	system	is	no	use	if	it	does	not	meet	the	client's	needs
+•
+
+The	client	must	understand	and	review	the	agreed	requirements	
+in	detail.	
+
+•
+
+It	is	not	suﬃcient	to	present	the	client	with	a	speciﬁcaHon	
+document	and	ask	him/her	to	sign	oﬀ.
+
+•
+
+Appropriate	members	of	the	client's	staﬀ	must	review	relevant	
+areas	of	the	design	(including	operaHons,	training	materials,	
+system	administraHon).
+
+•
+
+The	acceptance	tests	must	belong	to	the	client.
+
+Building	Reliable	So(ware:	Complexity
+
+The	human	mind	can	encompass	only	limited	complexity:
+•
+
+	 Comprehensibility
+
+•
+
+	 Simplicity
+
+•
+
+	 ParHHoning	of	complexity
+
+A	simple	component	is	easier	to	get	right	than	a	complex	one.
+
+Building	Reliable	So(ware:	Change
+Changes	can	easily	introduce	problems
+Change	management
+•
+
+Source	code	management	and	version	control
+
+•
+
+Tracking	of	change	requests	and	bug	reports
+
+•
+
+Procedures	for	changing	requirements	speciﬁcaHons,	designs	and	
+other	documentaHon
+
+•
+
+Regression	tesHng	(discussed	later)
+
+•
+
+Release	control
+
+When	adding	new	funcHons	or	ﬁxing	bugs	it	is	easy	to	write	patches	
+that	violate	the	systems	architecture	or	overall	program	design.		This	
+should	be	avoided	as	much	as	possible.		Be	prepared	to	modify	the	
+architecture	to	keep	a	high	quality	system.
+
+Building	Reliable	So(ware:	Fault	Tolerance
+Aim:	
+	 A	system	that	conHnues	to	operate	when	problems	occur.
+Examples:
+•
+
+Invalid	input	data	(e.g.,	in	a	data	processing	applicaHon)
+
+•
+
+Overload	(e.g.,	in	a	networked	system)
+
+•
+
+Hardware	failure	(e.g.,	in	a	control	system)
+
+General	Approach:
+•
+
+Failure	detecHon
+
+•
+
+Damage	assessment
+
+•
+
+Fault	recovery
+
+•
+
+Fault	repair
+
+Fault	Tolerance:	Recovery
+Backward	recovery
+•
+
+Record	system	state	at	speciﬁc	events	(checkpoints).		A(er	failure,	
+recreate	state	at	last	checkpoint.
+
+•
+
+Combine	checkpoints	with	system	log	(audit	trail	of	transacHons)	that	
+allows	transacHons	from	last	checkpoint	to	be	repeated	automaHcally.
+
+Recovery	soIware	is	diﬃcult	to	test
+Example
+	
+
+A(er	an	enHre	network	is	hit	by	lightning,	the	restart	crashes	because	of	
+overload.		(Problem	of	incremental	growth.)	
+
+Building	Reliable	So(ware:	 
+Small	Teams	and	Small	Projects
+Small	teams	and	small	projects	have	advantages	for	reliability:
+•
+
+Small	group	communicaHon	cuts	need	for	intermediate	documentaHon,	yet	
+reduces	misunderstanding.
+
+•
+
+Small	projects	are	easier	to	test	and	make	reliable.
+
+•
+
+Small	projects	have	shorter	development	cycles.	Mistakes	in	requirements	
+are	less	likely	and	less	expensive	to	ﬁx.	
+
+•
+
+When	one	project	is	completed	it	is	easier	to	plan	for	the	next.
+
+Improved	reliability	is	one	of	the	reasons	that	agile	development	has	become	
+popular	over	the	past	few	years.
+
+Reliability	Metrics
+Reliability		
+Probability	of	a	failure	occurring	in	operaHonal	use.
+Tradi1onal	measures	for	online	systems
+•
+
+Mean	Hme	between	failures
+
+•
+
+Availability	(up	Hme)
+
+•
+
+Mean	Hme	to	repair
+
+Market	measures
+•
+
+Complaints
+
+•
+
+Customer	retenHon
+
+Reliability	Metrics	for	Distributed	Systems
+Tradi1onal	metrics	are	hard	to	apply	in	mul1-component	systems:
+•
+
+A	system	that	has	excellent	average	reliability	might	give	terrible	service	to	
+certain	users.
+
+•
+
+In	a	big	network,	at	any	given	moment	something	will	be	giving	trouble,	but	
+very	few	users	will	see	it.
+
+•
+
+When	there	are	many	components,	system	administrators	rely	on	automaHc	
+reporHng	systems	to	idenHfy	problem	areas.
+
+Metrics:	User	PercepHon	of	Reliability
+Perceived	reliability	depends	upon:
+•
+
+user	behavior
+
+•
+
+set	of	inputs
+
+•
+
+pain	of	failure
+
+User	percepHon	is	inﬂuenced	by	the	distribuHon	of	failures
+•
+
+A	personal	computer	that	crashes	frequently,	or	a	machine	that	is	out	
+of	service	for	two	days	every	few	years.
+
+•
+
+A	database	system	that	crashes	frequently	but	comes	back	quickly	
+with	no	loss	of	data,	or	a	system	that	fails	once	in	three	years	but	data	
+has	to	be	restored	from	backup.
+
+•
+
+A	system	that	does	not	fail	but	has	unpredictable	periods	when	it	runs	
+very	slowly.
+
+Reliability	Metrics	for	Requirements	
+Example:	ATM	card	reader
+Failure	class	
+
+Example	
+
+Metric	(requirement)			 	 	 						
+
+Permanent	
+non-corrupHng				
+
+System	fails	to	operate	
+with	any	card	--	reboot
+
+1	per	1,000	days
+
+Transient	
+non-corrupHng				
+
+System	cannot	read	
+an	undamaged	card
+
+1	in	1,000	transacHons
+
+CorrupHng	
+	
+	
+
+A	paYern	of	
+transacHons	corrupts
+ﬁnancial	database
+
+Never
+
+Metrics:	Cost	of	Improved	Reliability
+
+Time	
+and	$
+
+Reliability	
+metric
+
+99%
+
+100%
+
+Example.		
+Many	supercomputers	average	10	hours	producHve	work	per	
+day.		How	do	you	spend	your	money	to	improve	reliability?
+
+Example:	Central	CompuHng	System	
+A	central	computer	system	(e.g.,	a	server	farm)	is	vital	to	an	
+enHre	organizaHon	(e.g.,	an	Internet	shopping	site).		Any	
+failure	is	serious.
+Step	1:	Gather	data	on	every	failure	
+•
+
+Create	a	database	that	records	every	failure	
+
+•
+
+Analyze	every	failure:
+hardware
+so(ware	(default)
+environment	(e.g.,	power,	air	condiHoning)
+human	(e.g.,	operator	error)
+
+Example:	Central	CompuHng	System	
+Step	2:		Analyze	the	data
+•
+
+Weekly,	monthly,	and	annual	staHsHcs
+Number	of	failures	and	interrupHons
+Mean	Hme	to	repair
+
+•
+
+Graphs	of	trends	by	component,	e.g.,
+Failure	rates	of	disk	drives
+Hardware	failures	a(er	power	failures
+Crashes	caused	by	so(ware	bugs	in	each	component
+Categories	of	human	error
+
+Example:	Central	CompuHng	System	
+Step	3:		Invest	resources	where	beneﬁt	will	be	maximum,	e.g.,
+•
+
+Priority	order	for	so(ware	improvements
+
+•
+
+Changed	procedures	for	operators
+
+•
+
+Replacement	hardware
+
+•
+
+Orderly	restart	a(er	power	failure
+
+

@@ -19,6 +19,7 @@ class Paper < ApplicationRecord
   has_many :conference_similarity, :class_name => "Similarity", :foreign_key => "conference_paper_id"
   has_many :conference_similarity_scores, :through => :conference_similarity, :source => :paper
   has_many :conferences, through: :conference_papers
+
   has_many :users, through: :user_papers
 
   has_many :conference_papers, dependent: :destroy
@@ -46,6 +47,12 @@ class Paper < ApplicationRecord
     self.save!(validate: false)
 
     File.delete(new_file)
+  end
+
+  def save_pdf_path(filepath)
+    self.pdf = File.open(filepath, 'r')
+    self.save!()
+    File.delete(filepath)
   end
 
   private

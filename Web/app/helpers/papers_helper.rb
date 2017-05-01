@@ -4,7 +4,7 @@ module PapersHelper
   def extractTextFromPdf(paper, conference_id)
     pdf_path = paper.pdf.path
     unless pdf_path.nil?
-      scrapper = PDFScrapper.new("dummy", PDFScrapper::PageType[:personal])
+      scrapper = PDFScrapper.new('dummy', PDFScrapper::PageType[:personal])
       txt_file = Rails.root.join('public', 'conference', conference_id, 'txt', File.basename(paper.pdf_file_name, File.extname(paper.pdf_file_name)) + ".txt")
       txt_folder = Rails.root.join('public', 'conference', conference_id, 'txt')
       FileUtils::mkdir_p txt_folder
