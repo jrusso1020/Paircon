@@ -1,3 +1,4 @@
+require "recommendation/recommendation_generator"
 class ConferencesController < ApplicationController
   include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
@@ -98,7 +99,11 @@ class ConferencesController < ApplicationController
 
     if attendee.blank?
       @conference.conference_attendees.create(user_id: current_user.id)
-      ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
+      begin
+        ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
+      rescue Redis::CannotConnectError => e
+        RecommendationGenerator.new(user_id, conference_id).getRecommendationsForEachPaper()
+      end
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
       attendee.destroy_all
@@ -123,8 +128,7 @@ class ConferencesController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: @papers_with_scores }
-      format.html
+      format.js
     end
   end
 
