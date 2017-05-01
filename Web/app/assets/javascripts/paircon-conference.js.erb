@@ -530,7 +530,7 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
                 timelineNDays: {
                     type: 'timeline',
                     duration: {days: date_diff},
-                    buttonText: 'Complete Event'
+                    buttonText: 'Complete Conference'
                 },
                 timelineDay: {
                     type: 'day',
@@ -541,7 +541,7 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
                     buttonText: 'Day (Vertical)'
                 }
             },
-            resourceGroupField: 'building',
+            resourceGroupField: 'room',
             refetchResourcesOnNavigate: true,
             resources: '/schedules/get_resources?id=' + conference_id,
             events: '/schedules/get_events?id=' + conference_id,
@@ -617,42 +617,42 @@ function initializeAddScheduleEvent(start_date, end_date) {
 
     $('.datetime').datetimepicker(options);
 
-    var auditorium_depend, $auditorium_depend;
-    var room_depend, $room_depend;
+    var event_depend, $event_depend;
+    var session_depend, $session_depend;
 
-    $auditorium_depend = $('#auditorium_depend').selectize({
+    $event_depend = $('#event_depend').selectize({
         sortField: 'text',
         onChange: function (value) {
             if (!value.length) return;
 
-            room_depend.disable();
-            room_depend.clearOptions();
-            room_depend.load(function (callback) {
+            session_depend.disable();
+            session_depend.clearOptions();
+            session_depend.load(function (callback) {
                 $.ajax({
-                    url: '/schedules/get_rooms',
+                    url: '/schedules/get_sessions',
                     data: {
                         'id': value
                     },
                     success: function (results) {
-                        room_depend.enable();
+                        session_depend.enable();
                         callback(results);
-                        room_depend.addItem('No Room', false);
+                        session_depend.addItem('No Session', false);
                     },
                     error: function () {
                         callback();
                     }
                 })
             });
-            room_depend.refreshOptions();
+            session_depend.refreshOptions();
         }
     });
 
-    $room_depend = $('#room_depend').selectize({
+    $session_depend = $('#session_depend').selectize({
         sortField: 'text'
     });
 
-    auditorium_depend = $auditorium_depend[0].selectize
-    room_depend = $room_depend[0].selectize
+    event_depend = $event_depend[0].selectize
+    session_depend = $session_depend[0].selectize
 
     jQuery.validator.addMethod("greaterThan",
         function (value, element, params) {
@@ -670,7 +670,7 @@ function initializeAddScheduleEvent(start_date, end_date) {
             'event[title]': {
                 required: true
             },
-            'event[resource_auditorium]': {
+            'event[resource_event]': {
                 required: true
             },
             'event[start_date]': {

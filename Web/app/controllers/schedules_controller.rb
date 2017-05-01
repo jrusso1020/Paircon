@@ -8,8 +8,8 @@ class SchedulesController < ApplicationController
   def new_resource
     if params[:view] == ConferenceResource::TYPE[:event]
       @title = 'Add Event'
-      @body = 'Please add the event details.'
-      @buildings = [['Other', 'Other']] + Conference.find_by_id(params[:conference_id]).conference_resources.select(:building).distinct().map { |obj| [obj.building, obj.building] }
+      @body = 'Please enter information about the Event you are hosting and add the name of the Room to which this Event belongs.'
+      @rooms = [['Other', 'Other']] + Conference.find_by_id(params[:conference_id]).conference_resources.select(:room).distinct().map { |obj| [obj.room, obj.room] }
     else
       @title = 'Add Session'
       @body = 'Please enter the session details.'
@@ -22,32 +22,27 @@ class SchedulesController < ApplicationController
 
   def create_resource
     conference_resource_params = params.require(:resource).permit!
-    if conference_resource_params[:building] == 'Other'
-      building_name = conference_resource_params[:building_other]
+    if conference_resource_params[:room] == 'Other'
+      room_name = conference_resource_params[:room_other]
+    elsif conference_resource_params[:room] == 'None'
+      room_name = ''
     else
-      building_name = conference_resource_params[:building]
+      room_name = conference_resource_params[:room]
     end
 
     if params[:view] == ConferenceResource::TYPE[:event]
-      event_start_date = DateTime.civil(conference_resource_params["date(1i)"].to_i,
-                                        conference_resource_params["date(2i)"].to_i,
-                                        conference_resource_params["date(3i)"].to_i,
-                                        conference_resource_params["start_time(4i)"].to_i,
-                                        conference_resource_params["start_time(5i)"].to_i)
-      event_end_date = DateTime.civil(conference_resource_params["date(1i)"].to_i,
-                                      conference_resource_params["date(2i)"].to_i,
-                                      conference_resource_params["date(3i)"].to_i,
-                                      conference_resource_params["end_time(4i)"].to_i,
-                                      conference_resource_params["end_time(5i)"].to_i)
+      event_start_date = DateTime.civil(conference_resource_params['date(1i)'].to_i, conference_resource_params['date(2i)'].to_i, conference_resource_params['date(3i)'].to_i, conference_resource_params['start_time(4i)'].to_i, conference_resource_params['start_time(5i)'].to_i)
+      event_end_date = DateTime.civil(conference_resource_params['date(1i)'].to_i, conference_resource_params['date(2i)'].to_i, conference_resource_params['date(3i)'].to_i, conference_resource_params['end_time(4i)'].to_i, conference_resource_params['end_time(5i)'].to_i)
+
       event_resource = ConferenceResource.create!(
           conference_id: params[:conference_id],
           title: conference_resource_params[:title],
           parent_id: nil,
-          building: building_name,
+          room: room_name,
           eventColor: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
       )
       #create the corresponding event for the event_resource
-      event_event = ConferenceEvent.create!(
+      ConferenceEvent.create!(
           conference_id: params[:conference_id],
           conference_resource_id: event_resource.id,
           title: conference_resource_params[:title],
@@ -58,25 +53,18 @@ class SchedulesController < ApplicationController
       flash[:notice] = "You have successfully created '#{conference_resource_params[:title]}' Event."
     else
       event_date = ConferenceEvent.find_by_conference_resource_id(conference_resource_params[:parent_id]).start_date.to_datetime
-      session_start_date = DateTime.civil(event_date.year,
-                                          event_date.month,
-                                          event_date.day,
-                                        conference_resource_params["start_time(4i)"].to_i,
-                                        conference_resource_params["start_time(5i)"].to_i)
-      session_end_date = DateTime.civil(event_date.year,
-                                        event_date.month,
-                                        event_date.day,
-                                      conference_resource_params["end_time(4i)"].to_i,
-                                      conference_resource_params["end_time(5i)"].to_i)
+      session_start_date = DateTime.civil(event_date.year, event_date.month, event_date.day, conference_resource_params['start_time(4i)'].to_i, conference_resource_params['start_time(5i)'].to_i)
+      session_end_date = DateTime.civil(event_date.year, event_date.month, event_date.day, conference_resource_params['end_time(4i)'].to_i, conference_resource_params['end_time(5i)'].to_i)
 
       session_resource = ConferenceResource.create!(
           conference_id: params[:conference_id],
           title: conference_resource_params[:title],
           parent_id: conference_resource_params[:parent_id],
-          building: nil,
+          room: nil,
           eventColor: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
       )
-      session_event = ConferenceEvent.create!(
+
+      ConferenceEvent.create!(
           conference_id: params[:conference_id],
           conference_resource_id: session_resource.id,
           title: conference_resource_params[:title],
@@ -95,14 +83,15 @@ class SchedulesController < ApplicationController
 
   def new_event
     @conference = Conference.find_by_id(params[:conference_id])
-    auditoriums = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
-    @auditoriums = auditoriums.map { |obj| [obj.title, obj.id] }
+
+    events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
+    @events = events.map { |obj| [obj.title, obj.id] }
     papers = @conference.papers.select(:title, :id).order(:title)
 
     @papers = papers.map{|obj| [obj.title, obj.id]}
-    @rooms = [['No Room', 'No Room']]
-    unless @auditoriums.blank?
-      @rooms = @rooms + @conference.conference_resources.where(parent_id: auditoriums.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
+    @sessions = [['No Session', 'No Session']]
+    unless @events.blank?
+      @sessions = @sessions + @conference.conference_resources.where(parent_id: events.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
     end
 
     @start_date = params[:start_date].blank? ? '' : DateTime.parse(params[:start_date]).strftime(DATEFORMAT)
@@ -111,15 +100,15 @@ class SchedulesController < ApplicationController
     if !params[:resource_id].blank?
       resource = ConferenceResource.find(params[:resource_id])
       if resource.parent_id.nil? or resource.parent_id.blank?
-        @room_name = 'None'
-        @auditorium_name = resource.title
+        @session_name = 'None'
+        @event_name = resource.title
       else
-        @room_name = resource.title
-        @auditorium_name = ConferenceResource.find(resource.parent_id).title
+        @session_name = resource.title
+        @event_name = ConferenceResource.find(resource.parent_id).title
       end
     else
-      @auditorium_name = ''
-      @room_name = ''
+      @event_name = ''
+      @session_name = ''
     end
 
     render layout: false
@@ -128,10 +117,10 @@ class SchedulesController < ApplicationController
   def create_event
     conference_event_params = params.require(:event).permit!
 
-    if !conference_event_params[:resource_room].blank? and conference_event_params[:resource_room] != 'No Room'
-      resource_id = conference_event_params[:resource_room]
+    if !conference_event_params[:resource_session].blank? and conference_event_params[:resource_session] != 'No session'
+      resource_id = conference_event_params[:resource_session]
     else
-      resource_id = conference_event_params[:resource_auditorium]
+      resource_id = conference_event_params[:resource_event]
     end
 
     ConferenceEvent.create!(
@@ -154,20 +143,20 @@ class SchedulesController < ApplicationController
   def edit_event
     @conference_event = ConferenceEvent.find(params[:id])
     @conference = @conference_event.conference
-    auditoriums = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
-    @auditoriums = auditoriums.map { |obj| [obj.title, obj.id] }
-    @rooms = [['No Room', 'No Room']]
-    unless @auditoriums.blank?
-      @rooms = @rooms + @conference.conference_resources.where(parent_id: auditoriums.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
+    events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
+    @events = events.map { |obj| [obj.title, obj.id] }
+    @sessions = [['No Session', 'No Session']]
+    unless @events.blank?
+      @sessions = @sessions + @conference.conference_resources.where(parent_id: events.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
     end
 
     conference_resource = @conference_event.conference_resource
     if (conference_resource.parent_id.nil?)
-      @room_name = 'None'
-      @auditorium_name = conference_resource.title
+      @session_name = 'None'
+      @event_name = conference_resource.title
     else
-      @room_name = conference_resource.title
-      @auditorium_name = ConferenceResource.where(id: conference_resource.parent_id).title
+      @session_name = conference_resource.title
+      @event_name = ConferenceResource.where(id: conference_resource.parent_id).title
     end
 
     render layout: false
@@ -180,10 +169,10 @@ class SchedulesController < ApplicationController
                     end_date: conference_event_params[:end_date],
                     conference_resource_id: conference_event_params[:resource_id]}
     else
-      if !conference_event_params[:resource_room].blank? and conference_event_params[:resource_room] != 'No Room'
-        resource_id = conference_event_params[:resource_room]
+      if !conference_event_params[:resource_session].blank? and conference_event_params[:resource_session] != 'No session'
+        resource_id = conference_event_params[:resource_session]
       else
-        resource_id = conference_event_params[:resource_auditorium]
+        resource_id = conference_event_params[:resource_event]
       end
 
       attributes = {conference_resource_id: resource_id,
@@ -253,18 +242,18 @@ class SchedulesController < ApplicationController
 
   def get_resources
     @conference = Conference.find(params[:id])
-    resources = @conference.conference_resources.where(parent_id: nil).order(:title).map { |obj| {id: obj.id, title: obj.title, building: obj.building, eventColor: obj.eventColor} }
+    resources = @conference.conference_resources.where(parent_id: nil).order(:title).map { |obj| {id: obj.id, title: obj.title, room: obj.room, eventColor: obj.eventColor} }
 
     if resources.length == 0
-      sample_resource = [{id: 'a', building: 'Sample Building', title: 'Sample Auditorium', children: [{id: 'a1', title: 'Sample Room A'}, {id: 'a2', title: 'Sample Room B'}]}]
+      sample_resource = [{id: 'a', room: 'Sample Room', title: 'Sample Event', children: [{id: 'a1', title: 'Sample Session A'}, {id: 'a2', title: 'Sample Session B'}]}]
       render json: sample_resource.to_json
     else
-      rooms = @conference.conference_resources.where.not(parent_id: nil).order(:title)
+      sessions = @conference.conference_resources.where.not(parent_id: nil).order(:title)
 
-      rooms.each do |room|
-        auditorium = resources.find { |x| x[:id] == room.parent_id }
-        auditorium[:children] = [] if auditorium[:children].nil?
-        auditorium[:children] = auditorium[:children] + [{id: room.id, title: room.title, eventColor: room.eventColor}]
+      sessions.each do |session|
+        event = resources.find { |x| x[:id] == session.parent_id }
+        event[:children] = [] if event[:children].nil?
+        event[:children] = event[:children] + [{id: session.id, title: session.title, eventColor: session.eventColor}]
       end
 
       render json: resources.to_json
@@ -290,9 +279,9 @@ class SchedulesController < ApplicationController
 
   end
 
-  def get_rooms
-    rooms = [{text: 'No Room', value: 'No Room'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
-    render json: rooms.to_json
+  def get_sessions
+    sessions = [{text: 'No session', value: 'No session'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
+    render json: sessions.to_json
   end
 
   private

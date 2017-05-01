@@ -93,11 +93,11 @@ module ConferencesHelper
             conference_id: conference_id,
             title: session_params[:title],
             parent_id: nil,
-            building: session_params[:room],
+            room: session_params[:room],
             eventColor: '#' + Digest::MD5.hexdigest(session_params[:title])[0..5]
         )
         #create the corresponding event for the event_resource
-        event_event = ConferenceEvent.create!(
+        ConferenceEvent.create!(
             conference_id: conference_id,
             conference_resource_id: event_resource.id,
             title: session_params[:title],
@@ -112,12 +112,12 @@ module ConferencesHelper
           conference_id: conference_id,
           title: session_params[:session_title],
           parent_id: event_resource.id,
-          building: session_params[:room],
+          room: session_params[:room],
           eventColor: '#' + Digest::MD5.hexdigest(session_params[:session_title])[0..5]
       )
 
       #create the event data for the session
-      session_event = ConferenceEvent.create!(
+      ConferenceEvent.create!(
           conference_id: conference_id,
           conference_resource_id: session_resource.id,
           title: session_params[:session_title],

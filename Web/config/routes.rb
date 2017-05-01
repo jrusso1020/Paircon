@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
   resources :schedules do
     collection do
-      get :get_rooms
+      get :get_sessions
       get :get_resources
       get :get_events
       get :delete_resource

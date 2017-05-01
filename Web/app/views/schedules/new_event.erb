@@ -29,11 +29,11 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :resource_auditorium, 'Auditorium Name (*)' %>
-            <%= f.select :resource_auditorium, @auditoriums, {}, id: 'auditorium_depend', value: @auditorium_name %>
+            <%= f.label :resource_event, 'Event Name (*)' %>
+            <%= f.select :resource_event, @events, {}, id: 'event_depend', value: @event_name %>
 
-            <%= f.label :resource_room, 'Room Name' %>
-            <%= f.select :resource_room, @rooms, {}, id: 'room_depend', value: @room_name %>
+            <%= f.label :resource_session, 'Session Name' %>
+            <%= f.select :resource_session, @sessions, {}, id: 'session_depend', value: @session_name %>
           </div>
         </div>
       </div>
