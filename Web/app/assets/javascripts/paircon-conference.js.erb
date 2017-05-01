@@ -17,7 +17,7 @@ function requestUserRecommendations(conference_id, user_id){
                 'user_id': user_id
             },
             success: function (result) {
-                $("#recommendations-container").empty();
+                $("#main-container").empty();
             }
         }, 60 * 1000); //perform every minute
     });
