@@ -1,9 +1,25 @@
 <%= header_title 'Dashboard' %>
 
-<div id="page-heading">
-  <%= page_title 'Dashboard' %>
-  <hr/>
+<div class="container">
+  <div class="row" id="dash_heading_equal">
+    <div id="page-heading" class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+      <%= page_title 'Dashboard' %>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 text-center" style="margin:auto;">
+      <% if @user.is_scraped %> <!-- If a scraping job is running -->
+          <button class="refresh_publication refresh_url_dash_button btn btn-paircon">Refresh Publication List</button>
+      <% elsif !@user.papers.blank? %> <!-- If the user has no papers -->
+          <button class="refresh_publication refresh_url_dash_button btn btn-paircon">Refresh Publication List</button>
+      <% else %>
+          <span class="tooltip-wrapper text-center" data-toggle="tooltip" data-placement="bottom" title = "Please wait while your publication list is refreshing">
+            <button class="refresh_publication_disabled refresh_url_dash_button btn btn-paircon disabled">Refresh Publication List</button>
+          </span>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+<hr>
 
 <div class="container">
     <div class="row">
@@ -20,3 +36,4 @@
       </div>
     </div>
 </div>
+<%= javascript_tag "refreshProfileUrl()" %>

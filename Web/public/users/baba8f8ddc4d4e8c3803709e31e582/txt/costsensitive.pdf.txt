@@ -1,0 +1,477 @@
+Classiﬁer Cascade for Minimizing Feature Evaluation Cost
+
+Minmin Chen1 Zhixiang (Eddie) Xu1 Kilian Q. Weinberger1 Washington University in Saint Louis1 Saint Louis, MO chenm, zhixiang.xu, kilian, kedem.dor@wustl.edu
+
+Olivier Chapelle2 Yahoo! Research2 Santa Clara, CA chap@yahoo-inc.com
+
+Dor Kedem1
+
+Abstract
+Machine learning algorithms are increasingly used in large-scale industrial settings. Here, the operational cost during test-time has to be taken into account when an algorithm is designed. This operational cost is affected by the average running time and the computation time required for feature extraction. When a diverse set of features is used, the latter can vary drastically. In this paper we propose an algorithm that constructs a cascade of classiﬁers which explicitly trades-off operational cost and classiﬁer accuracy while accounting for on-demand feature extraction costs. Different from previous work, our algorithm reoptimizes trained classiﬁers and allows expensive features to be scheduled at any stage within the cascade to minimize overall cost. Experiments on actual web-search ranking data sets demonstrate that our framework leads to drastic test-time improvements.
+
+are used hundreds of millions of times per day and are relied upon by billions of people around the world. However, there is a distinct difference between the machine learning scenarios in typical research papers and the realworld industrial setting. In industrial settings, the average computational cost during test-time is a serious consideration when algorithms are deployed. If a task is performed millions of times per day, it is crucial that the average computation time required per instance is sufﬁciently low to stay within the limits of the available computational resources. As an example consider a commercial e-mail spam ﬁlter. It has to process millions of messages per day, and given its limited resources must spend less than 10 milliseconds on each individual e-mail. Similarly, a web search engine might have to score hundreds of thousands of documents within a few milliseconds. The two key differences from traditional machine learning are that 1. the computational cost is evaluated on average per test instance and 2. features are computed on-demand and vary signiﬁcantly in cost. For example, in the e-mail spam ﬁltering scenario, it is ﬁne to spend 30 milliseconds on the occasional image spam e-mail (which might require expensive OCR features), if a majority of the messages can be ﬁltered out just based on their sender-IP address in less than one millisecond (without even loading the message content). Similarly, in web search ranking, many documents can cheaply be eliminated using precomputed features such as PageRank. This leaves few documents to be scored with more expensive features such as advanced text match ones (Chapelle and Chang, 2011, Section 4.2). Although the problem of fast evaluation has already been studied, mostly in the context of face detection (Viola and Jones, 2002), average-time complexity and on-demand feature-cost amortization is surprisingly absent in most of today’s machine-learning literature – even in application domains such as web-search ranking (Chapelle et al., 2010; Zheng et al., 2008) or email-spam ﬁltering (Weinberger et al., 2009). In this paper we consider the problem of post-processing classiﬁers to reduce their test time complexity, based on
+
+1
+
+Introduction
+
+During the past decade, the ﬁeld of machine learning has managed a successful transition from academic research to industrial real-world applications. Silently, machine learning algorithms have entered the mainstream market through applications such as web-search engines (Zheng et al., 2008), product recommendations (Bennett and Lanning, 2007), family-safe content ﬁltering (Fleck et al., 1996), email- and web-spam ﬁlters (Abernethy et al., 2008; Weinberger et al., 2009) and many others. These successes are a testament to the maturity of machine learning as a research ﬁeld and to the robustness of the various algorithms and approaches. In web-search engines, machine learned rankers
+Appearing in Proceedings of the 15th International Conference on Artiﬁcial Intelligence and Statistics (AISTATS) 2012, La Palma, Canary Islands. Volume XX of JMLR: W&CP XX. Copyright 2012 by the authors.
+
+Classiﬁer Cascade for Minimizing Feature Evaluation Cost
+
+classiﬁer execution time and feature extraction cost in learning scenarios with skewed class proportions. In particular, we focus on re-weighting and re-ordering of weak learners obtained with additive regression methods (such as gradient boosting (Friedman, 2001)). After the initial training, a dictionary of classiﬁers is re-organized into a chain of cascades (Viola and Jones, 2002) – where each can reject an input or pass it on to the subsequent stage. The average cost is signiﬁcantly reduced, because most test inputs are rejected early-on after only a few cheap features are extracted. Different from previous work (Raykar et al., 2010), we do not pre-assign features to cascade stages; rather, we make the order of the feature extraction part of the optimization. This entails a crucial beneﬁt, as it allows even an expensive feature to be used early if it leads to an amortized gain in performance through more accurate and aggressive rejection of inputs. Following several intuitive steps we derive an optimization problem which can be solved in a simple iterative procedure. We further relax the optimization problem into a series of sub-problems with simple closed-form solutions, which can be solved in a matter of minutes. We use this relaxed version as initialization and as an efﬁcient method to cross-validate hyper-parameters. We demonstrate that our method reduces the average cost of a classiﬁer during test time by an order of magnitude on real-world web-search ranking data sets, with only a marginal reduction in retrieval precision. Surprisingly, even our initialization already signiﬁcantly outperforms the current state-of-the-art.
+
+the trees with the help of a global optimization problem. Lefakis and Fleuret (2010) use soft-cascades to boost the entire cascade structure. Here, during training, at each stage inputs are weighted by their probability of passing all previous stages. The authors use a ﬁxed number of stages and all cascades are created together by iteratively adding a weak classiﬁer to each stage, maximizing the loglikelihood for the entire cascade model. Saberian and Vasconcelos (2010) propose a similar approach that takes into account both the classiﬁcation loss and the generated cost. There is no set number of stages and new stages are generated during training. Each iteration, weak classiﬁers are built for every stage and only the one which optimizes the objective function the most is picked in a greedy fashion. Most similar to our method is the work by Raykar et al. (2010). Here, the authors suggest to ﬁrst group the weak classiﬁers and features according to their features’ costs. They maximize the log-likelihood of the training data while minimizing the expected test-time cost. However, different from our method, each stage is constrained to only contain a ﬁxed subset of features or weak-learners, whereas our method automatically assigns features and weak-learners globally.
+
+3
+
+Method
+
+2
+
+Related Work
+
+We assume that training data is provided in a set of (input, label) pairs D = {(x1 , y1 ), (x2 , y2 ), · · · , (xn , yn )} ∈ Rd × {+1, −1}. For simplicity, the class labels are binary, although other settings are possible. In our setting we assume that the two classes are highly unbalanced, in particular that there are many more negative examples than positive ones. This setting occurs in many real-world applications such as web-search ranking (almost all web-pages are of no relevance to a searchquery), email-spam ﬁltering (most email is spam) and many others (Lefakis and Fleuret, 2010; Raykar et al., 2010; Saberian and Vasconcelos, 2010; Viola and Jones, 2002). We assume that we have a set of base hypotheses H = {h1 , h2 , · · · , hT } available. Each ht could be a limited depth regression tree (Breiman et al., 1984) and the set H might have been obtained using gradient boosted decision trees (Friedman, 2001). In this paper we describe how to re-weight and re-arrange these weak learners into cascades of more cost-efﬁcient classiﬁer f (·) = t βt ht (·). We assume that each feature α has a speciﬁc acquisition cost cα > 0 with c ∈ Rd + , which is required for its initial computation. Once a feature has been used for the ﬁrst time, subsequent evaluations are free1 as its value can be
+This second-use cost could also be set to a small positive constant without any major change in our problem formulation — for simplicity we assume it is zero.
+1
+
+Previous research has addressed the task of learning cascades of classiﬁers in various ways in the context of diverse applications. The most prominent related work is by Viola and Jones (2002) in the context of real-time facerecognition, which arguably inspired most related subsequent research. Their algorithm uses Adaboost (Schapire, 1999) to greedily train a cascade of classiﬁers. Similar to our approach, each stage can prematurely reject inputs or pass them on for further evaluation. The average test-time cost is reduced because early stages, which are applied to the majority of the inputs, are short and inexpensive. Different from our method, they do not incorporate individualized feature costs and have no global optimization across cascade stages. In the context of information retrieval, Wang et al. (2011) adapted this approach to ranking and incorporated feature costs but retained the underlying greedy paradigm. Cambazoglu et al. (2010) propose an approach to build on top of gradient boosted regression trees explicitly for web-search ranking. Similar to our method, they post-process an additive classiﬁer into a cascade. However, in their setting the order and weights of the trees are ﬁxed and they merely introduce early-exits into a ﬁxed additive model. In contrast, our method re-arranges and re-weights
+
+Minmin Chen1 , Zhixiang (Eddie) Xu1 , Kilian Q. Weinberger1 , Olivier Chapelle2 , Dor Kedem1
+
+cached efﬁciently. In addition to a feature cost we also assume a tree-evaluation cost, denoted by the vector e ∈ RT +, where et is the computational cost of evaluating tree t. (The vector e is all-constant if all trees are of identical depth.) For notational simplicity, we deﬁne a binary matrix F ∈ {0, 1}d×T , where Fαt = 1 if and only if feature α is used in tree t. We can express the cost of a particular classiﬁer f (·) = t βt ht (·) as c(f ) = e δ (β ) + c δ (Fδ (β )) , (1)
+
+is an element of H). With this notation, we can express the resulting classiﬁer as f (x) = β h(x). (3)
+
+We choose the weighted squared loss for (·) and an 1 regularizer for r(·), and rewrite the loss function (2) entirely in terms of the weight vector β : 4 L(β ) = 1 2
+n
+
+ωi (β h(xi ) − yi )2 + ρ β
+i=1
+
+1
+
++ λ e δ (β ) + c δ (Fδ (β )) . where the function δ (a) ∈ {0, 1} is deﬁned as δ (a) = 0 if and only if a = 0.2 The ﬁrst term within the sum in (1) is the accumulative tree-evaluation cost, while the second term sums over the feature costs of all the features that are used in at least one tree in f . Equation (1) is the average cost for a single function f evaluating all samples; this is the single-stage setting of the next section. After that we will analyze a cascade model in which there is a different function at every stage. 3.1 Single-stage Optimization
+
+(4)
+
+Our goal in this section is to optimize over the weightvector β to minimize the cost-sensitive loss L(·) as stated in eq.(4). Relaxation. The loss in eq. (4) is non-continuous, but we can relax it to make it better behaved. Tree Sparsity. The term e δ (β ) in eq. (4) computes the accumulative tree evaluation cost. To achieve continuity, we relax the δ (·) function into an absolute-value, resulting in the following relaxation:
+T T
+
+As a ﬁrst approach, given a set of trees H previously learned using gradient boosted regression trees or by any other method, we propose to re-weight these trees as to approximately minimize the following loss function L which trades off between accuracy and cost: L(f ) = (f ) + ρr(f ) + λc(f ). (2)
+
+et δ (βt ) −→
+t=1 t=1
+
+et |βt |
+
+(5)
+
+The resulting weighted- 1 regularization encourages sparsity in the weights and therefore fewer trees to be evaluated during test-time. Feature Sparsity. The term c δ (Fδ (β )) in eq. (4) calculates the total feature acquisitions cost. Each entry of the vector Fδ (β ) denotes the count of active trees (i.e. βt = 0) in which a particular feature is used. Here, we have two non-continuous δ (·) functions. We relax both jointly into a weighted 1 − 2 mixed-norm (Kowalski, 2009),
+d T d T
+
+where (·) is some convex regression loss function. The cost-term is weighted by λ > 0. To avoid over ﬁtting, we also introduce an additional regularization term r(f ), weighted by ρ > 0. For convenience, throughout the paper we use the weighted n 2 squared loss (f ) = 1 i=1 ωi (f (xi ) − yi ) , where ωi is 2 the weight pre-assigned to the loss of an input xi .3 For 1 , but for unbalanced balanced data usually ωi = ω = n data, it is a common practice to weigh positive and negative classes differently, i.e., {ωi = ω + , ∀i ∈ C + } and {ωi = ω − , ∀i ∈ C − } where C + and C − are the corresponding sets of indices for the positive and negative classes respectively. For a given input xi , we create a vector h(xi ) = [h1 (xi ), · · · , hT (xi )] that contains the regression results using all the trees in H (and a constant 1, which we assume
+2 We assume function δ (·) operates element-wise on vectors and matrices. 3 Recently, it has been shown that for web-search ranking tasks the squared-loss is surprisingly competitive and improvements from ranking-speciﬁc loss functions are typically neglible for non-linear ranking functions such as boosted regression trees (Chapelle and Chang, 2011).
+
+cα
+α=1 t=1
+
+δ (Fαt δ (βt )) −→
+α=1
+
+cα
+t=1
+
+(Fαt βt )2 .
+
+(6)
+
+Intuitively, the mixed-norm in (6) enforces sparsity on a per-feature level – effectively, for a given feature, forcing the classiﬁer to pick many weak-learners that require it, or none at all. This is encouraged more heavily when a feature is expensive to compute for the ﬁrst time (i.e. cα is large). Applying the two relaxations (5) and (6) to our objective (4), we obtain a continuous and convex objective function, ˆ(β ) = 1 L 2
+n
+
+ωi (β h(xi ) − yi )2 + ρ β
+i=1
+
+1
+
+ + λ
+
+T
+
+d
+
+T
+
+ (Fαt βt )2 . (7)
+write
+
+et |βt | +
+t=1 α=1
+
+cα
+t=1
+
+4 With a slight abuse of notation we L(β ), (β ), r(β ), c(β ) for the functions in (2).
+
+will
+
+Classiﬁer Cascade for Minimizing Feature Evaluation Cost
+
+ 1 2
+n K
+
+
+T K d K T
+
+ωi
+i=1 k=1
+
+k qi
+
+yi − h(xi ) β
+loss
+
+k
+
+2
+
+K
+
+T
+
++
+k=1
+
+ρ
+
+k t=1
+
+k |βt | +λ  
+
+ 
+
+et
+
+ t=1
+
+k d )2 (βt k k=1 tree-cost
+
++
+α=1
+
+cα
+k=1 t=1
+
+k d )2  (Fαt βt k 
+
+  
+
+(8)
+
+regularization
+
+feature-cost
+
+extracted feature
+
+unknown feature
+
+an input x proceeds beyond stage k (for this writeup we set γ = 50). As Iβk ,θk (xi ) ∈ [0, 1], we can interpret it as the “probability” that an input xi passes stage k , and pk = i k −1 j ,θ j (xi ) as the probability that xi passes all the I β j =1 stages 1, . . . , k − 1 prior to k . Further, we let dk = n 1 k i=1 pi denote the expected fraction of inputs still in n stage k . We can further express the probability that stage k k = pk is the exit-stage for an input x as qi i (1 − Iβ k ,θ k ). (For K K the last stage, K , we deﬁne qi = pi , as it is by deﬁnition the exit-stage for every input that enters it.) Cascade. In the following, we adapt eq. (7) to this cascade setting. For the sake of clarity, we state the resulting optimization problem in eq. (8) and explain each of the four terms individually. Loss. The ﬁrst term in eq. (8) is a direct adaptation of the corresponding term in eq. (7). For every input, the ﬁnal prediction is computed by its exit-stage. The loss therefore computes the expected squared error according to the exit 1 K probabilities qi , . . . , qi . Regularization. Similar to the single stage case, we employ 1 -regularization to avoid over ﬁtting. As the stages differ in number of inputs, we allow a different constant ρk per stage. Section 3.4 contains a detailed description on how we set hyper-parameters. Tree-cost. The third term, t=1 et |βt |, in eq. (7) addresses the evaluation cost per tree. Na¨ ıvely, we could adapt this K T k term as k=1 dk t=1 et |βt |, where we sum over all trees across all stages – weighted by the fraction of inputs dk still present in each stage. In reality, it is reasonable to assume that no tree is actually computed twice for the same input5 . We therefore adapt the same “pricing”-scheme as for features and consider a tree free after its ﬁrst evaluation. Following a similar reasoning as in section 3.1, we change the 1 -norm to the mixed-norm in order to encourage treesparsity across stages. Feature-cost. The transformation of the feature-cost term is analogous to the tree-cost. We introduce two modiﬁcations from eq. (7): 1. The mixed-norm is computed across
+The classiﬁers in all stages are additive and during test-time we can maintain an accumulator for each stage from the start. If a tree is re-used at a later stage, the appropriately weighted result is added to those stage speciﬁc accumulators after its ﬁrst evaluation. Consequently, each tree is at most evaluated once.
+5
+
+ﬁnal prediction
+
+1
+
+2
+
+3
+
+4
+
+h(x)>
+
+4
+
+-1 stages
+
+-1
+
+-1 early-exit: predict -1 if h(x)>
+k
+
+< ✓k
+
+Figure 1: Schematic layout of a classiﬁer cascade with four stages. 3.2 Cascaded Optimization
+
+The previous section has shown how to re-weight the trees in order to obtain a solution that balances both accuracy and cost-efﬁciency. In this section we will go further and re-order the trees to allow “easy” inputs to be classiﬁed on primarily cheap features and with fewer trees than “difﬁcult” inputs. In our setup, we utilize our assumption that the data set is highly class-skewed. We follow the intuition of Viola and Jones (Viola and Jones, 2002) and stack multiple re-weighted classiﬁers into an ordered cascade. See Figure 1 for a schematic illustration. Each classiﬁer can reject an input as negative or pass it on to the next classiﬁer. In data sets with only very few positive examples (e.g. web-search ranking) such a cascade structure can reduce the average computation time tremendously. Almost all inputs are rejected after only a few cascade steps. Let us denote a K -stage cascade as C = {(β 1 , θ1 ), (β 2 , θ2 ), · · · , (β K , −)}. Each stage has its own weight vector β k , which deﬁnes a classiﬁer f k (x) = h(x) β k . An input is rejected (i.e. classiﬁed as negative) at stage k if h(x) β k < θk . The test-time prediction is −1 in case an input is rejected early and otherwise h(x) β K . Soft assignments. To simulate the early exit of an input x from the cascade, we deﬁne a “soft” indicator function Iβ,θ (x) = σγ (h(x) β − θ), where σγ (·) denotes the sigmoid function σγ (x) = 1+e1 −γx of steepness γ > 0. For γ 0, the function Iβk ,θk (x) ∈ [0, 1] approximates the non-continuous 0/1 step-function indicating whether or not
+
+T
+
+Minmin Chen1 , Zhixiang (Eddie) Xu1 , Kilian Q. Weinberger1 , Olivier Chapelle2 , Dor Kedem1
+
+stages. 2. The feature cost per stage is weighted by the expected number of inputs at that stage, dk . 3.3 Optimization
+
+k ) in the regularization minimize terms of the form g (βt term and cost terms in (8). For this purpose, we introduce auxiliary variables σt and κt for 1 ≤ t ≤ T , and ηα for 1 ≤ α ≤ d which are all minimized, and perform the following substitutions in (8): k | βt |→ K j (βt dj )2 → j =1 K T j (Fαt βt dj )2 → j =1 t=1 k 2 ) 1 ( βt + σt 2 σt
+
+The optimization is carried out in cycles. In every cycle, K optimization problems are solved, each aiming to learn the classiﬁer weights β k and the early-exit threshold θk of a particular stage k to reduce the joint loss of the overall cascade in eq. (8). A detailed pseudo-code implementation is presented in Algorithm 1. 3.3.1 Cyclic Optimization
+
+1 2 1 2
+
+K j 2 j =1 (βt dj )
+
+κt
+K j =1
+
++ κt
+
+(11)
+
+T j 2 t=1(Fαt βt dj )
+
+In each iteration, we minimize the loss with respect to a single stage (β k , θk ) at a time – while keeping all other optimization variables ﬁxed. Loss. With all the weight vectors β j and the early exit thresholds θj of the stages j = k ﬁxed, for all j < k , the j variables qi (for i = 1. . .n) become constants. For subj j j sequent stages j > k , qi reduces to qi = Iβk ,θk (xi )˜ qi , j where q ˜i is a constant. Minimizing the loss term in eq. (8) becomes equivalent to minimizing (β k , θk ) = const + 1 2
+n i=1
+
+ηα
+
++ ηα
+
+1 2
+
+n k ωi qi (yi − h(xi ) β k )2 i=1
+
+Optimization. Given values for β k and θk , the optimal ∗ ∗ , κ∗ solution σt t , and ηα is available in closed form and consists exactly of the left hand side of the corresponding equa∗ ∗ k ∗ , κ∗ |. Given σt = |βt tion in (11), e.g., σt t , and ηα , the resulting loss is continuous and differentiable with respect to β k and θk and can be minimized with any off-the-shelf gradient-based optimization package6 . This alternating optimization with respect to β k , θk and the auxiliary variables σt , κt , and ηα converges to a local optimum for β k and θk . Algorithm 1 summarizes this procedure in pseudo-code. Algorithm 1 Cyclic Optimization in pseudo-code.
+1: Initialize the weight vectors β k and the early exit 2: 3: 4: 5: 6: 7: 8: 9: 10: 11:
+
+ ωi
+
+K
+
+
+2 j q ˜i yi − h(xi ) β j  Iβk ,θk (xi ) (9)
+
++
+
+j =k+1 constant
+
+The ﬁrst term is the regression loss of stages 1 . . . k − 1, which is a constant. The second term computes the regression loss at stage k and contains β k inside the square and k inside the term qi (latter is also constant for k = K ). The third term accumulates the loss of the stages after stage k , and it depends on β k and θk only through Iβk ,θk . As we will point out later in more detail, the third term is the only non-convex part of the loss and vanishes if k = K . Regularization and cost. Before we describe how to perform the optimization, we address how to circumvent the √ non-differentiability of the · and | · | operators. The following lemma helps us to rephrase these terms as quadratic forms, which simpliﬁes the optimization greatly. (Please √ note that |x| = x2 , and therefore we only address the square-root term.) Lemma 1 The following holds for any g (x) > 0: g (x) = min
+y>0
+
+thresholds θk for all the stages using Algorithm 2. repeat for k = 1 → K do Fix β j , θj for j = k . repeat Fix β k , θk , compute σ ∗ , κ∗ , η ∗ . Fix σ ∗ , κ∗ , η ∗ , minimize (8) w.r.t. β k , θk . until Cost-sensitive loss (8) no longer improves. end for until Cost-sensitive loss (8) no longer improves. Return the cascade C = {(β 1 , θ1 ), · · · , (β K , −)}.
+
+3.3.2
+
+Initialization
+
+1 g (x) +z . 2 z
+
+(10)
+
+This lemma is straightforward to prove by noting that the minimizer is z = g (x). We apply Lemma 1 to (locally)
+
+As the joint loss is not convex, initialization is important. In this section, we describe how to initialize the weight vectors and exit thresholds for the cascade. In particular, we derive a simple convex approximation that we use to obtain a good initialization with very little computational effort. Our initialization is based on a simple insight: For k = K , all four terms in eq. (8) become convex. We therefore initialize the vectors β k in increasing order of k , each time pretending that the entire cascade consists of only k stages, i.e., K = k .
+6
+
+We use http://tinyurl.com/minimize-m.
+
+Classiﬁer Cascade for Minimizing Feature Evaluation Cost
+
+Quadratic forms. For the optimization of a single stage, the loss-term in (8) is rewritten as (9). For k = K , (9) reduces to a simple quadratic form with respect to β K , as its third and only non-quadratic term (the loss of following stages) vanishes. With the help of the following extension to Lemma 1, we can show that all the remaining terms in (8) can also be solved by minimizing quadratic forms: Lemma 2 If g (x) = a + bx2 with a ≥ 0 and b > 0, then (in Lemma 1) is jointly convex in x and z . Proof, (Boyd and Vandenberghe, 2004, p.72). We can show that for k = K Lemma 2 applies to all three cases in (11). It trivially applies to the ﬁrst one K K )2 (b = 1, a = 0). In the other two cases, | βt | = (βt K we can show that no dj is a function of βt . This follows from the deﬁnition of dj√ and the fact that j ≤ K . Hence, all expression inside the · in (11) become quadratic with k . As all constants are non-negative, and all respect to βt terms only appear inside squares, Lemma 2 applies. As an example,
+K j dj )2 = (βt j =1 K −1 j =1 a j K 2 dj )2 + d2 (βt K ( βt ) . b 1 2 g ( x) z +z
+
+stage. Here, we follow a simple rule of exponentially decreasing λ, with λ1 = λδ −K and λk+1 = λk δ −1 . As we pretend that stage k is the last stage, and has no exitthreshold during the optimization, we still need to set θk after the optimization if k < K . Here we choose θk such that the expected number of inputs per stage decays by a constant factor > 0, i.e. we set d0 = 1 and θk such that dk = (1 − )dk−1 . Algorithm 2 Initialization in pseudo-code.
+1: 2: 3: 4: 5: 6: 7: 8: 9: 10:
+
+Input: H = h(xi ), ∀i ∈ Dk , d1 = 1. for k = 1 → K do Fix β j , θj for j = 1, · · · , k − 1. repeat Given β k , set σ ∗ , κ∗ , η ∗ to LHS of (11) Given σ ∗ , κ∗ , η ∗ , set β k with (14) Set θk so that dk+1 = (1 − )dk . until Loss can no longer be reduced end for Return the cascade C = {(β 1 , θ1 ), · · · , (β K , θk )}.
+
+(12)
+
+3.4
+
+Hyper-parameters.
+
+We follow the same alternate optimization over the auxiliary variables σ, κ, η and the weight vector β k as before, however there are two crucial differences from before: 1. the alternate optimization is now jointly convex (see Lemma 2) and will converge to the global minimum for this stage. 2. all terms are in quadratic forms and can be solved in closed form7 . In particular, we can collect all constants into two design matrices
+k Ωii = ωi qi ,
+
+The fast initialization procedure provides us with a very efﬁcient way to set hyper-parameters. We initialize with various parameter settings and choose the best-performing setup (without further training) on a validation set. We use this approach for the ranking task from section 4 to set δ = 1.3 and ω + = 3.5 (and by default ω − = 1). Only the regularization constants of the ﬁrst and last stages, ρ1 and ρK , are set by cross-validation. For, k such that 1 < k < K , we set ρk = ρ1 . The algorithm is surprisingly insensitive to the values of K and , mostly because if K is too large the optimization can effectively eliminate unnecessary stages by returning all-zero weight vectors β k (which induce zero cost) and negative thresholds θk so that all inputs are passed on. We set K = 10 and = 0.15, i.e. during initialization each stage removes 15% of the remaining inputs.
+
+ρ Λtt = + λdk 2 σt
+
+cα Fαt et + κt α=1 ηα
+
+d
+
+, (13)
+
+and solve for β k through β k = (H ΩH + Λ)−1 H Ωy, (14)
+
+4
+
+Results
+
+with Hti = ht (xi ). (For the most common scenario, n T , the computation in (14) is dominated by the matrix multiplication H ΩH — however, because both H and Ω stay constant throughout the optimization of a stage this expression can be pre-computed and re-used.) The initialization is summarized in Algorithm 2 in pseudo-code. To compensate for the fact that the current stage is not actually the last one, during initialization, we inﬂate the trade-off parameter λ for early stages and decrease it monotonically until we reach the intended trade-off at the last
+This assumes that (·) is the squared-loss. If another convex loss is used, each sub-problem of the initialization is still convex but would have to be solved with gradient descent methods.
+7
+
+We conduct experiments on the public Yahoo Learning to Rank Challenge1 data set. In the original data, the label yi takes values from {0, 1, 2, 3, 4}. For simplicity, we only distinguish if a document is relevant (yi ≥ 3) to the input query or not and binarize the label accordingly to yi ∈ {+1, −1}. As mentioned, the two classes are unbalanced. Out of the 473134 documents, only 45111 are relevant to the corresponding queries. Although this data set is representative for a web-search ranking training set, it is not representative for the test-case, in which typically many more negative examples are present. In a real life
+1
+
+Available from http://learningtorankchallenge.yahoo.com
+
+Minmin Chen1 , Zhixiang (Eddie) Xu1 , Kilian Q. Weinberger1 , Olivier Chapelle2 , Dor Kedem1
+Testing precision 0.145 0.14 0.135 Prec@5 Precision@5 Precision@5 0.13 0.125 0.12 0.115 0.11 0.105 0 0.5 1 Test Cost
+GBRT Single Stage Cronus initialization Cronus optimized
+
+Testing precision 0.145 0.14 0.135 0.13 0.125 0.12 0.115 0.11
+
+Testing precision
+
+GBRT AND−OR (Dundar et. al., 2007) Soft cascade (Raykar et. al., 2010) Early exit, s = 1.0 (Cambazoglu et. al, 2010) Early exit, s = 0.6 (Cambazoglu et. al, 2010) Early exit, s = 0.2 (Cambazoglu et. al, 2010) Cronus optimized
+
+1.5
+
+2 x 10
+4
+
+0.105 0
+
+0.5
+
+1 Test Cost
+
+1.5
+
+2 x 10
+4
+
+Figure 2: The precision@5 and the test-time cost of various approaches. Left: The comparison of the original GBRT, singlestage optimization, Cronus after its initialization and optimization (under various settings of λ). There is a clear trend that each step improves the precision-cost curve. Right: Comparisons with prior work on test-time optimized cascades. The graph shows the large improvement obtained by Cronus.
+Fraction of features used Fraction of inputs remained
+
+Test-inputs Remaining
+1 0.8 0.6 0.4 0.2 0 1 1 0.6
+c = 5 (31) c = 20 (191)
+
+test-setting, the distribution of the two classes is even more skewed. Usually for each query, there are only a few documents that are highly relevant, out of hundreds of thousands of candidate documents. The documents in this dataset have in fact been collected to be biased towards relevant documents. Thus, to make our evaluation more realistic, we replicated each negative example 10 times. For each feature in the dataset, we have a ballpark estimate of its acquisition cost8 . This cost depends on the feature type and is in the set {1, 5, 20, 50, 100, 150, 200}. The unit of these costs is approximately the time required for the evaluation of a single tree. The cheapest features (the ones with a cost of 1) are those that can be looked up in a table (such as the statistics of a given document), while the most expensive ones (such as BM25F-SD described in (Broder et al., 2010)) typically involve term proximity scoring. Many different measures for evaluating the performance of web ranking systems have been proposed, such as NDCG (J¨ arvelin and Kek¨ al¨ ainen, 2002) or ERR (Chapelle et al., 2009). In this work, we use the Precision@5 measurement, i.e., the fraction of the top 5 documents retrieved that are relevant to the query, as it best reﬂects a classiﬁer’s ability to accurately retrieve a small number of relevant instances within a large set of irrelevant documents. The initial set of trees is constructed using Gradient Boosted Regression Trees (GBRT). Most of the ranking systems implement GBRT or a variation of it.9 Our implementation of GBRT uses the CART (Breiman et al., 1984; Tyree et al., 2011) algorithm to ﬁnd the regression tree ht in each iteration. We end up with a set of T = 5, 000 trees.
+Personal communication with web search experts at Yahoo! We use the open-source implementation rt-rank (Mohan et al., 2011) from http://tinyurl.com/rtrank.
+9 8
+
+Cronus initialization Cronus optimized
+
+2
+
+3
+
+4
+
+5 6 Stage
+
+7
+
+8
+
+9
+
+10
+
+Figure 3: The fraction of test-inputs remaining per stage. 0.8 c = 1 (123)
+
+10 =. 50 Figure (125) 0.4 Analysis. We refer to our algorithm as Cronusc 2 c = 100 (16) c= 150the (32) var0.2 (left ) illustrates the precision/cost performance of c = 200 (1) ious01 approaches from this 5 paper6(under varying values for 2 3 4 7 8 9 10 λ). The single stage optimization (section 3.1) — which Stage essentially re-weights the trees to minimize cost — signiﬁcantly improves over the greedy GBRT (dashed black line)11 . The cascaded Cronus improves substantially over the single-stage approach, even already after its initialization (green curve). Finally, the optimized version of Cronus improves even further and yields the best precision/cost trade-off. The Cronus and single-stage curves were obtained by setting λ = 10−4 , 10−4 δ −1 , . . . , 10−4 δ −9 .
+
+Figure 3 shows the fraction of inputs remaining at each stage. The optimized classiﬁer is more aggressive and reduces inputs more rapidly in earlier stages. In fact, a curious artifact of the optimization is that the resulting cascade is reduced to four stages (1,3,4,10). All other weight vectors β k are returned as all-zeros-vectors with a low threshold θk that accepts all inputs. Note that these dummy stages have no cost, as they require no trees to be evaluated or fea10 According to Greek mythology, in order to gain power, Cronus used the help of the cyclops — a well-known abbreviation for cyclic-optimizations. 11 The GBRT curve is obtained by plotting the precision and cost as more trees are added.
+
+Features used Fraction of features used Fraction of inputs remai
+
+1 0.8 0.6 0.4 0.2 0 1 1 0.8 0.6 0.4 0.2 0 1
+
+1
+
+Cronus initialization Cronus optimized
+
+0.8 0.6 0.4
+
+Classiﬁer Cascade for Minimizing Feature 0.2 Evaluation Cost
+2 3
+Fraction of features used
+
+c = 1 (123) c = 5 (31) c = 20 (191) c = 50 (125) c = 100 (16) c = 150 (32) c = 200 (1)
+0.4 0.5 0.6 0.7 0.8 0.9 1
+
+4 5 6 Initialization Stage
+1 0.8 0.6 0.4 0.2
+
+7
+
+8
+
+9
+
+10
+Feature cost:
+c = 1 (123) c = 5 (31) c = 20 (191) c = 50 (125) c = 100 (16) c = 150 (32) c = 200 (1)
+0.6 0.7 0.8 0.9
+
+0
+
+0
+
+0.1
+
+0.2
+
+0.3
+
+Optimized
+
+1 0.8 0.6 0.4 0.2 0 1
+1
+
+2
+
+3
+
+4
+Fraction of features used
+
+5 6 0 0 0.1 Stage
+
+7
+0.2
+
+8
+0.3
+
+9
+0.4
+
+10
+0.5
+
+3
+
+4 Stage
+
+10
+
+Figure 4: Features (grouped 1 by cost c) used in the various stages of Cronus (the number of features in each cost group is indicated in parentheses in the legend). Most cheap features (c = 1, 5) are already extracted in the ﬁrst stage, whereas 0.8 expensive features (c ≥ 20 ) are only gradually used. (The line for c = 200 is a step-function because there exists only a 0.6 single feature at that cost.) 0.4
+0.2
+
+tures to be extracted, and can 0 be regarded as a way to au1 3 4 tomatically learn the effective cascade length. Figure 4 deStage picts what fraction of features of a given cost are extracted at each stage. The number of features for a given cost is indicated in parentheses inside the legend. There is a clear trend that cheap features, cα ≤ 5, are extracted early-on while more expensive features c ≥ 20 are extracted near the end of the cascade if at all. However, it is important to notice that a few expensive features (c = 100, 150) are extracted in the very ﬁrst stage. This highlights one of the great advantages of Cronus over prior work. If a feature is expensive, but very userful, it can choose to extract it very early on. This is in strong contrast to (Dundar and Bi, 2007; Raykar et al., 2010), where the features are pre-assigned to stages prior to learning. Comparison. Figure 2 (right) compares Cronus with several state-of-the-art approaches to test-time sensitive learning. Early exit, proposed by (Cambazoglu et al., 2010), is identical to GBRT, but the average test-time is reduced by short-circuiting the scoring process of unpromising documents. The authors suggest various methods for early exiting, all of which we implemented. Here we showcase the best-performing method, “Early Exits Using Proximity Threshold”, where we introduce an early exit every 10 trees (500 in total) and at the ith early-exit we remove all −i test-inputs that have a score of at least 500 499 s lower than the ﬁfth best input. Overall, the beneﬁts from early-exiting are very limited in our scenario as the cost is dominated by feature extraction and not tree computation. The approach is limited because it cannot re-order the trees such that expensive features are extracted at later stages in the cascade. Two algorithms, Soft-Cascade (Raykar et al., 2010) and AND-OR (Dundar and Bi, 2007) provide alternative formulations to globally optimize cascaded classiﬁers. Both employ an AND-OR learning scheme with a loss function that treats negative instances and positive instances separately. The loss for positive instances is the maximum loss across all stages, which corresponds to the AND operation (i.e., all stages are encouraged to be correct). For negative instance, the loss is a noisy-or (i.e., at least one stage must be correct). Feature-cost is accounted for by
+
+restricting earlier stages to use only trees with cheaper fea10 tures. We use ﬁve stages in total, allowing features of costs ≤ 5, ≤ 20, ≤ 50, ≤ 150, ≤ 200. The curves were obtained by varying the loss/cost trade-off constant. In addition, the Soft-Cascade also incorporates probabilistic thresholding (similar to Cronus). As can be observed in Figure 2, both methods perform rather poorly on the Yahoo! ranking data set. The reason for this is two-fold: 1. several expensive features are necessary to obtain high precision test-scores. Because both algorithms assign trees to stages prior to learning, trees that use these features are only extracted in late cascade stages, which makes it impossible to obtain high precision at a low cost. 2. both the AND- and OR-loss are order independent and return a low loss even if only late stages obtain high accuracy — therefore magnifying this effect even further by encouraging inputs to only exit in the ﬁnal cascade stage. All experiments were conducted on a desktop with dual 6-core Intel i7 cpus with 2.66Ghz. Early Exit requires no training and is therefore almost instantaneous. SoftCascade and AND-OR both require several hours for a single training of the Yahoo! data set. With parameter setting by cross-validation, the overall training procedure requires several days. Cronus can be initialized in a few minutes and trained in less than one hour (including cross-validation for the setting of the hyper-parameter).
+
+5
+
+Conclusion
+
+Controlling the operational cost of machine learning algorithms is a crucial problem that appears all-through current and potential applications of machine learning. We believe that understanding and controlling this trade-off will become a fundamental part of machine-learning research in the near future. This paper introduces a novel algorithm, Cronus, to build cascades of classiﬁers to trade-off prediction accuracy and runtime cost. Different from prior work, our learning framework optimizes the order in which features are extracted globally and provides an elegant and efﬁcient method for initialization and parameter tuning.
+
+Minmin Chen1 , Zhixiang (Eddie) Xu1 , Kilian Q. Weinberger1 , Olivier Chapelle2 , Dor Kedem1
+
+References
+J. Abernethy, O. Chapelle, and C. Castillo. Web spam identiﬁcation through content and hyperlinks. In Proceedings of the 4th international workshop on Adversarial information retrieval on the web, pages 41–44. ACM, 2008. J. Bennett and S. Lanning. The netﬂix prize. In Proceedings of KDD Cup and Workshop, volume 2007, page 35, 2007. S. Boyd and L. Vandenberghe. Convex Optimization. Cambridge University Press, Cambridge, England, 2004. L. Breiman, J. Friedman, C.J. Stone, and R.A. Olshen. Classiﬁcation and regression trees. Chapman & Hall/CRC, 1984. A. Broder, E. Gabrilovich, V. Josifovski, G. Mavromatis, D. Metzler, and J. Wang. Exploiting site-level information to improve web search. In Proceedings of the 19th ACM Conference on Information and Knowledge Management, 2010. B.B. Cambazoglu, H. Zaragoza, O. Chapelle, J. Chen, C. Liao, Z. Zheng, and J. Degenhardt. Early exit optimizations for additive machine learned ranking systems. In Proceedings of the third ACM international conference on Web search and data mining, pages 411–420. ACM, 2010. O. Chapelle and Y. Chang. Yahoo! learning to rank challenge overview. In Journal of Machine Learning Research, Workshop and Conference Proceedings, volume 14, pages 1–24, 2011. O. Chapelle, D. Metlzer, Y. Zhang, and P. Grinspan. Expected reciprocal rank for graded relevance. In Proceeding of the 18th ACM conference on Information and knowledge management, pages 621–630, 2009. O. Chapelle, P. Shivaswamy, S. Vadrevu, K.Q. Weinberger, Ya Zhang, and B. Tseng. Multi-task learning for boosting with application to web search ranking. In Proceedings of the 16th ACM SIGKDD international conference on Knowledge discovery and data mining, pages 1189– 1198, 2010. M.M. Dundar and J. Bi. Joint optimization of cascaded classiﬁers for computer aided detection. In 2007 IEEE Conference on Computer Vision and Pattern Recognition, pages 1–8. IEEE, 2007. M. Fleck, D. Forsyth, and C. Bregler. Finding naked people. Computer Vision—ECCV’96, pages 593–602, 1996. J. Friedman. Greedy function approximation: a gradient boosting machine. Annals of Statistics, 29:1189–1232, 2001. K. J¨ arvelin and J. Kek¨ al¨ ainen. Cumulated gain-based evaluation of IR techniques. ACM Transactions on Information Systems (TOIS), 20(4):422–446, 2002.
+
+M. Kowalski. Sparse regression using mixed norms. Applied and Computational Harmonic Analysis, 27(3): 303–324, 2009. L. Lefakis and F. Fleuret. Joint Cascade Optimization Using a Product of Boosted Classiﬁers. Advances in neural information processing systems, 2010. A. Mohan, Z. Chen, and K.Q. Weinberger. Web-search ranking with initialized gradient boosted regression trees. Journal of Machine Learning Research, Workshop and Conference Proceedings, 14:77–89, 2011. V.C. Raykar, B. Krishnapuram, and S. Yu. Designing efﬁcient cascaded classiﬁers: tradeoff between accuracy and cost. In Proceedings of the 16th ACM SIGKDD international conference on Knowledge discovery and data mining, pages 853–860, 2010. M.J. Saberian and N. Vasconcelos. Boosting classiﬁer cascades. In Neural Information Processing Systems (NIPS), 2010. R.E. Schapire. A brief introduction to boosting. In International Joint Conference on Artiﬁcial Intelligence, volume 16, pages 1401–1406. Lawrence Erlbaum Associates ltd, 1999. S. Tyree, K.Q. Weinberger, K. Agrawal, and J. Paykin. Parallel boosted regression trees for web search ranking. In Proceedings of the 20th international conference on World wide web, pages 387–396. ACM, 2011. P. Viola and M. Jones. Robust real-time object detection. International Journal of Computer Vision, 57(2):137– 154, 2002. L. Wang, J. Lin, and D. Metzler. A cascade ranking model for efﬁcient ranked retrieval. In Proceedings of the 34th Annual International ACM SIGIR conference on Research and development in information retrieval, 2011. K.Q. Weinberger, A. Dasgupta, J. Langford, A. Smola, and J. Attenberg. Feature hashing for large scale multitask learning. In Proceedings of the 26th Annual International Conference on Machine Learning, pages 1113– 1120. ACM, 2009. Z. Zheng, H. Zha, T. Zhang, O. Chapelle, K. Chen, and G. Sun. A general boosting method and its application to learning ranking functions for web search. In Advances in Neural Information Processing Systems. Cambridge, MA, 2008.
+
+

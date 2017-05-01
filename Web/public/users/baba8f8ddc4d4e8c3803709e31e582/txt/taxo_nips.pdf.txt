@@ -1,0 +1,305 @@
+Large Margin Taxonomy Embedding with an Application to Document Categorization
+Kilian Weinberger Yahoo! Research kilian@yahoo-inc.com Olivier Chapelle Yahoo! Research chap@yahoo-inc.com
+
+Abstract
+Applications of multi-class classiﬁcation, such as document categorization, often appear in cost-sensitive settings. Recent work has signiﬁcantly improved the state of the art by moving beyond “ﬂat” classiﬁcation through incorporation of class hierarchies [4]. We present a novel algorithm that goes beyond hierarchical classiﬁcation and estimates the latent semantic space that underlies the class hierarchy. In this space, each class is represented by a prototype and classiﬁcation is done with the simple nearest neighbor rule. The optimization of the semantic space incorporates large margin constraints that ensure that for each instance the correct class prototype is closer than any other. We show that our optimization is convex and can be solved efﬁciently for large data sets. Experiments on the OHSUMED medical journal data base yield state-of-the-art results on topic categorization.
+
+1
+
+Introduction
+
+Multi-class classiﬁcation is a problem that arises in many applications of machine learning. In many cases the cost of misclassiﬁcation varies strongly between classes. For example, in the context of object recognition it may be signiﬁcantly worse to misclassify a male pedestrian as a trafﬁc light than as a female pedestrian. Similarly, in the context of document categorization it seems more severe to misclassify a medical journal on heart attack as a publication on athlete’s foot than on Coronary artery disease. Although the scope of the proposed method is by no means limited to text data and topic hierarchies, for improved clarity we will restrict ourselves to terminology from document categorization throughout this paper. The most common approach to document categorization is to reduce the problem to a “ﬂat” classiﬁcation problem [13]. However, it is often the case that the topics are not just discrete classes, but are nodes in a complex taxonomy with rich inter-topic relationships. For example, web pages can be categorized into the Yahoo! web taxonomy or medical journals can be categorized into the Medical Subject Headings (MeSH) taxonomy. Moving beyond ﬂat classiﬁcation to settings that utilize these hierarchical representations of topics has signiﬁcantly pushed the state-of-the art [4, 15]. Additional information about inter-topic relationships can for example be leveraged through cost-sensitive decision boundaries or knowledge sharing between documents from closely related classes. In reality, however, the topic taxonomy is a crude approximation of topic relations, created by an editor with knowledge of the true underlying semantic space of topics. In this paper we propose a method that moves beyond hierarchical presentations and aims to re-discover the continuous latent semantic space underlying the topic taxonomy. Instead of regarding document categorization as classiﬁcation, we will think of it as a regression problem where new documents are mapped into this latent semantic topic space. Very different from approaches like LSI or LDA [1, 7], our algorithm is entirely supervised and explicitly embeds the topic taxonomy and the documents into a single latent semantic space with “semantically meaningful” Euclidean distances. 1
+
+Topic taxonomy
+
+T
+
+Low dimensional semantic space
+
+F
+
+High dimensional input space
+
+X
+
+P
+stroke arthritis heart attack class prototypes
+
+W
+original inputs
+
+xi
+
+pneumonia
+
+pα
+
+embedded inputs
+
+Wxi
+
+Figure 1: A schematic layout of our taxem method (for Taxonomy Embedding). The classes are embedded as prototypes inside the semantic space. The input documents are mapped into the same space, placed closest to their topic prototypes.
+
+In this paper we derive a method to embed the taxonomy of topics into a latent semantic space in form of topic prototypes. A new document can be classiﬁed by ﬁrst mapping it into this space and then assigning the label of the closest prototype. A key contribution of our paper is the derivation of a convex problem that learns the regressor for the documents and the placement of the prototypes in a single optimization. In particular, it places the topic prototypes such that for each document the prototype of the correct topic is much closer than any other prototype by a large margin. We show that this optimization is a special instance of semi-deﬁnite programs [2], that can be solved efﬁciently [16] for large data sets. Our paper is structured as follows: In section 2 we introduce necessary notation and a ﬁrst version of the algorithm based on a two-step approach of ﬁrst embedding the hierarchical taxonomy into a semantic space and then regressing the input documents close to their respective topic prototypes. In section 3 we extend our model to a single optimization that learns both steps in one convex optimization with large margin constraints. We evaluate our method in section 4 and demonstrate state-of-the-art results on eight different document categorization tasks from the OHSUMED medical journal data set. Finally, we relate our method to previous work in section 5 and conclude in section 6.
+
+2
+
+Method
+
+We assume that our input consists of documents, represented as a set of high dimensional sparse vectors x1 , . . . , xn ∈ X of dimensionality d. Typically, these could be binary bag of words indicators or tﬁdf scores. In addition, the documents are accompanied by single topic labels y1 , . . . , yn ∈ {1, . . . , c} that lie in some taxonomy T with c total topics. This taxonomy T gives rise to some cost matrix C ∈ Rc×c , where Cαβ ≥ 0 deﬁnes the cost of misclassifying an element of topic α as β and Cαα = 0. Technically, we only require knowledge of the cost matrix C, which could also be obtained from side-information independent of a topic taxonomy. In this paper we will not focus on how C is obtained. However, we would like to point out that a common way to infer a cost matrix from a taxonomy is to set Cαβ to the length of the shortest path between node α and β , but other approaches have also been studied [3]. Throughout this paper we denote document indices as i, j ∈ {1, . . . , n} and topic indices as α, β ∈ {1, . . . , c}. Matrices are written in bold (e.g. C) and vectors have top arrows (e.g. xi ).
+
+Figure 1 illustrates our setup schematically. We would like to create a low dimensional semantic feature space F in which we represent each topic α as a topic prototype pα ∈ F and each document xi ∈ X as a low dimensional vector zi ∈ F . Our goal is to discover a representation of the data where distances reﬂect true underlying dissimilarities and proximity to prototypes indicates topic membership. In other words, documents on the same or related topics should be close to the respective topic prototypes, documents on highly different topics should be well separated. 2
+
+Throughout this paper we will assume that F = Rc , however our method can easily be adapted to even lower dimensional settings F = Rr where r < c. As an essential part of our method is to embed the classes that are typically found in a taxonomy, we refer to our algorithm as taxem (short for “taxonomy embedding”). Embedding topic prototypes The ﬁrst step of our algorithm is to embed the document taxonomy into a Euclidean vector space. More formally, we derive topic prototypes p1 , . . . , pc ∈ F based on the cost matrix C, where pα is the prototype that represents topic α. To simplify notation, we deﬁne the matrix P = [p1 , . . . , pc ] ∈ Rc×c whose columns consist of the topic prototypes.
+
+There are many ways to derive the prototypes from the cost matrix C. By far the simplest method is to ignore the cost matrix C entirely and let PI = I, where I ∈ Rc×c denotes the identity √matrix. This results in a c dimensional feature space, where the class-prototypes are all in distance 2 from each other at the corner of a c-dimensional simplex. We will refer to PI as the simplex prototypes. Better results can be expected when the prototypes of similar topics are closer than those of dissimilar topics. We use the cost matrix C as an estimate of dissimilarity and aim to place the prototypes 2 such that the distance pα − pβ 2 2 reﬂects the cost speciﬁed in Cαβ . More formally, we set
+c
+
+Pmds = argminP
+α,β =1
+
+( pα − pβ
+
+2 2
+
+− (Cαβ )2 )2 .
+
+(1)
+
+If the cost matrix C deﬁnes Euclidean distances (e.g. when the cost is obtained through the shortest path between nodes), we can solve eq. (1) with metric multi-dimensional scaling [5]. Let us denote ¯ = − 1 HCH, where the centering matrix H is deﬁned as H = I − 1 11 , and let its eigenvector C 2 c √ ¯ = VΛV . We obtain the solution by setting Pmds = ΛV. We will refer to decomposition be C Pmds as the mds prototypes.1 Both prototypes embeddings PI and Pmds are still independent of the input data {xi }. Before we can derive a more sophisticated method to place the prototypes with large margin constraints on the document vectors, we will brieﬂy describe the mapping W : X → F of the input documents into the low dimensional feature space F . Document regression Assume for now that we have found a suitable embedding P of the class-prototypes. We need to ﬁnd an appropriate mapping W : X → F , that maps each input xi with label yi as close as possible to its topic prototype pyi . We can ﬁnd such a linear transformation zi = Wxi by setting W = argminW
+i
+
+pyi − Wxi
+
+2
+
++λ W
+
+2 F.
+
+(2)
+
+Here, λ is the weight of the regularization of W, which is necessary to prevent potential overﬁtting due to the high number of parameters in W. The minimization in eq. (2) is an instance of linear ridge regression and has the closed form solution W = PJX (XX + λI)−1 , (3) where X = [x1 , . . . xn ] and J ∈ {0, 1}c×n , with Jαi = 1 if and only if yi = α. Please note that eq. (3) can be solved very accurately without the need to ever compute the d × d matrix inverse (XX + λI)−1 explicitly, by solving with linear conjugate gradient for each row of W independently. Inference Given an input vector xt we ﬁrst map it into F and estimate its label as the topic with the closest prototype pα y ˆt = argminα pα − Wxt 2 . (4)
+1 ¯ does not contain Euclidean distances one can use the common approximation of forcing negative If C eigenvalues in Λ to zero and thereby fall back onto the projection of C onto the cone of positive semi-deﬁnite matrices.
+
+3
+
+Topic taxonomy
+
+T
+
+α
+
+I
+X
+
+eα
+ey i
+
+Low dimensional semantic space
+
+yi
+High dimensional input space
+
+pα
+
+F
+
+xi
+
+A Rc
+
+P
+xi
+
+py i
+
+zi
+
+Rd
+
+embedded inputs
+
+Rc
+
+large margin
+
+class prototypes
+
+Figure 2: The schematic layout of the large-margin embedding of the taxonomy and the documents. As a ﬁrst step, we represent topic α as the vector eα and document xi as xi = Axi . We then learn the matrix P whose columns are the prototypes pα = Peα and which deﬁnes the ﬁnal transformation of the documents zi = Pxi . This ﬁnal transformation is learned such that the correct prototype pyi is closer to zi than any other prototype pα by a large margin. For a given set of labeled documents (x1 , y1 ), . . . , (xn , yn ) we measure the quality of our semantic space with the averaged cost-sensitive misclassiﬁcation loss, E= 1 n
+n
+
+Cyi y ˆi .
+i=1
+
+(5)
+
+3
+
+Large Margin Prototypes
+
+So far we have introduced a two step approach: First, we ﬁnd the prototypes P based on the cost matrix C, then we learn the mapping x → Wx that maps each input closest to the prototype of its class. However, learning the prototypes independent of the data {xi } is far from optimal in order to reduce the loss in (5). In this section we will create a joint optimization problem that places the prototypes P and learns the mapping W while minimizing an upper bound on (5). Combined learning In our attempt to learn both mappings jointly, we are faced with a “chicken and egg” problem. We want to map the input documents closest to their prototypes and at the same time place the prototypes where the documents of the respective topic are mapped to. Therefore our ﬁrst task is to de-tangle this mutual dependency of W and P. Let us deﬁne A as the following matrix product: A = JX (XX + λI)−1 . (6) It follows immediately form eqs. (3) and (6) that W = PA. Note that eq. (6) is entirely independent of P and can be pre-computed before the prototypes have been positioned. With this relation we have reduced the problem of determining W and P to the single problem of determining P. Let xi = Axi and let eα = [0, . . . , 1, . . . , 0] be the vector with all zeros and a single 1 in the αth position. We can then rewrite both, the topic prototypes pα and the low dimensional documents zi , as vectors within the range of P : Rc → Rc : pα = Peα , and zi = Pxi .
+
+(7)
+
+Optimization Ideally we would like to learn P to minimize (5) directly. However, this function is non-continuous and non-differentiable. For this reason we will derive a surrogate loss function that strictly bounds (5) from above. 4
+
+The loss for a speciﬁc document xi is zero if its corresponding vector zi is closer to the correct prototype pyi than to any other prototype pα . For better generalization it would be preferable if prototype pyi was in fact much closer by a large margin. We can go even further and demand that prototypes that would incur a larger misclassiﬁcation loss should be further separated than those with a small cost. More explicitly, we will try to enforce a margin of Cyi α . We can express this condition as a set of “soft” inequality constraints, in terms of squared-distances, where the slack-variable ξiα ≥ 0 absorbs the amount of violation of prototype pα into the margin of xi . Given this formulation, we create an upper bound on the loss function (5): Lemma 1 Given a prototype matrix P, the training error (5) is bounded above by
+1 n iα ξiα .
+
+∀i, α = yi
+
+P(eyi − xi )
+
+2 2
+
++ Cyi α ≤ P(eα − xi )
+
+2 2
+
++ ξiα ,
+
+(8)
+
+Proof: First, note that we can rewrite the assignment of the closest prototype (4) as y ˆi = 2 argminα P(eα − xi ) 2 . It follows that P(eyi − xi ) 2 ˆi − xi ) 2 ≥ 0 for all i (with 2 − P(ey equality when y ˆi = yi ). We therefore obtain: The result follows immediately from (9) and that ξiα ≥ 0:
+i,α
+
+ξiy ˆi = P(eyi − xi )
+
+2 2
+
++ Cyi y ˆi − xi ) ˆi − P(ey ξiy ˆi ≥ Cyi y ˆi .
+i,y ˆi
+
+2 2
+
+≥ Cyi y ˆi .
+
+(9)
+
+ξiα ≥
+
+(10)
+
+i
+
+Lemma 1, together with the constraints in eq. (8), allows us to create an optimization problem that minimizes an upper bound on the average loss in eq. (5) with maximum-margin constraints: Minimize
+P
+i,α 2 2
+
+ξiα subject to: + Cyi α ≤ P(eα − xi )
+2 2
+
+(1) P(eyi − xi ) (2) ξiα ≥ 0
+
++ ξiα
+
+(11)
+
+Note that if we have a very large number of classes, it might be beneﬁcial to choose P ∈ Rr×c with r < c. However, the convex formulation described in the next paragraph requires P to be square. Convex formulation The optimization in eq. (11) is not convex. The constraints of type (8) are quadratic with respect to P. Intuitively, any solution P gives rise to inﬁnitely many solutions as any rotation of P results in the same objective value and also satisﬁes all constraints. We can make (11) invariant to rotation by deﬁning Q = P P, and rewriting all distances in terms of Q, Note that the distance formulation in eq. (12) is linear with respect to Q. As long as the matrix Q is positive semi-deﬁnite, we can re-decompose it into Q = P P. Hence, we enforce positive semideﬁniteness of Q by adding the constraint Q 0. We can now solve (11) in terms of Q instead of P with the large-margin constraints ∀i, α = yi eyi − xi
+2 Q
+
+P(eα − xi )
+
+2 2
+
+= (eα − xi ) Q(eα − xi ) = eα − xi
+
+2 Q.
+
+(12)
+
++ Cyi α ≤ eα − xi
+
+2 Q
+
++ ξiα .
+
+(13)
+
+Regularization If the size of the training data n is small compared to the number of parameters c2 , we might run into problems of overﬁtting to the training data set. To counter those effects, we add a regularization term to the objective function. Even if the training data might differ from the test data, we know that the taxonomy does not change. It is straight-forward to verify that if the mapping A was perfect, i.e. for all i we have xi = eyi , Pmds satisﬁes all constraints (8) as equalities with zero slack. This gives us conﬁdence that the optimal solution P for the test data should not deviate too much from Pmds . We will therefore penalize 5
+
+Top category # samples n # topics c # nodes
+
+A 7544 424 519
+
+B 4772 160 312
+
+C 4858 453 610
+
+D 2701 339 608
+
+E 7300 457 559
+
+F 1961 151 218
+
+G 8694 425 533
+
+H 8155 150 170
+
+Table 1: Statistics of the different OHSUMED problems. Note that not all nodes are populated and that we pruned all strictly un-populated subtrees. ¯ 2 , where C ¯ = P Q−C F mds Pmds (as deﬁned in section 2). The ﬁnal convex optimization of taxem with regularized objective becomes: Minimize (1 − µ)
+Q
+
+i,α
+
+¯ ξiα + µ Q − C
+
+2 F 2 Q
+
+subject to: + ξiα (14)
+
+(1) eyi − xi (2) ξiα ≥ 0 (3) Q 0
+
+2 Q
+
++ Cyi α ≤ eα − xi
+
+The constant µ ∈ [0, 1] regulates the impact of the regularization term. The optimization in (14) is an instance of a semideﬁnite program (SDP) [2]. Although SDPs can often be expensive to solve, the optimization (14) falls into a special category2 and can be solved very efﬁciently with special purpose sub-gradient solvers even with millions of constraints [16]. Once the optimal solution Q∗ is found, one can obtain the position of the prototypes with a simple svd or cholesky decomposition Q∗ = P P and consequently also obtains the mapping W from W = PA.
+
+4
+
+Results
+
+We evaluated our algorithm taxem on several classiﬁcation problems derived from categorizing publications in the public OHSUMED medical journal data base into the Medical Subject Headings (MeSH) taxonomy. Setup and data set description We used the OHSUMED 87 corpus [9], which consists of abstracts and titles of medical publications. Each of these entries has been assigned one or more categories in the MeSH taxonomy3 . We used the 2001 version of these MeSH headings resulting in about 20k categories organized in a taxonomy. To preprocess the data we proceeded as follows: First, we discarded all database entries with empty abstracts, which left us with 36890 documents. We tokenized (after stop word removal and stemming) each abstract, and represented the corresponding bag of words as its d = 60727 dimensional tﬁdf scores (normalized to unit length). We removed all topic categories that did not appear in the MeSH taxonomy (due to out-dated topic names). We further removed all subtrees of nodes that were populated with one or less documents. The top categories in the OHSUMED data base are “orthogonal” — for instance the B top level category is about organism while C is about diseases. We thus created 8 independent classiﬁcation problems out of the top categories A,B,C,D,E,F,G,H. For each problem, we kept only the abstracts that were assigned exactly one category in that tree, making each problem single-label. The statistics of the different problems are summrized in Table 1. For each problem, we created a 70%/30% random split in training and test samples, ensuring however that each topic had at least one document in the training corpus. Document Categorization The classiﬁcation results on the OHSUMED data set are summarized in Table 2. We set the regularization constants to be λ = 1 for the regression and µ = 0.1 for the SDP. Preliminary experiments on data set B showed that regularization was important but the exact settings of the µ and λ had no
+2 The solver described in [16] utilizes that many constraints are inactive and that the sub-gradient can be efﬁciently derived from previous gradient steps. 3 see http://en.wikipedia.org/wiki/Medical_Subject_Headings
+
+6
+
+data A B C D E F G H all
+
+SVM 1/all 2.17 1.50 2.41 3.10 3.44 2.59 3.98 2.42 2.78
+
+MCSVM 2.13 1.38 2.32 2.76 3.42 2.65 4.12 2.48 2.77
+
+SVM cost 2.11 1.64 2.25 2.92 3.26 2.66 3.89 2.40 2.77
+
+SVM tax 1.96 1.52 2.25 2.82 3.25 2.69 3.82 2.32 2.65
+
+PI -taxem 2.11 1.57 2.30 2.82 3.45 2.63 4.10 2.45 2.79
+
+Pmds -taxem 2.33 1.99 2.61 3.05 3.05 2.77 3.63 2.24 2.73
+
+LM-taxem 1.95 1.39 2.16 2.66 3.05 2.51 3.59 2.17 2.50
+
+Table 2: The cost-sensitive test error results on various ohsumed classiﬁcation data sets. The algorithms are from left to right: one vs. all SVM, MCSVM [6], cost-sensitive MCSVM, Hierarchical SVM [4], simplex regression, mds regression, large-margin taxem. The best results (up to statistical signiﬁcance) are highlighted in bold. The taxem algorithm obtains the lowest overall loss and the lowest individual loss on each data set except B.
+
+crucial impact. We compared taxem against four commonly used algorithms for document categorization: 1. A linear support vector machine (SVM) trained in one vs. all mode (SVM 1/all) [12], 2. the Crammer and Singer multi-class SVM formulation (MCSVM) [6], 3. the Cai and Hoffmann SVM classifer with cost-sensitive loss function (SVM cost) [4], 4. the Cai and Hoffmann SVM formulation with a cost sensitive hierarchical loss function (SVM tax) [4]. All SVM classiﬁers were trained with regularization constant C = 1 (which worked best on problem B; this value is also commonly used in text classiﬁcation when the documents have unit length). Further, we also evaluated the difference between our large margin formulation (taxem) and the results with the simplex (PI -taxem) and mds (Pmds -taxem) prototypes. To check the signiﬁcance of our results we applied a standard t-test with a 5% conﬁdence interval. The best results up to statistical signiﬁcance are highlighted in bold font. The ﬁnal entry in Table 2 shows the average error over all test points in all data sets. Up to statistical signiﬁcance, taxem obtains the lowest loss on all data sets and the lowest overall loss. Ignoring statistical signiﬁcance, taxem has the lowest loss on all data sets except B. All algorithms had comparable speed during test-time. The computation time required for solving eq. (6) and the optimization (14) was on the order of several minutes with our MATLABTM implementation on a standard IntelTM 1.8GHz core 2 duo processor (without parallelization efforts).
+
+5
+
+Related Work
+
+In recent years, several algorithms for document categorization have been proposed. Several authors proposed adaptations of support vector machines that incorporate the topic taxonomy through costsensitive loss re-weighting and classiﬁcation at multiple nodes in the hierarhchy [4, 8, 11]. Our algorithm is based on a very different intuition. It differs from all these methods in that it learns a low dimensional semantic representation of the documents and classiﬁes by ﬁnding the nearest prototype. Most related to our work is probably the work by Karypis and Han [10]. Although their algorithm also reduces the dimensionality with a linear projection, their low dimensional space is obtained through supervised clustering on the document data. In contrast, the semantic space obtained with taxem is obtained through a convex optimization with maximum margin constraints. Further, the low dimensional representation of our method is explicitly constructed to give rise to meaningful Euclidean distances. The optimization with large-margin constraints was partially inspired by recent work on large margin distance metric learning for nearest neighbor classiﬁcation [16]. However our formulation is a much more light-weight optimization problem with O(cn) constraints instead of O(n2 ) as in [16]. The optimization problem in section 3 is also related to recent work on automated speech recognition through discriminative training of Gaussian mixture models [14]. 7
+
+6
+
+Conclusion
+
+In this paper, we have presented a novel framework for classiﬁcation with inter-class relationships based on taxonomy embedding and supervised dimensionality reduction. We derived a single convex optimization problem that learns an embedding of the topic taxonomy as well as a linear mapping from the document space to the resulting low dimensional semantic space. As future work we are planning to extend our algorithm to the more general setting of document categorization with multiple topic memberships and multi-modal topic distributions. Further, we are keen to explore the implications of our proposed conversion of discrete topic taxonomies into continuous semantic spaces. This framework opens new interesting directions of research that go beyond mere classiﬁcation. A natural step is to consider the document matching problem (e.g. of web pages and advertisements) in the semantic space: a fast nearest neighbor search can be performed in a joint low dimensional space without having to resort to classiﬁcation all together. Although this paper is presented in the context of document categorization, it is important to emphasize that our method is by no means limited to text data or class hierarchies. In fact, the proposed algorithm can be applied in almost all multi-class settings with cost-sensitive loss functions (e.g. object recognition in computer vision).
+
+References
+[1] D. Blei, A. Ng, M. Jordan, and J. Lafferty. Latent Dirichlet Allocation. Journal of Machine Learning Research, 3(4-5):993–1022, 2003. [2] S. Boyd and L. Vandenberghe. Convex Optimization. Cambridge University Press, 2004. [3] A. Budanitsky and G. Hirst. Semantic distance in wordnet: An experimental, application-oriented evaluation of ﬁve measures. In Workshop on WordNet and Other Lexical Resources, in the North American Chapter of the Association for Co mputational Linguistics (NAACL), 2001. [4] L. Cai and T. Hofmann. Hierarchical document categorization with support vector machines. In ACM 13th Conference on Information and Knowledge Management, 2004. [5] T. Cox and M. Cox. Multidimensional Scaling. Chapman & Hall, London, 1994. [6] K. Crammer and Y. Singer. On the algorithmic implementation of multiclass kernel-based vector machines. Journal of Machine Learning Research, 2:265–292, 2001. [7] S. Deerwester, S. Dumais, G. Furnas, T. Landauer, and R. Harshman. Indexing by latent semantic analysis. Journal of the American Society for Information Science, 41(6):391–407, 1990. [8] S. Dumais and H. Chen. Hierarchical classiﬁcation of Web content. In Proceedings of SIGIR-00, 23rd ACM International Conference on Research and Development in Information Retrieval, pages 256–263. ACM Press, New York, US, 2000. [9] W. Hersh, C. Buckley, T. J. Leone, and D. Hickam. OHSUMED: an interactive retrieval evaluation and new large test collection for research. In SIGIR ’94: Proceedings of the 17th annual international ACM conference on Research and development in information retrieval, pages 192–201. Springer-Verlag New York, Inc., 1994. [10] G. Karypis, E. Hong, and S. Han. Concept indexing a fast dimensionality reduction algorithm with applications to document retrieval & categorization, 2000. Technical Report: 00-016 karypis, han@cs.umn.edu Last updated on. [11] T.-Y. Liu, Y. Yang, H. Wan, H.-J. Zeng, Z. Chen, and W.-Y. Ma. Support vector machines classiﬁcation with a very large-scale taxonomy. SIGKDD Explorations Newsletter, 7(1):36–43, 2005. [12] R. Rifkin and A. Klautau. In Defense of One-Vs-All Classiﬁcation. The Journal of Machine Learning Research, 5:101–141, 2004. [13] F. Sebastiani. Machine learning in automated text categorization. ACM Computing Surveys, 34(1):1–47, 2002. [14] F. Sha and L. K. Saul. Large margin hidden markov models for automatic speech recognition. In Advances in Neural Information Processing Systems 19, Cambridge, MA, 2007. MIT Press. [15] A. Weigend, E. Wiener, and J. Pedersen. Exploiting Hierarchy in Text Categorization. Information Retrieval, 1(3):193–216, 1999. [16] K. Q. Weinberger and L. K. Saul. Fast solvers and efﬁcient implementations for distance metric learning. In Proceedings of the Twenty-ﬁfth International Conference on Machine Learning (ICML 2008), Helsinki, Finland, 2008.
+
+8
+
+

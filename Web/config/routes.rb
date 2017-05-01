@@ -130,6 +130,7 @@ Rails.application.routes.draw do
       post :submit_url
       post :request_organizer
       post :approve_organizer
+      post :refresh_profile
     end
 
     collection do

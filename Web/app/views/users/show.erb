@@ -20,7 +20,7 @@
       </div>
 
       <div>
-        <button id="upload_image_btn" style="margin-top: 20px; margin-bottom: 20px;" class="btn btn-paircon btn-label btn-profile btn-padding" data-toggle="tooltip" title="Please wait while your publications are refreshing">
+        <button id="upload_image_btn" style="margin-top: 20px; margin-bottom: 20px;" class="btn btn-paircon btn-label btn-profile btn-padding">
           <i class="fa fa-upload"></i> Upload Image
         </button>
       </div>
@@ -49,18 +49,21 @@
         <tr>
           <td class="profile-title table-accountinfo">Publication URL:</td>
           <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
-          <% if true %>
-              <td class="text-center">
-                <button class="btn btn-paircon">Refresh Publication List</button>
+          <% if @user.is_scraped %> <!-- If no scraping job is running -->
+              <td id = "refresh-button-wrapper" class="text-center">
+                <button class="refresh_publication btn btn-paircon">Refresh Publication List</button>
+              </td>
+          <% elsif !@user.papers.blank? %> <!-- If the user has no papers -->
+              <td id = "refresh-button-wrapper" class="text-center">
+                <button class="refresh_publication btn btn-paircon">Refresh Publication List</button>
               </td>
           <% else %>
               <td>
                 <div class="tooltip-wrapper text-center" data-toggle="tooltip" title = "Please wait while your publication list is refreshing">
-                  <button id = "refresh_publication" class="btn btn-paircon disabled">Refresh Publication List</button>
+                  <button class="refresh_publication_disabled btn btn-paircon disabled">Refresh Publication List</button>
                 </div>
               </td>
           <% end %>
-
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">Organization:</td>
@@ -113,7 +116,6 @@
 </div>
 
 <%= javascript_tag "initializeUserShow(#{@user.gender.to_i})" %>
-<script>
-    $('#refresh_publication').tooltip();
-</script>
+<%= javascript_tag "refreshProfileUrl()" %>
+<script>$('.tooltip-wrapper').tooltip();</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
