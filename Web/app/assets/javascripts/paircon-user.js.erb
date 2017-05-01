@@ -13,7 +13,6 @@ function initializeSearch() {
 /***************************************/
 function initializeAdmin() {
     $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
-//    $.fn.dataTable.moment.format()
     $('table.display').DataTable();
     $('.organizer-approval').click(function () {
         user_id = $(this).attr('id');
@@ -486,4 +485,12 @@ function initLoginBoxValidation() {
             $(element).parent().first().removeClass("has-error");
         }
     });
+}
+
+/***************************************/
+//------------For Paper table--------------//
+/***************************************/
+function initializePapers() {
+    $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
+    $('#datatable-papers').DataTable();
 }

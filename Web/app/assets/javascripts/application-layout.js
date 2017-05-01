@@ -39,4 +39,3 @@
 //= require paircon-user
 //= require paircon-post
 //= require paircon-conference
-//= require datetime-moment
