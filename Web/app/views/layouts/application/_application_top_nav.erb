@@ -13,9 +13,9 @@
           &nbsp;<%= link_to_modal icon_text('plus-circle', 'Create Conference'), new_conference_path(), class: head_btn_class, 'data-appear-animation': 'bounceIn' %>
         </div>
         <!-- Search bar -->
-        <div class="pull-left header-button btn btn-toolbar btn-default header_btns header-font-small "><i class="fa fa-search" aria-hidden="true"></i></div> 
-        <div class="top-nav-search-bar">
-          <%= form_tag search_home_index_path, method: 'GET', data: {pjax: true} do %>
+        <div class="pull-left header-button btn btn-toolbar btn-default header_btns header-font-small hidden-sm-down"><i class="fa fa-search" aria-hidden="true"></i></div> 
+        <div class="top-nav-search-bar hidden-sm hidden-xs">
+          <%= form_tag search_home_index_path, data: {pjax: true} do %>
               <input class="form-control" id="search_val" name="search_val" value="<%= params[:search_val] %>" placeholder="Search for..." type="text">
           <% end %>
         </div>

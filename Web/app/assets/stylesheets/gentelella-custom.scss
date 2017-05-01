@@ -5318,7 +5318,18 @@ form:after {
 Error page
 ************************************
 ***********************************/
-@media(max-width: 991px) {
+
+@media (min-width: 744px) {
+  .page-container-responsive {
+    width: 200px;
+  }
+  .error-image {
+    margin-top: 70px;
+    width: 300px;
+  }
+}
+
+@media (min-width: 991px) {
   .right_col {
     padding: 10px !important;
   }
@@ -5345,20 +5356,22 @@ Error page
       display: none;
     }
   }
+  .error-image {
+    margin-top: 70px;
+    width: 400px;
+  }
 }
-
 
 @media (min-width: 1128px) {
   .page-container-responsive {
     width: 100px;
   }
-}
-
-@media (min-width: 744px) {
-  .page-container-responsive {
-    width: 200px;
+  .error-image {
+    margin-top: 70px;
+    width: 500px;
   }
 }
+
 
 .page-container-responsive {
   width: auto;
@@ -5369,11 +5382,6 @@ Error page
 
 .error-page {
   background-color: white;
-}
-
-.error-image {
-  margin-top: 70px;
-  width: 500px;
 }
 
 .text-jumbo {

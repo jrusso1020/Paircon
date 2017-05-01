@@ -6,7 +6,7 @@
       <!-- page content -->
       <div class="page-container-responsive">
         <div class="row">
-          <div class="col-md-5 col-middle">
+          <div class="col-md-5 col-sm-12 col-xs-12 col-middle">
             <h1 class="text-jumbo text-ginormous hide-sm error-text-quote">Oops!</h1>
             <h2 class="error-text-quote">We can't seem to find the page you're looking for.</h2>
             <h6 class="error-text-code">Error code: 404</h6>
@@ -19,7 +19,7 @@
             </ul>
           </div>
           <div class="col-md-5 text-center">
-            <%= image_tag 'errorimage.png', class: 'error-image hidden-sm' %>
+            <%= image_tag 'errorimage.png', class: 'error-image hidden-sm hidden-xs' %>
             <% if user_signed_in? %>
               <div class="mid_center">
                 <%= render 'layouts/application/search' %>
@@ -27,7 +27,7 @@
             <% end %>
           </div>
         </div>
-      </div>
+      </div>>
       <!-- /page content -->
     </div>
   </div>
