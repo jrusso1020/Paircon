@@ -25,6 +25,43 @@
         </button>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-responsive pull-left">
+          <tbody>
+          <tr>
+            <td class="profile-title table-accountinfo">Email Address:</td>
+            <td class="table-accountinfo"><a href="<%= user_path(@user) %>"><%= @user.email %></a>
+            </td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Phone Number:</td>
+            <td class="table-accountinfo"><%= @user.phone_number.blank? ? 'N/A' : @user.phone_number %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Gender:</td>
+            <td class="table-accountinfo"><%= @user.gender == 1 ? "Male" : "Female" %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Publication URL:</td>
+            <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Organization:</td>
+            <td class="table-accountinfo"><%= @user.user_organization.blank? ? 'N/A' : @user.user_organization %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Industry:</td>
+            <td class="table-accountinfo"><%= @user.user_industry.blank? ? 'N/A' : @user.user_industry %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Graduation Year:</td>
+            <td class="table-accountinfo"><%= @user.user_grad_year.blank? ? 'N/A' : @user.user_grad_year %></td>
+          </tr>
+          <tr>
+            <td class="profile-title table-accountinfo">Academic Profile:</td>
+            <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
+          </tr>
   </div>
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">

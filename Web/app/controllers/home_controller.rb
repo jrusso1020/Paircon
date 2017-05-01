@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+
   before_action :authenticate_user!, only: [:home, :search]
 
   def index
@@ -20,6 +21,7 @@ class HomeController < ApplicationController
     render layout: false
   end
 
+
   def search
     query = params[:search_val]
     @conferences = []
@@ -29,5 +31,6 @@ class HomeController < ApplicationController
 
     render :search_results
   end
+
 
 end
