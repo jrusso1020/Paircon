@@ -47,7 +47,11 @@
     </div>
   </div>
   <script>
-        var count = <%=@papers_with_scores.count %>;
+        var count = <%= @papers_with_scores.count >= 3 ? 3 : @papers_with_scores.count %>;
+        if (window.innerWidth < 768) {
+            count = <%= @papers_with_scores.count >= 2 ? 2 : @papers_with_scores.count %>;
+        }
+
         initCharts(count);
     </script>
 <% end %>
