@@ -11,7 +11,7 @@
     <div id="drag-area" class="modal-body">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <h4 class="font-light" align="center">Please select the <strong>Comma Separated Variable (CSV)</strong> file
+          <h4 class="font-light" align="center">Please select the <strong>Excel File (xlsx)</strong> file
             and attach a <strong>ZIP</strong> archive
             containing papers along. <br/> <br/> This operation will automatically create papers and events based on the
             CSV you
@@ -26,13 +26,13 @@
             <div class="row fileupload-buttonbar text-center">
               <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
                 <i class="fa fa-upload"></i>
-                <span>Select Excel File (XLSX) </span>
+                <span>Select Excel File (xlsx) </span>
                 <%= f.file_field :csv, id: 'csvFileUpload', type: 'file', class: 'file-upload' %>
               </div>
 
               <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
                 <i class="fa fa-upload"></i>
-                <span>Select Zip File</span>
+                <span>Select Zip File (zip)</span>
                 <%= f.file_field :zip, id: 'zipFileUpload', type: 'file', class: 'file-upload' %>
               </div>
 

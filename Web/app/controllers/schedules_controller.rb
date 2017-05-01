@@ -6,15 +6,16 @@ class SchedulesController < ApplicationController
   before_action :find_event, only: [:delete_event, :destroy_event, :update_event]
 
   def new_resource
+    @conference =  Conference.find_by_id(params[:conference_id])
     if params[:view] == ConferenceResource::TYPE[:event]
       @title = 'Add Event'
       @body = 'Please enter information about the Event you are hosting and add the name of the Room to which this Event belongs.'
-      @rooms = [['Other', 'Other']] + Conference.find_by_id(params[:conference_id]).conference_resources.select(:room).distinct().map { |obj| [obj.room, obj.room] }
+      @rooms = [['Other', 'Other']] + @conference.conference_resources.select(:room).distinct().map { |obj| [obj.room, obj.room] }
     else
       @title = 'Add Session'
-      @body = 'Please enter the session details.'
-      @events = Conference.find_by_id(params[:conference_id]).conference_resources.select(:title, :id).distinct().where({:parent_id => nil}).map { |obj| [obj.title, obj.id] }
-      papers = Conference.find_by_id(params[:conference_id]).papers.select(:title, :id).order(:title)
+      @body = 'Please information about the Session along with the type of Session.'
+      @events = @conference.conference_resources.select(:title, :id).distinct().where({:parent_id => nil}).map { |obj| [obj.title, obj.id] }
+      papers = @conference.papers.select(:title, :id).order(:title)
       @papers = papers.map{|obj| [obj.title, obj.id]}
     end
     render layout: false
@@ -31,8 +32,8 @@ class SchedulesController < ApplicationController
     end
 
     if params[:view] == ConferenceResource::TYPE[:event]
-      event_start_date = DateTime.civil(conference_resource_params['date(1i)'].to_i, conference_resource_params['date(2i)'].to_i, conference_resource_params['date(3i)'].to_i, conference_resource_params['start_time(4i)'].to_i, conference_resource_params['start_time(5i)'].to_i)
-      event_end_date = DateTime.civil(conference_resource_params['date(1i)'].to_i, conference_resource_params['date(2i)'].to_i, conference_resource_params['date(3i)'].to_i, conference_resource_params['end_time(4i)'].to_i, conference_resource_params['end_time(5i)'].to_i)
+      event_start_date = DateTime.parse(conference_resource_params[:date] + ' ' + conference_resource_params[:start_time])
+      event_end_date = DateTime.parse(conference_resource_params[:date] + ' ' + conference_resource_params[:end_time])
 
       event_resource = ConferenceResource.create!(
           conference_id: params[:conference_id],
@@ -81,164 +82,164 @@ class SchedulesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  def new_event
-    @conference = Conference.find_by_id(params[:conference_id])
+  # def new_event
+  #   @conference = Conference.find_by_id(params[:conference_id])
+  #
+  #   events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
+  #   @events = events.map { |obj| [obj.title, obj.id] }
+  #   papers = @conference.papers.select(:title, :id).order(:title)
+  #
+  #   @papers = papers.map{|obj| [obj.title, obj.id]}
+  #   @sessions = [['No Session', 'No Session']]
+  #   unless @events.blank?
+  #     @sessions = @sessions + @conference.conference_resources.where(parent_id: events.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
+  #   end
+  #
+  #   @start_date = params[:start_date].blank? ? '' : DateTime.parse(params[:start_date]).strftime(DATEFORMAT)
+  #   @end_date = params[:end_date].blank? ? '' : DateTime.parse(params[:end_date]).strftime(DATEFORMAT)
+  #
+  #   if !params[:resource_id].blank?
+  #     resource = ConferenceResource.find(params[:resource_id])
+  #     if resource.parent_id.nil? or resource.parent_id.blank?
+  #       @session_name = 'None'
+  #       @event_name = resource.title
+  #     else
+  #       @session_name = resource.title
+  #       @event_name = ConferenceResource.find(resource.parent_id).title
+  #     end
+  #   else
+  #     @event_name = ''
+  #     @session_name = ''
+  #   end
+  #
+  #   render layout: false
+  # end
+  #
+  # def create_event
+  #   conference_event_params = params.require(:event).permit!
+  #
+  #   if !conference_event_params[:resource_session].blank? and conference_event_params[:resource_session] != 'No session'
+  #     resource_id = conference_event_params[:resource_session]
+  #   else
+  #     resource_id = conference_event_params[:resource_event]
+  #   end
+  #
+  #   ConferenceEvent.create!(
+  #       conference_id: params[:conference_id],
+  #       conference_resource_id: resource_id,
+  #       title: conference_event_params[:title],
+  #       start_date: conference_event_params[:start_date],
+  #       end_date: conference_event_params[:end_date],
+  #       presenter: conference_event_params[:presenter],
+  #       event_type: ConferenceEvent.event_types[conference_event_params[:event_type]],
+  #       paper_id: conference_event_params[:paper_id],
+  #       color: '#' + Digest::MD5.hexdigest(conference_event_params[:title])[0..5]
+  #   )
+  #
+  #   flash[:notice] = "You have successfully created '#{conference_event_params[:title]}' Event."
+  #
+  #   redirect_back(fallback_location: root_path)
+  # end
+  #
+  # def edit_event
+  #   @conference_event = ConferenceEvent.find(params[:id])
+  #   @conference = @conference_event.conference
+  #   events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
+  #   @events = events.map { |obj| [obj.title, obj.id] }
+  #   @sessions = [['No Session', 'No Session']]
+  #   unless @events.blank?
+  #     @sessions = @sessions + @conference.conference_resources.where(parent_id: events.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
+  #   end
+  #
+  #   conference_resource = @conference_event.conference_resource
+  #   if (conference_resource.parent_id.nil?)
+  #     @session_name = 'None'
+  #     @event_name = conference_resource.title
+  #   else
+  #     @session_name = conference_resource.title
+  #     @event_name = ConferenceResource.where(id: conference_resource.parent_id).title
+  #   end
+  #
+  #   render layout: false
+  # end
+  #
+  # def update_event
+  #   conference_event_params = params.require(:event).permit!
+  #   unless params[:update_dates].blank?
+  #     attributes = {start_date: conference_event_params[:start_date],
+  #                   end_date: conference_event_params[:end_date],
+  #                   conference_resource_id: conference_event_params[:resource_id]}
+  #   else
+  #     if !conference_event_params[:resource_session].blank? and conference_event_params[:resource_session] != 'No session'
+  #       resource_id = conference_event_params[:resource_session]
+  #     else
+  #       resource_id = conference_event_params[:resource_event]
+  #     end
+  #
+  #     attributes = {conference_resource_id: resource_id,
+  #                   title: conference_event_params[:title],
+  #                   start_date: conference_event_params[:start_date],
+  #                   end_date: conference_event_params[:end_date],
+  #                   presenter: conference_event_params[:presenter],
+  #                   event_type: ConferenceEvent.event_types[conference_event_params[:event_type]],
+  #                   paper_id: conference_event_params[:paper_id],
+  #                   color: '#' + Digest::MD5.hexdigest(conference_event_params[:title])[0..5]}
+  #   end
+  #
+  #   if @event.update!(attributes)
+  #     flash[:notice] = "You have successfully updated '#{@event.title}'."
+  #     status = :success
+  #   else
+  #     flash[:error] = "There was an error updating '#{@event.title}'. Please try again later"
+  #     status = :error
+  #   end
+  #
+  #   unless params[:update_dates].blank?
+  #     render json: {status: status, text: @event.title.nil? ? 'Event' : @event.title}
+  #   else
+  #     redirect_back(fallback_location: root_path)
+  #   end
+  #
+  # end
 
-    events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
-    @events = events.map { |obj| [obj.title, obj.id] }
-    papers = @conference.papers.select(:title, :id).order(:title)
-
-    @papers = papers.map{|obj| [obj.title, obj.id]}
-    @sessions = [['No Session', 'No Session']]
-    unless @events.blank?
-      @sessions = @sessions + @conference.conference_resources.where(parent_id: events.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
-    end
-
-    @start_date = params[:start_date].blank? ? '' : DateTime.parse(params[:start_date]).strftime(DATEFORMAT)
-    @end_date = params[:end_date].blank? ? '' : DateTime.parse(params[:end_date]).strftime(DATEFORMAT)
-
-    if !params[:resource_id].blank?
-      resource = ConferenceResource.find(params[:resource_id])
-      if resource.parent_id.nil? or resource.parent_id.blank?
-        @session_name = 'None'
-        @event_name = resource.title
-      else
-        @session_name = resource.title
-        @event_name = ConferenceResource.find(resource.parent_id).title
-      end
-    else
-      @event_name = ''
-      @session_name = ''
-    end
-
-    render layout: false
-  end
-
-  def create_event
-    conference_event_params = params.require(:event).permit!
-
-    if !conference_event_params[:resource_session].blank? and conference_event_params[:resource_session] != 'No session'
-      resource_id = conference_event_params[:resource_session]
-    else
-      resource_id = conference_event_params[:resource_event]
-    end
-
-    ConferenceEvent.create!(
-        conference_id: params[:conference_id],
-        conference_resource_id: resource_id,
-        title: conference_event_params[:title],
-        start_date: conference_event_params[:start_date],
-        end_date: conference_event_params[:end_date],
-        presenter: conference_event_params[:presenter],
-        event_type: ConferenceEvent.event_types[conference_event_params[:event_type]],
-        paper_id: conference_event_params[:paper_id],
-        color: '#' + Digest::MD5.hexdigest(conference_event_params[:title])[0..5]
-    )
-
-    flash[:notice] = "You have successfully created '#{conference_event_params[:title]}' Event."
-
-    redirect_back(fallback_location: root_path)
-  end
-
-  def edit_event
-    @conference_event = ConferenceEvent.find(params[:id])
-    @conference = @conference_event.conference
-    events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
-    @events = events.map { |obj| [obj.title, obj.id] }
-    @sessions = [['No Session', 'No Session']]
-    unless @events.blank?
-      @sessions = @sessions + @conference.conference_resources.where(parent_id: events.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
-    end
-
-    conference_resource = @conference_event.conference_resource
-    if (conference_resource.parent_id.nil?)
-      @session_name = 'None'
-      @event_name = conference_resource.title
-    else
-      @session_name = conference_resource.title
-      @event_name = ConferenceResource.where(id: conference_resource.parent_id).title
-    end
-
-    render layout: false
-  end
-
-  def update_event
-    conference_event_params = params.require(:event).permit!
-    unless params[:update_dates].blank?
-      attributes = {start_date: conference_event_params[:start_date],
-                    end_date: conference_event_params[:end_date],
-                    conference_resource_id: conference_event_params[:resource_id]}
-    else
-      if !conference_event_params[:resource_session].blank? and conference_event_params[:resource_session] != 'No session'
-        resource_id = conference_event_params[:resource_session]
-      else
-        resource_id = conference_event_params[:resource_event]
-      end
-
-      attributes = {conference_resource_id: resource_id,
-                    title: conference_event_params[:title],
-                    start_date: conference_event_params[:start_date],
-                    end_date: conference_event_params[:end_date],
-                    presenter: conference_event_params[:presenter],
-                    event_type: ConferenceEvent.event_types[conference_event_params[:event_type]],
-                    paper_id: conference_event_params[:paper_id],
-                    color: '#' + Digest::MD5.hexdigest(conference_event_params[:title])[0..5]}
-    end
-
-    if @event.update!(attributes)
-      flash[:notice] = "You have successfully updated '#{@event.title}'."
-      status = :success
-    else
-      flash[:error] = "There was an error updating '#{@event.title}'. Please try again later"
-      status = :error
-    end
-
-    unless params[:update_dates].blank?
-      render json: {status: status, text: @event.title.nil? ? 'Event' : @event.title}
-    else
-      redirect_back(fallback_location: root_path)
-    end
-
-  end
-
-  def delete_resource
-    render layout: false
-  end
-
-  def delete_event
-    render layout: false
-  end
-
-  def destroy_resource
-    ConferenceResource.transaction do
-      ConferenceResource.where(parent_id: @resource.id).destroy_all
-
-      name = @resource.title
-
-      if @resource.destroy
-        flash[:notice] = "Successfully deleted '" + name + "'."
-      else
-        flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
-      end
-    end
-
-    redirect_back(fallback_location: root_path)
-  end
-
-
-  def destroy_event
-    ConferenceEvent.transaction do
-      name = @event.title
-
-      if @event.destroy
-        flash[:notice] = "Successfully deleted '" + name + "'."
-      else
-        flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
-      end
-    end
-
-    redirect_back(fallback_location: root_path)
-  end
+  # def delete_resource
+  #   render layout: false
+  # end
+  #
+  # def delete_event
+  #   render layout: false
+  # end
+  #
+  # def destroy_resource
+  #   ConferenceResource.transaction do
+  #     ConferenceResource.where(parent_id: @resource.id).destroy_all
+  #
+  #     name = @resource.title
+  #
+  #     if @resource.destroy
+  #       flash[:notice] = "Successfully deleted '" + name + "'."
+  #     else
+  #       flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
+  #     end
+  #   end
+  #
+  #   redirect_back(fallback_location: root_path)
+  # end
+  #
+  #
+  # def destroy_event
+  #   ConferenceEvent.transaction do
+  #     name = @event.title
+  #
+  #     if @event.destroy
+  #       flash[:notice] = "Successfully deleted '" + name + "'."
+  #     else
+  #       flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
+  #     end
+  #   end
+  #
+  #   redirect_back(fallback_location: root_path)
+  # end
 
   def get_resources
     @conference = Conference.find(params[:id])

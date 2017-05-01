@@ -76,35 +76,26 @@ class ConferencesController < ApplicationController
 
   def create_schedule_dictionary(conference)
     output = {}
-    all_resources = conference.conference_resources.map{|obj| { id: obj.id, parent_id: obj.parent_id,
-                                                                building: obj.building, title: obj.title
-
-                                                        }}
+    all_resources = conference.conference_resources.map { |obj| {id: obj.id, parent_id: obj.parent_id, room: obj.room, title: obj.title } }
     #separate the events and sessions
     events = {}
     sessions = {}
     all_resources.each do |resource|
       if resource[:parent_id].nil?
         events[resource[:id]] = {}
-        events[resource[:id]][:building] = resource[:building]
-      elsif
-        sessions[resource[:id]] = resource[:parent_id]
+        events[resource[:id]][:room] = resource[:room]
+      elsif sessions[resource[:id]] = resource[:parent_id]
       end
     end
 
-    all_papers = conference.papers.map{|obj| { id: obj.id, author: obj.author,
-                                               affiliation: obj.affiliation, title: obj.title,
-                                               url: obj.pdf.url
-    }}
+    all_papers = conference.papers.map { |obj| {id: obj.id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url } }
     papers = {}
     all_papers.each do |paper|
       papers[paper[:id]] = paper
     end
 
-    all_details = conference.conference_events.order(:start_date).map { |obj| {id: obj.conference_resource_id, title: obj.title, start_date: obj.start_date,
-                                                                               end_date: obj.end_date, presenter: obj.presenter,
-                                                                               paper_id: obj.paper_id, event_type: obj.event_type
-                                                                              } }
+    all_details = conference.conference_events.order(:start_date).map { |obj| {id: obj.conference_resource_id, title: obj.title, start_date: obj.start_date, end_date: obj.end_date, presenter: obj.presenter, paper_id: obj.paper_id, event_type: obj.event_type } }
+
     ordered_event = []
     all_details.each do |details|
       detail_id = details[:id]
@@ -118,20 +109,19 @@ class ConferencesController < ApplicationController
             #create a map in the output
             output[parent_id] = {}
             output[parent_id][:sessions] = []
-          elsif
-            if output[parent_id][:sessions].nil?
-              output[parent_id][:sessions] = []
-            end
+          elsif if output[parent_id][:sessions].nil?
+                  output[parent_id][:sessions] = []
+                end
           end
           paper = papers[details[:paper_id]]
           if not paper.nil?
-            sessions_params = { title: details[:title],
-                                start_time: details[:start_date],
-                                end_time: details[:end_date],
-                                pdf_link: paper[:url],
-                                type: details[:event_type],
-                                author: paper[:author],
-                                affiliation: paper[:affiliation]
+            sessions_params = {title: details[:title],
+                               start_time: details[:start_date],
+                               end_time: details[:end_date],
+                               pdf_link: paper[:url],
+                               type: details[:event_type],
+                               author: paper[:author],
+                               affiliation: paper[:affiliation]
             }
             output[parent_id][:sessions].push(sessions_params)
 
@@ -144,7 +134,7 @@ class ConferencesController < ApplicationController
           ordered_event.push(detail_id)
           output[detail_id] = {}
           output[detail_id][:title] = details[:title]
-          output[detail_id][:building] = event[:building]
+          output[detail_id][:room] = event[:room]
           output[detail_id][:start_date] = details[:start_date]
           output[detail_id][:end_date] = details[:end_date]
         end
@@ -155,8 +145,6 @@ class ConferencesController < ApplicationController
       final_output.push(output[event])
     end
 
-    Rails.logger.debug("******************************************************************")
-    Rails.logger.debug(final_output.inspect)
     return final_output
   end
 

@@ -31,9 +31,11 @@ function requestTabPane(id, tab_name) {
 }
 
 function initializeTabPanes(id) {
-    $('.tab_ajax').click(function () {
-        current_tab = $(this).attr('id');
-        requestTabPane(id, current_tab);
+    $('.tab_ajax').click(function (e) {
+        if (!$(e.target).is('i')) {
+            current_tab = $(this).attr('id');
+            requestTabPane(id, current_tab);
+        }
     });
     if (typeof Cookies.get(id + '_current_tab') === 'undefined') {
         current_tab = 'home';
@@ -228,7 +230,7 @@ function initializeBulkFileUploader(conferenceid) {
         }
         ,
         add: function (e, data) {
-            alert ('here');
+            alert('here');
 //            if ($.trim($('#csvFileUpload').val()).length && $.trim($('#zipFileUpload').val()).length > 0) {
 //                $('#uploadButton').removeClass('disabled');
 //                for (var i = 0; i < data.files.length; i++) {
@@ -443,6 +445,22 @@ function instantiateInvites(id, json) {
 /*****************************************************/
 /********************** SCHEDULE *********************/
 /*****************************************************/
+jQuery.validator.addMethod("greaterThanDate",
+    function (value, element, params) {
+        if (!/Invalid|NaN/.test(new Date(value))) {
+            return new Date(value) > new Date($(params).val());
+        }
+
+        return isNaN(value) && isNaN($(params).val())
+            || (Number(value) > Number($(params).val()));
+    }, 'Must be greater than Start Date.');
+
+jQuery.validator.addMethod("greaterThanTime",
+    function (value, element, params) {
+        return moment(value, 'HH:mm A').isAfter(moment($(params).val(), 'HH:mm A'));
+    }, 'Must be greater than Start time.');
+
+
 function updateEvent(id, resource_id, start_date, end_date, revertFunc) {
     $.ajax({
         type: 'POST',
@@ -575,8 +593,22 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
     });
 }
 
-function initializeAddScheduleResource() {
+function initializeAddScheduleResource(start_date, end_date) {
     initializeSelectize();
+
+    $('.datetime').datetimepicker({
+        minDate: moment(new Date(start_date)),
+        maxDate: moment(new Date(end_date)),
+        format: 'DD MMM YYYY'
+    }).change(function (new_date) {
+        $('.time').datetimepicker().date(new_date);
+    });
+
+    $('.time').datetimepicker({
+        minDate: moment(new Date(start_date)),
+        maxDate: moment(new Date(end_date)),
+        format: 'h:mm a'
+    });
 
     try {
         $('*[data-depends-on]').each(function () {
@@ -597,7 +629,23 @@ function initializeAddScheduleResource() {
             'resource[title]': {
                 required: true
             },
-            'resource[parent_id[': {
+            'resource[date]': {
+                required: true
+            },
+            'resource[start_time]': {
+                required: true
+            },
+            'resource[end_time]': {
+                greaterThanTime: "#start_time",
+                required: true
+            },
+            'resource[parent_id]': {
+                required: true
+            },
+            'resource[presenter]': {
+                required: true
+            },
+            'resource[event_type]': {
                 required: true
             }
         }
@@ -654,17 +702,6 @@ function initializeAddScheduleEvent(start_date, end_date) {
     event_depend = $event_depend[0].selectize
     session_depend = $session_depend[0].selectize
 
-    jQuery.validator.addMethod("greaterThan",
-        function (value, element, params) {
-
-            if (!/Invalid|NaN/.test(new Date(value))) {
-                return new Date(value) > new Date($(params).val());
-            }
-
-            return isNaN(value) && isNaN($(params).val())
-                || (Number(value) > Number($(params).val()));
-        }, 'End Date must be greated than Start Date.');
-
     $('#event_form').validate({
         rules: {
             'event[title]': {
@@ -678,7 +715,7 @@ function initializeAddScheduleEvent(start_date, end_date) {
             },
             'event[end_date]': {
                 required: true,
-                greaterThan: "#start_date_datepicker"
+                greaterThanDate: "#start_date_datepicker"
             }
         }
     });

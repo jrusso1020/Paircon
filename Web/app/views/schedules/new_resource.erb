@@ -1,6 +1,6 @@
 <%= header_title @title %>
 
-<%= form_for :resource, url: create_resource_schedules_path(conference_id: params[:conference_id], view: params[:view]), html: {method: :post, id: 'add_resource_form'} do |f| %>
+<%= form_for :resource, url: create_resource_schedules_path(conference_id: params[:conference_id], view: params[:view]), html: {method: :post, id: 'add_resource_form'} do |form| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-group" style="margin-right: 5px;"></i>
@@ -17,62 +17,7 @@
       </div>
 
       <% if params[:view] == ConferenceResource::TYPE[:event] %>
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <%= f.label :title, 'Event Title (*)' %>
-                <%= f.text_field :title, placeholder: 'Event Title', class: 'form-control' %>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <%= f.label :room, 'Room Name (*)' %>
-                <%= f.select :room, @rooms, {}, id: 'conference_build_select', class: 'select' %>
-                <%= f.text_field :room_other, placeholder: 'Name of Room', 'data-depends-on': '#conference_build_select', 'data-depends-on-value': 'Other', class: 'form-control' %>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <%= f.label :date, 'Event Date (*)' %>
-                <div class="input-prepend input-group">
-                  <span class="add-on input-group-addon"><i class="fa fa-calendar"></i></span>
-                  <%= f.text_field :date, placeholder: 'Event Date', id: 'event_date', class: 'datetime form-control' %>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-6">
-              <div class="form-group">
-                <%= f.label :start_time, 'Start Time (*)' %>
-                <div class="input-prepend input-group">
-                  <span class="add-on input-group-addon"><i class="fa fa-clock-o"></i></span>
-                  <%= f.text_field :start_time, placeholder: 'Event Start Time', id: 'event_start_time', class: 'datetime form-control' %>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">
-              <div class="form-group">
-                <%= f.label :end_time, 'End Time (*)' %>
-                <div class="input-prepend input-group">
-                  <span class="add-on input-group-addon"><i class="fa fa-clock-o"></i></span>
-                  <%= f.text_field :end_time, placeholder: 'Event End Time', id: 'event_end_time', class: 'datetime form-control' %>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="row">
-          </div>
-
+          <%= render 'resource_event', form: form %>
       <% else %>
           <% if @events.blank? %>
               <div class="row">
@@ -82,82 +27,8 @@
                   </h4>
                 </div>
               </div>
-
           <% else %>
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :title, 'Session Tittle (*)' %>
-                    <%= f.text_field :title, placeholder: 'Session Tittle', class: 'form-control' %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :parent_id, 'Event (*)' %>
-                    <%= f.select :parent_id, @events, {}, id: 'conference_build_select', class: 'select' %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :start_time, 'Session Start Time (*)' %>
-                    <%= f.time_select :start_time , class: 'form-control' %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :end_time, 'Session End Time (*)' %>
-                    <%= f.time_select :end_time, class: 'form-control' %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :presenter, 'Presenter Name (*)' %>
-                    <%= f.text_field :presenter, placeholder: 'Presenter Name', class: 'form-control' %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :event_type, 'Event type (*)' %>
-                    <%= f.select :event_type, ConferenceEvent.event_types.map { |k, v| [k.humanize, v] } %>
-                  </div>
-                </div>
-              </div>
-
-              <% if @papers.blank? %>
-                  <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                      <h4 class="font-light" align="center">
-                        <strong>Please add a Paper before adding an session.</strong>
-                      </h4>
-                    </div>
-                  </div>
-
-              <% else %>
-
-                  <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                      <div class="form-group">
-                        <%= f.label :paper_id, 'Paper (*)' %>
-                        <%= f.select :paper_id, @papers, {}, id: 'conference_paper_select', class: 'select' %>
-                      </div>
-                    </div>
-                  </div>
-              <% end %>
+              <%= render 'resource_session', form: form %>
           <% end %>
       <% end %>
     </div>
@@ -165,21 +36,17 @@
     <div class="modal-footer" style="margin-top:-5px;">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <% unless params[:view] == ConferenceResource::TYPE[:session] and @events.blank? %>
-              <% if !is_mobile_device? %>
+          <% if !is_mobile_device? %>
                 <span style="float: left !important; margin-top: 5px;">
                   <small>Note: (*) This is a required field.
                   </small>
                 </span>
-              <% end %>
-              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-              <%= f.submit 'Create', :class => 'btn btn-paircon' %>
-          <% else %>
-              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
           <% end %>
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <%= form.submit @title, :class => "btn btn-paircon #{'disabled' if (params[:view] == ConferenceResource::TYPE[:session] and (@events.blank? or @papers.blank?))}" %>
         </div>
       </div>
     </div>
 <% end %>
 
-<%= javascript_tag 'initializeAddScheduleResource()' %>
+<%= javascript_tag "initializeAddScheduleResource('" + @conference.start_date_str + "', '" + @conference.end_date_str + "')" %>

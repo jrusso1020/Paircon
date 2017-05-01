@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <%= form.label :title, 'Event Title (*)' %>
+      <%= form.text_field :title, placeholder: 'Event Title', class: 'form-control' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <%= form.label :room, 'Room Name (*)' %>
+      <%= form.select :room, @rooms, {}, id: 'conference_build_select', class: 'select' %>
+      <%= form.text_field :room_other, placeholder: 'Name of Room', 'data-depends-on': '#conference_build_select', 'data-depends-on-value': 'Other', class: 'form-control' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <%= form.label :date, 'Event Date (*)' %>
+      <div class="input-prepend input-group">
+        <span class="add-on input-group-addon"><i class="fa fa-calendar"></i></span>
+        <%= form.text_field :date, placeholder: 'Event Date', id: 'date', class: 'datetime form-control' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-sm-6 col-xs-6">
+    <div class="form-group">
+      <%= form.label :start_time, 'Start Time (*)' %>
+      <div class="input-prepend input-group">
+        <span class="add-on input-group-addon"><i class="fa fa-clock-o"></i></span>
+        <%= form.text_field :start_time, placeholder: 'Event Start Time', id: 'start_time', class: 'time form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-6">
+    <div class="form-group">
+      <%= form.label :end_time, 'End Time (*)' %>
+      <div class="input-prepend input-group">
+        <span class="add-on input-group-addon"><i class="fa fa-clock-o"></i></span>
+        <%= form.text_field :end_time, placeholder: 'Event End Time', id: 'end_time', class: 'time form-control' %>
+      </div>
+    </div>
+  </div>
+
+</div>

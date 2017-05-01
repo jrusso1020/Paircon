@@ -23,6 +23,35 @@ Header
 
 /***********************************
 ************************************
+Left Bar
+************************************
+***********************************/
+.conference_left_item {
+  position: relative;
+  display: block;
+  padding: 13px 15px 12px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.tabs-left > li > span {
+  border: 1px solid #f7f7f7;
+}
+
+.tabs-left > li.active > span {
+  border-left-color: #5a738e;
+  background-color: #f3f3f3;
+
+  &:hover {
+    background-color: transparent !important;
+    text-decoration: none;
+  }
+}
+
+/***********************************
+************************************
 Footer
 ************************************
 ***********************************/
