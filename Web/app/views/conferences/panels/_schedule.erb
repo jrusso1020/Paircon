@@ -67,43 +67,44 @@
     <div class="clearfix"></div>
   </div>
 
-  <div class="x_content">
-    <div class="panel-group" id="accordion">
-    <%$first = true%>
-    <%$topics = %w(Topic1 Topic2 Topic3 Topic4 Topic5)%>
-    <%$days.each do |day|%>
-        <%$topics.each do |topic|%>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h3 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#<%= "#{day}#{topic}" %>"><b><%= "#{day}: " %></b><%= "#{topic}" %></a>
-                  </h3>
-                </div>
-                <%if $first == true%> <%# default show first accordion panel open%>
-                  <div id="<%= "#{day}#{topic}" %>" class="panel-collapse collapse in">
-                  <% $first = false%>
-                <%else%>
-                  <div id="<%= "#{day}#{topic}" %>" class="panel-collapse collapse">
-                <%end%>
-                  <div class="panel-body">
-                    <h4><b>Location: </b>General Location</h4>
-                    <h4><b>Time: </b>Start Time - End Time</h4>
-                    <%$c = 1%>
-                    <%$num = 7%>
-                    <% until $c > $num do %>
-                        <p>
-                          <b><a href="#">Paper Title <%= "#{$c}" %> </a></b> ||
-                          Author Names <i> Author Institutions </i> ||
-                          <a href="#"> Abstract </a> ||
-                          Specific Location
-                        </p>
-                      <%$c += 1%>
-                    <%end%>
+    <div class="x_content">
+      <div class="panel-group" id="accordion">
+      <%$first = true%>
+      <%$topics = %w(Topic1 Topic2 Topic3 Topic4 Topic5)%>
+      <%$days.each do |day|%>
+          <%$topics.each do |topic|%>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#<%= "#{day}#{topic}" %>"><b><%= "#{day}: " %></b><%= "#{topic}" %></a>
+                    </h3>
+                  </div>
+                  <%if $first == true%> <%# default show first accordion panel open%>
+                    <div id="<%= "#{day}#{topic}" %>" class="panel-collapse collapse in">
+                    <% $first = false%>
+                  <%else%>
+                    <div id="<%= "#{day}#{topic}" %>" class="panel-collapse collapse">
+                  <%end%>
+                    <div class="panel-body">
+                      <h4><b>Location: </b>General Location</h4>
+                      <h4><b>Time: </b>Start Time - End Time</h4>
+                      <%$c = 1%>
+                      <%$num = 7%>
+                      <% until $c > $num do %>
+                          <p>
+                            <b><a href="#">Paper Title <%= "#{$c}" %> </a></b> ||
+                            Author Names <i> Author Institutions </i> ||
+                            <a href="#"> Abstract </a> ||
+                            Specific Location
+                          </p>
+                        <%$c += 1%>
+                      <%end%>
+                    </div>
                   </div>
                 </div>
-              </div>
+          <%end%>
         <%end%>
-      <%end%>
+      </div>
     </div>
   </div>
 </div>
