@@ -115,10 +115,11 @@ class ConferencesController < ApplicationController
     similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
     @papers_with_scores = []
     similarities.each do |item|
-      @papers_with_scores << { user_paper: Paper.find_by(id: item.user_paper_id), 
+      @papers_with_scores << { 
+                              user_paper: Paper.find_by(id: item.user_paper_id), 
                               conference_paper: Paper.find_by(id: item.conference_paper_id),
                               similarity_score: item.similarity_score
-                            }
+                             }
     end
 
     respond_to do |format|

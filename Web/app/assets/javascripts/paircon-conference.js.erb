@@ -7,19 +7,63 @@ function initializeHeader() {
 var current_tab;
 
 function requestUserRecommendations(conference_id, user_id){
-    $.ajax({
-        type: 'GET',
-        dataType: "json",
-        url: '/conferences/' + conference_id + '/user_recommendations',
-        data:{
-            'conference_id': conference_id,
-            'user_id': user_id
-        },
-        success: function (result) {
-            for (i = 0; i < result.length; i++){
-                
+    setInterval(function() {
+        $.ajax({
+            type: 'GET',
+            dataType: "json",
+            url: '/conferences/' + conference_id + '/user_recommendations',
+            data:{
+                'conference_id': conference_id,
+                'user_id': user_id
+            },
+            success: function (result) {
+                $("#recommendations-container").empty();
+                var html = '';
+                for (i = 0; i < result.length; i++){
+                    html += '<div class ="col-md-4 col-sm-6 col-xs-6 top-buffer">';
+                    html += '<div class="usage-graph " style="transform: scale(1.2,1.2);">';
+                    html += '<div class="easypiechart" id="returningvisits" data-percent="${result[i].similarity_score * 100}">';
+                    html += '<span class="percent">${result[i].similarity_score * 100}</span>';
+                    html += '</div>';
+                    html += '<label><%= link_to "${result[i].conference_paper.title}", pdf.full_path(file: "${result[i].conference_paper.pdf_link}") %><br>';
+                    html += '</label>';
+                    html += '</div>';
+                    html += '<div class = "text-center">';
+                    html += '<p><b>Related To: </b>${result[i].user_paper.title}</p>';
+                    html += '<button class="btn btn-paircon btn-center" type="button" data-toggle="modal" data-target=<%= "##${i}"%>>More</button>';
+                    html += '</div>';
+                    html += '<div class="modal fade" id=<%= "#${i}"%> tabindex="-1" role="dialog" aria-hidden="true">';
+                    html += '<div class="modal-dialog" role="document">';
+                    html += '<div class="modal-content">';
+                    html += '<div class="modal-header">';
+                    html += '<h5 class="modal-title">${result[i].conference_paper.title}';
+                    html += '</h5>';
+                    html += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
+                    html += '<span aria-hidden="true">&times;</span>';
+                    html += '</button>';
+                    html += '</div>';
+                    html += '<div class="modal-body">';
+                    html += '<div class ="container">';
+                    html += '<div class="col-md-6 col-sm-6 col-xs-12">';
+                    var authors = result[i].conference_paper.authors.join(", ");
+                    html += '<p><b>Authors: </b>${authors}</p>';
+                    html += '</div>';
+                    html += '<div class="col-md-6 col-sm-6 col-xs-12 text-center">';
+                    html += '<p><a href="#"><i class="fa fa-file fa-4x" aria-hidden="true"></i><br>Open Paper</a></p>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '<div class="modal-footer">';
+                    html += '<button type="button" class="btn btn-paircon" data-dismiss="modal">Close</button>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+                $("#recommendations-container").append(html);
             }
-        }
+        }, 60 * 1000); //perform every minute
     });
 }
 

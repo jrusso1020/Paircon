@@ -8,7 +8,7 @@ class ConferencePaperRecommendationJob < ApplicationJob
     user.papers.all.each do |user_paper|
       uri = URI("#{PairConConfig.recommendation_system_domain}/similiarity/v1/compare/single")
       req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-      req.body = {user_file: user_paper.paper.path, conference_dir: conference_dir}.to_json
+      req.body = { user_file: user_paper.path, conference_dir: conference_dir }.to_json
       res = Net::HTTP.start(uri.hostname, uri.port) do |http|
         http.request(req)
       end
