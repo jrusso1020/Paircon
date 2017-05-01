@@ -82,6 +82,9 @@ rails s
 
 Now instead of using ```localhost``` use ```devpaircon.com``` and ```app.devpaircon.com``` to open the application
 
+#### pdftotext 
+Make sure you have the command `pdftotext` installed. Just type `pdftotext` into terminal and see if it gives you the usage or says command not found. If it says command not found on mac do `brew cask install pdftotext` to get it. You need this command to use the profile web scraper to get a users publications
+
 ## Running Rails Background Services (Web Folder)
 PairCon highly relies on background services to provide async behavior while downloading and generating recommendations.
 The system uses Redis along with Sideqik. You will be required to do the following:

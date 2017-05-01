@@ -33,15 +33,18 @@ require 'fileutils'
 class Conference < ApplicationRecord
   include PublicActivity::Common
   include ConferencesHelper
+
+  has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
+
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_resources, dependent: :destroy
   has_many :conference_events, dependent: :destroy
   has_many :conference_papers, dependent: :destroy
   has_many :conference_organizers, dependent: :destroy
-  has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
-  has_many :papers, through: :conference_papers
   has_many :posts, dependent: :destroy
+
   has_many :organizers, through: :conference_organizers, source: :user
+  has_many :papers, through: :conference_papers
   has_many :users, through: :conference_attendees
 
   before_create :init_conference_id
@@ -183,6 +186,14 @@ class Conference < ApplicationRecord
 
   def self.my_attending_conferences_active user
     Conference.active.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
+  end
+
+  def get_pdf_text_path
+    return "#{Rails.root}/public/conferences/#{self.id}/txt"
+  end
+        
+  def get_pdf_folder_path
+    return "#{Rails.root}/public/conferences/#{self.id}/pdf"
   end
 
   private

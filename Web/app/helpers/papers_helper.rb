@@ -1,3 +1,4 @@
+require "scrapper/pdf_scrapper"
 module PapersHelper
 
   def extractTextFromPdf(paper, conference_id)
