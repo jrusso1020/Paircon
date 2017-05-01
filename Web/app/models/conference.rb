@@ -32,6 +32,7 @@ require 'fileutils'
 
 class Conference < ApplicationRecord
   include PublicActivity::Common
+  include ConferencesHelper
 
   has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
 
@@ -122,6 +123,39 @@ class Conference < ApplicationRecord
 
   def start_date_str
     self.start_date.strftime(DATEFORMAT)
+  end
+
+  def get_conference_pdf_path
+    return "#{Rails.root}/public/conference/#{self.id}/pdf"
+  end
+
+  def get_conference_txt_path
+    return "#{Rails.root}/public/conference/#{self.id}/txt"
+  end
+
+  def get_conference_path
+    return "#{Rails.root}/public/conference/#{self.id}"
+  end
+
+  def bulk_upload csv, zip
+    Rails.logger.debug(csv.inspect)
+    Rails.logger.debug(zip.tempfile.inspect)
+    FileUtils.rm_f get_conference_path
+    FileUtils.mkdir_p get_conference_path
+    zip_path = get_conference_path + "/" + zip.original_filename
+    File.open(zip_path, "w+") do |f|
+      f.binmode
+      f.puts(zip.read)
+    end
+    csv_path = get_conference_path + "/" + csv.original_filename
+    File.open(csv_path, "w+") do |f|
+      f.binmode
+      f.puts(csv.read)
+    end
+    zip.close
+    csv.close
+    parse_csv(csv_path, zip_path, self.id)
+    #http://www.rubydoc.info/docs/rails/4.1.7/ActionDispatch/Http/UploadedFile --> This is the object
   end
 
   def get_counts(post = true, interested = true, resources = true, events = true)

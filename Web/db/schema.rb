@@ -45,10 +45,13 @@ ActiveRecord::Schema.define(version: 20170427001719) do
     t.string   "title"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.string   "color"
     t.string   "conference_id",          limit: 30
+    t.string   "presenter"
+    t.integer  "event_type",                        default: 0
+    t.string   "paper_id"
     t.index ["conference_resource_id"], name: "index_conference_events_on_conference_resource_id", using: :btree
   end
 
@@ -124,27 +127,22 @@ ActiveRecord::Schema.define(version: 20170427001719) do
     t.index ["user_id"], name: "index_organizers_on_user_id", unique: true, using: :btree
   end
 
-  create_table "paper_authors", force: :cascade do |t|
-    t.string   "name"
-    t.string   "affiliation"
-    t.string   "paper_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "papers", force: :cascade do |t|
     t.string   "title"
     t.text     "pdf_link"
     t.string   "md5hash"
     t.text     "path"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "pdf_file_name"
     t.string   "pdf_content_type"
     t.integer  "pdf_file_size"
     t.datetime "pdf_updated_at"
-    t.text     "keywords"
     t.date     "year"
+    t.text     "abstract"
+    t.text     "author",           default: [],              array: true
+    t.text     "affiliation",      default: [],              array: true
+    t.text     "email",            default: [],              array: true
   end
 
   create_table "posts", force: :cascade do |t|

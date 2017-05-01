@@ -1,0 +1,152 @@
+<%= header_title 'Add Multiple Events / Papers' %>
+
+<%= form_for :bulk, id: 'add_in_bulk', multipart: true do |f| %>
+    <div class="modal-header">
+      <h1 class="modal-title" id="myModalLabel">
+        <i class="fa fa-group" style="margin-right: 5px;"></i>
+        Add Multiple Events / Papers
+      </h1>
+    </div>
+
+    <div id="drag-area" class="modal-body">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h4 class="font-light" align="center">Please select the <strong>Excel File (xlsx)</strong> file
+            and attach a <strong>ZIP</strong> archive
+            containing papers along. <br/> <br/> This operation will automatically create papers and events based on the
+            CSV you
+            provide. Any errors will be skipped and not added.
+          </h4>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="form-group">
+            <div class="row fileupload-buttonbar text-center">
+              <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
+                <i class="fa fa-upload"></i>
+                <span>Select Excel File (xlsx) </span>
+                <%= f.file_field :csv, id: 'csvFileUpload', type: 'file', class: 'file-upload' %>
+              </div>
+
+              <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
+                <i class="fa fa-upload"></i>
+                <span>Select Zip File (zip)</span>
+                <%= f.file_field :zip, id: 'zipFileUpload', type: 'file', class: 'file-upload' %>
+              </div>
+
+              <div id="progress" class="progress progress-striped" style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                <div class="progress-bar bar"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <span style="float: left !important; margin-top: 5px;">
+         <a href="#">MetaData Template (CSV)</a>
+      </span>
+      <button type="button" id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="button" id="cancelButton" class="btn btn-default" data-dismiss="modal" style="display: none;">Cancel</button>
+      <button type="button" id="uploadButton" class="btn btn-paircon disabled" data-dismiss="modal">Upload</button>
+    </div>
+<% end %>
+<script>
+
+
+    $('#uploadButton').text("Upload");
+    $('#progress').hide();
+    $('#fileName').text("");
+
+    $('#closeButton').click(function () {
+        $('#uploadButton').text("Upload");
+        $('#progress').hide();
+        $('#fileName').text("");
+    });
+
+    var filesList = [],
+        paramNames = [];
+    var url = '/conferences/<%= params[:conference_id] %>/process_bulk_upload';
+
+    $('.file-upload').fileupload({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        autoUpload: false,
+        singleFileUploads: false,
+        multipart: true,
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css(
+                'width',
+                progress + '%'
+            );
+        },
+        done: function (e, data) {
+            var result_string = JSON.stringify(data._response.result);
+            showNotificationMsg(JSON.parse(result_string).message);
+            $('#closeButton').click();
+
+            $.pjax.reload('[data-pjax-container]');
+            $('#uploadButton').removeClass('disabled');
+            $('#select-button').removeClass('disabled');
+        },
+        fail: function (e, data) {
+            var result_string = JSON.stringify(data._response.result);
+            result_string = JSON.parse(result_string);
+            showErrorMsg(result_string.message);
+        },
+        add: function (e, data) {
+//            if ($.trim($('#csvFileUpload').val()).length > 0 && $.trim($('#zipFileUpload').val()).length > 0) {
+            $('#uploadButton').removeClass('disabled');
+            for (var i = 0; i < data.files.length; i++) {
+                filesList.push(data.files[i]);
+                paramNames.push(e.delegatedEvent.target.name);
+            }
+
+
+//            } else {
+//                $('#uploadButton').addClass('disabled');
+//            }
+
+            return false;
+        }
+//        add: function (e, data) {
+//            $('#fileName').text("[" + data.files[0].name + "]");
+//            $('#uploadButton').removeClass('disabled');
+//            var uploadurl = $('input[name="fileData"]').fileupload('option', 'url');
+//            $('#uploadButton').unbind();
+//            data.context = $('#uploadButton').click(function () {
+//                if($('#new_paper').valid()){
+//                }else{
+//                    return false;
+//                }
+//
+//            });
+//        }
+    })
+    ;
+
+    $('#uploadButton').click(function (e) {
+        e.preventDefault();
+
+        $('#uploadButton').text("Uploading");
+        $('#progress').fadeIn('slow');
+        $('#uploadButton').addClass('disabled');
+        $('#select-button').addClass('disabled');
+        $('#closeButton').hide();
+        $('#cancelButton').show();
+
+        $('.file-upload').fileupload('send', {files: filesList, paramName: paramNames});
+    });
+</script>
+
+<%#= javascript_tag "initializeBulkFileUploader('" + params[:conference_id] + "')" %>
+
+
+
+

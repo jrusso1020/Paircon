@@ -12,42 +12,28 @@ class PapersController < ApplicationController
   end
 
   def create
-    paper_params[:year] = DateTime.new(paper_params[:year].to_i)
-    @paper = Paper.new(paper_params)
-    if @paper.save
-      unless params[:filename].blank?
-        @paper.save_pdf(params[:conference_id], params[:filename], request.body)
+    conference_id = params[:conference_id]
+    paper_pdf_path = nil
+    unless params[:filename].blank?
+      pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
+      FileUtils.mkdir_p pdf_folder
+      new_file = Rails.root.join('public', 'conference', conference_id, 'pdf/' + params[:filename])
+
+      File.open(new_file, 'wb') do |file|
+        file.binmode
+        file.puts(request.body.read)
       end
-      unless author_params[:author].blank?
-        count = 0
-        affiliation_arr = Array.new
-        unless author_params[:affiliation].blank?
-          affiliation_arr = author_params[:affiliation].split(',')
-        end
-        length = affiliation_arr.size
-        for author in author_params[:author].split(',')
-          affiliation = ""
-          if length > count
-            affiliation = affiliation_arr[count]
-          end
-          count += 1
-          if not @paper.paper_authors.create!({name: author, affiliation: affiliation})
-            render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
-          end
-        end
-      end
-      if Conference.find(params[:conference_id]).conference_papers.create!(paper_id: @paper.id)
-        begin
-          PaperScrapperJob.perform_later(@paper, params[:conference_id])
-        rescue => e
-          extractTextFromPdf(@paper, params[:conference_id])
-        end
-        render status: :ok, json: {message: 'Paper was successfully updated.'}.to_json
-      else
-        render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
-      end
-    else
+      paper_pdf_path = new_file
+    end
+    paper_params = paper_params()
+    paper_params[:author] = paper_params[:author].split(",")
+    paper_params[:affiliation] = paper_params[:affiliation].split(",")
+    paper_params[:email] = paper_params[:email].split(",")
+
+    if create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
       render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
+    elsif
+      render status: :ok, json: {message: 'Paper was successfully updated.'}.to_json
     end
   end
 
@@ -57,7 +43,6 @@ class PapersController < ApplicationController
 
   def destroy
     paper = Paper.find(params[:id])
-    #conferencePaper = ConferencePaper.find_by_paper_id(params[:id])
     Paper.transaction do
       if paper.destroy
         flash[:notice] = 'Paper has been successfully deleted.'
@@ -70,6 +55,16 @@ class PapersController < ApplicationController
 
   def update
     paper = Paper.find(params[:id])
+    paper_params = paper_params()
+    unless paper_params[:author].nil?
+      paper_params[:author] = paper_params[:author].split(";")
+    end
+    unless paper_params[:affiliation].nil?
+      paper_params[:affiliation] = paper_params[:affiliation].split(";")
+    end
+    unless paper_params[:email].nil?
+      paper_params[:email] = paper_params[:email].split(";")
+    end
     if paper.update_attributes(paper_params)
       render json: {status: :success, text: paper.title}
     else
@@ -84,11 +79,7 @@ class PapersController < ApplicationController
   end
 
   def paper_params
-    params.require(:paper).permit(:pdf, :title, :keywords, :year)
-  end
-
-  def author_params
-    params.require(:paper).permit(:author, :affiliation)
+    params.require(:paper).permit(:pdf, :title, :abstract, :year, :pdf_link, :author, :affiliation, :email)
   end
 
 
