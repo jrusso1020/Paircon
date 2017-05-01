@@ -1,0 +1,1054 @@
+arXiv:1409.1976v1 [stat.ML] 6 Sep 2014
+
+A Reduction of the Elastic Net to Support Vector
+Machines with an Application to GPU Computing
+
+Quan Zhou*
+zhouq10@mails.tsinghua.edu.cn
+Shiji Song*
+shijis@mail.tsinghua.edu.cn
+
+Jacob R. Gardner†
+gardner.jake@wustl.edu
+
+Kilian Q. Weinberger †
+kilian@wustl.edu
+Tsinghua University*
+Beijing 100084, China
+
+Wenlin Chen†
+wenlinchen@wustl.edu
+
+Yixin Chen †
+ychen25@wustl.edu
+Washington University in St. Louis†
+1 Brookings Drive, MO 63130, USA
+
+Abstract
+The past years have witnessed many dedicated open-source projects that built and
+maintain implementations of Support Vector Machines (SVM), parallelized for
+GPU, multi-core CPUs and distributed systems. Up to this point, no comparable
+effort has been made to parallelize the Elastic Net, despite its popularity in many
+high impact applications, including genetics, neuroscience and systems biology.
+The first contribution in this paper is of theoretical nature. We establish a tight link
+between two seemingly different algorithms and prove that Elastic Net regression
+can be reduced to SVM with squared hinge loss classification. Our second contribution is to derive a practical algorithm based on this reduction. The reduction
+enables us to utilize prior efforts in speeding up and parallelizing SVMs to obtain
+a highly optimized and parallel solver for the Elastic Net and Lasso. With a simple wrapper, consisting of only 11 lines of MATLABTM code, we obtain an Elastic
+Net implementation that naturally utilizes GPU and multi-core CPUs. We demonstrate on twelve real world data sets, that our algorithm yields identical results as
+the popular (and highly optimized) glmnet implementation but is one or several
+orders of magnitude faster.
+
+1 Introduction
+The Elastic Net [28] and Lasso as a special case [12] are arguably two of the most celebrated and
+widely used feature selection algorithms of the past decade. The increase in data set sizes has led to
+a rise in the demand for fast implementations of popular machine learning techniques. For example
+in fMRI classification [22] one can easily obtain data sets with p > 1, 000, 000 voxels. Similarly in
+genetics [11] genome-wide predictions often have millions of features.
+Meanwhile, the increased availability of GPU processing and multi-core CPUs has provided a natural means to scale up algorithms through parallelization. However, some algorithms are easier to
+parallelize than others. For example, deep (convolutional) neural networks can naturally take advantage of multiple GPUs [18]; support vector machines (SVM) have been ported to GPUs [8, 26],
+multi-core CPUs [7, 26] and even distributed systems [6, 21]. Although not originally parallelized,
+liblinear [9] utilizes clever dual coordinate ascent updates to drastically speed up linear SVMs.
+1
+
+Despite the growing trend, feature selection algorithms have yet to embrace parallel computing
+platforms in a similar fashion. One of the most popular parallel implementations of Lasso may be
+Shotgun [4], which however in our experiments does often not outperform the (admittedly highly
+optimized) single-core Elastic Net implementation glmnet by Friedman [10].
+This imbalance of parallelization may be in part due to the fact that parallelizing algorithms is hard
+to do. For example, the GT-SVM implementation of kernel-SVM for GPUs uses handwritten CUDA
+kernels [8] to truly utilize the computing power of modern graphics cards. This is not only highly
+labor intensive, it also requires constant maintenance as hardware and software standards progress.
+In this paper we introduce a different approach to parallelize the Elastic Net, and Lasso as a special
+case. Instead of proposing a new hand designed parallel implementation of the core algorithm, we
+take inspiration from recent work on machine learning reductions [15, 19] and we reduce the Elastic
+Net to the squared hinge-loss SVM (without a bias term). We show that this reduction is exact and
+extremely efficient in practice. The resulting algorithm, which we refer to as Support Vector Elastic
+Net (SVEN), naturally takes advantage of the vast existing work on parallel SVMs, immediately
+providing highly efficient Elastic Net and Lasso implementations on GPUs, multi-core CPUs and
+distributed systems [6, 8, 9, 21, 26].
+We make three main contributions: 1. we prove a theoretical result and derive the non-trivial equivalence between the Elastic Net and SVM with squared hinge loss; 2. we turn this equivalence
+relationship into a practical algorithm, SVEN, which can solve any Elastic Net or Lasso problem
+with out-of-the-box (squared hinge-loss) SVM solvers. 3. we evaluate SVEN on twelve real world
+data sets (eight in the p ≫ n and four in the n ≫ p setting) and show that SVEN is by far the fastest
+Elastic Net solver to date—outperforming even the most efficient existing implementation by an
+order of magnitude across almost all benchmark data sets.
+
+2 Notation and Background
+Throughout this paper we type vectors in bold (x), scalars in regular (C or b), matrices in capital
+bold (X). Specific entries in vectors or matrices are scalars and follow the corresponding convention,
+i.e. the ith dimension of vector x is xi . In contrast, depending on the context, x(i) refers to the ith
+column in matrix X and xi refers to the transpose of its ith row. 1 is a column vector of all 1. In the
+remainder of this section we briefly review the Elastic Net and SVM.
+Elastic Net. In the regression scenario we are provided with a data set {(xi , yi )}ni=1 , where each
+xi ∈ Rp and the labels are real valued, i.e. yi ∈ R. Let y = (y1 , . . . , yn )⊤ be the response vector and
+X ∈ Rn×p be the design matrix where the (transposed) ith row of X is xi . As in [28], we assume
+throughout that the response vector is centered and all features are normalized.
+The Elastic Net [28] learns a (sparse) linear model to predict yi from xi by minimizing the squared
+loss with L2-regularization and an L1-norm constraint,
+min kXβ − yk22 + λ2 kβk22
+
+β∈Rp
+
+such that |β|1 ≤ t,
+
+(1)
+
+where β = [β1 , . . . , βp ]⊤ ∈ Rp denotes the weight vector, λ2 ≥ 0 is the L2-regularization constant
+and t > 0 the L1-norm budget. In the case where λ2 = 0, the Elastic Net reduces to the Lasso [12]
+as a special case. The L1 constraint encourages the solution to be sparse. The L2 regularization
+coefficient has several desirables effects: 1. it makes the problem strictly convex and therefore
+yields a unique solution; 2. if features are highly correlated it assigns non-zero weights to all of
+them (making the solution more stable); 3. if p ≫ n the optimization does not become unstable for
+large values of t.
+SVM with squared hinge loss. In the classification setting we are given a training dataset
+d
+{(x̂i , ŷi )}m
+i=1 where x̂i ∈ R and ŷi ∈ {+1, −1}. The linear SVM with squared hinge loss optimization problem [25] learns a separating hyperplane, parameterized by a weight vector w ∈ Rd ,
+with the regularized squared hinge loss:
+m
+
+min
+w
+
+X
+1
+ξi2
+kwk22 + C
+2
+i=1
+
+such that ŷi w⊤ x̂i ≥ 1 − ξi ∀i.
+
+2
+
+(2)
+
+Here, C > 0 denotes the regularization constant. Please note that in this paper we do not include any
+bias term, i.e. we assume that the separating hyperplane will pass through the origin.
+This problem is often solved in its dual formulation, which due to strong duality is equivalent to
+solving (2) directly. Without replicating the derivation [14, 25], we state the dual problem of (2) as:
+min kẐαk22 +
+
+αi ≥0
+
+m
+m
+X
+1 X 2
+αi ,
+α −2
+2C i=1 i
+i=1
+
+(3)
+
+where α = (α1 , . . . , αm ) denote the dual variables and Ẑ = (ŷ1 x̂1 , . . . , ŷm x̂m ) is a d × m matrix, of which the ith column z(i) consists of input x̂i multiplied by its corresponding label ŷi ,
+i.e. P
+z(i) = ŷi x̂i . The two formulations (2) and (3) are equivalent and the solutions connect via
+m
+w = i=1 ŷi αi x̂i .
+In (3) the data is only accessed through Ẑ⊤ Ẑ, which corresponds to the inner-product matrix of
+the input rescaled by the labels, i.e. [Ẑ⊤ Ẑ]ij = ŷi x̂⊤
+i x̂j ŷj . In scenarios with d ≫ m, this matrix
+can be pre-computed and cached in a kernel matrix in O(m2 ) memory and O(d) operations, which
+makes the remaining running time independent of the dimensionality [25]. Historically, the dual
+formulation is most commonly used to achieve non-linear decision boundaries, with the help of the
+kernel-trick [25]. In our case, however, we will only need the linear setting and restrict the kernel
+(inner-product matrix) to be linear, too.
+Both formulations of the SVM can be solved particularly efficiently on modern hardware with Newton’s Method [7, 9], which offloads the majority of the computation onto matrix operations and
+therefore can be vectorized and parallelized to achieve near peak computing performance [26].
+In this work, as we do not use the standard SVM with linear hinge loss, we refer to the SVM with
+squared hinge loss simply as SVM.
+
+3 The Reduction of Elastic Net to SVM
+In this section, we derive the equivalence between Elastic Net and SVM, and reduce problem (1) to
+a specific instance of the SVM optimization problem (3).
+Reformulation of the Elastic Net. We start with the Elastic Net formulation as stated in (1). First,
+we divide the objective and the constraint by t and substitute in a rescaled weight vector, β := 1t β.
+This step allows us to absorb the constant t entirely into the objective and rewrite (1) as
+1
+min Xβ − y
+β
+t
+
+2
+
++ λ2 kβk22
+
+s.t. |β|1 ≤ 1.
+
+(4)
+
+2
+
+To simplify the L1 constraint, we follow [24] and split β into two sets of non-negative variables,
+representing positive components β+ ≥ 0 and negative components β− ≥ 0, i.e. β = β + − β− .
+Then we stack β + and β − together and form a new weight vector β̂ = [β + ; β − ] ∈ R2p
+≥0 . The
+P2p ˆ 2
+2
+regularization term kβk2 can be expressed as i=1 βi , and (4) can be rewritten as
+min
+β̂i ≥0
+
+1
+[X, −X] β̂ − y
+t
+
+2
+
++ λ2
+
+2p
+X
+
+2
+
+β̂i
+
+2
+
+s.t.
+
+i=1
+
+2p
+X
+
+β̂i ≤ 1.
+
+(5)
+
+i=1
+
+2p
+Here the set R2p
+with all non-negative entries. Please note that, as long
+≥0 denotes all vectors in R
+as λ2 6= 0, the solution to (5) is unique and satisfies that βi+ = 0 or βi− = 0 for all i.
+
+Barring the (uninteresting) case with extremely large t ≫ 0, the L1-norm constraint in (1) will
+always be tight [3], i.e. |β̂| = 1. (If t is extremely large, (1) is equivalent to ridge regression [12],
+which typically yields completely dense (non-sparse) solutions.) We can incorporate this equality
+constraint into (5) and obtain
+min
+β̂i ≥0
+
+1
+[X, −X] β̂ − y
+t
+
+2
+
++ λ2
+2
+
+2p
+X
+i=1
+
+3
+
+2
+βˆi
+
+s.t.
+
+2p
+X
+i=1
+
+β̂i = 1.
+
+(6)
+
+We construct a matrix Ẑ = [X̂1 , −X̂2 ] such that Ẑβ̂ = [X, −X] β̂− 1t y. As 1⊤ β̂ = 1, we can expand
+y = y1⊤ β̂ and define X̂1 = X− 1t y1⊤ and X̂2 = X+ 1t y1⊤ . If we substitute Ẑ into (6) it becomes
+min kẐβ̂k22 + λ2
+
+β̂i ≥0
+
+2p
+X
+
+β̂i
+
+2
+
+s.t.
+
+2p
+X
+
+β̂i = 1.
+
+(7)
+
+i=1
+
+i=1
+
+∗
+
+In the remainder of this section we show that one can obtain the optimal solution β̂ for (7) by
+∗
+carefully constructing a binary classification data set X̂, ŷ such that β̂ = α∗ /|α∗ |1 , where α∗ is
+the solution for the SVM dual (3) for X̂, ŷ.
+Data set construction. We construct a binary classification data set with m = 2p samples
+and d = n features consisting of the columns of X̂ = [X̂1 , X̂2 ]. Let us denote this set as
+{(x̂(1) , ŷ1 ), . . . , (x̂(2p) , ŷ2p )}, where each x̂(i) ∈ Rn and ŷ1 , . . . , ŷp = +1 and ŷp+1 , . . . , ŷ2p = −1.
+In other words, the columns of X̂1 are of class +1 and the columns of X̂2 are of class −1. It is
+straight-forward to see that for Ẑ = [X̂1 , −X̂2 ], as used in (7), we have Ẑ = (ŷ1 x̂1 , . . . , ŷm x̂m ),
+matching the definition in (3). In other words, the solution of (3) with Ẑ is the SVM classifier when
+applied to X̂, ŷ.
+Optimal solution. Let α∗ denote the optimal solution of (3), when optimized with this matrix Ẑ
+and C = 2λ1 2 . We will now reshape the SVM optimization problem (3) into the Elastic Net (7)
+without changing the optimal solution, α∗ (up to scaling). First, knowing the optimal solution to
+P2p
+(3), we can add the constraint i=1 αi = |α∗ |1 , which is trivially satisfied at the optimum, α∗ , and
+(3) becomes:
+2p
+2p
+2p
+X
+X
+X
+αi = |α∗ |1 .
+(8)
+αi . s.t.
+α2i − 2
+min kZαk22 + λ2
+αi ≥0
+
+i=1
+
+i=1
+
+i=1
+
+P2p
+Because of this equality constraint, the last term in the objective function in (8), −2 i=1 αi =
+−2|α∗ |1 , becomes a constant and can be dropped. Removing this constant term does not affect the
+solution and leads to the following equivalent optimization:
+min kZαk22 + λ2
+
+αi ≥0
+
+2p
+X
+
+α2i .
+
+s.t.
+
+2p
+X
+
+αi = |α∗ |1 .
+
+(9)
+
+i=1
+
+i=1
+
+Note that the only difference between (9) and (7) is the scale of design variables. If we divide1 the
+objective by |α∗ |21 and the constraint by |α∗ |1 and introduce a change of variable, β̂i = αi /|α∗ |1 we
+∗
+obtain exactly (7) and its optimal solution β̂ = α∗ /|α∗ |1 .
+Implementation details. To highlight the fact that this reduction is not just of theoretical value but
+highly practical, we summarize it in Algorithm 1 in MATLABTM code.2 We refer to our algorithm
+as Support Vector Elastic Net (SVEN). As mentioned in the previous section 2, the dual and primal
+formulations of SVM have different time complexities and we choose the faster one depending on
+whether 2p > n or vice versa. Line 7 converts the primal variables w to the dual solution α [25].
+Many solvers [2, 7, 9, 26] have been developed for the linear SVM problem (2). In practice, it is no
+problem to find an implementation with no bias term. Some implementations we investigate do not
+use a bias by default (e.g. liblinear [9]) and for others it is trivial to remove [7]. In our experiments
+we use an SVM implementation based on Chapelle’s original exact linear SVM implementation [7]
+(which can solve the dual and primal formulation respectively). The resulting algorithm is exact and
+uses a combination of conjugate gradient (until the number of potential support vectors is sufficiently
+small) and Newton steps. The majority of the computation time is spent in the Newton updates. As
+pointed out by Tyree et al. [26], the individual Newton steps can be parallelized trivially by using
+1
+
+This is not well defined if |α∗ |1 = 0, which is the degenerate case when the SVM selects no support vectors,
+α = 0, and which is not meaningful without bias term.
+2
+For improved readability, some variable names are mathematical symbols and would need to be substituted
+in clear text (e.g. α should be alpha)
+
+4
+
+Algorithm 1 MATLABTM implementation of SVEN.
+1: function β = SVEN(X, y, t, λ2 );
+2: [n p] = size(X);
+3: Xnew = [bsxfun(@minus, X, y./t); bsxfun(@plus, X, y./t)]’;
+4: Ynew = [ones(p,1); -ones(p,1)];
+5: if 2p > n then
+6:
+w = SVMPrimal(Xnew, Ynew, C = 1/(2λ2 ));
+7:
+α = C * max(1-Ynew.*(Xnew*w),0);
+8: else
+9:
+α = SVMDual(Xnew, Ynew, C = 1/(2λ2 ));
+10: end if
+11: β = t * (α(1:p) - α(p+1:2p)) / sum(α);
+
+parallel BLAS libraries (which is the default in MATLABTM ), as it involves almost exclusively
+matrix operations. We also create a GPU version by casting several key matrices as gpuArray, a
+MATLABTM internal variable type that offloads computation onto the GPU.3
+Feature selection and Lasso. It is worth considering the algorithmic interpretation of this reduction. Each input x̂i in the SVM data set corresponds to a feature of the original Elastic Net
+problem. Support Vectors correspond to features that are selected, i.e. βi 6= 0. If λ2 → 0 the Elastic
+Net becomes LASSO [12], which has previously been shown to be equivalent to the hard-margin
+SVM [15]. It is reassuring to see that our formulation recovers this relationship as a special case, as
+λ2 → 0 implies that C → ∞, converting (2) into the hard-margin SVM. (In practice, to avoid numerical problems with very large values of C, one can treat this case specially and call a hard-margin
+SVM implementation in lines 6 and 9 of Algorithm 1.)
+Time complexity. The construction of the input only requires O(np) operations and the majority
+of the running time will, in all cases, be spent in the SVM solver. As a result, the running time
+of our algorithm has great flexibility, and for any dataset with n inputs and p dimensions, we can
+choose an SVM implementation with a running time that is advantageous for that dataset. Chapelle’s
+MATLABTM implementation can scale in the worst case either O(n3 ) (primal mode) or O(p3 ) (dual
+mode) [7].4 In the typical case the running times are known to be much better. Especially for the
+dual formulation we can in practice achieve a running time much better than O(p3 ), as the worst
+case assumes that all points are support vectors. In the Elastic Net setting, this would correspond
+to all features being kept. A more realistic practical running time is on the order of O(min(p, n)2 ),
+depending on the number of features selected (as regulated by t).
+SVM implementations with other running times can easily be adapted to our setting, for example
+[16] would allow training in time O(np) and recent work even suggests solvers with sub-linear time
+complexity [13] (although the solution might be insufficiently exact for our purposes in practice).
+
+4 Related Work
+The Elastic Net has been widely deployed in many machine learning applications, but only little
+effort has been made towards efficient parallelization. The coordinate gradient descent algorithm
+has become the dominating strategy for the optimization.
+The state-of-the-art single-core implementation for solving the Elastic Net problem is the glmnet
+package developed by Friedman [10]. Mostly written in Fortran language, glmnet adopts the coordinate gradient descent strategy and is highly optimized. As far as we know, it is the fastest
+off-the-shelf solver for the Elastic Net. Due to its inherent sequential nature, the coordinate descent
+algorithm is extremely hard to parallelize. The Shotgun algorithm proposed by [4] is among the
+first to parallelize coordinate descent for Lasso. This implementation can run on extremely sparse
+large scale datasets that other software, including glmnet, cannot run on due to memory constraints.
+3
+
+The gpuArray was introduced into MATLABTM in 2013.
+As it is slightly confusing it is worth re-emphasizing that if the original data has n samples with p dimensions, the constructed SVM problem has 2p samples with n dimensions.
+4
+
+5
+
+Equivalence of regularization path
+Glmnet
+
+Coefﬁcients βi
+
+0.6
+
+0.6
+
+0.4
+
+0.4
+
+0.2
+
+0.2
+
+0
+
+0
+
+0.2
+0
+
+0.5
+
+1
+
+0.2
+0
+
+1.5
+
+L1 budget t
+
+SVEN (GPU)
+
+0.5
+
+1
+
+1.5
+
+L1 budget t
+
+Figure 1: The regularization paths of glmnet (left) and SVEN (GPU) (right) on the prostate dataset.
+Each line corresponds to the value of βi∗ as a function of the L1 budget t. The two algorithms match
+exactly for all values of t.
+The L1 LS algorithm proposed by [17] transforms the Lasso to its dual form directly and uses a
+log-barrier interior point method for optimization. The optimization is based on using the Preconditioned Conjugate Gradient (PCG) method to solve Newton steps which is suitable for sparse large
+scale compressed sensing problems.
+On the SVM side, one of the most popular and user-friendly implementations is the libsvm library [5]. However, it is optimized to solve kernel SVM problems using sequential minimal optimization (SMO) [23], which is not efficient for the specific case of linear SVM. The liblinear
+library [9] is specially tailored for linear SVMs, including the squared hinge loss version. However,
+we did find that on modern multi-core platforms (with and without GPU acceleration) algorithms
+that actively seek updates through matrix operations [26] tend to be substantially faster (in both
+settings, p ≫ n and n ≫ p).
+Our work is inspired by a recent theoretical contribution, Jaggi 2013 [15], which reveals the close
+relation between Lasso and hard-margin SVMs. We extend this line of work and prove a non-trivial
+equivalence between the Elastic Net and the soft-margin SVM and we derive a practical algorithm,
+which we validate experimentally.
+
+5 Experimental Results and Conclusion
+In this section, we conduct extensive experiments to evaluate SVEN on twelve real world data sets.
+We first provide a brief description of the experimental setup and the data sets, then we investigate
+the two common scenarios p ≫ n and n ≫ p separately. For full replicability of the experiments, our
+source code and links to data sets are available online at http://anonymized.
+Experimental Setting. We test our method on GPU and (multi-core) CPU under the names of
+SVEN (GPU) and SVEN (CPU), respectively. For comparison, we have a single-threaded CPU
+baseline method: glmnet [10], a popular and highly optimized Elastic Net software package. On
+multi-cores we evaluate two parallelized Lasso implementations. The Shotgun algorithm by Bradley
+et al. [4] parallelizes coordinate gradient descent. Finally we also compare against L1 LS, a parallel
+MATLAB solver (for Lasso) implemented by Kim et al. [17]. All the experiments were performed
+on an off-the-shelve desktop with two 8-core Intel(R) Xeon(R) processors of 2.67 GHz and 96GB
+of RAM. The attached NVIDIA GTX TITAN graphics card contains 2688 cores and 6 GB of global
+memory.
+Regularization path. On all data sets we compare 40 different settings for λ2 and t. We obtain
+these by first solving for the full solution path with glmnet. The glmnet implementation enforces
+the L1 budget not as a constraint, but as an L1-regularization penalty with a regularization constant
+λ1 . We obtain the solution path by slowly decreasing λ = λ1 +λ2 . We sub-sample 40 evenly spaced
+settings along this path that lead to solutions with distinct number of selected features. If the glmnet
+solution for a particular parameter setting is β ∗ we obtain t by computing t = |β ∗ |1 . This procedure
+6
+
+p>>n datasets
+arcene [n=900, p=10000]
+
+SMKCAN187 [n=187, p=19993]
+
+102
+
+10-2
+10-2
+
+10-1
+
+10-1
+-1
+
+10
+
+100
+
+1
+
+10-1
+
+10
+
+100
+
+101
+
+-1
+
+102
+
+10
+
+scene15 [n=544, p=71963]
+
+PEMS [n=440, p=138672]
+
+0
+
+10
+
+1
+
+dorothea [n=800, p=88119]
+
+-1
+
+10
+
+10-1
+
+100
+
+101
+
+102
+
+10
+
+0
+
+10
+
+10-1
+10-1
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+SV
+
+10
+
+100
+
+1
+
+SV
+
+0
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+10
+
+102
+
+SV
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+1
+
+100
+
+101
+
+102
+
+E2006 [n=3308, p=72812]
+
+103
+
+10
+
+101
+
+10-1
+
+10
+
+2
+
+102
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+10-1
+
+100
+
+SV
+
+100
+
+SV
+
+SV
+
+10
+
+100
+
+101
+
+102
+101
+100
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+-1
+
+101
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+Other alg. runtime (sec)
+
+10
+
+101
+
+SV
+
+0
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s ast
+lo er
+w
+er
+
+10
+
+GLABRA180 [n=180, p=49151]
+
+102
+
+SV
+
+GLI85 [n=85, p=22283]
+1
+
+10-1
+100
+
+101
+
+102
+
+10-1
+
+100
+
+101
+
+SVEN (GPU) runtime (sec)
+
+102
+
+100
+
+glmnet
+Shotgun
+
+101
+
+102
+
+103
+
+SVEN (CPU)
+L1_Ls
+
+Figure 2: Training time comparison of various algorithms in p ≫ n scenarios. Each marker compares
+an algorithm with SVEN (GPU) on one (out of eight) datasets and one parameter setting. The X,Yaxes denote the running time of SVEN (GPU) and that particular algorithm on the same problem,
+respectively. All markers are above the diagonal line (except SVEN (CPU) for GLI-85), indicating
+that SVEN (GPU) is faster than all baselines in all cases.
+
+provides us with 40 parameter pairs (λ2 , t) for each data set on which we compare all algorithms.
+(For the pure Lasso implementations, shotgun and L1 LS, we set λ2 = 0.)
+Correctness. Throughout all experiments and all settings of λ2 and t we find that glmnet and
+SVEN obtain identical results up to the tolerance level. To illustrate the equivalence, Figure 1 shows
+the regularization path of SVEN (GPU) and glmnet on the prostate cancer data used in [28]. As
+mentioned in the previous paragraph, we obtain the original solution path from glmnet and evaluate
+SVEN (GPU) on these parameter settings. The data has eight clinical features (e.g. log(cancer
+volume), log(prostate weight)) and the response is the logarithm of prostate-specific antigen (lpsa).
+Each line in Figure 1 corresponds to the βi∗ value of some feature i = 1, . . . , 8 as a function of the L1
+budget t. The graph indicates that the two algorithms lead to exactly matching regularization paths
+as the budget t increases.
+Data sets with p ≫ n. The p ≫ n scenario may be the most common application setting for the
+Elastic Net and Lasso and there is an abundance of real world data sets. We evaluate all methods
+on the following eight of them: GLI-85, a dataset that screens a large number of diffuse infiltrating
+gliomas through transcriptional profiling; SMK-CAN-187, a gene expression dataset from smokers w/o lung cancer; GLA-BRA-180, a dataset concerning analysis of gliomas of different grades;
+Arcene, a dataset from the NIPS 2003 feature selection contest, whose task is to distinguish cancer
+versus normal patterns from mass spectrometric data; Dorothea, a sparse dataset from the NIPS 2003
+feature selection contest, whose task is to predict which compounds bind to Thrombin.5 Scene15,
+a scene recognition data set [20, 27] where we use the binary class 6 and 7 for feature selection;
+PEMS [1], a dataset that describes the occupancy rate, between 0 and 1, of different car lanes of
+San Francisco bay area freeways. E2006-tfidf, a sparse dataset whose task is to predict risk from
+financial reports based on TF-IDF feature representation.6
+5
+6
+
+We removed features with all-zero values across all inputs.
+Here, we reduce the training set size by subsampling to match the size of the test set, n = 3308.
+
+7
+
+Yahoo [n=141397, p=519]
+
+100
+
+101
+
+102
+
+100
+
+101
+
+10-1
+10-1
+
+102
+
+100
+
+SVEN (GPU) runtime (sec)
+
+(G
+(G PU
+PU ) f
+) s a st
+lo er
+w
+er
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s a st
+lo er
+w
+er
+
+EN
+101
+
+EN
+
+SV
+
+101
+
+SV
+
+(G
+(G PU
+PU ) f
+) s a st
+lo er
+w
+er
+
+EN
+
+100
+
+EN
+
+SV
+100
+
+FD [n=400000, p=900]
+
+102
+
+SV
+
+100
+
+101
+
+SV
+
+10
+
+10
+
+SV
+EN
+EN (G
+(G PU
+PU ) f
+) s a st
+lo er
+w
+er
+
+1
+
+YMSD [n=463715, p=90]
+101
+
+2
+
+SV
+
+Other alg. runtime (sec)
+
+n>>p datasets
+MITFaces [n=489410, p=361]
+102
+
+101
+
+glmnet
+Shotgun
+
+102
+
+SVEN (CPU)
+L1_Ls
+
+Figure 3: Training time comparison of various algorithms in n ≫ p scenarios. Each marker compares
+an algorithm with SVEN (GPU) on one (out of four) datasets and one parameter setting. The X,Yaxes denote the running time of SVEN (GPU) and that particular algorithm on the same problem,
+respectively. All markers are above the diagonal line, as SVEN (GPU) is faster in all cases.
+Evaluation (p ≫ n). Figure 2 depicts training time comparisons of the three baseline algorithms
+and SVEN (CPU) on the eight datasets with SVEN (GPU). Each marker corresponds to a comparison of one algorithm and SVEN (GPU) in one particular setting along the regularization path. It’s
+y-coordinate corresponds to the training time required for the corresponding algorithm and its xcoordinate corresponds to the training time required for SVEN (GPU) with the exact same L1-norm
+budget and λ2 value. All markers above the diagonals corresponds to runs where SVEN (GPU) is
+faster, and all markers below the diagonal corresponds to runs where SVEN (GPU) is slower.
+We observe several general trends: 1. Across all eight data sets SVEN (GPU) always outperforms
+all baselines. The only markers below the diagonal are from SVEN (CPU) on the GLI-85 data set,
+which is the smallest and where the transfer time for the GPU is not offset by the gains in more
+parallel computation. 2. Even SVEN (CPU) outperforms or matches the performance of the fastest
+baseline across all data sets. 3. As the L1-budget t increases, the training time increase for all
+algorithms, but much more strongly for the baselines than for SVEN (GPU). This can be observed
+by the fact that the markers of one color (i.e. one algorithm) follow approximately lines with much
+steeper slope than the diagonal.
+Data sets with n ≫ p. For the n ≫ p setting, we evaluate all algorithms on four additional datasets.
+MITFaces, a facial recognition dataset; the Yahoo learning to rank dataset, a dataset concerning the
+ranking of webpages in response to a search query; YearPredictionMSD (YMSD), a dataset of songs
+with the goal to predict the release year of a song from audio features; and FD, another face detection
+dataset.
+Evaluation (n ≫ p). A comparison to all methods on all four datasets can be found in Figure 3.
+The speedups of SVEN (GPU) are even more pronounced in this setting. The training time of
+SVEN (GPU) is completely dominated by the kernel computation and therefore almost identical
+for all values of t and λ2 . Consequently all markers follow vertical lines in all plots. The massive
+speedup of up to two orders of magnitude obtained by SVEN (GPU) over the baseline methods
+squashes all markers at the very left most part of the plot. glmnet failed to complete the FD dataset
+due to memory constraints and therefore we evaluated on the λ2 and t values along the solution path
+from the other face recognition data set, MITFaces. As in the p ≫ n case, all solutions returned by
+both versions of SVEN match those of glmnet exactly.
+5.1 Discussion
+The use of algorithmic reduction to obtain parallelization and improved scalability has several highly
+compelling advantages: 1. no new learning algorithm has to be implemented and optimized by hand
+(besides the small transformation code); 2. the burden of code maintenance reduces to the single
+highly optimized (SVM) algorithm; 3. the implementation is very reliable from the start as almost
+the entire execution time is spent in a well established and tested implementation; 4. and finally, target algorithm may lend itself much more naturally to parallelization. In our case, the squared hinge8
+
+loss SVM formulation can be solved almost entirely with large matrix operations, which are already
+parallelized (and maintained) by high-performance experts through BLAS libraries (e.g. CUBLAS
+for NVIDIA GPUs http://tinyurl.com/cublas.). We hope that this paper will benefit the
+community in at least two ways: Practitioners will obtain a new stable and blazingly fast implementation of Elastic Net and Lasso; and machine learning researchers might become inspired to
+identify and derive different algorithmic reductions to facilitate similar performance improvements
+with other learning algorithms.
+Acknowledgements. QZ and SS are supported by Key Technologies Program of China grant
+2012BAF01B03, Research Fund for the Doctoral Program of Higher Education 20130002130010,
+20120002110035 and NSFC grant 61273233. KQW, JRG, YC, and WC are supported by NIH
+grant U01 1U01NS073457-01 and NSF grants 1149882, 1137211, CNS-1017701, CCF-1215302,
+IIS-1343896. Computations were performed via the Washington University Center for High Performance Computing, partially through grant NCRR 1S10RR022984-01A1. The authors thank Martin
+Jaggi for clarifying discussions and suggestions.
+
+References
+[1] K. Bache and M. Lichman. UCI machine learning repository, 2013.
+[2] L. Bottou. Large-scale machine learning with stochastic gradient descent. In Proceedings of COMPSTAT’2010, pages 177–186. Springer, 2010.
+[3] S. Boyd and L. Vandenberghe. Convex optimization. Cambridge university press, 2004.
+[4] J. Bradley, A. Kyrola, D. Bickson, and C. Guestrin. Parallel coordinate descent for l1-regularized loss
+minimization. In ICML, pages 321–328, 2011.
+[5] C. Chang and C. Lin. Libsvm: a library for support vector machines. ACM Transactions on Intelligent
+Systems and Technology (TIST), 2(3):27, 2011.
+[6] E. Chang, K. Zhu, H. Wang, H. Bai, J. Li, Z Qiu, and H Cui. Psvm: Parallelizing support vector machines
+on distributed computers. In NIPS, pages 257–264, 2007.
+[7] O. Chapelle. Training a support vector machine in the primal. Neural Computation, 19(5):1155–1178,
+2007.
+[8] A. Cotter, N. Srebro, and J. Keshet. A gpu-tailored approach for training kernelized svms. In SIGKDD,
+pages 805–813, 2011.
+[9] R. Fan, K. Chang, C. Hsieh, X. Wang, and C. Lin. Liblinear: A library for large linear classification. The
+Journal of Machine Learning Research, 9:1871–1874, 2008.
+[10] J. Friedman, T. Hastie, and R. Tibshirani. Regularization paths for generalized linear models via coordinate descent. Journal of statistical software, 33(1):1, 2010.
+[11] M. Gustafsson and M. Hörnquist. Gene expression prediction by soft integration and the elastic netbest
+performance of the dream3 gene expression challenge. PLoS One, 5(2):e9134, 2010.
+[12] T. Hastie, R. Tibshirani, and J. Friedman. The elements of statistical learning, volume 2. Springer, 2009.
+[13] E. Hazan, T. Koren, and N. Srebro. Beating sgd: Learning svms in sublinear time. In NIPS, pages
+1233–1241, 2011.
+[14] C. Hsieh, K. Chang, C. Lin, S.a Keerthi, and S. Sundararajan. A dual coordinate descent method for
+large-scale linear svm. In Proceedings of the 25th international conference on Machine learning, pages
+408–415. ACM, 2008.
+[15] M. Jaggi.
+An equivalence between the lasso and support vector machines.
+arXiv:1303.1152, 2013.
+
+arXiv preprint
+
+[16] T. Joachims. Training linear svms in linear time. In Proceedings of the 12th ACM SIGKDD international
+conference on Knowledge discovery and data mining, pages 217–226. ACM, 2006.
+[17] S. Kim, K. Koh, M. Lustig, S. Boyd, and D. Gorinevsky. An interior-point method for large-scale l
+1-regularized least squares. Selected Topics in Signal Processing, IEEE Journal of, 1(4):606–617, 2007.
+[18] A. Krizhevsky, I. Sutskever, and G. Hinton. Imagenet classification with deep convolutional neural networks. In NIPS, pages 1097–1105, 2012.
+[19] J. Langford and B. Zadrozny. Relating reinforcement learning performance to classification performance.
+In ICML, pages 473–480, 2005.
+[20] S. Lazebnik, C. Schmid, and J. Ponce. Beyond bags of features: Spatial pyramid matching for recognizing
+natural scene categories. In CVPR, volume 2, pages 2169–2178, 2006.
+
+9
+
+[21] A. Navia-Vázquez, D. Gutierrez-Gonzalez, E. Parrado-Hernández, and J.J. Navarro-Abellan. Distributed
+support vector machines. Neural Networks, IEEE Transactions on, 17(4):1091–1097, 2006.
+[22] F. Pereira, T. Mitchell, and M. Botvinick. Machine learning classifiers and fmri: a tutorial overview.
+Neuroimage, 45(1):S199–S209, 2009.
+[23] J. Platt et al. Sequential minimal optimization: A fast algorithm for training support vector machines.
+technical report msr-tr-98-14, Microsoft Research, 1998.
+[24] M. Schmidt. Least squares optimization with l1-norm regularization. CS542B Project Report, 2005.
+[25] B. Schölkopf and A. Smola. Learning with kernels, 2002.
+[26] S. Tyree, J. Gardner, K.Q. Weinberger, K. Agrawal, and J. Tran. Parallel support vector machines in
+practice. arXiv preprint arXiv:1404.1066, 2014.
+[27] Z. Xu, K.Q. Weinberger, and O. Chapelle. The greedy miser: Learning under test-time budgets. In ICML,
+pages 1175–1182, 2012.
+[28] H. Zou and T. Hastie. Regularization and variable selection via the elastic net. Journal of the Royal
+Statistical Society: Series B (Statistical Methodology), 67(2):301–320, 2005.
+
+10
+
+

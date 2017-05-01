@@ -1,0 +1,176 @@
+000
+001
+002
+003
+004
+005
+006
+007
+
+Supplementary Material
+
+Anonymous Author(s)
+Affiliation
+Address
+email
+
+008
+009
+010
+011
+012
+013
+
+031
+032
+033
+034
+035
+036
+037
+038
+039
+040
+041
+042
+043
+044
+045
+046
+047
+048
+049
+050
+051
+052
+053
+
+Depth 4
+Depth 5
+Depth 6
+Depth 7
+
+1
+0.9
+
+amazon
+caltech
+dslr
+webcam
+
+1.2
+
+kNN error
+
+1.1
+
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+
+1.1
+1
+
+2
+
+025
+026
+027
+028
+029
+030
+
+Each of our non-linear extensions adds one additional hyper parameter to the LMNN problem. In
+section 6, we set these parameters by evaluation on a hold-out set. Here we explicitly examine their
+effect on the learned metric. For GB-LMNN, the new hyper-parameter is the regression tree depth.
+Figure 3(left) compares depths 4 − 7 for several of the datasets evaluated in section 6. The figure
+depicts the ratio of kNN classification error for each depth setting to the kNN error of linear LMNN.
+GB-LMNN appears to be largely insensitive to tree depth within range.
+
+0.9
+
+2
+-LMNN error /
+
+019
+020
+021
+022
+023
+024
+
+Appendix: Parameter Sensitivity
+
+GB-LMNN error / LMNN error
+
+014
+015
+016
+017
+018
+
+0.8
+0.7
+0.6
+0.5
+
+0.1
+0
+
+0.4
+
+amazon
+
+caltech
+
+webcam
+
+0
+
+letters
+
+Datasets
+
+0.02
+
+0.04
+
+0.06
+
+0.08
+
+0.1
+
+Large margin
+
+`
+
+0.12
+
+0.14
+
+0.16
+
+0.18
+
+0.2
+
+parameter value
+
+Figure 3: Parameter sensitivity measurements. Left: Varying tree depth for GB-LMNN. The measurement is the ratio between GB-LMNN error and LMNN error (lower is better). Right: Varying
+the large margin ` for χ2 -LMNN. The measurement is the ratio between χ2 -LMNN error and the
+χ2 baseline error (lower is better).
+For χ2 -LMNN, the additional hyper-parameter is the size of the large margin. Figure 3(right) examines several margin values: 0.01, 0.05, 0.10, 0.15 and 0.20. The figure depicts the ratio of kNN
+classification error for each margin setting to the kNN error of the χ2 distance baseline. For all
+but two settings, the transformation learned by χ2 -LMNN improves over the χ2 baseline, generally
+by a large extent. However, the margin size parameter is clearly important to achieving the best
+performance. Fortunately, the parameter seems to be well-behaved and easily set by evaluation on a
+hold-out set.
+
+1
+
+

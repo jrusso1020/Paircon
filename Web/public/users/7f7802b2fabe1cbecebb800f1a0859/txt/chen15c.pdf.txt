@@ -1,0 +1,1116 @@
+Filtered Search for Submodular Maximization
+with Controllable Approximation Bounds
+
+Wenlin Chen, Yixin Chen, Kilian Q. Weinberger
+Washington University in St. Louis
+One Brookings Drive, St. Louis, MO 63130 USA
+wenlinchen@wustl.edu, chen@cse.wustl.edu, kilian@wustl.edu
+
+Abstract
+
+(Jegelka and Bilmes, 2011; Kim et al., 2011; Jegelka
+et al., 2013), information retrieval (Yue and Guestrin,
+2011; Lin and Bilmes, 2010), sensor placement (Krause
+and Guestrin, 2005; Krause et al., 2008), clustering
+(Narasimhan et al., 2005), speech recognition (Lin and
+Bilmes, 2009) and sparse methods (Bach, 2010; Das
+and Kempe, 2011).
+
+Most existing submodular maximization algorithms provide theoretical guarantees with
+approximation bounds. However, in many
+cases, users may be interested in an anytime algorithm that can offer a flexible tradeoff between computation time and optimality
+guarantees. In this paper, we propose a filtered search (FS) framework that allows the
+user to set an arbitrary approximation bound
+guarantee with a “tunable knob”, from 0
+(arbitrarily bad) to 1 (globally optimal).
+FS naturally handles monotone and nonmonotone functions as well as unconstrained
+problems and problems with cardinality, matroid, and knapsack constraints. Further, it
+can also be applied to (non-negative) nonsubmodular functions and still gives controllable approximation bounds based on their
+submodularity ratio. Finally, FS encompasses the greedy algorithm as a special
+case. Our framework is based on theory
+in A∗ search, but is substantially more efficient because it only requires heuristics that
+are critically admissible (CA) rather than
+admissible—a condition that gives more effective pruning and is substantially easier to
+implement.
+
+1
+
+A set function g : 2U → R defined on a finite set U is
+submodular if for all S, T ⊆ U it satisfies g(S)+g(T ) ≥
+g(S ∩ T ) + g(S ∪ T ). In this paper, we focus on the
+following general problem:
+maximize
+S⊆U
+
+g(S),
+(1)
+
+subject to S ∈ F,
+where g(S) is non-negative and submodular, and F ⊆
+2U denotes the set of feasible solutions. We assume
+throughout that B ∈ F implies A ∈ F for any A ⊆ B ⊆ U
+and consequently the empty set is always feasible, i.e.
+∅ ∈ F. We do not restrict g(S) to be monotone. (A
+function is monotone if g(S) ≤ g(T ) whenever S ⊆ T .)
+Let S ∗ be the optimal solution to (1) and g ∗ = g(S ∗ ) 1 .
+There has been extensive research on solving different
+cases of (1). For example, a greedy algorithm achieves
+a (1 − 1/e)-approximation bound for monotone functions with a cardinality constraint, i.e. F = {S : |S| ≤
+K}, where K is a positive integer (Nemhauser et al.,
+1978). The greedy algorithm also gives a 21 (1 − 1/e)
+bound for monotone submodular maximization under a knapsack constraint (Khuller et al., 1999), and
+a 1/2-approximation bound for monotone submodular maximization under a matroid constraint (Fisher
+et al., 1978). A multilinear extension method can
+give a (1 − 1/e) bound for monotone submodular
+maximization under a matroid constraint (Calinescu
+et al., 2011). Various approximation bounds have also
+been studied for maximizing non-monotone submodular functions under different settings (Feige et al., 2011;
+
+Introduction
+
+Submodular optimization has wide applications and
+its uses in machine learning are increasing. For example, it has been utilized for image segmentation
+Appearing in Proceedings of the 18th International Conference on Artificial Intelligence and Statistics (AISTATS)
+2015, San Diego, CA, USA. JMLR: W&CP volume 38.
+Copyright 2015 by the authors.
+
+1
+We assume there is a unique S ∗ for simplicity. All
+results generalize to the case of non-unique solutions.
+
+156
+
+Filtered Search for Submodular Maximization with Controllable Approximation Bounds
+
+Lee et al., 2009; Vondrák et al., 2011).
+
+plexity. This is akin to admissible search for AI, which
+optimally solves NP-hard graph search problems. Although its worst-case time complexity is exponential,
+it is efficient in many domains and remains the most
+widely used and most successful algorithm for many
+applications, such as game-playing, planning, and path
+finding. For example, heuristic search has been a leading method for automated planning, as manifested by
+the results of the recent International Planning Competitions (IPC).
+
+Although the above algorithms are often efficient and
+provide approximation bounds, they have some limitations. For many important decision problems, it is
+vital to obtain high-quality solutions. People are willing to pay more computing time for better solution
+quality. At least, it is important to provide users with
+the flexibility to choose the trade-off between computing time and solution quality. Existing algorithms such
+as the greedy algorithm or deterministic local search
+are rigid and can only offer one fixed solution quality.
+
+In addition to its elegant efficiency/approximation
+tradeoff, FS also provides a general framework to
+solve various submodular maximization problems: it
+can handle both monotone and non-monotone functions; it naturally handles unconstrained problems and
+problems with cardinality, matroid, and knapsack constraints. Different constraints can be incorporated in
+a unified fashion – the user simply needs to provide an
+appropriate heuristic. In this paper, we derive efficient
+and tight CA heuristics for several important settings.
+Finally, the theoretical properties and advantages of
+the FS approach are backed by promising empirical
+results. We believe that FS will be a foundational and
+versatile framework for submodular optimization.
+
+In this paper, we propose a filtered search (FS) framework that can support arbitrary α-approximation
+bounds for any α ∈ [0, 1], providing a user with the
+flexibility to set his/her desired trade-off between solution quality and efficiency. One can consider the
+hyper-parameter α as a tuning knob. When α = 0, the
+search becomes the greedy algorithm; when α = 1, the
+search with a CA heuristic will find the global optimal
+solution.
+Our framework utilizes a state-space graph for submodular optimization, in which each node is a subset
+and edges connect neighboring subsets. FS leverages
+classic theory for graph search, following the general
+structure of A∗ search algorithms, but features a key
+innovation that exploits the special structure of submodular functions: For A∗ search, the heuristic needs
+to be admissible. For submodular maximization this
+means that we need to compute an upper bound of
+g ∗ − g(S) for every S ⊆ U . This admissibility condition is very strong, and may be hard to compute
+and typically requires long search time. We show
+that admissibility is not needed for optimal submodular maximization. Instead, we show that a sufficient
+condition to achieve optimality is critical admissibility
+(CA) of the heuristic function. The CA condition is
+much more effective than the admissibility condition
+and significantly reduces the search cost. It entails
+a novel “optimal search with inadmissible heuristics”
+approach which was just recently discovered for some
+planning problems (Karpas and Domshiak, 2012).
+
+2
+
+The Filtered Search (FS)
+Framework
+
+We describe the general FS framework for solving (1).
+Define the discrete derivative for any j ∈ U and S ⊆ U
+as
+g(j|S) , g(S ∪ j) − g(S).
+
+(2)
+
+The discrete derivative gives rise to an alternative
+definition of submodularity: g is submodular if and
+only if it satisfies the diminishing return property,
+g(j|S) ≥ g(j|T ) for all S ⊆ T and j ∈
+/ T.
+Definition 1 State-space graph. For the submodular maximization problem in (1) the state-space graph
+is a directed graph G = (F, E), where the vertex set F
+is the set of all feasible subsets in U and the (directed)
+edge set E is such that for any two states S, T ∈ F
+there exists an edge (S, T ) ∈ E if and only if S ⊂ T
+and |T | = |S| + 1.
+
+In many scenarios polynomial-time algorithms are inherently limited. For example, the (1-1/e) bound is
+optimal for monotone submodular maximization under a cardinality constraint in the value oracle model
+(Nemhauser and Wolsey, 1978). In contrast, our
+proposed FS approach can achieve arbitrary approximation bound, which means it will have exponential worst-case complexity in order to achieve higher
+bounds. However, in practice, FS is still useful since
+its exponential complexity is only for the worst case,
+and it may be more efficient than the theoretically efficient algorithms with high-order polynomial time com-
+
+Although the state-space graph G may contain up to
+2|U | states, it is important to note that FS expands
+states in F on-demand and typically only examines a
+tiny fraction of F. Similar to A∗ search, instead of
+maximizing g(S) directly, we define and maximize an
+auxiliary evaluation function f (S).
+Definition 2 Evaluation function. For the submodular maximization problem in (1), with state-space
+157
+
+Wenlin Chen, Yixin Chen, Kilian Q. Weinberger
+
+consistency, as in our setting the function g(S) is independent on the path leading to S.)
+
+Algorithm 1 Filtered search (FS) for submodular
+maximization
+1: Input: α, G = (F, E), g, h
+2: compute f (∅) = g(∅) + αh(∅)
+3: MaxHeap.push(< ∅, f (∅) >)
+4: ClosedList={}
+5: while MaxHeap is not empty do
+6:
+S=MaxHeap.pop() //S has the maximum f (S)
+7:
+if h(S) = 0 then
+8:
+return S
+//solution found
+9:
+end if
+10:
+if S ∈
+/ ClosedList then
+11:
+ClosedList=ClosedList ∪{S}
+12:
+for each (S, S 0 ) ∈ E do
+13:
+compute f (S 0 ) = g(S 0 ) + αh(S 0 )
+14:
+MaxHeap.push(< S 0 , f (S 0 ) >)
+15:
+end for
+16:
+end if
+17: end while
+
+Definition 3 Admissibility. For the filtered search
+in Algorithm 1, a heuristic function h(S) : F →
+[0, +∞) is admissible if and only if for every state
+S ∈ F, it satisfies that h(S ∗ ) = 0 and
+h(S) ≥ g ∗ − g(S).
+
+In other words, admissibility guarantees that the
+heuristic h(S) always overestimates the payoff to traverse from S to S ∗ .2 A similar optimality result as
+in the case of A∗ can be shown for our setup. The
+following theorem states that the solution for Algorithm 1 will be arbitrarily close to the optimal solution, depending on α and provided that the heuristic
+is admissible.
+Theorem 1 Algorithm 1 has an α-approximation
+bound whenever the heuristic function h is admissible,
+i.e., it returns a solution T that satisfies g(T ) ≥ αg ∗ .
+
+graph G = (F, E), the evaluation function f (S) on
+S ∈ F is defined as:
+f (S) = g(S) + αh(S),
+
+The above result can be proved following similar reasoning for the optimality of A∗ algorithm with admissible heuristics (Russell and Norvig, 2003). However,
+when the heuristic is admissible, even if it is almost
+perfect, it may take exponential search time3 (Helmert
+and Röger). Moreover, in general it is difficult to
+ensure admissibility because g ∗ is hard to estimate.
+Thus, it is desirable to relax the strong admissibility
+conditions.
+
+(3)
+
+where 0 ≤ α ≤ 1 is an approximation factor and
+h(S) : F → [0, +∞) is a heuristic function.
+The FS framework is shown in Algorithm 1. It maintains two data structures, a max heap (which takes
+<value, key> pairs) and a closed list, and performs
+the following main steps:
+
+Fortunately, we can exploit the special structure of
+submodular maximization. We show that FS only requires a much weaker condition that is also much easier to enforce, which we refer to as critical admissibility
+(CA). The CA condition only overestimates states on
+the optimal solution path and is defined as follows:
+1. h(S) = 0 if there is no element x ∈ U that can
+be added to S in order to increase the objective value
+without violating feasibility; 2. otherwise, we consider
+all the subsets X ⊆ U that can be feasibly added to S
+and P
+require h(S) to be an upper bound on the function x∈X g(x|S) (the cumulative increase in g if each
+element in X were to be added to S in isolation.)
+
+0. Add the pair < ∅, f (∅) > to the max heap, where
+∅ denotes the empty set.
+1. Pop the state S from the heap with largest f (S).
+If h(S) = 0, return S as the solution.
+2. For each edge (S, S 0 ) ∈ E add < S 0 , f (S 0 ) > to the
+max heap if S 0 is not in the closed list.
+3. Add S to the closed list and repeat from Step 1.
+The closed list is implemented as a set with highly
+efficient hashing-based duplicate detection. As in most
+heuristic search procedures, the heuristic function is
+critical to the optimality and efficiency of the search
+algorithm.
+
+Definition 4 Critical admissibility (CA). For the
+filtered search in Algorithm 1, a heuristic function
+2
+
+2.1
+
+(4)
+
+In case of minimization problems admissibility is defined as a guarantee of underestimation.
+3
+In the case of submodular maximization, an admissible heuristic with α = 1 is useless because it simply overestimates every states and thus would become brute-force
+search. This is part of the reason why the CA heuristic
+is less strict as it is designed to overestimate states in the
+solution path (See Corollary 1).
+
+Admissibility and Critical Admissibility
+
+For graph search, the A∗ search algorithm is optimal as
+long as the heuristic is admissible and consistent (Russell and Norvig, 2003). In our case we can define a corresponding definition of admissibility (which implies
+158
+
+Filtered Search for Submodular Maximization with Controllable Approximation Bounds
+
+on F earlier any subset of S ∗ is feasible, and there is at
+least one successor P 0 ⊆ S ∗ with |P 0 | = |P | + 1, which
+is not yet on the closed list.
+
+h(S) : F → [0, +∞) is critically admissible if and only
+if for every state S ∈ F, it satisfies
+1. h(S) = 0, if g(x|S) ≤ 0 or S ∪ {x} ∈
+/ F, ∀x ∈ U ;
+X
+2. h(S) ≥
+max
+g(x|S), otherwise.
+X⊆U :S∪X∈F
+
+It therefore must be the case that right before T is
+popped from the max heap, there is a state P ⊆ S ∗ in
+the max heap. As h is CA and P ∪ (S ∗ − P ) ∈ F, we
+must have
+X
+X
+h(P ) ≥
+max
+g(x|P ) ≥
+g(x|P ).
+
+x∈X
+
+(5)
+Remarks. CA has a couple of key advantages over
+admissibility. First, CA poses a less strict requirement as it does not require the heuristic to be admissible at every state. ConsiderPa simple example
+where U = {1, 2, 3} and g(S) =
+x∈S x and F encodes a cardinality constraint |S| ≤ 2. The optimal
+set is S ∗ = {2, 3} with g ∗ = 5. Consider S = {1, 2},
+which satisfies the first condition of CA and therefore
+has h(S) = 0. As g ∗ − g(S) = 2, we have that h is
+not admissible at S. It is however important to point
+out that for any S ⊂ S ∗ a CA heuristic is admissible,
+in other words it does overestimate the payoff along
+possible solution paths. Second, CA is much easier to
+implement. It is hard to estimate g ∗ and thus hard to
+design an admissible
+P heuristic function. In contrast, in
+the CA condition x∈X g(x|S) is a modular function
+over X and its maximum can typically be computed
+very cheaply, depending on the constraint set F. We
+will show concrete examples of CA heuristic functions
+for various scenarios in the following.
+2.2
+
+X⊆U : P ∪X∈F
+
+x∈S ∗ −P
+
+x∈X
+
+(6)
+Thus, we have that
+f (P ) = g(P ) + αh(P )
+X
+≥ g(P ) + α
+g(x|P )
+x∈S ∗ −P
+
+!
+≥ α g(P ) +
+
+X
+
+(7)
+
+g(x|P )
+
+x∈S ∗ −P
+∗
+
+≥ αg(S )
+The first inequality follows from (6), the second inequality holds because g(P ) is non-negative and the
+third one follows from Lemma 1.
+When T is popped it must have the largest f value in
+the max heap, thus f (P ) ≤ f (T ). On the other hand,
+since T is the solution, we have that h(T ) = 0 (Line 7
+of Algorithm 1). Therefore, we have:
+
+Optimality with CA Heuristics
+f (P ) ≤ f (T ) = g(T ) + αh(T ) = g(T ).
+
+We re-state the well-established result that a submodular function is bounded above by its modular approximation (Nemhauser et al., 1978) and then we present
+our main theorem and its proof for the approximation
+guarantee of Algorithm 1.
+
+(8)
+
+Combining (8) with (7), we obtain the result, g(T ) ≥
+f (P ) ≥ αg(S ∗ ).
+
+Corollary 1 The Evaluation function f with the CA
+heuristic and α = 1 is guaranteed to overestimate subsets of the optimal solution, i.e. states in the optimal
+solution path.
+
+Lemma 1 For any submodular
+function g : 2U → R,
+P
+we have g(B) ≤ g(A) + s∈B−A g(s|A), ∀A ⊆ B ⊆ U .
+
+Proof: By setting α = 1 in Eq. (7), we have that
+f (P ) ≥ g(S ∗ ) where P ∈ S ∗ . By Definition 4, we have
+h(S ∗ ) = 0. Thus, f (P ) ≥ g(S ∗ ) + h(S ∗ ) = f (S ∗ ). 
+
+Theorem 2 Algorithm 1 has an α-approximation
+bound whenever the heuristic function h is critically
+admissible, i.e., it returns a solution T that satisfies
+g(T ) ≥ αg ∗ .
+
+Note that Theorem 2 is quite general as our FS
+framework can achieve α-approximation bound with
+any submodular function (e.g. monotone or nonmonotone) and any down-monotone constraint (e.g.
+matroid, knapsack and etc).
+
+Proof: Let S ∗ be the optimal solution to (1). Suppose
+T 6= S ∗ , otherwise the theorem trivially holds. First
+note that at the beginning of the inner loop of Algorithm 1 (before line 6) there must be at least one set P
+on the max heap such that P ⊆ S ∗ . This holds trivially
+at the beginning with P = ∅. Whenever the set P ⊆ S ∗
+with maximum cardinality is popped from the max
+heap the algorithm either terminates (if P = S ∗ ) or
+all its feasible successors that are not in the closed list
+are added to the max heap. By the assumption made
+
+Special cases. There are some special cases under
+the FS framework. When α = 1, the solution returned
+by FS is optimal. This provides us a systematic approach to optimally maximize submodular functions.
+The search can be sped up by successively tightening
+the heuristic function. Some other AI areas, such as
+159
+
+Wenlin Chen, Yixin Chen, Kilian Q. Weinberger
+
+planning and robotics, greatly benefit from this approach.
+
+before the last inequality in (7):
+
+
+X
+α g(P ) +
+g(x|P )
+
+When α = 0, FS becomes the greedy algorithm, since
+at each state S the element s with the largest objective value, g(s ∪ S), is selected. If g(S) is monotone, we get extra optimality guarantees: an (1 − 1/e)approximation bound for the cardinality constraint,
+and a 1/(p+1) bound for p matroid constraints (Fisher
+et al., 1978).
+
+≥ αγg(S ∗ ) + α(1 − γ)g(P )
+
+(12)
+(13)
+
+(11) holds by the definition of submodularity ratio with L = P and X = S ∗ − P . Following
+the same reasoning as before, we obtain g(T ) ≥
+αγg(S ∗ ).
+
+
+3
+
+Critically Admissible Heuristics
+
+In this section, we develop CA heuristics for several important scenarios of submodular maximization, such
+as matroid, cardinality (included as a special case of
+matroid), and knapsack constraints. The proposed
+heuristics are tight (except for knapsack constraints)
+and general, since they assume a value oracle model
+where the set function g is a blackbox and accessible
+only via evaluation.
+
+FS can also be applied to non-submodular functions
+and we can still provide approximation guarantees, using the notion of submodularity ratio (Das and Kempe,
+2011; Grubb and Bagnell, 2012).
+
+Matroid constraints. A matroid is denoted as a
+pair (U, I) where U is a finite ground set and I ⊆ 2U
+is a set of subsets of U satisfying the following two
+properties: (1) If Y ∈ I and X ⊆ Y , then X ∈ I. (2) If
+X, Y ∈ I and |X| < |Y |, then there exists some u ∈ Y−X
+such that X ∪{u} ∈ I.
+
+Definition 5 Submodularity Ratio.
+Given a
+ground set U and feasible set F, a non-negative set
+function g has the submodularity ratio γ if
+g(x|L) ≥ γ [g(L ∪ X) − g(L)]
+
+(11)
+
+≥ αγg(S )
+
+Non-submodular Function Maximization
+
+X
+
+
+
+∗
+≥ α g(P ) + γg(S ) − γg(P )
+∗
+
+When 0 < α < 1, α gives direct control over the tradeoff between solution quality and speed. A small α
+favors speed over quality while a large α offers a high
+approximation bound at the cost of a more expensive
+search. FS can be turned into an anytime algorithm by
+starting with α = 0 and repeatedly resolving the problem with slightly increased α. When interrupted, the
+solution with the highest objective value is returned.
+2.3
+
+(10)
+
+x∈S ∗ −P
+
+(9)
+
+x∈X
+
+A special case of the matroid constraint is the cardinality constraint, where (U, I) is a uniform matroid: I = {X ⊆ U : |X| ≤ K}. Another example is the partition matroid in which U is partitioned into disjoint sets U1 , U2 , · · · , Um , and I =
+{X ⊆ U : |X ∩ Ui | ≤ Ki for i = 1, · · · , m}. Submodular maximization with a matroid constraint is formulated as:
+
+for all L, X ⊆ U such that X ∪ L ∈ F and X ∩ L = ∅
+.
+The submodularity ratio, γ, characterizes how close to
+submodular a set function is (γ = 1 means submodular
+and 0 ≤ γ < 1 means non-submodular)4 .
+Theorem 3 For a set function g with a submodularity
+ratio of γ, Algorithm 1 returns a solution T with an
+αγ-approximation bound.
+
+maximize g(S)
+S⊆U
+
+subject to S ∈ I.
+
+(14)
+
+We will now provide a CA heuristic for the case F = I
+that is tight for every state S, i.e. every h(S) satisfies the CA conditions (5) with equalities. The first
+case in (5) can easily be satisfied by setting h(S) = 0
+whenever the condition is met. We therefore consider the second case and
+Pshow that we can compute
+h(S) = maxX⊆U :S∪X∈F x∈X g(x|S) with a simple,
+efficient greedy algorithm. We iteratively construct a
+solution set X T , starting from an empty set X 0 = ∅.
+In each iteration we pick the element xt that satisfies X t−1 ∪ {xt } ∈ I and maximizes g(xt |S) and add
+it to our set, X t = X t−1 ∪ {xt }. We stop when no
+
+Proof: The proof of Theorem 2 can be directly applied
+to this theorem except that the last inequality in (7)
+does not hold anymore since g is not submodular. But
+with the definition of submodularity ratio in (9), we
+can modify the proof of Theorem 2 and start off right
+4
+
+Strictly speaking, the original definition of submodularity ratio requires |X| ≤ K where K is the cardinality
+constraint. We generalize it to X ∪ L ∈ F which is stricter
+and shares all the properties of the original definition, as
+proposed in (Das and Kempe, 2011).
+160
+
+Filtered Search for Submodular Maximization with Controllable Approximation Bounds
+
+more element xt can be found or g(xt |S) < 0. Because
+we are maximizing a modular function, the solution
+X T returned by this greedy approach is provably optimal (Calinescu et al., 2011; Nemhauser et al., 1978).
+Using Theorem 2, we have the following corollary:
+
+knapsack optimization, which is a linear programming
+(LP) problem and can be solved very efficiently with
+LP solvers such as IBM CPLEX.
+Relaxed critical admissibility. We have shown
+that in the case of a single matroid or knapsack constraint, the CA conditions in (5) can be achieved in
+a straight-forward manner because of its modularity.
+However, for some problems, e.g. multiple matroid
+constraints, solving (5) tightly induces high time complexity. In these cases, we can relax the CA condition
+and still obtain an optimality guarantee for FS.
+
+Corollary 2 The solution of Algorithm 1 with the
+above heuristic function h(S) guarantees an αapproximation bound for the submodular function maximization with a matroid constraint (14).
+Knapsack constraints. We also consider submodular maximization with a knapsack constraint, defined
+as:
+X
+max g(S) s.t.
+cx ≤ B,
+(15)
+S⊆U
+
+Theorem 4 Suppose the heuristic h(S) has a βapproximation bound for (5), i.e. h(S) ≥ βh∗ (S)
+where h∗ (S) is a tight CA heuristic and 0 ≤ β ≤ 1,
+then the solution returned by Algorithm 1 achieves: a)
+an α-approximation bound with the heuristic h(S)
+β ; and
+b) an αβ-approximation bound with the heuristic h(S).
+
+x∈S
+
+where cx ≥ 0 is the cost of x and B ≥ 0 is the budget
+limit. Here, the second CA condition in (5) is:
+X
+h(S) ≥ max
+g(x|S),
+X:X⊆U −S
+
+s.t.
+
+X
+
+cx ≤
+
+x∈X
+
+BS0 ,
+
+(16)
+
+≥ h∗ (S) satisfies CA
+Proof: a) holds because h(S)
+β
+and thus Theorem 2 applies. For b), the proof is
+the same as Theorem 2Pexcept that (6) should be
+replaced by h(P ) ≥ β x∈S ∗ −P g(x|P ), and α replaced by αβ after the last two inequalities in (7).
+
+
+x∈X
+
+BS0
+
+P
+= B − s∈S cs is the remaining budget for
+where
+state S. Different from the case of matroid constraints,
+the equality case of (16) describes a 0-1 knapsack problem (Cormen et al., 2001) and is NP-hard. However,
+we can upper bound it by the solution of the corresponding fractional knapsack problem (Cormen et al.,
+2001):
+X
+wx g(x|S)
+h(S) = max
+0≤wx ≤1
+
+s.t.
+
+X
+
+x∈U −S
+
+wx cx ≤ BS0 .
+
+We can apply this theorem to submodular maximization with p matroid constraints where the feasible solution set F is defined by p matroids I1 ∩ · · · ∩ Ip .
+Suppose h(S) is the objective value returned by the
+greedy algorithm described in Section 3. It is shown
+that h(S) has an p1 -approximation bound for (5) (Calinescu et al., 2011; Fisher et al., 1978), which leads to
+our final corollary:
+
+(17)
+
+x∈U −S
+
+This relaxed version can be solved efficiently with a
+greedy algorithm (Cormen et al., 2001), leading to the
+heuristic
+
+
+j
+j
+X
+X
+1
+BS0 −
+cxi g(xj+1 |S),
+h(S) =
+g(xi |S) +
+cxj+1
+i=1
+i=1
+(18)
+where xi ∈ U are sorted in decreasing order of
+g(xi |S)/cxi and j is the lowest index such that
+Pj
+0
+i=1 g(xi |S) ≤ BS . From Theorem 2, we have the
+following corollary:
+
+Corollary 4 For (1) with p matroid constraints, Algorithm 1 guarantees an αp -approximation bound with
+heuristic h(S) and an α-approximation bound with
+heuristic ph(S) .
+
+4
+
+Related Work
+
+In the introduction we have already reviewed some algorithms to solve Eq. (1) with constraints, and approximation bounds for non-monotone submodular functions. Here, we provide some more detail on the second scenario. For unconstrained problems, Feige et al.
+(2011) show that a deterministic local search algorithm
+achieves a ( 31 − n )-approximation ratio with at most
+O( 1 n3 log n) oracle calls. A similar local search procedure with additional exchange operations obtains
+1
+(1+)(k+2+1/k) -approximation over k matroids (Lee
+et al., 2009). Vondrák et al. (2011) propose multilinear relaxation and contention resolution schemes
+
+Corollary 3 The solution of Algorithm 1 with the
+heuristic h(S) defined in (18) guarantees an αapproximation bound for the submodular function maximization problem with a knapsack constraint, (15).
+The above CA heuristic can be extended to the case
+of multiple knapsack constraints. We can still compute the heuristic by relaxing the original combinatorial knapsack optimization into a continuous fractional
+161
+
+Wenlin Chen, Yixin Chen, Kilian Q. Weinberger
+
+P
+P
+P
+ing a cut function g(S) = i∈U j∈S wij − i,j∈S wij
+under a cardinality constraint where wij is the similarity between utterances. The same cut function with a
+knapsack constraint is also widely used in documentation summarization tasks (Lin and Bilmes, 2010). The
+cut function is submodular and non-monotone. In our
+experiments, the similarity matrix is computed based
+on the TIMIT corpus (Garofolo et al., 1993) using a
+string kernel metric (Lin and Bilmes, 2009). For completeness, we evaluate the performance of maximizing a cut function subject to a cardinality constraint,
+a partition matroid constraint and a knapsack constraint, respectively. Following the settings of (Iyer
+et al., 2013), we test each setup with 100 sampled similarity matrices, each of size 20 ≤ |U | ≤ 30 so that its
+optimal solution can still be achieved with α = 1 in the
+FS framework. For the cardinality constrained problem, we set the cardinality limit to 10. For the partition matroid constrained problem, there are 5 random
+partitions of size 2. For knapsack constraints, the cost
+for each item is randomly generated and the budget
+limit is 41 of the total cost.
+
+to achieve 0.325-approximation for a constant number
+of knapsack constraints and 0.19/k-approximation for
+additional k matroid constraints.
+There have been some works concerning the exact maximization of submodular function leveraging
+branch and bound (BB) approach. However, most of
+them have strong assumptions on the problems to be
+solved. The submodularity cut proposed in (Kawahara et al., 2009) is limited to cardinality constraints
+and their “epsilon-optimality” only holds for nondecreasing functions. The BB approach presented
+in (Goldengorin, 2009; Goldengorin et al., 1999) can
+only handle unconstrained problems. Nemhauser and
+Wolsey (1981) also propose a BB approach to maximizing non-decreasing submodular functions. For general submodular functions, it is limited to linear constraints. In contrast, our framework is general enough
+to handle any down-monotone constraints and nonmonotone functions, which is not found in any of these
+prior works.
+Recently, Iyer et al. (2013) proposed an elegant discrete semidifferential-based framework for general submodular maximization and minimization. The key
+idea is to approximate the submodular function with a
+tight modular lower (or upper) bound, which is easier
+to optimize. The same authors also utilize a similar
+idea to deal with submodular cover and knapsack constraints (Iyer and Bilmes, 2013). In contrast to our FS
+approach, these methods still feature specific approximation bounds.
+
+For comparison, we also implement several baseline
+methods most of which have been tested on this particular cut function. We have the greedy algorithm
+(Greedy) (Nemhauser et al., 1978; Fisher et al., 1978)
+and Lee’s algorithm (Lee) (Lee et al., 2009) for matroid constrained problems (including cardinality and
+partition matroid constraints). For knapsack constrained problems, we test the cost-aware greedy algorithm (CGreedy) (Khuller et al., 1999; Lin and Bilmes,
+2010), and the improved greedy algorithm (N3Greedy)
+(Khuller et al., 1999; Sviridenko, 2004) which finds all
+greedy solutions starting from any set of size 3. Note
+that all these methods except Lee’s are encompassed
+by the MMax framework (Iyer et al., 2013). In Figure
+1, we show the objective values (averaged over all randomized runs) of the baseline algorithms and FS, with
+α ranging from 0 to 1.
+
+Karpas and Domshiak (2012) propose the “optimal
+search with inadmissible heuristics” paradigm, which
+follows a similar theme as FS: in general A∗ search
+needs admissible heuristics to guarantee optimality,
+but for specific types of problems we might exploit
+their structure to relax the admissibility condition
+without compromising optimality. Their focus is on
+automated planning problems, where they introduce a
+weaker condition, globally admissibility (GA), which
+can be used to replace admissibility. Although similar
+in spirit, our framework is quite different and focuses
+on submodular optimization problems, where we explicitly exploit the submodular properties of the objective.
+
+5
+
+We make several observations: 1. as predicted, the
+performance of FS with α = 0 matches the greedy
+algorithm exactly for problems with a cardinality or
+partition matroid constraint; 2. the objective values
+of the FS solutions tend to increase with growing α—an encouraging observation, as the α-approximation is
+for the worst case and in practice does not guarantee
+monotonically increasing objective values for increasing α. 3. FS tends to obtain reliably better solutions
+than competing methods already with α = 0.5; 4. the
+graphs in the bottom row show that the improvement
+of solution quality comes at a price of increased time
+complexity, especially as α → 1.
+
+Experimental Results
+
+In this section we conduct experiments to empirically
+evaluate the proposed FS framework.
+Our experiments are based on a speech recognition
+task which selects a subset from an un-transcribed
+corpus of speech utterance for transcription (Lin and
+Bilmes, 2009). The original optimization is maximiz-
+
+For experiments shown in Figure 1(a) and (b), the
+sudden increase of running time happens because FS
+162
+
+Filtered Search for Submodular Maximization with Controllable Approximation Bounds
+
+52
+
+52.2
+
+51.7
+
+51.5
+51
+
+51.6
+
+51.9
+0
+
+0.5
+_
+
+3
+
+51.5
+0
+
+1
+
+0.5
+_
+
+2
+
+10
+
+50.5
+0
+
+1
+
+1
+
+0
+
+0
+
+Greedy
+Lee’s
+FS
+
+ï3
+
+0
+
+0.5
+_
+
+(a) Cardinality
+
+10
+Greedy
+Lee’s
+FS
+
+ï2
+
+10
+
+ï4
+
+1
+
+10
+
+Time
+
+Time
+
+ï1
+
+1
+
+10
+
+10
+
+10
+
+0.5
+_
+
+2
+
+10
+
+10
+Time
+
+51.8
+
+g(S)
+
+g(S)
+
+g(S)
+
+52
+
+10
+
+52
+
+51.9
+
+52.1
+
+0
+
+0.5
+_
+
+CGreedy
+N3Greedy
+FS
+
+ï2
+
+10
+
+ï4
+
+1
+
+(b) Partition
+
+10
+
+0
+
+0.5
+_
+
+1
+
+(c) Knapsack
+
+Figure 1: The (averaged) objective value (upper plots) and running time in seconds (lower plots) as a function
+of α. The dashed lines represent the various baselines and the black lines the global optimum.
+induces exponentially increasing backtracking at that
+point. The curve is generally smoother for the knapsack constraints as in Figure 1(c). The “smoothness”
+of this curve depends on the problem structure including the properties of the objective function and
+the constraints, which requires further research and is
+likely to inspire more variants of FS.
+
+stantially more efficient as it only requires heuristics that are critically admissible (CA) rather than
+admissible—a novel condition that is much more relaxed and substantially easier to implement. We developed several efficient CA heuristics for various constraint types under the value-oracle model and hope
+that these heuristics can serve as templates for future
+problem settings.
+
+Worst case for greedy algorithm. Note that although the greedy algorithm can perform well in practice (as shown in Figure 1), its theoretical approximation guarantee is pretty loose. For sanity check, we
+conduct the experiment specified in (Pan et al., appendix) where the performance of greedy algorithm
+can be arbitrarily bad depending on the cardinality of
+the ground set N . In particular, the empirical approximation bound for greedy algorithm is always N1 . In
+contrast, FS can obtain the optimal solution even with
+small α (e.g. α = 0.1).
+
+Our work bridges submodular optimization with graph
+search for AI, and can potentially benefit from the
+extensive existing research in both areas. For example,
+we plan to integrate space-pruning techniques, such as
+partial-order reduction and symmetry detection (Chen
+and Yao, 2009), into FS. We believe that FS will be a
+foundational and unifying framework for submodular
+optimization, and will foster cross-fertilization of the
+two fields.
+
+6
+
+W. Chen and Y. Chen were partially supported by the
+CNS-1017701, CCF-1215302, IIS-1343896, and DBI1356669 grants from the National Science Foundation
+of the US. K.Q. Weinberger was supported by NSF
+grants IIA-1355406, IIS-1149882, EFRI-1137211.
+
+Acknowledgements
+
+Conclusion
+
+In summary, Filtered Search (FS) provides a unified framework for solving submodular optimization
+problems with various constraints, regardless of function monotonicity or the constraint type. For nonsubmodular functions it also provides an approximation guarantee, based on their submodularity ratio.
+In addition to the strong theoretical results, we also
+demonstrated empirically that FS is a practical algorithm that shows superior results in several real world
+settings. Our experimental findings further suggest
+that users can control the trade-off between solution
+quality and efficiency, which parallels our theoretical
+contribution of a variable approximation guarantee.
+
+References
+The
+International
+Planning
+http://ipc.icaps-conference.org/.
+
+Competitions.
+
+F. Bach. Structured sparsity-inducing norms through
+submodular functions. In NIPS, 2010.
+G. Calinescu, C. Chekuri, M. Pál, and J. Vondrák.
+Maximizing a monotone submodular function subject to a matroid constraint. SIAM Journal on Computing, 40(6):1740–1766, 2011.
+
+FS leverages existing theory in A∗ search, but is sub163
+
+Wenlin Chen, Yixin Chen, Kilian Q. Weinberger
+
+Y. Chen and G. Yao. Completeness and Optimality
+Preserving Reduction for Planning. In IJCAI, 2009.
+
+S. Khuller, A. Moss, and J. S. Naor. The budgeted
+maximum coverage problem. Information Processing Letters, 70(1):39–45, 1999.
+
+T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein,
+et al. Introduction to algorithms, volume 2. MIT
+press Cambridge, 2001.
+
+G. Kim, E. P. Xing, F. Li, and T. Kanade. Distributed cosegmentation via submodular optimization on anisotropic diffusion. In ICCV, 2011.
+
+A. Das and D. Kempe. Submodular meets spectral:
+Greedy algorithms for subset selection, sparse approximation and dictionary selection. In ICML,
+2011.
+
+A. Krause and C. Guestrin. Near-optimal nonmyopic
+value of information in graphical models. In UAI,
+2005.
+A. Krause, A. Singh, and C. Guestrin. Near-optimal
+sensor placements in gaussian processes: Theory, efficient algorithms and empirical studies. Journal of
+Machine Learning Research, 9:235–284, 2008.
+
+U. Feige, V. S. Mirrokni, and J. Vondrak. Maximizing
+non-monotone submodular functions. SIAM Journal on Computing, 40(4):1133–1153, 2011.
+M. L Fisher, G. L Nemhauser, and L. A Wolsey. An
+analysis of approximations for maximizing submodular set functions II. In Polyhedral combinatorics,
+pages 73–87. Springer, 1978.
+
+J. Lee, V. S. Mirrokni, V. Nagarajan, and M. Sviridenko. Non-monotone submodular maximization
+under matroid and knapsack constraints. In STOC,
+2009.
+
+J. Garofolo, L. Lamel, W. Fisher, J. Fiscus, D. Pallett, N. Dahlgren, and Z. Victor. Timit: acousticphonetic continuous speech corpus. In DARPA,
+1993.
+
+H. Lin and J. Bilmes. How to select a good trainingdata subset for transcription: Submodular active selection for sequences. In INTERSPEECH, 2009.
+H. Lin and J. Bilmes. Multi-document summarization via budgeted maximization of submodular functions. ACL-HLT, 2010.
+
+B. Goldengorin. Maximization of submodular functions: Theory and enumeration algorithms. European Journal of Operational Research, 198(1):102–
+112, 2009.
+
+M. Narasimhan, N. Jojic, and J. Bilmes. Q-clustering.
+In NIPS, 2005.
+
+B. Goldengorin, G. Sierksma, G. A. Tijssen, and
+M. Tso. The data-correcting algorithm for the minimization of supermodular functions. Management
+Science, 45(11):1539–1551, 1999.
+
+G. L. Nemhauser and L. A. Wolsey. Best algorithms
+for approximating the maximum of a submodular
+set function. Mathematics of operations research, 3
+(3):177–188, 1978.
+
+A. Grubb and D. Bagnell. Speedboost: Anytime prediction with uniform near-optimality. In AISTATS,
+2012.
+
+G L Nemhauser and L A Wolsey. Maximizing submodular set functions: formulations and analysis of
+algorithms. North-Holland Mathematics Studies, 59:
+279–301, 1981.
+
+M. Helmert and G. Röger. How good is almost perfect.
+In AAAI’08.
+
+G. L. Nemhauser, L. A Wolsey, and M. L Fisher. An
+analysis of approximations for maximizing submodular set functions I. Mathematical Programming, 14
+(1):265–294, 1978.
+
+R. Iyer and J. Bilmes. Submodular optimization with
+submodular cover and submodular knapsack constraints. In NIPS, 2013.
+
+X. Pan, S. Jegelka, J. Gonzalez, J. Bradley, and
+M. Jordan. Parallel double greedy submodular maximization. In NIPS’14.
+
+R. Iyer, S. Jegelka, and J. Bilmes.
+Fast
+semidifferential-based submodular function optimization. In ICML, 2013.
+
+S. J. Russell and P. Norvig. Artificial Intelligence: A
+Modern Approach. Second edition, 2003.
+
+S. Jegelka and J. Bilmes. Submodularity beyond submodular energies: coupling edges in graph cuts. In
+CVPR, 2011.
+
+M. Sviridenko. A note on maximizing a submodular
+set function subject to a knapsack constraint. Operations Research Letters, 32(1):41–43, 2004.
+
+S. Jegelka, F. Bach, and S. Sra. Reflection methods
+for user-friendly submodular optimization. In NIPS,
+2013.
+E. Karpas and C. Domshiak. Optimal search with
+inadmissible heuristics. In ICAPS, 2012.
+
+J. Vondrák, C. Chekuri, and R. Zenklusen. Submodular function maximization via the multilinear relaxation and contention resolution schemes. In STOC,
+2011.
+
+Yoshinobu Kawahara, Kiyohito Nagano, Koji Tsuda,
+and Jeff Bilmes. Submodularity cuts and applications. In NIPS, 2009.
+
+Y. Yue and C. Guestrin. Linear submodular bandits and their application to diversified retrieval. In
+NIPS. 2011.
+164
+
+

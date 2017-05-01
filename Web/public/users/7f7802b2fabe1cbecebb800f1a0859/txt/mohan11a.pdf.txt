@@ -1,0 +1,1270 @@
+JMLR: Workshop and Conference Proceedings 14 (2011) 77–89
+
+Yahoo! Learning to Rank Challenge
+
+Web-Search Ranking with Initialized Gradient Boosted
+Regression Trees
+Ananth Mohan
+Zheng Chen
+Kilian Weinberger
+
+mohana@wustl.edu
+zheng.chen@wustl.edu
+kilian@wustl.edu
+
+Department of Computer Science & Engineering
+Washington University in St. Louis
+St. Louis, MO 63130, USA
+
+Editor: Olivier Chapelle, Yi Chang, Tie-Yan Liu
+
+Abstract
+In May 2010 Yahoo! Inc. hosted the Learning to Rank Challenge. This paper summarizes
+the approach by the highly placed team Washington University in St. Louis. We investigate
+Random Forests (RF) as a low-cost alternative algorithm to Gradient Boosted Regression
+Trees (GBRT) (the de facto standard of web-search ranking). We demonstrate that it yields
+surprisingly accurate ranking results — comparable to or better than GBRT. We combine
+the two algorithms by first learning a ranking function with RF and using it as initialization
+for GBRT. We refer to this setting as iGBRT. Following a recent discussion by Li et al.
+(2007), we show that the results of iGBRT can be improved upon even further when the
+web-search ranking task is cast as classification instead of regression. We provide an upper
+bound of the Expected Reciprocal Rank (Chapelle et al., 2009) in terms of classification
+error and demonstrate that iGBRT outperforms GBRT and RF on the Microsoft Learning
+to Rank and Yahoo Ranking Competition data sets with surprising consistency.
+Keywords: Ranking, Decision Trees, Boosting, Random Forests
+
+1. Introduction
+The success of search engines such as Google, Yahoo! and Bing has lead to an increased
+interest in algorithms for automated web search ranking. Web search ranking is often treated
+as a supervised machine learning problem (Burges et al., 2005; Li et al., 2007; Zheng et al.,
+2007b): each query-document pair is represented by a high-dimensional feature vector and
+its label indicates the document’s degree of relevance to the query. A machine learning
+algorithm is trained to predict the relevance from the feature vector, and during test time
+the documents are ranked according to these predictions.
+The past years have seen many different approaches to web search ranking, including
+adaptations of support vector machines (Joachims, 2002; Chapelle and Keerthi, 2010), neural networks (Burges et al., 2005) and gradient boosted regression trees (GBRT) (Zheng
+et al., 2007b). The latter has arguably established itself as the current state-of-the-art
+learning paradigm (Li et al., 2007; Gao et al., 2009; Burges, 2010).
+Irrespective of which learning algorithm is used, the various ranking settings fall into
+three categories: point-wise, pair-wise, and list-wise. Point-wise algorithms predict the
+
+c 2011 A. Mohan, Z. Chen & K. Weinberger.
+
+Mohan Chen Weinberger
+
+relevance of a document to a query by minimizing a regression loss (e.g. the squared loss).
+Pair-wise approaches learn a classifier that predicts if one document is more relevant than
+another; these approaches include RankBoost (Freund et al., 2003), FRank (Tsai et al.,
+1999), and GBRank (Zheng et al., 2007a). List-wise approaches, such as AdaRank (J.,
+2007), PermuRank (Xu et al., 2008), tend to iteratively optimize a specialized ranking
+performance measure, for example NCDG.
+In this paper we describe the point-wise ranking approach of the team Washington
+University in St. Louis for the Yahoo Learning To Rank Challenge in May 2010. Most of
+the decisions we made throughout the competition were heavily influenced by our limited
+computational resources. We focussed on developing a light-weight algorithm that can be
+trained fully on a single multi-core desktop within reasonable amount of time.
+We investigate the use of Random Forests (RF) (Breiman, 2001) for web search ranking
+and demonstrate that it can be a powerful low-cost alternative to GBRT. Although RF is
+also based on tree averaging, it has several clear advantages over GBRT: 1. It is particularly
+insensitive to parameter choices; 2. It is known to be very resistant to overfitting; 3.
+It is “embarrassingly” parallelizable. In addition, we demonstrate on several real world
+benchmark data sets that RF can match (or outperform) GBRT with surprising consistency.
+As a second contribution, we address a particular weakness of GBRT. In gradient boosting, there exists an inherent trade-off between the step-size and early stopping. To obtain
+the true global minimum, the step-size needs to be infinitesimally small and the number
+of iterations very large. Of course, this is unrealistic and common practice is to use a reasonably small step-size (≈ 0.1) with roughly 1000 iterations. We show that, as RF often
+outperforms GBRT and is very resistant to overfitting, its predictions can be used as a
+starting-point for the gradient boosting. In this setting GBRT starts-off at a point that is
+very close to the global minimum and merely refines the already good predictions.
+We refer to the resulting algorithm as initialized Gradient Boosted Regression Trees
+(iGBRT). iGBRT is insensitive to parameters and when web-search ranking is cast as a
+classification problem, as suggested by Li et al. (2007), it outperforms both GBRT and
+Random Forests on all Yahoo and Microsoft benchmark datasets. As a final contribution,
+in addition to the empirical evaluation, we provide an upper bound of the ERR metric with
+respect to the classification error of a ranker.
+This paper is organized as follows: In section 2 we briefly review the web-searching
+ranking setting and define necessary notation. In section 3 we introduce RF. In section 4 we
+introduce GBRT. Both algorithms are combined in section 5 as initialized gradient boosted
+regression trees (iGBRT). In section 6 we review the classification setting introduced by Li
+et al. (2007), adapt iGBRT to this framework and provide an upper bound of the ERR in
+terms of the classification error. Finally, we provide an extensive evaluation of all algorithms
+in section 7.
+
+2. Notation and Setup
+We assume that we are provided with data of triples D = {(x1 , q1 , y1 ), . . . , (xn , qn , yn )},
+consisting of documents (xi ∈ Rf ), queries (qi ∈ {1, . . . , nq }) and labels (yi ∈ {0, . . . , 4}).
+The label yi indicates to what degree document xi is relevant to the query qi and ranges
+from yi = 0 (“irrelevant”) to yi = 4 (“perfect match”). There are fewer queries than samples
+78
+
+Web-Search Ranking with Initialized Gradient Boosted Regression Trees
+
+Algorithm 1 Random Forests
+Input: D = {(x1 , y1 ), . . . , (xn , yn )}, Parameters: K : 0 < K ≤ f , MRF : MRF > 0
+for t = 1 to MRF do
+Dt ⊆ D
+#Sample with replacement, |Dt | = |D|.
+ht ← Cart(Dt , K, ∞) #Build full (d = ∞) Cart with K ≤ f randomly chosen features at each split.
+end for
+PMRF
+1
+T (·) = MRF
+t=1 ht (·).
+return T (·)
+
+(nq < n). In this paper, our algorithmic setup is not affected by the number of queries. We
+assume that a document vector xi is a f dimensional feature vector that incorporates all
+the sufficient statistics about the query and the document as features. For example, one
+feature could be “the number of occurrences of the query in the document”. To simplify
+notation we will assume that all documents belong to the same query, i.e. nq = 1 and with
+a slight abuse of notation let D = {(x1 , y1 ), . . . , (xn , yn )}. However, the techniques work for
+sets with multiple queries, and in fact the data we use for experiments does contain many
+queries.
+Point-wise machine-learned ranking trains a predictor T (·) such that T (xi ) ≈ yi . If
+T (·) is accurate, the ordering πh of all documents according to values of T (xi ) should be
+close to the desired ordering πy according to yi . We can evaluate the quality of the ranking
+function either with the root mean squared error (RMSE) or with ranking specific metrics
+such as normalized discounted cumulative gain (NDCG) (Järvelin and Kekäläinen, 2002) or
+expected reciprocal rank (ERR) (Chapelle et al., 2009). (Please note that for RMSE lower
+values are better, whereas for NDCG and ERR higher values indicate better performance.)
+All the algorithms in this paper are based on Classification and Regression Trees (CART)
+(Breiman, 1984). We assume that we have an efficient implementation of a slightly modified
+version of CART that greedily builds a regression tree to minimize the squared-loss, but at
+each split uniformly samples k features and only evaluates those as candidates for splitting.
+X
+Cart(S, k, d) ≈ argmin
+(h(zi ) − ri )2 .
+(1)
+h∈Td
+
+(zi ,ri )∈S
+
+The three parameters of our CART algorithm (1) are: 1. a set S ⊆ D; 2. an integer k ≤ f
+which determines how many uniformly picked features are considered at each split; 3. an
+integer d > 0 that defines the maximum depth of the resulting tree (in (1) Td denotes the
+set of all CART trees of maximum depth d).
+The Yahoo Learning to Rank Challenge was based on two data sets of unequal size:
+Set 1 with 473134 and Set 2 with 19944 documents. We use the smaller Set 2 for illustration
+throughout the paper. In section 7 we report a thorough evaluation on both Yahoo data
+sets and the five folds of the Microsoft MSLR data set.
+
+3. Random Forests
+In this section we briefly introduce Random Forests (Breiman, 2001). The fundamental
+concept underlying Random Forests is bagging (Breiman, 1984). In bagging, a learning
+algorithm is applied multiple times to a subset of D and the results are averaged. Each time
+79
+
+Mohan Chen Weinberger
+
+Algorithm 2 Gradient Boosted Regression Trees (Squared Loss)
+Input: data set D = {(x1 , y1 ), . . . , (xn , yn )}, Parameters: α, MB , d
+Initialization: ri = yi for i = 1 to n
+for t = 1 to MB do
+Tt ← Cart({(x1 , r1 ), . . . , (xn , rn )}, f, d) #Build Cart of depth d, with all f features and targets {ri }
+for i = 1 to n do
+ri ← ri − αTt (xi )
+#Update the residual of each sample xi .
+end for
+end for P
+RF
+T (·) = α M
+#Combine the Regression Trees T1 , . . . , TMB .
+t=1 Tt (·).
+return T (·)
+
+the algorithm is trained, n = |D| data points are sub-sampled with replacement from D,
+so that the individual classifiers vary slightly. This process reduces overfitting by averaging
+classifiers that are trained on different data sets from the same underlying distribution.
+Random Forests is essentially bagging applied to CART with full depth (d = ∞), where at
+each split only K uniformly chosen features are evaluated to find the best splitting point.
+The construction of a single tree is independent from earlier trees, thus making Random
+Forests an inherently parallel algorithm. Algorithm 1 implements the regression version
+of the Random Forests algorithm. Only two parameters need to be tuned. MRF specifies
+the number of trees in the forest and K determines the number of features that each node
+considers to find the best split. As Random Forests is based on bagging, it does not overfit
+with increasing MRF , so we set it to be very large (MRF = 10000). The algorithm is only
+sensitive to one parameter, K. A common rule of thumb is to set K to 10% of the number
+of features (i.e. K = 0.1f ). We follow this rule throughout the paper.
+
+4. Gradient Boosted Regression Trees
+Similar to Random Forests, Gradient Boosted Regression Trees (GBRT) (Friedman,
+2001) is a machine learning technique that is also based on tree averaging. However, instead
+of training many full (d = ∞) high variance trees that are averaged to avoid overfitting,
+GBRT sequentially adds small trees (d ≈ 4), each with high bias. In each iteration, the new
+tree to be added focuses explicitly on the documents that are responsible for the current
+remaining regression error. Empirical results have shown that GBRT is especially wellsuited for web-search ranking (Zheng et al., 2007b; Burges, 2010). In fact, all the winning
+teams of the Yahoo Learning to Rank Challenge used some variation of GBRT1 .
+Let T (xi ) denote the current prediction of sample xi . Furthermore, assume we have
+a continuous, convex and differentiable loss function L(T (x1 ), . . . , T (xn )) which reaches
+its minimum
+if T (xi ) = yi for all xi . Throughout the paper we use the square loss:
+P
+L = 12 ni=1 (T (xi ) − yi )2 . In each iteration, a new tree h(·) is added to the existing classifier T (·). The best h(·) is found with a first-order Taylor expansion of L(T + ht ), which is
+minimized with respect to ht (·). See Zheng et al. (2007b) for a detailed derivation.
+1. See the official ICML workshop homepage http://learningtorankchallenge.yahoo.com/workshop.php.
+
+80
+
+Web-Search Ranking with Initialized Gradient Boosted Regression Trees
+
+Algorithm 3 Initialized Gradient Boosted Regression Trees (Squared Loss)
+Input: data set D = {(x1 , y1 ), . . . , (xn , yn )}, Parameters: α, MB , d, KRF , MRF
+F ← RandomF orests(D, KRF , MRF )
+Initialization: ri = yi − F (xi ) for i = 1 to n
+for t = 1 to MB do
+Tt ← Cart({(x1 , r1 ), . . . , (xn , rn )}, f, d) #Build Cart of depth d, with all f features, and targets {ri }.
+for i = 1 to n do
+ri ← ri − αTt (xi )
+end for
+end for
+P B
+T (·) = F (·) + α M
+t=1 Tt (·).
+return T (·)
+
+#Update the residual of each sample xi .
+
+#Combine the Regression Trees T1 , . . . , TM with the RF F .
+
+Intuitively, GBRT performs gradient descent in the instance space x1 , . . . , xn i.e. during
+each iteration the current prediction T (xi ) is updated with a gradient step
+T (xi ) ← T (xi ) − α
+
+L
+,
+T (xi )
+
+(2)
+
+where α > 0 denotes the learning rate. The negative gradient − ∂T∂L
+(xi ) is approximated with
+the prediction of the regression tree ht (xi ) which satisfies:
+ht ≈ −argmin
+h∈Td
+
+n
+X
+
+(ht (xi ) − ri )2 , where: ri =
+
+i=1
+
+∂L
+.
+∂T (xi )
+
+(3)
+
+In the case where L is the squared loss, the gradient for a document xi becomes the residual
+from the previous iteration, i.e. ri = yi −T (xi ). Each iteration t, we use the standard CART
+algorithm (1), with K = f , to find a solution to (3). GBRT depends on three parameters:
+The learning rate α > 0, the tree-depth d, and the number of iterations MB . Based on
+experiments from previous research (Friedman, 2001; Zheng et al., 2007b), we set d = 4 and
+pick MB and α with a validation data set. Smaller learning rates tend to result in better
+accuracy but require more iterations. If MB is too large, the algorithm starts overfitting.
+Figure 1 shows how Boosting compares to RF on the Yahoo Learning to Rank Challenge
+data Set 2 for various settings of α and MB . The figure shows a clear trend that RF
+outperforms all settings of GBRT according to all three metrics (ERR, NDCG, RMSE).
+Although not shown here, boosting for even more iterations, up to MB = 5000, did not
+change that result at any time — on the contrary, GBRT started to overfit, widening the
+performance gap between RF and GBRT. Similar results were obtained on the much larger
+Yahoo Set 1, whereas the results on the Microsoft Learning to Rank data set were mixed
+with no clear winner (see Table 3 in section 7). RF was averaged over MRF = 10000
+iterations and K = 70.
+
+5. Initialized Gradient Boosted Regression Trees
+GBRT, as described in the previous section, is traditionally initialized with the all-zero
+function T0 (xi ) = 0. Consequently, the initial residual is ri = yi . As the loss function L is
+81
+
+Mohan Chen Weinberger
+
+0.8
+
+α = 0.02
+α = 0.04
+α = 0.06
+α = 0.08
+α = 0.1
+RF
+
+RMSE
+
+0.75
+0.7
+0.65
+
+0.63576
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+Iterations M
+
+600
+
+700
+
+800
+
+900
+
+1000
+
+0.78
+
+0.7746
+NDCG
+
+0.77
+0.76
+0.75
+0.74
+
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+Iterations M
+
+600
+
+700
+
+800
+
+900
+
+1000
+
+0.47
+
+0.46212
+
+ERR
+
+0.46
+0.45
+0.44
+0.43
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+Iterations M
+
+600
+
+700
+
+800
+
+900
+
+1000
+
+Figure 1: Results of GBRT (with varying step-size α) compared to RF (bold black line) on
+the Yahoo Set 2. RF outperform boosted regression trees with respect to RMSE,
+ERR and NDCG.
+MRF
+RMSE
+ERR
+NDCG
+
+0
+0.64132
+0.45669
+0.76575
+
+100
+0.63416
+0.45956
+0.77080
+
+1000
+0.63097
+0.46170
+0.77712
+
+10000
+0.63047
+0.46257
+0.77805
+
+Table 1: Performance of iGBRT with varying initializations on Yahoo Set 2.
+convex, the gradient descent approach from GBRT should converge to its global minimum
+irrespective of its initialization (with an appropriate learning-rate α) (Shor, 1970). However
+these theoretical results tend to not hold in practice for two reasons: 1. in each iteration
+the gradient is only approximated ; 2. for true convergence, the learning-rate α needs to
+be infinitesimally small — requiring an unrealistically large number of iterations MB  0.
+We therefore propose to initialize GBRT with the predictions of RF from section 3. RF
+is a good initialization for several reasons: 1. RF is known to be very resistant towards
+overfitting and therefore makes a good optimization starting point; 2. RF is insensitive to
+parameter settings and does not require additional parameter tuning.
+Algorithm 3 shows the pseudo-code implementation of iGBRT. The main differences to
+GBRT (Algorithm 2) lie in the initial settings of ri , which are set to the residual of the RF
+predictions: ri ← yi − F (xi ), and the final boosted classifier which is added to the initial
+
+82
+
+Web-Search Ranking with Initialized Gradient Boosted Regression Trees
+
+α = 0.02
+α = 0.04
+
+RMSE
+
+0.64
+
+α = 0.06
+α = 0.08
+α = 0.1
+RF
+
+0.635
+
+0.63576
+
+0.63
+
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+Iterations M
+
+600
+
+700
+
+800
+
+900
+
+1000
+
+0.778
+
+NDCG
+
+0.777
+0.776
+0.775
+
+0.7746
+
+0.774
+0.773
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+Iterations M
+
+600
+
+700
+
+800
+
+900
+
+1000
+
+ERR
+
+0.464
+
+0.463
+
+0.46212
+
+0.462
+
+0.461
+0
+
+100
+
+200
+
+300
+
+400
+
+500
+Iterations M
+
+600
+
+700
+
+800
+
+900
+
+1000
+
+Figure 2: Results of iGBRT on Yahoo test set 2. The predictions were initialized with the
+predictions of Random Forests (RF). iGBRT improves over RF on all metrics,
+with some overfitting in the settings with large learning-rates (α = 0.1).
+
+results of RF. Figure 2 shows the traces of iGBRT under various step-sizes (on the test
+partition of yahoo Set 2). In contrast to the standard GBRT, iGBRT improves consistently
+over Random Forests. In fact, iGBRT outperforms RF and GBRT for all settings of α
+and MB ≤ 1000 in RMSE, NDCG, and ERR (except for a very brief period in ERR with
+α = 0.1).
+Table 1 shows ranking results of iGBRT, under varying amounts of trees MRF for
+the Random Forests initialization. The column with MRF = 0 is identical to standard
+GBRT. The number of boosting iterations MB was chosen on a validation data set (up to
+MB = 1000). The table shows clearly that the boosted results were heavily influenced by
+their initialization. Strikingly, even with only 100 averaged trees as initialization, iGBRT
+outperforms standard GBRT (MRF = 0) with respect to all three metrics.
+
+6. Classification vs. Regression
+So far, all our algorithms used regression to approximate the relevance of a document.
+Recently, Li et al. (2007) proposed a learning to rank paradigm that is based on classification
+instead of regression. Instead of learning a function T (xi ) ≈ yi , the authors utilize the fact
+that the original relevance scores are discrete, yi ∈ {0, 1, 2, 3, 4}, and generate four binary
+classification problems indexed by c = 1, . . . , 4. The cth classification problem predicts if the
+83
+
+Mohan Chen Weinberger
+
+document is less relevant than c. More formally, we denote the binary label of document
+xi for problem c ∈ {1, . . . , 4} as bci ≡ (yi < c). For each of these binary classification
+problems, we train a classifier T c (·). We carefully choose classifiers T c (·) to return well
+defined probabilities (i.e. 0 ≤ T c (·) ≤ 1) and T c (x) can be interpreted as the probability of
+document x being less relevant than c. More formally, T c (x) = P (rel(x) < c). If we define
+the constant functions T 0 (·) = 0 and T 5 (·) = 1 (by definition relevance is non-negative and
+all documents are less relevant than 5), we can combine all classifiers T 0 , . . . , T 5 to compute
+the probability that a document xi has a relevance of r ∈ {0, . . . , 4}:
+P (rel(xi ) = r) = P (rel(xi ) < r + 1) − P (rel(xi ) < r)
+= T r+1 (xi ) − T r (xi ).
+Li et al. (2007) show that GBRT is well-suited for this setup. Regression trees, minimizing
+the squared-loss, predict the average label of documents at a leaf. If these contain only
+binary labels {0, 1}, the predictions are within the interval [0, 1]. The same holds for
+Random Forests, which are essentially averaged regression trees. We can therefore use
+RF and iGBRT as binary classifiers for this framework2 . We evaluate the classification
+paradigm in the following section.
+In an attempt to explain our empirical results, which clearly favor classification over
+regression, we show that the ERR error is bounded by the classification error in Appendix A. Our current bound shows a clear relationship between ERR and classification performance, however is probably too loose to be of considerable practical value.
+Theorem 1 Given n documents indexed by {1, · · · , n}. Suppose a classifier, assigns a
+relevance score to each document, denoted by ŷ1 , . . . , ŷn ∈ {0, 1, 2, 3, 4}. A ranker, π, ranks
+documents according to ŷi such that π(i) < π(j) if ŷi > ŷj (ties are broken arbitrarily). Let
+g be a perfect ranker and let the ERR scores of g and π be ERRg and ERRπ , respectively.
+The ERR error of π, ERRg − ERRπ , is bounded by the square root of the classification
+error:
+v
+u n
+X
+15π u
+ERRg − ERRπ ≤ √ t
+1yi 6=ŷi
+16 6 i=1
+
+7. Results
+We evaluate all algorithms on several data sets from the Yahoo Ranking competition (two
+sets from different countries) and the five splits of the Microsoft MSLR data sets3 . Both data
+sets contain pre-defined train/validation/test splits. Table 2 summarizes various statistics
+about all the data sets.
+We experimented with several ways to deal with missing features (which were present
+in all data sets): splitting three ways during tree construction and substituting missing
+2. Depending on the step-size, there might be small violations of the probability assumptions in the case
+of boosting. However, in our experience this does not seem to hurt the performance.
+3. http://research.microsoft.com/en-us/projects/mslr/
+
+84
+
+Web-Search Ranking with Initialized Gradient Boosted Regression Trees
+
+TRAIN
+# Features
+# Documents
+# Queries
+Avg # Doc per Query
+% Features Missing
+TEST
+# Documents
+# Queries
+Avg # Doc per Query
+% Features Missing
+
+Yahoo
+Set 1
+700
+473134
+19944
+22.723
+0.68178
+Set 1
+165660
+6983
+22.723
+0.68113
+
+LTRC
+Set 2
+700
+34815
+1266
+26.5
+0.67399
+Set 2
+103174
+3798
+26.165
+0.67378
+
+F1
+136
+723412
+6000
+119.569
+0.37228
+F1
+241521
+6000
+119.761
+0.37368
+
+F2
+136
+716683
+6000
+118.447
+0.37331
+F2
+241988
+6000
+119.994
+0.36901
+
+MSLR Folds
+F3
+F4
+136
+136
+719111
+718768
+6000
+6000
+118.852 118.795
+0.37263 0.37163
+F3
+F4
+239093
+242331
+6000
+6000
+118.547 120.167
+0.37578 0.37204
+
+F5
+136
+722602
+6000
+119.434
+0.37282
+F5
+235259
+6000
+116.6295
+0.37215
+
+Table 2: Statistics of the Yahoo Competition and Microsoft Learning to Rank data sets.
+ERR
+method
+GBRT
+RF
+iGBRT
+GBRT
+RF
+iGBRT
+NDCG
+method
+GBRT
+RF
+iGBRT
+GBRT
+RF
+iGBRT
+
+Regr./
+Class.
+R
+R
+R
+C
+C
+C
+Regr./
+Class.
+R
+R
+R
+C
+C
+C
+
+Yahoo
+Set 1
+0.45304
+0.46349
+0.46301
+0.45448
+0.46308
+0.46360
+Yahoo
+Set 1
+0.76991
+0.79575
+0.79575
+0.77246
+0.79544
+0.79672
+
+LTRC
+Set 2
+0.45669
+0.46212
+0.46303
+0.46008
+0.46200
+0.46246
+LTRC
+Set 2
+0.76587
+0.77552
+0.77725
+0.77132
+0.77373
+0.77591
+
+F1
+0.35914
+0.35481
+0.35787
+0.36264
+0.35868
+0.36232
+
+F2
+0.35539
+0.35458
+0.35985
+0.36168
+0.35677
+0.36198
+
+F1
+0.47958
+0.47493
+0.47863
+0.48385
+0.47761
+0.48366
+
+F2
+0.48014
+0.48105
+0.48847
+0.48477
+0.48202
+0.48858
+
+MSLR Folds
+F3
+0.35579
+0.34775
+0.35383
+0.35990
+0.35003
+0.35486
+MSLR Folds
+F3
+0.47477
+0.47177
+0.47842
+0.47705
+0.47208
+0.47868
+
+F4
+0.36039
+0.35853
+0.36491
+0.36498
+0.36364
+0.36744
+
+F5
+0.37076
+0.36853
+0.37422
+0.37549
+0.37052
+0.37430
+
+F4
+0.48302
+0.48238
+0.48927
+0.48908
+0.48563
+0.49084
+
+F5
+0.48705
+0.49027
+0.49688
+0.49383
+0.48935
+0.49581
+
+Table 3: Performance of Gradient Boosted Regression Trees (GBRT), Random Forests (RF) and Initialized
+Gradient Boosted Regression Trees (iGBRT). All results are evaluated in ERR (upper table) and
+NDCG (lower table). We investigated both, the regression setting (R - in second column) and
+classification (C). The parameters were set by cross validation on the pre-defined validation data.
+
+features with zeros, infinity, the mean or the median feature value. Results on validation
+splits showed that substituting zeros for missing values tends to outperform the alternative
+approaches across most data sets. We trained the respective rankers on the training set,
+then ranked the validation and test sets. The performance of the learners are judged by
+ERR and NDCG. For Boosting, we used learning rates α ∈ {0.1, 0.2, 0.3, 0.4, 0.5}. The
+reported numbers are the performances from the test sets, with the parameter settings
+that best performed on the validation sets. For RF, we used the rule of thumb and fixed
+K = 0.1f and MRF = 10000.
+
+85
+
+Mohan Chen Weinberger
+
+Running Time
+Iterations M
+Regression
+Classification
+
+RF
+10000
+130m
+768m
+
+RF
+1000
+16m
+77m
+
+GBRT
+1000
+103m
+388m
+
+iGBRT
+10000/500
+181m
+842m
+
+Table 4: Run Times (in minutes) for RF, GBRT and iGBRT on the Yahoo Ranking Competition Set 2.
+We performed all experiments on a standard workstation with 8 cores4 . Table 4 summarizes the training times. All implementations were parallelized. The RF implementation
+distributed the construction of the MRF trees onto the various cores, during boosting the
+splits were performed by different threads in parallel. With a comparable number of trees
+(MRF = MB ), RF was by far the fastest algorithm despite that its tree-sizes are much
+larger. This can be attributed to the fact that RF scales linearly with the number cores
+and resulted in a much better CPU utilization. For best possible ranking results we used
+RF with MRF = 10000, which was a bit slower than GBRT. Although the differences between MRF = 10000 and MRF = 1000 were not necessarily significant, we included them
+as they did matter for the competition leaderboard. iGBRT was the slowest algorithm as it
+involves both RF and GBRT sequentially (given our limited resources, we set MB = 500).
+In the classification setting, boosting became faster than RF as the different classification
+problems could be learned in parallel and the 8 cores were utilized more effectively. Both
+boosting algorithms required additional time for the parameter search by cross validation.
+Our own open-source C++ implementation of all algorithms and links to the data sets are
+available at the url: http://research.engineering.wustl.edu/~amohan/.
+In addition to regression, we also used the classification setting from section 6 on all
+three algorithms (iGBRT, RF and GBRT). Table 3 summarizes the results under ERR and
+NDCG. We observed the following trends: 1. Classification reliably outperforms regression
+across all methods. 2. iGBRT (with classification) outperforms RF and GBRT on most
+of the data sets according to both ERR and NDCG. 3. RF (classification) yielded better
+results than GBRT on all data sets except MSLR Fold 3. This is particularly impressive,
+as no parameter sweep was performed for RF. In the Yahoo Competition iGBRT(C) would
+have achieved 11th place on Set 1 and iGBRT(R) 4th place on Set 2 (with differences in
+ERR from the winning solution on the order of 10−3 and 10−4 respectively). Please note
+that the higher ranked submissions tended to average over millions of trees and were trained
+for weeks on over hundred computers (Burges, 2010), whereas our models could be trained
+on a single desktop in one day.
+
+8. Conclusion
+In this paper we compared three algorithms for machine learned web-search ranking in a
+regression and classification setting. We showed that Random Forests, with parameters
+picked according to simple rules of thumb, is a very competitive algorithm and reliably
+outperforms tuned Gradient Boosted Regression Trees. We introduced initialized gradient
+boosted regression trees (iGBRT), which uses GBRT to further refine the results of Random
+Forests. Finally, we demonstrated that classification tends to be a better paradigm for
+4. Intel Xeon L5520@2.27GHz
+
+86
+
+Web-Search Ranking with Initialized Gradient Boosted Regression Trees
+
+web-search ranking than regression. In fact, iGBRT in a classification setting consistently
+achieves state-of-the-art performance on all publicly available web-search data sets that we
+are aware of.
+
+Appendix A.
+Let us define a ranker as a bijective function π : {1, · · · , n} → {1, · · · , n}, which maps
+a given document’s index i into its ordering position πi . Also, let us denote the inverse
+mapping of π by σi = σ(i) = π −1 (i).
+Expected Reciprocal Rank (ERR) (Chapelle et al., 2009) was designed to measure the
+performance for web-search ranking algorithms. It simulates a person who looks through
+the output of a web-search engine. The model assumes that the web-surfer goes through
+the documents in order of increasing rank and stops the moment he/she is satisfied. R(yi )
+denotes the probability that the person is satisfied with the ith result. The ranker obtains a
+payoff of 1i if the person is satisfied with the document in the ith position. ERR computes
+the expected payoff under this model. The formal definition is as follows:
+ERRπ =
+
+n
+X
+
+Cπ (i)R(yσi ) =
+
+i=1
+
+where:
+Cπ (i) =
+
+n
+X
+
+Cπ (πi )R(yi )
+
+(4)
+
+i=1
+
+i−1
+i−1
+1Y
+1Y
+(1 − R(yπ−1 (j) )) =
+(1 − R(yσj ))
+i
+i
+j=1
+
+(5)
+
+j=1
+
+y
+
+and R(y) = 2 16−1 . Here Cπ (i) is a product of the payoff 1i and the probability that the
+Qi−1
+(1 − R(yσj )).
+surfer was not satisfied with all previous documents, j=1
+Definition 1 Perfect ranker: A ranker, g is a perfect ranker, if it ranks documents
+according to their original label yi , i.e. g(i) < g(j) if yi > yj . When yi = yj , then
+document i and document j are arbitrarily ranked. Also denote the inverse mapping of g by
+φi = φ(i) = g −1 (i).
+Now we denote the corresponding ERR score of the perfect ranker g as ERRg . Then
+for a given ranker π, the ERR error is ERRg − ERRπ . Theorem 1 states that the ERR
+error can be bounded by the classification error of the documents. The proof is below:
+Proof This proof follows a line of reasoning inspired by Li et al. (2007). By the definition
+of ERR we have
+ERRπ =
+
+n
+X
+
+Cπ (πi )R(yi ) =
+
+i=1
+
+=
+
+n
+X
+i=1
+
+Cπ (πi )
+
+2ŷi
+
+n
+X
+
+Cπ (πi )
+
+i=1
+n
+X
+
+−1
++
+16
+
+i=1
+
+2 yi − 1
+16
+
+Cπ (πi )
+
+2yi − 2ŷi
+.
+16
+
+(6)
+
+According to the rearrangement inequality (because π is the ideal ranking for ŷi ) we can
+show that,
+87
+
+Mohan Chen Weinberger
+
+n
+X
+
+Cπ (i)R(ŷσi ) ≥
+
+i=1
+n
+X
+
+Cπ (πi )
+
+i=1
+
+2ŷi − 1
+16
+
+≥
+
+n
+X
+i=1
+n
+X
+
+Cg (i)R(ŷφi )
+Cg (gi )
+
+i=1
+
+2ŷi − 1
+.
+16
+
+(7)
+
+Combining (6) and (7) leads to
+ERRπ ≥
+=
+
+n
+X
+i=1
+n
+X
+
+n
+
+Cg (gi )
+Cg (gi )
+
+2ŷi − 1 X
+2yi − 2ŷi
++
+Cπ (πi )
+16
+16
+2yi
+
+i=1
+
+= ERRg +
+
+−1
+−
+16
+
+i=1
+n
+X
+
+n
+
+Cg (gi )
+
+i=1
+
+2yi − 2ŷi X
+2yi − 2ŷi
++
+Cπ (πi )
+16
+16
+i=1
+
+n
+X
+
+(Cπ (πi ) − Cg (gi ))
+
+2yi
+
+i=1
+
+−
+16
+
+2ŷi
+
+.
+
+Consequently we obtain
+n
+
+ERRg − ERRπ ≤
+
+1 X
+(Cπ (πi ) − Cg (gi ))(2yi − 2ŷi ).
+16
+i=1
+
+Applying Cauchy-Schwarz inequality leads to
+ERRg − ERRπ ≤
+
+≤
+where we use the fact that
+
+1
+16
+
+n
+X
+(Cπ (πi ) − Cg (gi ))2
+
+!1/2
+
+i=1
+
+n
+X
+
+!1/2
+(2yi − 2ŷi )2
+
+i=1
+
+v
+u n
+X
+15π u
+√ t
+1yi 6=ŷi ,
+16 6 i=1
+
+Pn
+
+i=1 (Cπ (πi )
+
+− Cg (gi ))2 ≤
+
+Pn
+
+1
+i=1 i2
+
+≤
+
+π2
+6 ,
+
+and 24 − 20 = 15.
+
+References
+L. Breiman. Classification and regression trees. Chapman & Hall/CRC, 1984.
+L. Breiman. Random forests. Machine learning, 45(1):5–32, 2001.
+C. Burges. From RankNet to LambdaRank to LambdaMART: An Overview. Microsoft
+Research Technical Report MSR-TR-2010-82, 2010.
+C. Burges, T. Shaked, E. Renshaw, A. Lazier, M. Deeds, N. Hamilton, and G. Hullender. Learning to rank using gradient descent. In Proceedings of the 22nd international
+conference on Machine learning, ICML ’05, pages 89–96, New York, NY, USA, 2005.
+ACM.
+88
+
+Web-Search Ranking with Initialized Gradient Boosted Regression Trees
+
+O. Chapelle and S. S. Keerthi. Efficient algorithms for ranking with svms. Inf. Retr., 13:
+201–215, June 2010. ISSN 1386-4564.
+O. Chapelle, D. Metlzer, Y. Zhang, and P. Grinspan. Expected reciprocal rank for graded
+relevance. In Proceeding of the 18th ACM conference on Information and knowledge
+management, CIKM ’09, pages 621–630, New York, NY, USA, 2009. ACM. ISBN 978-160558-512-3.
+Y. Freund, R. Iyer, R. E. Schapire, and Y. Singer. An efficient boosting algorithm for
+combining preferences. J. Mach. Learn. Res., 4:933–969, 2003. ISSN 1532-4435.
+J. H. Friedman. Greedy function approximation: a gradient boosting machine. Annals of
+Statistics, pages 1189–1232, 2001. ISSN 0090-5364.
+J. Gao, Q. Wu, C. Burges, K. Svore, Y. Su, N. Khan, S. Shah, and H. Zhou. Model
+adaptation via model interpolation and boosting for web search ranking. In Proceedings
+of the 2009 Conference on Empirical Methods in Natural Language Processing: Volume
+2, pages 505–513. Association for Computational Linguistics, 2009.
+Xu. J. A boosting algorithm for information retrieval. In Proceedings of the 30th Annual
+ACM Conference on Research and Development in Information Retrieval, 2007.
+K. Järvelin and J. Kekäläinen. Cumulated gain-based evaluation of IR techniques. ACM
+Transactions on Information Systems (TOIS), 20(4):446, 2002.
+T. Joachims. Optimizing search engines using clickthrough data. In Proceedings of the eighth
+ACM International conference on Knowledge discovery and data mining (SIGKDD), page
+142. ACM, 2002.
+P. Li, C. Burges, and Q. Wu. Learning to rank using classification and gradient boosting. In Proceedings of the International Conference on Advances in Neural Information
+Processing Systems (NIPS), 2007.
+N. Shor. Convergence rate of the gradient descent method with dilatation of the space.
+Cybernetics and Systems Analysis, 6(2):102–108, 1970.
+M. Tsai, T. Liu, H. Chen, and W. Ma. Frank: A ranking method with fidelity loss. Technical
+Report MSR-TR-2006-155, Microsoft Research, November 1999.
+J. Xu, T. Liu, M. Lu, H. Li, and W. Ma. Directly optimizing evaluation measures in
+learning to rank. In Proceedings of the 31th Annual ACM Conference on Research and
+Development in Information Retrieval. ACM Press, 2008.
+Z. Zheng, H. Zha, K. Chen, and G. Sun. A regression framework for learning ranking
+functions using relative relevance judgements. Proceedings of the 30th Annual ACM
+Conference on Research and Development in Information Retrieval, 2007a.
+Z. Zheng, H. Zha, T. Zhang, O. Chapelle, K. Chen, and G. Sun. A general boosting
+method and its application to learning ranking functions for web search. Advances in
+Neural Information Processing Systems, 19, 2007b.
+
+89
+
+
