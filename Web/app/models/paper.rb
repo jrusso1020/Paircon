@@ -14,8 +14,10 @@
 #++
 
 class Paper < ApplicationRecord
-  has_many :similiarities
-
+  has_many :similarities, :foreign_key => "user_paper_id"
+  has_many :similarity_scores, :through => :similarities
+  has_many :conference_similarity, :class_name => "Similarity", :foreign_key => "conference_paper_id"
+  has_many :conference_similarity_scores, :through => :conference_similarity, :source => :paper
   has_many :conferences, through: :conference_papers
   has_many :users, through: :user_papers
 

@@ -79,6 +79,7 @@ Rails.application.routes.draw do
     member do
       get :invite
       get :delete
+      get :user_recommendations
 
       post :create_invites
       post :destroy_cover

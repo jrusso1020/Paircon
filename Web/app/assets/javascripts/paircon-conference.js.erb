@@ -6,6 +6,23 @@ function initializeHeader() {
 
 var current_tab;
 
+function requestUserRecommendations(conference_id, user_id){
+    setInterval(function() {
+        $.ajax({
+            type: 'GET',
+            dataType: "json",
+            url: '/conferences/' + conference_id + '/user_recommendations',
+            data:{
+                'conference_id': conference_id,
+                'user_id': user_id
+            },
+            success: function (result) {
+                $("#recommendations-container").empty();
+            }
+        }, 60 * 1000); //perform every minute
+    });
+}
+
 function requestTabPane(id, tab_name) {
     Cookies.set(id + '_current_tab', tab_name);
     $('.tab_ajax').parent().removeClass('active');
