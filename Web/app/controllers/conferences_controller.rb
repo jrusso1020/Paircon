@@ -163,7 +163,6 @@ class ConferencesController < ApplicationController
   # The show action renders the individual conference after retrieving the the id
   def show
     logged_in = user_signed_in?
-    @schedule_data = create_schedule_dictionary(@conference)
     if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
         format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
@@ -258,6 +257,7 @@ class ConferencesController < ApplicationController
 
   def schedule
     @total_resources, @total_events = @conference.get_counts(false, false, true, true)
+    @schedule_data = create_schedule_dictionary(@conference)
     render template: 'conferences/tab_panes/schedule'
   end
 
