@@ -209,7 +209,6 @@ function retrievePosts(id) {
 }
 
 function initializeBulkFileUploader(conferenceid) {
-
     $('#uploadButton').text("Upload");
     $('#progress').hide();
     $('#fileName').text("");
@@ -225,7 +224,6 @@ function initializeBulkFileUploader(conferenceid) {
     var url = '/conferences/' + conferenceid + '/process_bulk_upload';
 
     $('.file-upload').fileupload({
-//        maxChunkSize: 786432,
         url: url,
         type: 'POST',
         dataType: 'json',
@@ -238,82 +236,54 @@ function initializeBulkFileUploader(conferenceid) {
                 'width',
                 progress + '%'
             );
-        }
-        ,
-        done: function (e, data) {
-            $('#closeButton').show();
-            $('#cancelButton').hide();
-        }
-        ,
-        add: function (e, data) {
-            alert('here');
-//            if ($.trim($('#csvFileUpload').val()).length && $.trim($('#zipFileUpload').val()).length > 0) {
-//                $('#uploadButton').removeClass('disabled');
-//                for (var i = 0; i < data.files.length; i++) {
-//                    filesList.push(data.files[0]);
-//                    paramNames.push(e.delegatedEvent.target.name);
-//                }
-//            } else {
-//                $('#uploadButton').addClass('disabled');
-//            }
-//
-//            return false;
         },
-//        add: function (e, data) {
-//            $('#fileName').text("[" + data.files[0].name + "]");
-//            $('#uploadButton').removeClass('disabled');
-//            var uploadurl = $('input[name="fileData"]').fileupload('option', 'url');
-//            $('#uploadButton').unbind();
-//            data.context = $('#uploadButton').click(function () {
-//                if($('#new_paper').valid()){
-//                    $('#uploadButton').text("Uploading");
-//                    $('#progress').fadeIn('slow');
-//                    $('#uploadButton').addClass('disabled');
-//                    $('#select-button').addClass('disabled');
-//                    $('#closeButton').hide();
-//                    $('#cancelButton').show();
-//                    $('input[name="fileData"]').fileupload('option', 'url', uploadurl + "&filename=" + data.files[0].name + "&filesize=" + data.files[0].size + "&paper[title]=" + $('#paper_title').val() + "&paper[author]=" + $('#paper_author').val() + "&paper[keywords]=" + $('#paper_keywords').val() + "&paper[year]=" + $('#paper_year').val() + "&paper[affiliation]=" + $('#paper_affiliation').val());
-//                    var jqXHR = data.submit()
-//                        .success(function (result, textStatus, jqXHR) {
-//                            var result_string = JSON.stringify(result);
-//                            showNotificationMsg(JSON.parse(result_string).message);
-//                            $('#modal').modal('hide');
-//                        })
-//                        .error(function (jqXHR, textStatus, errorThrown) {
-//                            var result_string = JSON.stringify(jqXHR.responseJSON);
-//                            result_string = JSON.parse(result_string);
-//                            showErrorMsg(result_string.message);
-//                        })
-//                        .complete(function (result, textStatus, jqXHR) {
-//                            $('#closeButton').show();
-//                            $('#cancelButton').hide();
-//                            $('#closeButton').click();
-//                            $.pjax.reload('[data-pjax-container]');
-//                            $('#uploadButton').removeClass('disabled');
-//                            $('#select-button').removeClass('disabled');
-//                        });
-//
-//                    $('#cancelButton').click(function (e) {
-//                        $('#uploadButton').text("Upload");
-//                        $('#uploadButton').removeClass('disabled');
-//                        $('#select-button').removeClass('disabled');
-//                        $('#progress').hide();
-//                        jqXHR.abort();
-//                    });
-//
-//                }else{
-//                    return false;
-//                }
-//
-//            });
-//        }
-    })
-    ;
+        always: function (e, data) {
+            var result = JSON.parse(JSON.stringify(data._response.result));
+            $('#closeButton').click();
+            $('#uploadButton').removeClass('disabled');
+            $('#select-button').removeClass('disabled');
 
-    $('#uploadButton').click(function (e) {
-        e.preventDefault();
+            if (result.status == 'internal_server_error') {
+                showErrorMsg(result.message);
+            } else {
+                showNotificationMsg(result.message);
+                $.pjax.reload('[data-pjax-container]');
+            }
 
-        $('.file-upload').fileupload('send', {files: filesList, paramName: paramNames});
+        },
+        add: function (e, data) {
+            for (var i = 0; i < data.files.length; i++) {
+                $(this).data('file', data.files[i].name);
+                filesList.push(data.files[i]);
+                paramNames.push(e.delegatedEvent.target.name);
+            }
+
+            var spreadsheetFile = $('#spreadsheetFileUpload').data('file');
+            var zipFile = $('#zipFileUpload').data('file');
+
+            if ($.trim(spreadsheetFile).length > 0 && $.trim(zipFile).length > 0) {
+                $('#uploadButton').removeClass('disabled');
+
+                $('#uploadButton').unbind();
+                $('#uploadButton').click(function (e) {
+                    e.preventDefault();
+
+                    $('#uploadButton').text("Uploading");
+                    $('#progress').fadeIn('slow');
+                    $('#uploadButton').addClass('disabled');
+                    $('#select-button').addClass('disabled');
+                    $('#closeButton').hide();
+                    $('#cancelButton').show();
+
+                    $('.file-upload').fileupload('send', {files: filesList, paramName: paramNames});
+                });
+
+            } else {
+                $('#uploadButton').addClass('disabled');
+            }
+
+            return false;
+        }
     });
 }
 

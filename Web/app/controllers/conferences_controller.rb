@@ -254,8 +254,13 @@ class ConferencesController < ApplicationController
 
   def process_bulk_upload
     bulk_params = params[:bulk]
-    message = @conference.bulk_upload(bulk_params[:csv], bulk_params[:zip])
-    render json: {status: 'success', message: message}
+
+    if Conference::BULK_SPREADSHEET_MIME_TYPE.include?(bulk_params[:spreadsheet].content_type) and Conference::BULK_ARCHIVE_MIME_TYPE.include?(bulk_params[:zip].content_type)
+      message = @conference.bulk_upload(bulk_params[:spreadsheet], bulk_params[:zip])
+      render json: {status: :ok, message: message}
+    else
+      render json: {status: :internal_server_error, message: 'You have uploaded a file with an invalid extension. Please try again later ...'}
+    end
   end
 
   def home
@@ -293,7 +298,7 @@ class ConferencesController < ApplicationController
       @conference.save_image(params, true)
     end
 
-    render json: {status: 'success', url: @conference.logo_picture, filename: @conference.logo_file_name}
+    render json: {status: :ok, url: @conference.logo_picture, filename: @conference.logo_file_name}
   end
 
   def save_cover
@@ -301,7 +306,7 @@ class ConferencesController < ApplicationController
       @conference.save_image(params, false)
     end
 
-    render json: {status: 'success', url: @conference.cover_photo, filename: @conference.cover_file_name}
+    render json: {status: :ok, url: @conference.cover_photo, filename: @conference.cover_file_name}
   end
 
   # The destroy action removes the conference permanently from the database
@@ -322,13 +327,13 @@ class ConferencesController < ApplicationController
   def destroy_logo
     @conference.logo = nil unless @conference.logo.nil?
     @conference.save!(validate: false)
-    render json: {status: 'success'}
+    render json: {status: :ok}
   end
 
   def destroy_cover
     @conference.cover = nil unless @conference.cover.nil?
     @conference.save!(validate: false)
-    render json: {status: 'success'}
+    render json: {status: :ok}
   end
 
   private

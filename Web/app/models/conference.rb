@@ -61,6 +61,9 @@ class Conference < ApplicationRecord
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
   validates_attachment :cover, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
 
+  BULK_SPREADSHEET_MIME_TYPE = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+  BULK_ARCHIVE_MIME_TYPE = ['application/zip']
+
   def logo_picture
     if !self.logo_file_name.blank?
       return self.logo.try(:url)
@@ -137,24 +140,24 @@ class Conference < ApplicationRecord
     return "#{Rails.root}/public/conference/#{self.id}"
   end
 
-  def bulk_upload csv, zip
-    Rails.logger.debug(csv.inspect)
+  def bulk_upload spreadsheet, zip
+    Rails.logger.debug(spreadsheet.inspect)
     Rails.logger.debug(zip.tempfile.inspect)
     FileUtils.rm_f get_conference_path
     FileUtils.mkdir_p get_conference_path
-    zip_path = get_conference_path + "/" + zip.original_filename
-    File.open(zip_path, "w+") do |f|
+    zip_path = get_conference_path + '/' + zip.original_filename
+    File.open(zip_path, 'w+') do |f|
       f.binmode
       f.puts(zip.read)
     end
-    csv_path = get_conference_path + "/" + csv.original_filename
-    File.open(csv_path, "w+") do |f|
+    spreadsheet_path = get_conference_path + '/' + spreadsheet.original_filename
+    File.open(spreadsheet_path, 'w+') do |f|
       f.binmode
-      f.puts(csv.read)
+      f.puts(spreadsheet.read)
     end
     zip.close
-    csv.close
-    parse_csv(csv_path, zip_path, self.id)
+    spreadsheet.close
+    parse_spreadsheet(spreadsheet_path, zip_path, self.id)
     #http://www.rubydoc.info/docs/rails/4.1.7/ActionDispatch/Http/UploadedFile --> This is the object
   end
 

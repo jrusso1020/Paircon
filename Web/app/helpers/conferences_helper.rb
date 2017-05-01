@@ -1,6 +1,6 @@
-require "csv"
-require "zip"
-require "roo"
+# require "csv"
+require 'zip'
+require 'roo'
 
 module ConferencesHelper
   include PapersHelper
@@ -25,16 +25,16 @@ module ConferencesHelper
     pdf_map
   end
 
-  #Parses the csv and save a paper
-  def parse_csv csv, zip_path, conference_id
+  #Parses the spreadsheet and save a paper
+  def parse_spreadsheet spreadsheet, zip_path, conference_id
     pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_conference_pdf_path)
-    xlsx = Roo::Spreadsheet.open(csv)
+    xlsx = Roo::Spreadsheet.open(spreadsheet)
     if (xlsx.sheets.count != 0)
       sheet = xlsx.sheet(0)
       headers = sheet.row(0)
-      # csv_text = File.read(csv)
-      # csv = CSV.parse(csv_text, :headers => true)
-      # csv.each do |row|
+      # spreadsheet_text = File.read(spreadsheet)
+      # spreadsheet = spreadsheet.parse(spreadsheet_text, :headers => true)
+      # spreadsheet.each do |row|
       sheet.each_row_streaming(offset: 1) do |row| # Will exclude first (inevitably header) row
         params = {}
         # row_hash  = row.to_hash
