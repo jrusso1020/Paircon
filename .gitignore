@@ -56,4 +56,5 @@ SimilarityAlgo/__pycache__
 #Ignore file structure
 .DS_Store
 
-/Web/conference_papers
+/Web/public/conference_papers
+/Web/public/users
