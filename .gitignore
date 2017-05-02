@@ -53,7 +53,7 @@ bower.json
 SimilarityAlgo/__pycache__
 /dump.rdb
 
-#Ignore file structure
+#Ignore file structuref
 .DS_Store
 
 /Web/public/conference_papers
