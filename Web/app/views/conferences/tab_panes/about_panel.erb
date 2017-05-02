@@ -1,8 +1,9 @@
 <div id="about_panel" class="tab-pane active">
-  <div class="col-md-12 col-sm-12 col-xs-12 top-buffer">
+  <div class="col-md-12 col-sm-12 col-xs-12 top-buffer" data-step="19" data-intro="Here you can find details about the conference in greater detail." data-position='top'>
     <%= render 'conferences/panels/about_full' %>
   </div>
 </div>
 
 <%= render 'conferences/footer', scheduler: false %>
 
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 19, 'N/A')" %>
