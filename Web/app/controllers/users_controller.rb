@@ -42,18 +42,16 @@ class UsersController < ApplicationController
 
   # request organizer privilege
   def request_organizer
-    respond_to do |format|
-      @user = current_user
-      @organizer = Organizer.create!(user_id: @user.id)
+    @user = current_user
+    @organizer = Organizer.create!(user_id: @user.id)
 
-      if @organizer
-        flash[:notice] = 'Your Have Requested Organizer Access, Please Wait For Your Request To Be Processed.'
-      else
-        flash[:error] = 'There was some error while trying to process your request. Please try again later.'
-      end
-
-      redirect_back(fallback_location: :back)
+    if @organizer
+      flash[:notice] = 'Your Have Requested Organizer Access, Please Wait For Your Request To Be Processed.'
+    else
+      flash[:error] = 'There was some error while trying to process your request. Please try again later.'
     end
+
+    redirect_back(fallback_location: :back)
   end
 
   def become_organizer
