@@ -2,7 +2,7 @@ class RecommendationGenerator
 
   def initialize(user_id, conference_id)
     @user = User.find_by(id: user_id)
-    @conference = Conference.find_by(id: @conference_id)
+    @conference = Conference.find_by(id: conference_id)
   end
 
   def getRecommendationsForEachPaper

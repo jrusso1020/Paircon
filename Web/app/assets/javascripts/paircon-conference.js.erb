@@ -6,21 +6,33 @@ function initializeHeader() {
 
 var current_tab;
 
-function requestUserRecommendations(conference_id, user_id){
-    setInterval(function() {
-        $.ajax({
+function getUserRecommendations(conference_id, user_id, view_to_render){
+    $.ajax({
             type: 'GET',
-            dataType: "json",
             url: '/conferences/' + conference_id + '/user_recommendations',
             data:{
                 'conference_id': conference_id,
-                'user_id': user_id
+                'user_id': user_id,
+                'view_to_render': view_to_render
             },
-            success: function (result) {
-                $("#main-container").empty();
+            beforeSend: function () {
+                if (view_to_render=='true'){
+                    $("#main-container").empty();
+                }
+                else{
+                    $("#recommendation-carousel").empty();
+                }
             }
-        }, 60 * 1000); //perform every minute
     });
+}
+
+function requestUserRecommendations(conference_id, user_id, view_to_render){
+    getUserRecommendations(conference_id, user_id, view_to_render);
+
+    setInterval(function() {
+        getUserRecommendations(conference_id, user_id, view_to_render);
+    }, 20 * 1000); //perform every 20 seconds
+    
 }
 
 function requestTabPane(id, tab_name) {
@@ -58,7 +70,6 @@ function initializeTabPanes(id) {
     } else {
         current_tab = Cookies.get(id + '_current_tab');
     }
-
     requestTabPane(id, current_tab);
 }
 
@@ -302,6 +313,10 @@ function initializeFileUploader(conferenceid) {
 }
 
 function initCharts(count) {
+    var count = count >= 3 ? 3 : count;
+    if (window.innerWidth < 768) {
+        count = count >= 2 ? 2 : count;
+    }
 
     try {
         var owl = $('.owl-carousel');
