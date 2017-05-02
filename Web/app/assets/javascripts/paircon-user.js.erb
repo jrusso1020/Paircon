@@ -13,7 +13,12 @@ function initializeSearch() {
 /***************************************/
 function initializeAdmin() {
     $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
-    $('table.display').DataTable();
+    $('table.display').DataTable({
+        paging : false,
+        columnDefs : [
+        { targets: 'no-sort', orderable: false }
+                    ]
+    });
     $('.organizer-approval').click(function () {
         user_id = $(this).attr('id');
         approveOrganizer(user_id);
@@ -492,5 +497,10 @@ function initLoginBoxValidation() {
 /***************************************/
 function initializePapers() {
     $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
-    $('#datatable-papers').DataTable();
+    $('#datatable-papers').DataTable({
+        paging : false,
+        columnDefs : [
+            { targets: 'no-sort', orderable: false }
+        ]
+    });
 }
