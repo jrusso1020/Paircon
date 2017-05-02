@@ -144,7 +144,7 @@ class User < ApplicationRecord
   end
 
   def is_attending(conference_id)
-    ConferenceAttendee.find_by(user_id: self.id, conference_id: conference_id).blank?
+    !ConferenceAttendee.find_by(user_id: self.id, conference_id: conference_id).blank?
   end
 
   private
