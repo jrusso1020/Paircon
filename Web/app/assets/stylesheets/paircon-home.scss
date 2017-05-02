@@ -388,10 +388,6 @@ h1.bnr-sub-title {
   padding-top: 100px;
 }
 
-.navbar-background-color {
-  //TODO: need to fix Mobile / Tablet view Dropdown missing background
-}
-
 .dropdown-background-color {
   background-color: $header-navbar-background-color;
   color: $header-navbar-background-color;
@@ -512,4 +508,18 @@ Privacy and Terms Pages
 
 .list-circle {
   list-style-type: circle;
+}
+
+/***********************************
+************************************
+Dashboard Attendee
+************************************
+***********************************/
+.conf-box {
+  padding: 10px;
+  overflow: auto;
+  border: 1px solid $color_mischka_approx;
+  border-radius:3px;
+  background-color: white;
+
 }

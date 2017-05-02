@@ -13,6 +13,7 @@
  *= require common/index
  *= require user/index
  *= require conference/index
+ *= require scheduler/index
  */
 
 @import 'compass';
@@ -32,6 +33,5 @@
 @import 'jquery.fileupload-ui';
 @import 'bootstrap-datetimepicker';
 @import 'switchery';
-@import 'introjs';
 @import 'selectize';
 @import 'selectize.default';

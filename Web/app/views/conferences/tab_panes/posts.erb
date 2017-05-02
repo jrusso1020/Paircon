@@ -1,13 +1,22 @@
 <div id="posts" class="tab-pane active">
-  <div class="col-md-10 col-sm-10 col-xs-10">
-    <% if @is_organizer %>
-        <%= render 'posts/new' %>
-    <% end %>
-
-    <%= render 'conferences/panels/posts' %>
+  <div class="col-md-10 col-sm-10 col-xs-10" >
+    <div data-step="15" data-intro="Use this to post updates to people interested in your conference." data-position='top'>
+      <% if @is_organizer %>
+          <%= render 'posts/new' %>
+      <% end %>
+    </div>
+    <div data-step="16" data-intro="This section shows all your posts." data-position='top'>
+      <%= render 'conferences/panels/posts' %>
+    </div>
   </div>
-  <div class="col-md-2 col-sm-2 hidden-xs"></div>
 </div>
 
 <%= render 'conferences/footer', scheduler: false %>
 
+<script>
+  if (Cookies.get(introjs_conference_id + '_introjs') == "true") {
+    introJs().setOption('doneLabel', 'Next page').goToStepNumber(15).start().oncomplete(function() {
+      $("#papers").click();
+    });
+  };
+</script>

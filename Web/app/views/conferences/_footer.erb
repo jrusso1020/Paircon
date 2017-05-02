@@ -5,3 +5,15 @@
 <% if !scheduler.blank? and scheduler %>
     <%= javascript_tag "initializeSchedule('" + @conference.start_date_str.to_s + "', '" + @conference.end_date_str.to_s + "', " + diff.to_s + ', ' + (@is_organizer and @conference.conference_resources.length > 0).to_s + ", '" + @conference.id.to_s + "')" %>
 <% end %>
+
+<%= javascript_tag "initializeIntroJS('" + @conference.id.to_s + "')" %>
+
+<script>
+  var introjs_conference_id = '<%= @conference.id.to_s %>';
+
+  if (Cookies.get(introjs_conference_id + '_introjs') == "true") {
+    introJs().setOption('doneLabel', 'Next page').start().oncomplete(function() {
+        $("#posts").click();
+    });
+  };
+</script>
