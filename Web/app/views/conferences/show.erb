@@ -3,30 +3,26 @@
 <%= render 'header' %>
 
 <div class="row">
-  <div class="col-md-2 col-sm-2 col-xs-2">
+  <div class="col-md-2 col-sm-2 col-xs-2" data-step="14" data-intro="Click the buttom here to get more detail" data-position='bottom'>
     <ul class="nav nav-tabs tabs-left">
       <li class="active"><a href="#home" class="tab_ajax" data-toggle="tab" id="home">Home</a></li>
+        <% if @is_organizer or (!@is_organizer and @post_count != 0) %>
+            <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
+        <% end %>
+        <% if !@is_organizer and user_signed_in? %>
+            <li>
+              <a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab" onclick="">Recommendations</a>
+            </li>
+        <% end %>
+            <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
+        <% if @is_organizer or (!@is_organizer and @total_resources != 0 and @total_events != 0) %>
+            <li><a href="#schedule" class="tab_ajax" id="schedule" data-toggle="tab">Schedule</a></li>
+        <% end %>
+            <li><a href="#about_panel" class="tab_ajax" id="about_panel" data-toggle="tab">About</a></li>
+        <% if @is_organizer %>
+            <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>
+        <% end %>
 
-      <% if @is_organizer or (!@is_organizer and @post_count != 0) %>
-          <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
-      <% end %>
-
-      <% if !@is_organizer and user_signed_in? %>
-          <li>
-            <a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
-          </li>
-      <% end %>
-      <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
-
-      <% if @is_organizer or (!@is_organizer and @total_resources != 0 and @total_events != 0) %>
-          <li><a href="#schedule" class="tab_ajax" id="schedule" data-toggle="tab">Schedule</a></li>
-      <% end %>
-
-      <li><a href="#about_panel" class="tab_ajax" id="about_panel" data-toggle="tab">About</a></li>
-      <hr/>
-      <% if @is_organizer %>
-          <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>
-      <% end %>
     </ul>
   </div>
   <div class="col-md-10 col-sm-10 col-xs-10">
@@ -39,11 +35,9 @@
         <div class="cssload-cube cssload-c3"></div>
       </div>
     </div>
-
     <div class="tab-content">
       <div id="content"></div>
     </div>
-
   </div>
 </div>
 

@@ -124,6 +124,14 @@ class Conference < ApplicationRecord
     self.start_date.strftime(DATEFORMAT)
   end
 
+  def conf_description
+    self.description
+  end
+
+  def conf_location
+    self.location
+  end
+
   def get_counts(post = true, interested = true, resources = true, events = true)
     result = []
     result = result + [self.posts.count] if post
