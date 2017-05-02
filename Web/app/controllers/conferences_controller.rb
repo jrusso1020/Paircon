@@ -1,3 +1,5 @@
+require "papers/paper_utils"
+
 class ConferencesController < ApplicationController
   include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
@@ -73,80 +75,6 @@ class ConferencesController < ApplicationController
         render json: {status: :error, text: @conference.get_name}
       end
     end
-  end
-
-  def create_schedule_dictionary(conference)
-    output = {}
-    all_resources = conference.conference_resources.map { |obj| {id: obj.id, parent_id: obj.parent_id, room: obj.room, title: obj.title} }
-    #separate the events and sessions
-    events = {}
-    sessions = {}
-    all_resources.each do |resource|
-      if resource[:parent_id].nil?
-        events[resource[:id]] = {}
-        events[resource[:id]][:room] = resource[:room]
-      elsif sessions[resource[:id]] = resource[:parent_id]
-      end
-    end
-
-    all_papers = conference.papers.map { |obj| {id: obj.id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url} }
-    papers = {}
-    all_papers.each do |paper|
-      papers[paper[:id]] = paper
-    end
-
-    all_details = conference.conference_events.order(:start_date).map { |obj| {id: obj.conference_resource_id, title: obj.title, start_date: obj.start_date, end_date: obj.end_date, presenter: obj.presenter, paper_id: obj.paper_id, event_type: obj.event_type} }
-
-    ordered_event = []
-    all_details.each do |details|
-      detail_id = details[:id]
-      #Not a event
-      if events[detail_id].nil?
-        session = sessions[detail_id]
-        if not session.nil?
-          # add to the event
-          parent_id = session
-          if output[parent_id].nil?
-            #create a map in the output
-            output[parent_id] = {}
-            output[parent_id][:sessions] = []
-          elsif if output[parent_id][:sessions].nil?
-                  output[parent_id][:sessions] = []
-                end
-          end
-          paper = papers[details[:paper_id]]
-          if not paper.nil?
-            sessions_params = {title: details[:title],
-                               start_time: details[:start_date],
-                               end_time: details[:end_date],
-                               # pdf_link: paper[:url],
-                               type: details[:event_type],
-                               author: paper[:author],
-                               affiliation: paper[:affiliation]
-            }
-            output[parent_id][:sessions].push(sessions_params)
-
-          end
-        end
-      else
-        #add the event params
-        event = events[detail_id]
-        if output[detail_id].nil?
-          ordered_event.push(detail_id)
-          output[detail_id] = {}
-          output[detail_id][:title] = details[:title]
-          output[detail_id][:room] = event[:room]
-          output[detail_id][:start_date] = details[:start_date]
-          output[detail_id][:end_date] = details[:end_date]
-        end
-      end
-    end
-    final_output = []
-    ordered_event.each do |event|
-      final_output.push(output[event])
-    end
-
-    return final_output
   end
 
   # The show action renders the individual conference after retrieving the the id
@@ -270,7 +198,7 @@ class ConferencesController < ApplicationController
 
   def schedule
     @total_resources, @total_events = @conference.get_counts(false, false, true, true)
-    @schedule_data = create_schedule_dictionary(@conference)
+    @schedule_data = ConferenceUtils.create_schedule_dictionary(@conference)
     render template: 'conferences/tab_panes/schedule'
   end
 

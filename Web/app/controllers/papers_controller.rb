@@ -1,4 +1,5 @@
 require 'scrapper/pdf_scrapper'
+require 'papers/paper_utils'
 class PapersController < ApplicationController
   include ConferencesHelper
   include PapersHelper
@@ -30,7 +31,7 @@ class PapersController < ApplicationController
     paper_params[:affiliation] = paper_params[:affiliation].split(',')
     paper_params[:email] = paper_params[:email].split(',')
 
-    if create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
+    if PaperUtils.create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
       render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
     elsif
       render status: :ok, json: {message: 'Paper was successfully added to your Conference.'}.to_json

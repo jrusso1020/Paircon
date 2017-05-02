@@ -29,6 +29,7 @@
 #++
 
 require 'fileutils'
+require 'conferences/conference_utils'
 
 class Conference < ApplicationRecord
   include PublicActivity::Common
@@ -141,8 +142,6 @@ class Conference < ApplicationRecord
   end
 
   def bulk_upload spreadsheet, zip
-    Rails.logger.debug(spreadsheet.inspect)
-    Rails.logger.debug(zip.tempfile.inspect)
     FileUtils.rm_f get_conference_path
     FileUtils.mkdir_p get_conference_path
     zip_path = get_conference_path + '/' + zip.original_filename
@@ -157,7 +156,7 @@ class Conference < ApplicationRecord
     end
     zip.close
     spreadsheet.close
-    parse_spreadsheet(spreadsheet_path, zip_path, self.id)
+    ConferenceUtils.parse_spreadsheet(spreadsheet_path, zip_path, self.id)
     #http://www.rubydoc.info/docs/rails/4.1.7/ActionDispatch/Http/UploadedFile --> This is the object
   end
 
