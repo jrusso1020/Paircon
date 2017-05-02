@@ -256,3 +256,17 @@ Conference About
   height: 165px;
   overflow: hidden;
 }
+
+/***********************************
+************************************
+Dashboard
+************************************
+***********************************/
+#dash_heading_equal{
+  display: flex;
+  flex-wrap: wrap;
+}
+.refresh_url_dash_button{
+  display: flex;
+  margin: auto !important;
+}

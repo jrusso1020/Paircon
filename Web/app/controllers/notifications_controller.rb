@@ -17,5 +17,4 @@ class NotificationsController < ApplicationController
     current_user.last_notifications_read = Time.now
     current_user.save!(:validate => false)
   end
-
 end

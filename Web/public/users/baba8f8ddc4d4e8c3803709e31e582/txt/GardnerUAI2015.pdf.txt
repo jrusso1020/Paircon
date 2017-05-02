@@ -1,0 +1,490 @@
+Psychophysical Detection Testing with Bayesian Active Learning
+
+Jacob R. Gardner gardner.jake@wustl.edu Washington University in St. Louis St. Louis, MO 63130 Kilian Q. Weinberger kilian@wustl.edu Washington University in St. Louis St. Louis, MO 63130
+
+Xinyu Song xinyu.song@wustl.edu Washington University in St. Louis St. Louis, MO 63130 John P. Cunningham jpc2181@columbia.edu Columbia University New York, NY 10027
+
+Dennis Barbour dbarbour@wustl.edu Washington University in St. Louis St. Louis, MO 63130
+
+Abstract
+Psychophysical detection tests are ubiquitous in the study of human sensation and the diagnosis and treatment of virtually all sensory impairments. In many of these settings, the goal is to recover, from a series of binary observations from a human subject, the latent function that describes the discriminability of a sensory stimulus over some relevant domain. The auditory detection test, for example, seeks to understand a subject’s likelihood of hearing sounds as a function of frequency and amplitude. Conventional methods for performing these tests involve testing stimuli on a pre-determined grid. This approach not only samples at very uninformative locations, but also fails to learn critical features of a subject’s latent discriminability function. Here we advance active learning with Gaussian processes to the setting of psychophysical testing. We develop a model that incorporates strong prior knowledge about the class of stimuli, we derive a sensible method for choosing sample points, and we demonstrate how to evaluate this model efﬁciently. Finally, we develop a novel likelihood that enables testing of multiple stimuli simultaneously. We evaluate our method in both simulated and real auditory detection tests, demonstrating the merit of our approach.
+
+to whether each stimulus was detected or not. Detection tests exist for vision (Schiefer et al., 2005), pain (Carter and Shieh, 2009), and many other settings. Perhaps the most common example is audiometry (Carhart and Jerger, 1959; Don et al., 1978; Hughson and Westlake, 1944): a subject is presented with a sequence of n tones xt ∀t = 1, ..., n, where each tone xt ∈ R2 is a pure tone with a speciﬁc frequency (pitch) and intensity (volume). The subject reports an observation yt = 1 if he/she heard the tone, and a yt = 0 is concluded in the absence of a positive report. The purpose of the test is to infer, from this sequence of observations, the underlying audiometric function g (x), a function that describes how likely the subject is to hear sounds over the domain of typical frequencies and intensities. There is substantial variability in each person’s audiogram, particularly for those with partial, selective, or degenerative hearing loss (Gosztonyi Jr et al., 1971; Robinson, 1991; Schmuziger et al., 2004). Accurate estimates of audiograms are thus essential to understanding human audition, and to all medical studies and treatments of various forms of hearing loss. A standard auditory detection test is carried out by playing an n-length sequence of pure tones on a pre-deﬁned grid in frequency-intensity space. This approach, while simple, has several salient drawbacks that lead to an unnecessarily large n. First, a given tone is played multiple times, even if it is highly audible or highly inaudible. Second, information is not shared between previous outcomes. For example, human audition is monotonically increasing in intensity, but in the standard test, even if a particular frequency of sound is heard at a given intensity, tones with the same frequency but higher intensity will still be tested. Finally, owing to limitations on the size of sequence n, a standard detection test probes only six discrete frequencies (Madison et al., 2005). The coarseness of this grid can cause signiﬁcant errors, as human hearing loss can span a range narrow enough to be entirely missed by these six frequen-
+
+1
+
+INTRODUCTION
+
+Psychophysical tests are a fundamental tool for investigating human perception: does a particular stimulus produce sensation for a particular person? The most common form of psychophysical tests – detection tests – present n sensory stimuli to a subject, and ask for n binary reports as
+
+cies (Jerger, 1960; Zhao et al., 2002; Zhao and Stephens, 1998). All of these issues, combined with the impracticality and burden to human subjects of a large n sequence, motivate an active learning approach. Here we treat psychophysical detection tests as an active learning problem, extending and adapting recent work on active learning with Gaussian processes (GPs) (Garnett et al., 2013; Houlsby et al., 2011; Iwata et al., 2013). Our method addresses all the drawbacks of grid-sampling by performing Bayesian active learning of the audiometric function g (x). Speciﬁcally, we place a GP prior on the latent audiogram f (x), which we transform to a [0, 1] valued quantity using a probit transformation (Kuss and Rasmussen, 2005), such that g (x) ≈ Φ(f (x)). We use this model to sequentially sample at each time step t the most informative next tones conditioned on the previous t−1 observations y1 , ..., yt−1 . This model signiﬁcantly enhances the accuracy and efﬁciency of learning audiograms. Our work offers two main contributions: 1. We extend and adapt existing work on Bayesian optimization and active learning to the setting of psychophysical detection tests. We present a model that incorporates strong prior knowledge about the auditory stimulus space, and we present experimental results demonstrating the effectiveness of a Bayesian active learning approach. 2. We develop a novel ‘OR-channel’ likelihood that allows the query of multiple tones simultaneously. We analyze this likelihood in the active learning context, clarifying the non-obvious intuition for why and when such an approach can outperform single-tone queries. We evaluate our algorithm on both simulated and real audiometric detection tests. Our active learning approach obtains ﬁner grained estimates of the audiogram g (x) with substantially fewer stimuli queries (lower n). We note that, in the remainder of this work (notably our experiments), we will continue to use the example and nomenclature of audiometry, though our algorithm is precisely equivalent for other psychophysical detection tests as well.
+
+If we add a test point x∗ with unknown function value f ∗ this distribution extends naturally by one dimension to f f∗ ∼N µ(X) µ(x∗ ) , K k∗ k∗ k (x∗ , x∗ ) .
+
+We can utilize standard Gaussian conditioning rules (Rasmussen and Williams, 2006) to derive the posterior distribution, p(f ∗ |X, f , x∗ ), which is Gaussian with mean and variance µ∗ (x∗ ) σ ∗2 (x∗ ) = = µ0 (x∗ ) + k∗ K−1 (f − µ0 (x∗ )) (1) k (x∗ , x∗ ) − k∗ K−1 k∗ .
+
+(2)
+
+Here k∗ = [k (x∗ , x1 ), ..., k (x∗ , xn )] denotes the kernel vector between the test input x∗ and each training input. In practice, we often do not observe fi directly, but rather some dependent random variable yi . A popular example is to assume additive Gaussian noise, yi = fi + with ∼ 2 ). In this setting, the distribution for f ∗ remains N (0, σn Gaussian, with a mean and variance similar to eqs. (1) and 2 (2) (where K is replaced with K + σn I). However, with most observation models, the posterior distribution of f ∗ conditioned on y is not Gaussian, and exact inference becomes impossible. Approximate inference may be performed using a Gaussian approximation to the likelihood (Kuss and Rasmussen, 2005; Minka, 2001). In particular, by using a Gaussian approximation to the likelihood, we recover the Gaussianity of the posterior. For a full treatment of Gaussian processes, see (Rasmussen and Williams, 2006). Note that in many cases, our goal is to make predictions, for which we use the posterior predictive distribution–a distribution over y ∗ : p(y ∗ |X, y, x∗ ) = p(y ∗ |f ∗ )p(f ∗ |X, y, x∗ )df ∗ , (3)
+
+f∗
+
+This distribution is typically not computable analytically. However, if the posterior distribution for f ∗ is Gaussian (e.g., because a Gaussian likelihood or Gaussian approximate likelihood was used), this integral can often be computed efﬁciently. 2.1 BAYESIAN ACTIVE LEARNING
+
+2
+
+GAUSSIAN PROCESSES
+The goal of Bayesian active learning is to sequentially choose samples so as to accurately model an unknown function g (·) with as few samples as possible. In the audiometric setting, g (x) is the probability that the patient hears the tone x. If we query whether the patient can hear a set of tones X, we would like for our predictive posterior belief p(y ∗ |X, y, x∗ ) to match g (x∗ ) as well as possible and as conﬁdently as possible. Suppose that at iteration t < n the points X = [x1 , ..., xt ] and corresponding labels y are
+
+Throughout this paper we will make extensive use of Gaussian processes (GPs). A GP is formally a prior over functions, f ∼ GP (µ0 (·), k (·, ·)), parameterized by a mean function µ0 (x) = E[f (x)] and covariance function k (x, x ) = E[(f (x) − µ0 (x))(f (x ) − µ0 (x ))]. For any set of n observations X = [x1 , . . . , xn ], the GP implies that their function values f = [f (x1 ), . . . , f (xn )] are jointly Gaussian distributed, f ∼ N (µ(X), K), where K deﬁnes the covariance Kij = Cov[fi , fj ] = k (xi , xj ).
+
+known. Houlsby et al. (2011) propose to use mutual information, I (f , yt |xt ) = H [f |X, y]−E [H [f |X, y, yt ]]p(yt |X,y,xt ) (4) where H [A] denotes the differential entropy of a random variable A, to identify a new point xt , with future label yt , to be queried in iteration t—i.e. xt is chosen to be xt = arg max I (f , y |x)
+x
+
+can encode both properties naturally through its covariance function. A combination of a linear kernel in intensity and a squared exponential kernel in frequency ensures the monotonicity and smoothness properties: k ((ω, i), (ω , i )) = ii + exp − 1 ω−ω
+2 2
+
+.
+
+(6)
+
+(5)
+
+3
+
+METHOD
+
+In this section, we discuss our model and approach to psychophysical detection testing using Gaussian processes. As a running example, we will use audiometry. In an audiometric detection test, a patient is presented with tones of varying frequency and intensity. The patient is asked to respond (e.g., by pressing a button) if he/she hears the sound. In the absence of a timely reaction the tone is assumed to be inaudible to the patient. The delay between tones is sufﬁciently randomized to prevent patients from responding to predictable patterns (Gosztonyi Jr et al., 1971). At time step t, we choose a tone xt = (ω, i) with frequency ω and intensity i to present to the subject. In return, we receive a response yt ∈ {0, 1}, where yt = 1 indicates that the patient heard the sound and yt = 0 indicates that he/she did not. There is inherent observation noise in patient responses. When patients become uncertain when presented with sounds very close to their threshold (i.e., the sounds become faint and hard to hear). Patients do not have perfect detection boundaries, and only hear tones near their hearing threshold with some probability. This uncertainty is observed in reality for a number of reasons. First, patient attention may waver, or they may be unable to distinguish between tones near their hearing threshold and slight background noise. Alternatively, this uncertainty may derive from physical sources. For example, if a tone is faint enough, a patient may be able to hear that tone between– but not during–heart beats. Our goal is therefore to predict the probability that a patient is able hear a given sound. 3.1 PRIOR
+
+Here, regulates the smoothness (characteristic lengthscale) w.r.t. frequency. Note that a GP prior is technically incapable of supporting only monotonically increasing functions. However, we only need that the posterior probability of detection, 3, be monotonic, which is generally true after a few tones are sampled (for example, see ﬁgure 3). For the mean function µ0 , we note that intensity is typically measured in dB HL, which is an empirical unit of measurement normalized based on population data so that at each frequency the typical human hearing threshold is around 0 dB HL. As a result we choose a constant mean function. 3.2 OBSERVATION MODEL
+
+This mean function, µ0 (·), and covariance function, k (·, ·), deﬁne a prior over real-valued latent functions f ∼ GP (µ0 (·), k (·, ·)). Our goal is to predict the probability (i.e. within [0, 1]) that a patient hears a tone with a speciﬁed frequency and intensity. We can never observe these probabilities directly. For any tone, we can instead only observe the outcome of a Bernoulli trial with the true probability. This setting is akin to Gaussian Process classiﬁcation (Kuss and Rasmussen, 2005) and similarly we use a Bernoulli likelihood, where Pr(y = 1|f ) = Φ(f ) and Φ(·) denotes the standard normal cumulative density function (CDF). The linear component of the kernel in (6) results in a function that, after being warped by Φ(·), is sigmoidal in the intensity dimension: after the slope is ﬁxed (by conditioning on the ﬁrst few points), the posterior belief about Φ(f ) will tend to 0 as the intensity decreases and 1 as the intensity increases. This reﬂects our prior knowledge that tones of extremely low intensity are unlikely to be heard, whereas tones of high intensity are more likely to be audible. Predictions. Once we have collected data, we can use the predictive distribution p(y ∗ |X, y x∗ ) to summarize our belief about whether the patient will hear a test tone x∗ . As our likelihood is non-Gaussian, the posterior p(f ∗ |X, y, x∗ ) has no closed form solution. However, an approximate Gaussian posterior over f ∗ can be obtained with the standard Laplace approximation to the likelihood (Kuss and Rasmussen, 2005; Rasmussen and Williams, 2006).
+
+In the case of audiometric testing, we have valuable prior knowledge about a patient’s audiometric function that we can encode in our GP model. In particular, the probability that a patient hears a sound (ω, i) is monotonically increasing in the intensity i. In other words, if a tone is audible to a patient, then an even louder tone is more likely to be audible. Furthermore, audition is a smooth function with respect to the frequency ω . Human nerves that detect similar frequencies are co-located in the cochlea and, as a result, a partial loss of hearing in one frequency is likely to cause a loss of hearing in nearby frequencies. A GP prior
+
+3.3
+
+MULTIPLE TONES
+
+An interesting property of audiometry (that may also be common to other psychophysical domains, e.g. visual or touch sensory tests), is that multiple tone stimuli can be presented to a patient simultaneously by overlaying tones. In this setting however, we can still only query whether the patient heard the overlaid tones. A negative response to a multi-tone sample indicates that the patient did not hear any of the overlaid tones; a positive response indicates that the patient heard at least one of them. OR-Channel. Presenting a patient with k tones leads to a novel extension to the standard Bernoulli likelihood used in classiﬁcation. We present the patient with k tones x1 , ..., xk . The patient hearing the individual tone xi is still the outcome of a Bernoulli trial with Pr(yi |fi ) = Φ(fi ), as the individual trials are independent conditioned on f . However, we cannot directly observe any individual yi . Rather, we record them through an OR-channel, that is we observe y ¯, which is 1 if the patient hears at least one of the k tones presented, and is 0 otherwise. This leads to the OR-channel likelihood: Pr(¯ y = 1|f1..k ) = 1 − =1− (1 − Φ(fj )) Φ(−fj ) (7)
+
+If ft is known we have Pr(y |f ) = Φ(ft ), yielding H [yt |f ] = h (Φ(ft )) .
+
+be expressed in terms of the expectation over the posterior for ft : H [yt |X, y] = h (E [Φ(ft )]) . (9) (10)
+
+Substituting eqs. (9), (10) into (8) leads us to the following expression for the mutual information between f and yt in the single tone scenario: I1 (f , yt |qt ) = h (E [Φ(ft )]) − E [h (Φ(ft ))] . (11)
+
+The computation of I1 involves an intractable integral, which can be approximated through numerical integration. This approach is very fast in practice as the integral is only one dimensional and can be computed efﬁciently using quadrature. Multiple tone mutual information The above results can be extended to compute the mutual information when sampling multiple tones qt = [{x1 , ..., xk }]. In particular, the probability of observing y ¯t = 1 changes from Φ(ft ) to the OR-channel probability, (7). Thus, when f1 , ..., fk are known, the entropy of the Bernoulli variable k y ¯t is h 1 − i=1 Φ(−fi ) . To simplify notation, let us deﬁne p ¯1 = Pr(¯ y = 1|f1..k ) as deﬁned in (7). Substituting p ¯1 for Φ(ft ) in (11) gives the mutual information of paired tone sample qt after observing the outcome y ¯t : Ik (f , y ¯t |qt ) = h(E [¯ p1 ]) − E [h(¯ p1 )] =h E
+j Φ(−fj )
+
+j
+
+j
+
+Note when k = 1, eq. (7) reduces to the standard Bernoulli likelihood for single tones, Pr(¯ y = 1|f1 ) = Φ(f1 ). 3.4 QUERY SELECTION
+
+−E h
+
+j Φ(−fj )
+
+In iteration t we present the subject with a query set of overlaid tones qt = [{x1 , ..., xk }] and query the response y ¯t . To select qt we pick the point set that maximizes the expected decrease in posterior entropy, analogous to eq. (4). Single tone mutual information. We ﬁrst consider the setting of picking a single tone, i.e. where qt = [{xt }]. Houlsby et al. (2011) derive an analytical approximation to the mutual information, eq. (5), when using a Bernoulli likelihood. These results directly apply when picking a single tone xt . When ft is known, the entropy of the Bernoulli variable yt is given by h(Φ(ft )), where h(p) = −p log p − (1 − p) log(1 − p), is the Bernoulli entropy function. We can rephrase the entropy in eq. (4) as I (f , yt |qt ) = H [yt |X, y] − E [H [yt |f ]]p(f |X,y) , (8)
+
+(12)
+
+where the second equality holds by the linearity of expectation and because h(p) is a concave function that is symmetric about p = 0.5 (i.e. h(p) = 1 − h(p)). The last term leads again to an intractable integral. However, similar to the one tone scenario, Ik can also be evaluated efﬁciently using numerical integration, as k is relatively small. Computational Considerations Finding a set of k ≤ K (k ) tones qt to maximize Ik (f , y ¯t |qt ) from a candidate set X
+
+and rewrite both terms on the right hand side through h. If f is unknown and yt is conditioned on X, y, the entropy can
+
+of size S requires O S considerations. In order to enk sure that patients do not have to wait for a lengthy duration between sounds are played, we construct a set of multiple tones to play greedily. We select the best single tone by exhaustively searching X . Then, to select the best set of size ˆ ∈ X to the best set of size k , we exhaustively add each x (k−1) k − 1, qt and compute the expected decrease in poste(k−1) ˆ . This greedy selection procedure rior entropy of qt ∪x reduces the computational complexity of considering tone sets of up to size k to O (Sk ), and in practice requires only a few seconds of computation time.
+
+a
+1
+
+I1 I2
+
+B·) h( h Single Paired
+
+b
+
+1
+
+c
+
+1
+
+0.1
+
+0
+
+mean µ
+
+−1
+
+0
+
+−2
+
+0
+
+¯ 0 αα
+
+β
+
+¯ β
+
+1
+
+0 0
+
+α
+
+1
+
+−3 0
+
+correlation ρ
+
+1
+
+−0.1
+
+Figure 1: Difference in mutual information I2 − I1 between a paired query and a single query: (a) discrete distribution ¯ ≈ 0.88). Here I2 − I1 ≈ 0.18; (b) with two atoms (α, β ) = 0.05, 0.65, and corresponding α ¯ = 1 − (1 − α)2 ≈ 0.1, β I2 − I1 as a function of α, β (white cross denotes the speciﬁc example of panel a); (c) the normally distributed latent input case. I2 − I1 is shown as a function of the mean µ and correlation ρ. Colorbar at right is for both panel b and c. 3.5 OR-CHANNEL ANALYSIS p(y = 1|{f1 , f2 }) = 1 − (1 − φ(f1 )) (1 − φ(f2 )) = 2 1−(1 − φ(f1 )) . The mutual information of a paired-input query becomes I2 = h 1 ¯ α ¯+β 2 − 1 ¯ h (¯ α) + h β 2 , (14)
+
+We ﬁrst investigate the OR-channel likelihood of eq. (7), as it is unclear if this elaboration can provide any beneﬁt over a standard Bernoulli likelihood. Intuitively, the result of y ¯ = 0 from an OR-channel is quite informative: all inputs into that channel must have been 0 (in the auditory example, no sounds were heard). On the other hand, the result of y ¯ = 1 is much less informative than in the Bernoulli channel, as it means only that one or more of the inputs were 1 (some sound or sounds were heard), but there is no information about which. Here we analyze simple models that support the use of the OR-channel likelihood. We compare a single input, corresponding to the standard Bernoulli likelihood, to a paired input, corresponding to an OR-channel likelihood with two inputs. That is, with inputs {f1 , f2 } and output y ∈ {0, 1} as above, our quantities of interest are I1 := I (y, f1 ) and I2 := I (y, {f1 , f2 }), and we seek to understand if more information about the inputs can exist in the paired-input query, than in the single-input query. 3.5.1 OR-channel Inputs With Discrete Support
+
+¯ = 1 − (1 − β )2 . I2 where α ¯ = 1 − (1 − α)2 and β and I1 offer a convenient geometric interpretation by viewing mutual information as the Jensen’s inequality gap of h (eqs. (13) and (14)). With this simple discrete distribution, α and β can be chosen such that I2 − I1 will be positive or negative. We show the critical case I2 > I1 in Figure 1a, where the blue line segment connects (α, h(α)) to (β, h(β )) with (α, β ) = (0.05, 0.65), and the red line segment is then implied by those choices of α, β (that is, ¯) ≈ (0.10, 0.88) in the ﬁgure). Here the difference is (¯ α, β I2 − I1 = 0.18 bits. The contours of I2 − I1 as a function of (α, β ) is shown in Figure 1b. 3.5.2 OR-channel Inputs With Normal Densities
+
+The simplest case involves perfectly correlated inputs f1 = f2 , and further, a discrete distribution on f1 with two atoms of equal mass. The implied probability φ(f1 ) will then have the same discrete distribution, which we write as 1 p (φ(f1 )) = 1 2 δ (φ(f1 ) = α) + 2 δ (φ(f1 ) = β ), for some atoms α and β . Then, the mutual information of the single query is: I1 = H (y ) − H (y |f1 ) =h
+
+= h (Ef [φ (f1 )]) − Ef [h (φ (f1 ))]
+
+(13)
+
+1 1 (α + β ) − (h(α) + h(β )) , 2 2
+
+We next analyze the OR-channel likelihood with two latent factors f1 = f (x1 ) and f2 = f (x2 ), which are jointly Gaussian according to the GP model of Section 3: [f1 , f2 ] ∼ N (m, S ). We calculate I2 − I1 numerically using eq. (11) (note that, compared to the previous example, only the expectation over f has changed). We simplify the µ 1 ρ parameter space with m = and S = (but note µ ρ 1 that the function I2 − I1 is not invariant to either of these simpliﬁcations). We plot the contours of I2 − I1 as a function of correlation ρ and mean µ in Figure 1c, which indeed has substantial regions of both positive and negative mass. In summary, though intuitively non-obvious, the above analyses clarify that the OR-channel likelihood can, but need not, increase mutual information between the input distribution and the binary outcome y . This ﬁnding offers a
+
+where Ef is the expectation under the distribution on f . The OR-channel likelihood for two terms is similarly
+
+I2 − I1
+
+β
+
+Standard Audiogram, 114 Samples 80 70 60 Intensity (dB HL) 50 40 30 20 10 0 -10 8 9 10 11 12 13
+80 70 60 50 40 30 20 10 0 -10
+
+Multi-tone GP Audiogram, 60 Iterations
+1 0.8 0.6
+0.8
+
+0.4
+0.8
+
+0.6
+0.4
+
+0.8
+
+0.2
+
+0.6
+0.4
+
+0.6 0.4
+0.2
+
+0.2 0
+
+0.2
+
+8
+
+9
+
+10
+
+11
+
+12
+
+13
+
+Frequency (Log Hz)
+
+Figure 2: Standard grid search audiogram with tones played at every octave from 250 to 8000 Hz, and every 5 dB HL from -10 dB to 80 dB, compared to a multi-tone GP audiogram with 60 iterations (and therefore 119 “samples”).
+
+critical takeaway: the OR-channel can be used effectively, but only in the setting where a judicious choice of input distribution can be made. Indeed, this is exactly what our framework will achieve: it will choose pairs of input points (paired sounds) to learn more about the underlying audiogram than a single point alone. Thus, the OR-channel likelihood offers beneﬁt beyond this scheme, which we already expect to outperform a naive approach to learning these latent functions. In this work we only consider paired inputs; a future question for study is how the information gain distribution changes with increasing numbers of inputs.
+
+ularly time- and attention-demanding task (Jerger, 1960; Meyer-Bisch, 1996). Several Bayesian audiogram estimation techniques, such as parameter estimation by sequential testing (PEST) and maximum likelihood methods also exist, although most do not simultaneously estimate multi¨ ple frequencies (Green, 1993; Leek et al., 2000; Ozdamar et al., 1990; Pentland, 1980; Taylor and Creelman, 1967). More recent advances in audiometric testing have focused on improving the accessibility of hearing screening by distribution over telephone, Internet, or mobile devices (Smits et al., 2004; Swanepoel et al., 2014; Vlaming et al., 2014; Watson et al., 2012; Williams-Sanchez et al., 2014).
+
+4
+
+RELATED WORK 5 RESULTS
+
+A number of papers have been recently published on Bayesian active learning. Many papers have considered Bayesian active learning using mutual information in the regression setting (Guestrin et al., 2005; Krause and Guestrin, 2007; Srinivas et al., 2009). However, the computation of mutual information is signiﬁcantly less tractable in the classiﬁcation setting. To our knowledge, Houlsby et al. (2011) is the ﬁrst paper to leverage the rewriting of mutual information in (12), allowing for tractable computation of mutual information with the Bernoulli observation model. This paper is most similar to ours, as the Bernoulli observation model is identical to our single tone audiometric algorithm. A number of other, orthogonal applications and extensions of this method have since been published (Garnett et al., 2013; Iwata et al., 2013). Alternative techniques for estimating audiograms have existed for many years. Sweep-based audiometry, such as Bekesy audiometry and Audioscan, are able to produce a more continuous estimate of the audiogram that can often detect notches, but with the disadvantage of a partic-
+
+In this section, we empirically evaluate our proposed algorithms for psychophysical detection. We focus on our application to audiometry, and seek to evaluate the merits of using Gaussian processes for audiometry in general, as well as to compare single-tone and multi-tone audiometry, focusing on the machine learning aspects of our algorithms. We have since published a small clinical trial in a medical journal evaluating the novel GP audiometric techniques discussed here from a clinical point of view as well, and refer readers to Song et al. (2015) for additional results comparing GP audiometry and standard audiometry. To begin, we compare the audiograms found by a standard grid audiometric test and by our multi-tone GP model. In both cases we run the same human subject in the same audiometric setting. The only differences are the tones presented and the method used to infer the audiometric function. All audiometric tests were run in accordance with an approved IRB. In the standard setting, tones from this
+
+Posterior Prob. of Detection
+
+35 30
+0.8
+
+1 Iteration
+
+35 30 25 20 15
+0.8
+
+15 Iterations
+
+25 20 15 10 5 0 -5 Intensity (dB HL) -10 8 9
+
+0.8
+
+0.6
+
+0.8
+0.8
+
+0.4
+
+0.6
+
+0.6
+
+10 5 0
+0.2
+
+0.6
+
+0.6
+
+0.2
+
+0.6
+
+0.6
+0.4
+0.2
+0.4
+0.4
+
+0.4
+0.4
+
+0.4
+
+-5 10 11 12 13 -10 8
+
+30 25
+0.8
+
+0.
+
+2
+
+0.8 0.7
+
+20 9 15 10 5
+0.8
+
+10
+
+11
+0.8
+
+12
+
+13 0.8
+0.6
+0.4
+
+0.6 0.5 0.4 0.3
+
+0.4
+
+35 30 25 20 15 10 5 0 -5 -10 8 9
+0.8
+0. 8
+
+30 Iterations
+
+35 30 25 20
+0.8
+
+60 Iterations
+0. 4
+
+0.6
+0.4
+0.2
+
+0 -5 8
+0.8
+0.6
+0.8
+
+0.2
+
+0.2
+
+0.8
+
+0.6
+
+0.4
+
+15 10 5 0 -5 -10
+
+0.6
+
+0.2
+
+0.8
+0.6
+
+-10
+
+0.6
+
+0.4
+
+0.4
+
+9
+
+10
+
+0.2
+
+0.6
+0.4
+
+0.2
+
+0.6
+
+11
+
+120.4
+0.2
+
+13
+
+0.1
+
+0.2
+
+0.4
+0.2
+
+0.4
+0.2
+
+0.2
+
+10
+
+11
+
+12
+
+13
+
+8
+
+9
+
+10
+
+11
+
+12
+
+13
+
+Frequency (Log Hz)
+
+Figure 3: The posterior probability of detection within the frequency / intensity space during a GP audiometric test on a human subject. Panels show the learned GP after 1, 15, 30, and 60 iterations. Queries consist of a single or a paired tone (as selected by the model). Blue circles indicate a positive outcome (sound was heard), red crosses indicate a negative outcome. Paired tones with positive outcome (at least one of the two tones was heard) are connected by a blue line. Almost all queries are close to the ﬁnal audible threshold (0.5 posterior detection probability), which is well approximated even after only 15 iterations.
+
+grid are presented in a pre-determined order, typically ascending in frequency and decreasing in intensity. In the GP model, pairs of tones were actively selected given all previous pairs of tones and the responses to those tones. A random delay of up to 3 seconds was inserted between tone presentations to prevent subjects from memorizing a pattern in the test. Figure 2 shows the resulting data and inferred audiograms plotted in frequency-intensity space (left panel: standard audiometric test; right panel: GP method). For both the standard and GP experiments, tones that were detected by the patient are plotted as blue circles, and tones that were not detected are plotted as red crosses. For the paired-tone GP test (right panel), paired samples that were detected are plotted as blue circles connected by a blue line (recall that, due to the OR-channel likelihood, we do not know which tone was heard). Paired tones that were not detected are again plotted as individual red crosses, as these data are functionally equivalent to two single-tone samples
+
+that were not detected (again due to the OR-channel observation model). In the standard audiometric test, the inferred audiogram is simply an “audible threshold” that is the piecewise linear function connecting the detection threshold at each frequency. This threshold is depicted as a black line in the left panel of Figure 2. In the GP case, we infer a full posterior distribution on the detection threshold. We plot contours of the posterior detection probability in the right panel of Figure 2, with a solid black line at 50% posterior detection probability. This conﬁrmatory comparison offers several key points of interpretation. First, the tests agree with each other: the 50% posterior detection probability in the GP case is within 5dB of the standard audiogram, giving conﬁdence to the general sensibility of this model. Second, perhaps most importantly to the active learning goal, the GP active learning
+
+Posterior Prob. of Detection
+
+35
+
+0.9
+
+0.2
+
+0. 8
+6
+
+0.
+
+0.6
+
+0. 2
+
+6 0.
+0. 4
+0. 2
+
+80 70
+
+1 0.8 0.6 0.4
+0.8
+0.8 0.6 0.4
+8 0. 6 0. 4 . 0 0.2
+
+Intensity (dB HL)
+
+60 50 40 30 20 10 0 -10 8
+2 0.
+
+0.6
+0.4
+
+0.2 0
+
+0.2
+
+9
+
+10
+
+11
+
+12
+
+13
+
+Frequency (Log Hz)
+(a) A GP trained on 100 single tones. Blue circles denote tones detected by the subject, and red crosses denote tones that were not detected. The posterior probabilities are shown as color contours. (b) Log likelihood of random presentation of tones (no active learning, shown in gray), active learning presentation of single tones (shown in blue), and active learning with paired tones (shown in red), under the ground truth audiometric function from Figure 4a. Log likelihood is plotted as a function of iterations in each audiometric testing strategy. Shaded areas denote standard error.
+
+Figure 4: Comparison of multi-tone and single-tone GP audiometrics model presents approximately half as many iterations (60 actively learned paired tones compared to 114 single tones preselected from a grid). Thus the GP model is able to explore substantially more of the frequency space than the standard grid test, and it does so in many fewer overall iterations, reducing the burden of these tests. Third, note that the GP model does not explore uninformative regions of tone space: above a certain intensity (at which the model is conﬁdent that tones are certainly heard), there are no tones queried. This observation differs sharply from the standard test, which squanders numerous samples at intensities well above this subject’s audible threshold, where little to no information is available. Fourth, by design our GP model offers a full posterior distribution over tone space, and thus produces a richer and more descriptive audiogram than the piecewise linear audible threshold function in the standard test. Finally, it is worth noting that, though the paired tones in the right panel of Figure 2 appear to be sampled at very similar frequencies in log-space, the differences were often nontrivial, up to four or ﬁve half steps in an octave. Next, Figure 3 investigates the convergence of our GP model after 1, 15, 30, 60 iterations of our paired-tone GP audiometric algorithm. The posterior after a single iteration (upper left panel) reﬂects primarily the prior mean and the covariance of the model, which incorporates our knowledge about the general shape of human audiograms. As the active learning procedure continues (other panels), the GP posterior quickly converges to the audiogram of this particular subject. After only 30 iterations, the GP model has already captured the audiogram shape, and subsequent changes are very minor. To investigate the performance of our GP active learning method in greater detail, we construct a synthetic data set with known ground truth (a known audiometric function). We begin by training a GP on 100 single tones and the detection of those tones reported by a second human subject. The tones sampled and the inferred audiogram are presented in Figure 4a. We use this posterior GP as the true audiogram of a simulated subject. This ground truth audiometric function allows for the critical assessment of performance shown in Figure 4b. We compare three strategies of data presentation: random presentation of tones (no active learning, shown in gray), active learning presentation of single tones (shown in blue), and active learning with paired tones (shown in red). For each strategy, at each iteration (tone presentation), we infer the GP posterior mean, which is the MAP estimate of the audiometric function, given each stream of data. We evaluate the log likelihood of each strategy’s GP posterior mean under the ground truth GP from Figure 4a. This step offers a quantitative assessment of how closely each strategy has approximated the true audiometric function. The maroon dashed line depicts the log likelihood of the ground truth GP itself, which is thus the maximum achievable performance of any strategy. All three strategies (random, single tone active learning, paired tone active learning) should, with enough iterations, converge to ground truth. Thus, the essential question of this work, and indeed of any active
+
+learning method, is how much more quickly a particular strategy approaches the ground truth than competing strategies. We ran the single and paired tone active learning methods ten times each, and standard errors are plotted as shaded regions. Because of the very high standard error of the random tone audiogram, these results were averaged over 100 runs. Figure 4b has a few key ﬁndings. Both the single and paired tone active learning strategies signiﬁcantly outperform random sampling. Thus our strong prior rapidly learns that large portions of the tone space are either very likely or very unlikely to be heard, and is able to quickly learn to sample in regions of high information. After 80-90 iterations the paired tone algorithm matches the ground truth model very closely. This result is in signiﬁcant contrast to randomly choosing tones, which not only has very large standard error, but also rarely converges to a good model. Finally, we observe that the paired tone active learning strategy significantly outperforms the single tone strategy. In fact, the paired tone strategy requires only half as many iterations to achieve the same level of likelihood. Compared to random sampling, paired tone active learning reduces the number of iterations by 85%.
+
+References
+Raymond Carhart and James Jerger. Preferred method for clinical determination of pure-tone thresholds. Journal of Speech & Hearing Disorders, 1959. Matt Carter and Jennifer C Shieh. Guide to research techniques in neuroscience. Academic Press, 2009. Manuel Don, Jos J Eggermont, and Derald E Brackmann. Reconstruction of the audiogram using brain stem responses and high-pass noise masking. The Annals of otology, rhinology & laryngology. Supplement, (3 Pt 2 Suppl 57):1–20, 1978. Roman Garnett, Michael A Osborne, and Philipp Hennig. Active learning of linear embeddings for gaussian processes. arXiv preprint arXiv:1310.6740, 2013. Rudolph E Gosztonyi Jr, Lawrence A Vassallo, and Joseph Sataloff. Audiometric reliability in industry. Archives of Environmental Health: An International Journal, 22(1): 113–118, 1971. David M Green. A maximum-likelihood method for estimating thresholds in a yes–no task. The Journal of the Acoustical Society of America, 93(4):2096–2105, 1993. Carlos Guestrin, Andreas Krause, and Ajit Paul Singh. Near-optimal sensor placements in gaussian processes. In ICML, 2005. Neil Houlsby, Ferenc Husz´ ar, Zoubin Ghahramani, and M´ at´ e Lengyel. Bayesian active learning for classiﬁcation and preference learning. arXiv preprint arXiv:1112.5745, 2011. WAITER Hughson and Harold Westlake. Manual for program outline for rehabilitation of aural casualties both military and civilian. Trans Am Acad Ophthalmol Otolaryngol, 48(Suppl):1–15, 1944. Tomoharu Iwata, Neil Houlsby, and Zoubin Ghahramani. Active learning for interactive visualization. In Proceedings of the Sixteenth International Conference on Artiﬁcial Intelligence and Statistics, pages 342–350, 2013. James Jerger. Bekesy audiometry in analysis of auditory disorders. Journal of Speech, Language, and Hearing Research, 3(3):275–287, 1960. Andreas Krause and Carlos Guestrin. Nonmyopic active learning of gaussian processes: an explorationexploitation approach. In ICML 24, 2007. Malte Kuss and Carl Edward Rasmussen. Assessing approximate inference for binary gaussian process classiﬁcation. The Journal of Machine Learning Research, 6: 1679–1704, 2005. Marjorie R Leek, Judy R Dubno, Ning-ji He, and Jayne B Ahlstrom. Experience with a yes–no single-interval maximum-likelihood procedure. The Journal of the Acoustical Society of America, 107(5):2674–2684, 2000.
+
+6
+
+DISCUSSION
+
+In this paper, we explored the problem of adapting Bayesian active learning to psychophysical testing, and improving upon standard techniques used in audiometric testing. In the process of our investigation, we developed a novel OR-channel likelihood that allows us to present multiple tones to a subject simultaneously, leading to an audiometric testing strategy that not only yields good audiogram estimation using signiﬁcantly fewer samples, but also leads to much better coverage of the frequency dimension. We demonstrate a non-obvious result, that multiple tones played through an OR-channel can, but do not have to, yield more information than a single tone. As future work we will continue to investigate the theoretical properties of this likelihood function and its use in active learning. We also hope that the drastic improvements of our method over the state-of-the-art will convince experts in medicine and psychology to adapt machine learned approaches for psychophysical testing.
+
+7
+
+ACKNOWLEDGEMENTS
+
+KQW and JRG are supported by NIH grant U01 1U01NS073457-01 and NSF grants IIA-1355406, IIS1149882, EFRI-1137211, CNS-1017701, CCF-1215302, and IIS-1343896. XS and DB are supported by NIH grant R01-DC009215. JPC is supported by a Sloan Research Fellowship.
+
+Ted Madison et al. Guidelines for manual pure-tone threshold audiometry. 2005. Christian Meyer-Bisch. Audioscan: a high-deﬁnition audiometry technique based on constant-level frequency sweeps-a new method with new hearing indicators. International Journal of Audiology, 35(2):63–72, 1996. Thomas P Minka. Expectation propagation for approximate bayesian inference. In UAI, 2001. ¨ ¨ Ozcan Ozdamar, Rebecca E Eilers, Edward Miskiel, and Judith Widen. Classiﬁcation of audiograms by sequential testing using a dynamic bayesian procedure. The Journal of the Acoustical Society of America, 88(5): 2171–2179, 1990. Alex Pentland. Maximum likelihood estimation: The best pest. Attention, Perception, & Psychophysics, 28(4): 377–379, 1980. C.E. Rasmussen and C.K.I. Williams. Gaussian processes for machine learning. MIT Press, 2006. DW Robinson. Long-term repeatability of the pure-tone hearing threshold and its relation to noise exposure. British journal of audiology, 25(4):219–235, 1991. U Schiefer, J P¨ atzold, and F Dannheim. Konventionelle perimetrie. Der Ophthalmologe, 102(6):627–646, 2005. Nicolas Schmuziger, Rudolf Probst, and Jacek Smurzynski. Test-retest reliability of pure-tone thresholds from 0.5 to 16 khz using sennheiser hda 200 and etymotic research er-2 earphones. Ear and hearing, 25(2):127–132, 2004. Cas Smits, Theo S Kapteyn, and Tammo Houtgast. Development and validation of an automatic speech-in-noise screening test by telephone. International journal of audiology, 43(1):15–28, 2004. X. D. Song, B. M. Wallace, J. R. Gardner, N. M. Ledbetter, K. Q. Weinberger, and D. L Barbour. Fast, continuous audiogram estimation using machine learning. Ear and Hearing, 2015. Niranjan Srinivas, Andreas Krause, Sham M Kakade, and Matthias Seeger. Gaussian process optimization in the bandit setting: No regret and experimental design. arXiv preprint arXiv:0912.3995, 2009. De Wet Swanepoel, Hermanus C Myburgh, David M Howe, Faheema Mahomed, and Robert H Eikelboom. Smartphone hearing screening with integrated quality control and data management. International journal of audiology, 53(12):841–849, 2014. MiM Taylor and C Douglas Creelman. Pest: Efﬁcient estimates on probability functions. The Journal of the Acoustical Society of America, 41(4A):782–787, 1967. Marcel SMG Vlaming, Robert C MacKinnon, Marije Jansen, and David R Moore. Automated screening for high-frequency hearing loss. Ear and hearing, 35(6): 667, 2014.
+
+Charles S Watson, Gary R Kidd, James D Miller, Cas Smits, and Larry E Humes. Telephone screening tests for functionally impaired hearing: Current use in seven countries and development of a us version. Journal of the American Academy of Audiology, 23(10):757–767, 2012. Victoria Williams-Sanchez, Rachel A McArdle, Richard H Wilson, Gary R Kidd, Charles S Watson, and Andrea L Bourne. Validation of a screening test of auditory function using the telephone. Journal of the American Academy of Audiology, 25(10):937–951, 2014. F Zhao, D Stephens, and C Meyer-Bisch. The audioscan: a high frequency resolution audiometric technique and its clinical applications. Clinical Otolaryngology & Allied Sciences, 27(1):4–10, 2002. Fei Zhao and Dafydd Stephens. Analyses of notches in audioscan and dpoaes in subjects with normal hearing. International Journal of Audiology, 37(6):335–343, 1998.
+
+

@@ -6,7 +6,24 @@ function initializeSearch() {
     // initializePanels();
 
 }
-
+/***************************************/
+//------------REFRESH PROFILE URL--------------//
+/***************************************/
+function refreshProfileUrl() {
+    $('.tooltip-wrapper').tooltip();
+    $('.refresh_publication').click(function () {
+        user_id = $(this).attr('id');
+        $.ajax({
+            type: 'POST',
+            data: {id: user_id},
+            url: '/users/' + user_id + '/refresh_profile',
+            success: function () {
+                showNotificationMsg('Publication URL Refresh Initiated');
+                $.pjax.reload('[data-pjax-container]');
+            }
+        });
+    });
+}
 /***************************************/
 //------------APPROVE ORGANIZER--------------//
 /***************************************/
@@ -16,7 +33,6 @@ function initializeAdmin() {
         user_id = $(this).attr('id');
         approveOrganizer(user_id);
     });
-    initializePanels();
 
 }
 

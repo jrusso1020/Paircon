@@ -66,6 +66,7 @@ class UsersController < ApplicationController
   end
 
   def refresh_profile
+    @user = current_user
     if not @user.url.blank?
       @user.scrape_profile
     end

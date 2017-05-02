@@ -1,0 +1,181 @@
+Convex Optimizations for Distance Metric Learning and Pattern Classiﬁcation
+Kilian Q. Weinberger Department of Computer Science and Engineering Washington University, St. Louis, MO 63130 kilian@seas.wustl.edu Fei Sha Computer Science Department University of Southern California, Los Angeles, CA 90089 feisha@usc.edu Lawrence K. Saul Department of Computer Science and Engineering UC San Diego, La Jolla, CA 92093 saul@cs.ucsd.edu
+The goal of machine learning is to build automated systems that can classify and recognize complex patterns in data. Not surprisingly, the representation of the data plays an important role in determining what types of patterns can be automatically discovered. Many algorithms for machine learning assume that the data are represented as elements in a metric space. For example, in popular algorithms such as nearest-neighbor classiﬁcation, vector quantization, and kernel density estimation, the metric distances between different examples provide a measure of their dissimilarity [1]. The performance of these algorithms can depend sensitively on the manner in which distances are measured. When data are represented as points in a multidimensional vector space, simple Euclidean distances are often used to measure the dissimilarity between different examples. However, such distances often do not yield reliable judgments; in addition, they cannot highlight the distinctive features that play a role in certain types of classiﬁcation, but not others. For example, consider two schemes for clustering images of faces: one by age, one by gender. Images can be represented as points in a multidimensional vector space in many ways—for example, by enumerating their pixel values, or by computing color histograms. However the images are represented, different components of these feature vectors are likely to be relevant for clustering by age versus clustering by gender. Naturally, for these different types of clustering, we need different ways of measuring dissimilarity; in particular, we need different metrics for computing distances between feature vectors. This article describes two algorithms for learning such distance metrics based on recent developments in convex optimization.
+
+1
+
+DISTANCE METRIC LEARNING
+Distance metric learning is an emerging subarea of machine learning in which the underlying metric is itself adapted to improve the results of classiﬁcation and pattern recognition [2, 3, 4, 5]. Algorithms for distance metric learning attempt to improve on ad-hoc or default choices of distance metrics. In many applications, a simple but effective strategy is to replace Euclidean distances by so-called Mahalanobis distances. A Mahalanobis distance metric1 computes the distance between vectors x and z as: dM (x, z) = (x − z) M(x − z), (1) where the matrix M 0 is required to be positive semideﬁnite. Mahalanobis distances play an important role in multivariate statistics, where the matrix M is often estimated from the data’s inverse covariance matrix. We will consider other ways to estimate such matrices, while still requiring them to be positive semideﬁnite. When M is equal to the identity matrix, Eq. (1) reduces to the Euclidean distance metric. In this article, we describe the problem of distance metric learning as it arises in two popular models of classiﬁcation. Most importantly, in these models, we show how to formulate the required optimizations for distance metric learning as instances of convex programming. Convex programming is a generalization of linear programming in which linear costs and constraints are replaced by convex costs and constraints. Convex programs can be solved efﬁciently on modern computers due to recent advances in numerical optimization [6]. Distance metric learning lends itself naturally to convex programming because the constraint M 0 in Eq. (1) is convex; in particular, the set of positive semideﬁnite matrices is a convex set. We have explored convex optimizations for distance metric learning in both non-parametric and parametric models of classiﬁcation. In the ﬁrst part of the article, we describe how to learn a distance metric to improve the accuracy of k-nearest neighbor classiﬁcation [7]. Speciﬁcally, we show how to learn a linear transformation of the input space that shrinks the distances between nearby examples from the same class and expands the distances between examples from different classes. In the second part of the article, we consider how to model the examples in each class by a multivariate Gaussian distribution [8]. When these distributions are used for multiway classiﬁcation, we show that recent methods in distance metric learning can yield much better results than maximum likelihood estimation.
+
+METRIC LEARNING FOR NEAREST NEIGHBOR CLASSIFICATION
+First we consider how to learn a distance metric to improve the results of k-nearest neighbor (kNN) classiﬁcation. Nearest-neighbor classiﬁcation is based on access to a labeled set of training examples, consisting of vector-valued inputs x1 , . . . , xn ∈ ℜd and their class labels y1 , . . . , yn ∈ {1, . . . , c}. The kNN decision rule classiﬁes unlabeled inputs by the majority label of their k nearest neighbors in the training set. Naturally, the performance of this algorithm depends strongly on the distance metric used to identify k-nearest neighbors. The performance of a kNN classiﬁer can be estimated on the training examples by the leaveone-out error rate. The leave-one-out error rate measures the fraction of training examples that are
+1 More
+
+formally, Eq. (1) deﬁnes a pseudo-metric. A pseudo-metric is a metric except that dist(x, z) = 0 does not imply
+
+that x = z.
+
+2
+
+Euclidean Metric local neighborhood
+
+Mahalanobis Metric
+
+xi
+
+M
+margin
+
+xi
+
+Similarly labeled (target neighbor) Differently labeled (impostor) Differently labeled (impostor)
+
+Figure 1: LMNN illustrated on a schematic example. Left: Initially, under the Euclidean distance, the data point xi has two impostors in its neighborhood. Right: The Mahalanobis metric transforms the space such that inputs with similar label are pulled closer and inputs with different labels are pushed apart. In particular, dissimilar inputs are separated from the local neighborhood by a large margin. misclassiﬁed based on the majority labels of their k-nearest neighbors. When computing the leaveone-out error rate, each training example is excluded from the search for its own k-nearest neighbors; in particular, this search is conﬁned to the remaining n − 1 inputs in the training set. With kNN classiﬁcation in mind, we attempt to ﬁnd the distance metric that minimizes the leaveone-out error rate. We note that the leave-one-out error rate vanishes if the k nearest neighbors of each input xi share the same class label yi . Our algorithm is based on the following intuition. For robust kNN classiﬁcation, not only should we minimize the leave-one-out error rate, but we should adapt the distance metric so that the nearest neighbors of xi from different classes lie much farther away than the k nearest neighbors with label yi . The remainder of this section discusses how to formalize this intuition as a convex optimization. NOTATION AND TERMINOLOGY Among the neighbors of each training example xi , we distinguish between two types: target neighbors and impostors. These different types of neighbors will play competing roles in the convex optimization for learning a distance metric. The target neighbors of an input xi are the k inputs that we desire to be the k nearest neighbors of xi . In many applications, we can identify these inputs using domain knowledge; in the absence of such knowledge, we use the Euclidean distance metric to identify the k nearest inputs with the same class label. As notation, we use the relation j ; i to denote that x j is one of the k target neighbors of xi . However the target neighbors are identiﬁed, this relation implies that y j = yi . For kNN classiﬁcation to succeed, each input’s target neighbors should be closer than other inputs with different class labels. To make this notion precise, we deﬁne the following set of triples: T = {(i, j, ) | i, j, ∈ {1, . . . , n}, j ; i, yi = y } . (2)
+
+The set T contains all triples (i, j, ) of inputs xi , target neighbors x j , and inputs of different classes x . For robust kNN classiﬁcation, we require that for each input xi , the distances to differently labeled inputs x exceed the distances to target neighbors x j by a large margin. This will be true if each triple in T satisﬁes the constraint:
+2 2 ∀(i, j, ) ∈ T dM (xi , x ) ≥ dM (xi , x j ) + 1,
+
+(3)
+
+3
+
+where the Mahalanobis metric M 0 is used to compute distances. The constraint in Eq. (3) requires that distances to differently labeled inputs exceed those to target neighbors by a margin of (at least) one unit of squared distance. Note that the size of the margin is relative to the scale of the M, which appears linearly in the other terms of this constraint. The impostors of an input xi are differently labeled inputs x that violate this constraint for some target neighbor x j . Impostors do not share the same label yi , but they lie within one unit of distance from the hyper-ellipsoid centered at xi with radius dM (xi , x j ). Thus, they identify examples that are likely to cause misclassiﬁcations using the kNN decision rule. CONVEX OPTIMIZATION With this notation and terminology, we now consider how to learn a distance metric that satisﬁes many, if not all, of the constraints in Eq. (3). Note that the distance metric M deﬁnes the shape of the hyper-ellipsoid that encloses each input and its target neighbors. Intuitively, the goal of distance metric learning is to change the shape of this ellipsoid so that it includes the target neighbors but excludes the impostors. Figure 1 illustrates how a Mahalanobis metric can achieve this goal where a Euclidean metric fails. To achieve this goal in practice, we optimize the distance metric in Eq. (3) over the space of positive semideﬁnite matrices M 0. The optimization is based on two distinct sub-goals: (i) to shrink the distances between inputs and target neighbors, and (ii) to minimize the number of impostors that violate the constraints in Eq. (3). Speciﬁcally, we consider the objective:
+M 0
+
+min
+
+j ;i
+
+2 (xi , x j ) + C ∑ ∑ dM
+
+(i, j, )∈T
+
+2 2 max 0, dM (xi , x j ) + 1 − dM (xi , x )
+
+(4)
+
+The ﬁrst term in Eq. (4) penalizes the squared distances between inputs and target neighbors, while the second term accumulates the total amount by which the constraints in Eq. (3) are violated. The constant C > 0 controls the tradeoff between these two terms. We can cast the optimization in Eq. (4) as an instance of semideﬁnite programming [6]. Semidefinite programs (SDPs) are linear programs with an additional (convex) constraint that a matrix whose elements are linear in the unknown variables must be positive semideﬁnite. To cast Eq. (4) as an 2 (x , x ) are linear in the elements of M and that the SDP, we recognize that the squared distances dM i j matrix M is constrained to be positive semideﬁnite. We also introduce non-negative slack variables ξi j ≥ 0 to monitor the violations of the constraints in Eq. (3). Then, the objective in Eq. (4) can be re-written as:
+
+M,{ξi j }
+
+min
+
+j;i
+
+∑ (xi − x j )
+
+M(xi − x j ) + C
+
+ξi j (i, j, )∈T
+
+∑
+
+subject to:
+
+(1) (xi − x ) M(xi − x ) − (xi − x j ) M(xi − x j ) ≥ 1 − ξi j for all (i, j, ) ∈ T (2) ξi j ≥ 0 for all (i, j, ) ∈ T (3) M 0.
+
+SDPs can be solved efﬁciently by interior point algorithms [6]. For this particular problem, however, we have mainly used projected subgradient descent methods on the objective in Eq. (4). More details can be found in our earlier work [7]. 4
+
+Test Image:
+
+Nearest Neighbor after training:
+
+Nearest neighbor before training:
+
+Figure 2: The effect of distance metric learning on kNN classiﬁcation of images of faces and handwritten digits. In each task, LMNN learns a Mahalanobis distance metric that leads to more accurate kNN classiﬁcation. The top row shows images from the test sets. The middle row shows nearest neighbor images that are correctly identiﬁed by Mahalanobis distance, but not by Euclidean distance. The bottom row shows nearest neighbor images that are mistakenly identiﬁed by Euclidean distance, but not by Mahalanobis distance. The above SDP for distance metric learning has many similarities to the quadratic program for large margin classiﬁcation in support vector machines [9]. Due to these similarities, we refer to the approach in this section as large margin nearest neighbor (LMNN) classiﬁcation. EXPERIMENTAL RESULTS We experimented with LMNN classiﬁcation on problems in face recognition and handwritten digit recognition. Figure 2 visualizes the effect of distance metric learning on these tasks, showing how different nearest neighbors are identiﬁed using Mahalanobis versus Euclidean distances. On both tasks, the kNN classiﬁcation was signiﬁcantly improved by learning a Mahalanobis distance metric. Here we brieﬂy summarize the main results; more details can be found in the original study [7]. For optimal results, the neighborhood size k should be set by cross-validation. As the algorithm is not particularly sensitive to the neighborhood size, we arbitrarily set k = 3. To avoid over-ﬁtting we applied early stopping with a 30% hold-out set. For face recognition, we experimented with images from the Olivetti face recognition data set (available at http://www.uk.research.att.com/facedatabase.html). This data set contains 400 grayscale images of 40 subjects in 10 different poses. For kNN classiﬁcation, we preprocessed the images by downsampling and projecting them into the subspace spanned by the leading 200 principal components. Using these compressed images, we created training and test sets by randomly sampling 7 images of each subject for training and 3 images for testing. We evaluated LMNN classiﬁcation on 100 random splits of the data in this way. The goal of learning was to recognize a face from an unseen pose, thus giving rise to a problem in 40-way classiﬁcation. By learning a distance metric on this task, we reduced the average kNN classiﬁcation error rate (k = 3) from 6.0% using Euclidean distances to 3.3% using Mahalanobis distances. For digit recognition, we experimented with images from an extensively benchmarked data set of handwritten digits (available at http://yann.lecun.com/exdb/mnist). For kNN classiﬁcation, we deskewed the original 28×28 grayscale images, then reduced their dimensionality by projecting them onto their leading 164 principal components (enough to capture 95% of their overall variance). We learned a Mahalanobis distance metric on the 60000 images in the training set. On the images in the
+
+5
+
+test set, this procedure reduced the kNN classiﬁcation error rate (k = 3) from 2.4% using Euclidean distances to 1.7% using Mahalanobis distances. EXTENSIONS AND APPLICATIONS The ideas behind LMNN classiﬁcation have been extended and applied in many ways. We mention a few examples that follow up closely on the ideas described in this section. Torresani and Lee have shown how to perform LMNN classiﬁcation in a reproducing kernel Hilbert space [10]; as in support vector machines, the use of nonlinear kernels can lead to signiﬁcantly fewer classiﬁcation errors. Weinberger and Saul have extended LMNN to learn multiple, local distance metrics in a globally coordinated manner [7]. Chechik et al. have proposed an online version of LMNN classiﬁcation that relaxes the positive semideﬁnite constraint and scales to data sets with millions of inputs [11]. Finally, Tran et al. have applied LMNN classiﬁcation to video signals for problems in human-activity recognition [12].
+
+METRIC LEARNING FOR GAUSSIAN MIXTURE MODELS
+Non-parametric methods such as kNN classiﬁcation do not make any simplifying assumptions about the underlying distribution of the data. Though kNN classiﬁers can model highly nonlinear and irregular decision boundaries, this ﬂexibility entails certain costs. For example, in LMNN classiﬁcation, even after learning the distance metric, it remains necessary to store all the training examples {(xi , yi )}n i=1 . Second, for each new classiﬁcation, it is necessary to identify the nearest neighbors in the set of all training examples. These costs can be prohibitive for large data sets. Parametric methods for classiﬁcation avoid these costs by making simplifying assumptions about the data. In this section, we describe a parametric method that is based on similar large margin constraints as LMNN classiﬁcation. The method assumes that the data are clustered around representative prototypes and that the class boundaries are determined by distances from these prototypes. We begin by reviewing how the parameters of such models are traditionally estimated. MAXIMUM LIKELIHOOD ESTIMATION If we assume that the examples in each class are modeled by a multivariate Gaussian distribution, then we can learn the model parameters for each class using maximum likelihood estimation [1]. In particular, for each class c, we model its distribution of examples as: P(x|c) = 1 (2π )d |Σc | e− 2 (x−µ c )
+1 1 Σ− c (x− µ c )
+
+,
+
+(5)
+
+where µ c and Σ c are given by their maximum likelihood estimates—namely, the sample mean and covariance matrix of the examples in class c. These models can be used to classify unlabeled examples by computing the posterior distribution P(c|x) using Bayes rule. Assigning the most likely class label under this distribution, and working with log probabilities, we obtain a decision rule of the form:
+1 d /2 y = arg min (x − µ c ) Σ− |Σc |1/2 − log P(c) , c (x − µ c )/2 + log (2π ) c
+
+(6)
+
+where P(c) are the prior class probabilities. Note that the last two terms on the right hand side depend on the class label c but not the input x being classiﬁed. 6
+
+Though maximum likelihood estimation is the simplest way to ﬁt the Gaussian distributions in Eq. (5), it does not generally yield the best results when these Gaussian mixture models (GMMs) are used for multiway classiﬁcation. Next we describe a learning algorithm inspired by LMNN classiﬁcation. PARALLELS TO LMNN We can develop an alternative model whose decision rule is similar to Eq. (6) but whose parameters are learned by optimizing the classiﬁcation error rate. In particular, suppose that we characterize each class c by a Mahalanobis distance metric Mc , a centroid rc , and a scalar parameter θc . Given these parameters, we consider the decision rule: y = arg min (x − rc ) Mc (x − rc ) + θc .
+c
+
+(7)
+
+The decision rule in Eq. (7) is also a form of quadratic discriminant analysis [1]. In this decision rule, the centroid rc and metric Mc are playing the same roles as the sample mean µ c and inverse 1 covariance matrix Σ − c , while the scalar θc modulates the score of each class in a similar way as the other terms in Eq. (5). However we will estimate these parameters differently to obtain a more accurate classiﬁer. Starting from Eq. (7), we can now develop the analogy to LMNN. For a training example xi to be classiﬁed correctly, it must be closer to the centroid ryi of class yi than the centroid of any other class c = yi , where closeness is measured by the right hand side of Eq. (7). For robustness, we seek model parameters that correctly classify all training examples by a large margin, as in Figure 3. This will be true if: 2 2 ∀i, c = yi , dM (x , r ) + θc ≥ dM (xi , ryi ) + θyi + 1. (8) c i c y
+i
+
+The large margin constraints for GMMs in Eq. (8) are analogous to those for LMNN classiﬁcation in Eq. (3). To estimate parameters (Mc , rc , θc ) that satisfy as many of these constraints as possible, we consider the objective: min
+
+{Mc
+
+0,rc ∈ℜd ,θc ≥0}
+
+∑ trace(Mc) + C ∑
+c
+
+i,c=yi
+
+2 2 max 0, dM (xi , ryi ) + θyi + 1 − dM (x , r ) − θc y c i c
+i
+
+(9)
+
+The objective for GMMs in Eq. (9) is analogous to the objective for LMNN in Eq. (4). The ﬁrst term regularizes the trace of the Mahalanobis distance metrics, while the second term accumulates the total amount by which the constraints in Eq. (8) are violated. The constant C > 0 controls the tradeoff between these terms. Without loss of generality, we constrain θc to be nonnegative since the decision rule is unaffected by uniform shifts θc ← θc + ∆. CONVEX OPTIMIZATION We can reformulate Eq. (9) as an instance of semideﬁnite programming by making a simple change of variables. In particular, we collect the parameters (Mc , rc , θc ) into a single positive semideﬁnite matrix Ac that is one row and one column larger than the distance metric Mc : Ac = Mc −Mc rc −rc Mc rc Mc rc + θc 7 . (10)
+
+µ1
+margin decision boundary centroids
+
+M1
+
+µ2
+
+Class 1
+
+M2
+
+Class 2
+
+Figure 3: The decision boundary in a large margin GMM for binary classiﬁcation, consisting of all points with equal Mahalanobis distance to µ1 and µ2 . The model is trained by penalizing examples that do not lie at least one unit of distance away from the decision boundary. The parameters (Mc , rc , θc ) are uniquely determined by Ac when Ac is positive deﬁnite; when Ac is rank-deﬁcient (as occurs in practice), we cannot recover the original parameters but the scores in Eq. (7) remain well-deﬁned. More importantly, in terms of the matrices Ac , the constraints in Eq. (8) can be written as: ∀i, c = yi , vi (Ac − Ayi ) vi ≥ 1 where vi = xi . 1 (11)
+
+Note that these constraints are linear in the matrices Ac . Analogous to the optimization for LMNN, we introduce non-negative slack variables ξic ≥ 0 to monitor the violations of these constraints. Then the optimization in Eq. (9) can be rewritten as:
+
+{Ac ,ξic }
+
+min
+
+∑ trace(Mc) + C ∑
+c
+
+ξic
+
+subject to:
+
+i,c=yi
+
+(1) vi (Ac − Ayi )vi ≥ 1 − ξic for all i, c = yi (2) ξic ≥ 0 for all i, c = yi (3) Ac 0 for all c.
+
+The above optimization is easily recognized as an instance of semideﬁnite programming. Note that this SDP involves many fewer constraints than the SDP for LMNN classiﬁcation; thus it scales better to larger data sets. Due to the large margin constraints in Eq. (8), models trained in this way are known as large margin GMMs. EXPERIMENTAL RESULTS We experimented with large margin GMMs on problems in handwritten digit recognition [8] and phoneme classiﬁcation [8]. On the MNIST data set of handwritten digits, using similarly preprocessed images as described above, the large margin GMM obtained a test error rate of 1.4%. This result was 8
+
+signiﬁcantly better than the test error rate (4.2%) obtained for the same GMM trained by maximum likelihood estimation. In fact, despite its simplifying parametric assumptions, the large margin GMM also outperformed the simplest variant of LMNN on this task. We also trained large margin GMMs to identify phonemes being articulated in short snippets (25 ms) of speech. The phonemes were classiﬁed based on features computed from acoustic waveforms. For this task, we experimented on the TIMIT speech database (available at http://www.ldc.upenn.edu/Catalog/) which contains over six thousand utterances along with manually aligned phonetic transcriptions. As training examples, we extracted over one million phonetically labeled windows of speech. (Note that this large amount of training data precludes a straightforward implementation of LMNN.) On this task, which involved 48-way classiﬁcation of phonetic categories, we observed signiﬁcant improvements in performance with large margin training of GMMs. In particular, on a representative test set with over 50,000 examples, the model in Eq. (9) yielded a test error rate of 36%, whereas the GMM in Eq. (5) trained by maximum likelihood estimation yielded a test error rate of 45%. EXTENSIONS AND APPLICATIONS Beyond the framework described above, we have extended large margin GMMs in two important ways [8]. First, we have shown how to train more ﬂexible GMMs that use more than one multivariate Gaussian distribution to model each class of labeled examples. Second, we have shown how to train these GMMs as components of continuous-density hidden Markov models (CD-HMMs) for automatic speech recognition. In both these cases, the optimization remains convex (though it is no longer an instance of semideﬁnite programming). The extended types of training have yielded gains in performance beyond maximum likelihood estimation and other popular frameworks for parameter estimation in CD-HMMs.
+
+CONCLUSION
+In this article, we have described two recent applications of semideﬁnite programming to problems in machine learning and pattern recognition. Semideﬁnite programming arises naturally in these problems for two reasons: ﬁrst, because a positive semideﬁnite matrix is required to deﬁne a valid distance metric; second, because linear inequalities in the elements of this matrix can ensure that inputs are correctly labeled by kNN classiﬁcation or Gaussian mixture modeling. Large-scale applications of these ideas are made possible by recent advances in numerical optimization [6]. Looking forward, we anticipate many such applications given the ubiquitous role of distance metrics in both nonparametric and parametric models of classiﬁcation.
+
+AUTHORS
+Kilian Q. Weinberger (kilian@cse.wustl.edu) is an Assistant Professor in the Department of Computer Science and Engineering at Washington University St. Louis. Fei Sha (feisha@usc.edu) is an Assistant Professor in the Viterbi School of Engineering at the University of Southern California. Lawrence K. Saul (saul@cs.ucsd.edu) is an Associate Professor in the Department of Computer Science and Engineering at the University of California San Diego.
+
+9
+
+References
+[1] R. Duda, P. Hart, and D. Stork, Pattern Classiﬁcation. Wiley-Interscience Publication, 2000. [2] A. Globerson and S. Roweis, “Metric learning by collapsing classes,” in Advances in Neural Information Processing Systems 18 (Y. Weiss, B. Sch¨ olkopf, and J. Platt, eds.), pp. 451–458, Cambridge, MA: MIT Press, 2006. [3] N. Shental, T. Hertz, D. Weinshall, and M. Pavel, “Adjustment learning and relevant component analysis,” Lecture Notes In Computer Science, pp. 776–792, 2002. [4] S. Shalev-Shwartz, Y. Singer, and A. Ng, “Online and batch learning of pseudo-metrics,” in Proceedings of the Twenty-First International Conference on Machine Learning (ICML-04), (Banff, Canada), pp. 94–101, 2004. [5] E. Xing, A. Ng, M. Jordan, and S. Russell, “Distance metric learning with application to clustering with side-information,” Advances in Neural Information Processing Systems, pp. 521–528, 2003. [6] S. Boyd and L. Vandenberghe, Convex Optimization. Cambridge University Press, 2004. [7] K. Weinberger and L. Saul, “Distance metric learning for large margin nearest neighbor classiﬁcation,” Journal of Machine Learning Research, vol. 10, pp. 207–244, 2009. [8] F. Sha and L. K. Saul, “Large margin hidden Markov models for automatic speech recognition,” in Advances in Neural Information Processing Systems 19 (B. Sch¨ olkopf, J. Platt, and T. Hofmann, eds.), (Cambridge, MA), pp. 1249–1256, MIT Press, 2007. [9] B. Boser, I. Guyon, and V. Vapnik, “A training algorithm for optimal margin classiﬁers,” in Proceedings of the Fifth Annual Workshop on Computational Learning Theory (COLT-02), (Pittsburgh, PA), pp. 144–152, 1992. [10] L. Torresani and K. Lee, “Large margin component analysis,” Advances in Neural Information Processing Systems, vol. 19, pp. 1385–1392, 2007. [11] G. Chechik, U. Shalit, V. Sharma, and S. Bengio, “An online algorithm for large scale image similarity learning,” in To appear in Advances in Neural Information Processing Systems 21, (Cambridge, MA), MIT Press, 2010. [12] D. Tran, A. Sorokin, and D. Forsyth, “Human activity recognition with metric learning,” in Proceedings of the European Conference on Computer Vision (ECCV-08), pp. 548–561, 2008.
+
+10
+
+

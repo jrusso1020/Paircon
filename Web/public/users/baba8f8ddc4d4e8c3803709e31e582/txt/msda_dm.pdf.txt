@@ -1,0 +1,197 @@
+From sBoW to dCoT Marginalized Encoders for Text Representation ∗
+Zhixiang (Eddie) Xu
+Washington University in St. Louis One Brookings Dr. St. Louis, MO, USA
+
+Minmin Chen
+Washington University in St. Louis One Brookings Dr. St. Louis, MO, USA
+
+Kilian Q. Weinberger
+Washington University in St. Louis One Brookings Dr. St. Louis, MO, USA
+
+zhixiang.xu@wustl.edu
+
+chenm@wustl.edu Fei Sha
+
+kilian@wustl.edu
+
+University of Southern California 941 West 37th Place Los Angeles, CA, USA
+
+feisha@usc.edu ABSTRACT
+In text mining, information retrieval, and machine learning, text documents are commonly represented through variants of sparse Bag of Words (sBoW) vectors (e.g. TF-IDF [1]). Although simple and intuitive, sBoW style representations suﬀer from their inherent over-sparsity and fail to capture word-level synonymy and polysemy. Especially when labeled data is limited (e.g. in document classiﬁcation), or the text documents are short (e.g. emails or abstracts), many features are rarely observed within the training corpus. This leads to overﬁtting and reduced generalization accuracy. In this paper we propose Dense Cohort of Terms (dCoT), an unsupervised algorithm to learn improved sBoW document features. dCoT explicitly models absent words by removing and reconstructing random sub-sets of words in the unlabeled corpus. With this approach, dCoT learns to reconstruct frequent words from co-occurring infrequent words and maps the high dimensional sparse sBoW vectors into a low-dimensional dense representation. We show that the feature removal can be marginalized out and that the reconstruction can be solved for in closed-form. We demonstrate empirically, on several benchmark datasets, that dCoT features signiﬁcantly improve the classiﬁcation accuracy across several document classiﬁcation tasks.
+
+Categories and Subject Descriptors
+H.3 [Information Storage and Retrieval]: Miscellaneous; I.5.2 [Pattern Recognition]: Design Methodology—Feature evaluation and selection
+
+General Terms
+Machine Learning for IR
+
+Keywords
+Denoising Autoencoder, Marginalized, Stacked, Text features
+
+1.
+
+INTRODUCTION
+
+∗A full version of this paper is available at http://www.cse.wustl.edu/~xuzx/research/ publications/
+
+Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for proﬁt or commercial advantage and that copies bear this notice and the full citation on the ﬁrst page. To copy otherwise, to republish, to post on servers or to redistribute to lists, requires prior speciﬁc permission and/or a fee. CIKM’12, October 29–November 2, 2012, Maui, HI, USA. Copyright 2012 ACM 978-1-4503-1156-4/12/10 ...$15.00.
+
+The feature representation of text documents plays a critical role in many applications of data-mining and information retrieval. The sparse Bag of Words (sBoW) representation is arguably one of the most commonly used and eﬀective approaches. Each document is represented by a high dimensional sparse vector, where each dimension corresponds to the term frequency of a unique word within a dictionary or hash-table [2]. A natural extension is TF-IDF [1], where the term frequency counts are discounted by the inversedocument-frequencies. Despite its wide-spread use with text and image data [3], sBoW does have some severe limitations, mainly due to its often excessive sparsity. Although the Oxford English Dictionary contains approximately 600, 000 unique words, it is fair to say that the essence of most written text can be expressed with a far smaller vocabulary (e.g. 5000−10000 unique words). For example the words splendid, spectacular, terriﬁc, glorious, resplendent are all to some degree synonymous with the word good. However, as sBoW does not capture synonymy, a document that uses “splendid” will be considered dissimilar from a document that uses the word “terriﬁc”. A classiﬁer, trained to predict the sentiment of a document, would have to be exposed to a very large set of labeled examples to learn that all these words are predictive towards a positive sentiment. In this paper, we propose a novel feature learning algorithm that directly addresses the problems of excessive spar-
+
+sity in sBoW representations. Our algorithm, which we refer to as Dense Cohort of Terms (dCoT), maps high-dimensional (overly) sparse vectors into a low-dimensional dense representation. The mapping is trained to reconstruct frequent from in frequent words. The training process is entirely unsupervised, as we generate training instances by randomly and repeatedly removing common words from text documents. These removed words are then reconstructed from the remaining text. In this paper we show that the feature removal process can be marginalized out and the reconstruction can be solved for in closed form. The resulting algorithm is a closed-form transformation of the original sBoW features, which is extremely fast to train (on the order of seconds) and apply (milliseconds). Our empirical results indicate that dCoT is useful for several reasons. First, it provides researchers with an eﬃcient and convenient method to learn better feature representation for sBoW documents, and can be used in a large variety of data-mining, learning and retrieval tasks. Second, we demonstrate that it clearly outperforms existing document representations [1, 4, 5] on several classiﬁcation tasks. Finally, it is much faster than most competing algorithms.
+
+say that their approach is computationally most demanding. Similarly to LSI, pLSI and LDA, our algorithm also maps the sparse sBoW features into a low dimensional dense representation. However it is faster to train and addresses the problem of synonymy more explicitly.
+
+3.
+
+dCoT
+
+2.
+
+RELATED WORK
+
+Over the years, a great number of models have been developed to describe textual corpora, including vector space models [6, 7, 8, 9, 10], and topic models [4, 11, 12, 13]. Vector space models reduce each document in the corpus to a vector of real numbers, each of which reﬂects the counts of an unordered collection of words. Among them, the most popular one is the TF-IDF scheme [8], where each dimension of the feature vector computes the term frequency count factored by the inverse document frequency count. By downweighting terms that are common in the entire corpus, it effectively identiﬁes a subset of terms that are discriminative for documents in the corpus. Though simple and eﬃcient, TF-IDF reveals little of the correlations between terms, thus fails to capture some basic linguistic notions such as synonymy and polysemy. Latent Semantic Index (LSI) [5] attempts to overcome this. It applies Singular Value Decomposition (SVD) [14] to the TF-IDF (or sBoW) features to ﬁnd a so-called latent semantic space that retains most of the variances in the corpus. Each feature in the new space is a linear combination of the original TF-IDF features, which naturally handles the synonymy problem. Topic modeling develops generative statistical models to discover the hidden “topic” that occur in the corpus. Probabilistic LSI [11], which is proposed as an alternative to LSI, models each document as a mixture of a ﬁxed set of topics, and each word as a sample generated from a single topic. The limitation of probabilistic LSI is that the mixture of topics is modeled explicitly for each training data using a large set of individual parameters, hence, there is no natural way to assign probabilities to unseen documents. Latent Dirichlet Allocation (LDA) [4] solves the problem by introducing a Dirichlet prior on the topic distribution, and treating the mixing weights as multinomial distributed random variables. It is probably the most commonly used topic models nowadays, and the posterior Dirichlet parameters are often used as the low dimensional representation for various tasks [4]. [15] use non-linear dimensionality reduction [16] to embed text data into a low dimensional space, while preserving pair-wise distances between documents. It is fair to
+
+First, we introduce notations that will be used throughout the paper. Let D = {w1 , · · · , wd } be the dictionary of words that appear in the text corpus, with size d = |D|. Each input document is represented as a vector x ∈ Rd , where each dimension xj counts the appearance of word wj in this document. Let X = [x1 , · · · , xn ] denote the corpus. Assume that the ﬁrst nl n documents are accompanied by corresponding labels {y1 , · · · , ynl } ∈ Y , drawn from some joint distribution D. In this section we introduce the algorithm dCoT, which translates sparse sBoW vectors x ∈ Rd into denser and lower dimensional prototype vectors. We ﬁrst deﬁne the concept of prototype terms and then derive the algorithm step-bystep. Prototype features. Let P = {wp1 , · · · , wpr } ⊂ D, with |P | = r and r d, denote a strict subset of the vocabulary D, which we refer to as prototype terms. Our algorithm aims to “translate” each term in D into one or more of these prototype words with similar meaning. Several choices are possible to identify P , but a typical heuristic is to pick the r most frequent terms in D. The most frequent terms can be thought of as representative expressions for sets of synonyms — e.g. the frequent word good represents the rare words splendid, spectacular, terriﬁc, glorious. For this choice of P , dCoT translates rare words into frequent words. Corruption. The goal of dCoT is to learn a mapping W : Rd → Rr , which “translates” the original sBoW vectors in Rd into a combination of prototype terms in Rr . Our training of W is based on one crucial insight: If a prototype term already exists in some input x, W should be able to predict it from the remaining terms in x. We therefore artiﬁcially create a supervised dataset from unlabeled data by removing (i.e. setting to zero) each term in x with some probability (1 − p). We perform this m times and refer ˆ1, . . . , x ˆ m . We not to the resulting corrupted vectors as x only remove prototype features but all features, to generate more diverse input samples. (In the subsequent section we will show that in fact we never actually have to create this corrupted dataset, as its creation can be marginalized out entirely — but for now let us pretend it actually exists.) Reconstruction. In addition to the corruptions, for each ¯ i = [xp1 , · · · , xpr ] ∈ Rr input xi we create a sub-vector x which only contains its prototype features. A mapping W ∈ Rr×d is then learned to reconstructs the prototype features from the corrupted version x ˆi , by minimizing the squared reconstruction error, 1 2nm
+n m
+
+¯ i − Wx ˆj x i
+i=1 j =1
+
+2
+
+.
+
+(1)
+
+To simplify notation, we assume that a constant feature is ˆ i = [ˆ added to the corrupted input, x xi ; 1], and an appropriate bias is incorporated within the mapping W = [W, b]. Note that the constant feature is never corrupted. The bias term has the important task of reconstructing the average occurrence of the prototype features.
+
+Let us deﬁne a design matrix ¯1, · · · , x ¯n, · · · , x ¯ n ] ∈ Rr×nm X = [¯ x1 , · · · , x
+m m
+glorious splendid spectacular
+
+BOW input prototype terms
+nice
+
+higher-order prototype terms
+
+as the m copies of the prototype features of the inputs. Similarly, we denote the m corruptions of the original inputs as d×nm ˆ1 ˆm ˆm . With this noX = [ˆ x1 n, · · · , x n ] ∈ R 1, · · · , x 1 ,··· ,x
+m m
+good
+
+tanh(W1 xi )
+
+tanh(W2 z1 i)
+good
+
+tation, the loss in eq. (1) reduces to 1 X − WX 2nm
+2 F 2 F,
+
+z1 i
+(2)
+mapping from sparse to dense mapping from dense to dense
+
+z2 i
+
+xi
+Figure 1: Schematic layout of dCoT. The left part illustrates that dCoT learns a mapping from the overly sparse BoW representation to a dense one. The right part illustrates the recursive reapplication to reconstruct prototype features from the context. (e.g. “president” and “obama”), as the mapping captures the correlation between the two. It can however be the case that two synonyms never appear together because the input documents are short and the authors use one term or the other but rarely both together (e.g. “tasty” and its rarer synonym “delicious”). In these cases it can help to recursively re-apply dCoT to its own output. Here, the ﬁrst mapping reconstructs a common context between synonyms (i.e. words that co-occur with all synonyms) and subsequent applications of dCoT reconstruct the synonym-prototypes from this context. In the previous example, one could imagine that the ﬁrst application of dCoT constructs context prototype words like “food”, “expensive”, “dinner”, “wonderful” from the original term “delicious”. The re-application of dCoT reconstructs “tasty” from these context words. Let the mapping from eq.(7) be W1 ∈ Rr×d and z1 i = tanh W1 xi , for an input xi . We now compute a second mapping W2 ∈ Rr×r , exactly as deﬁned in the previous sec1 r tion, except that we consider the vectors z1 1 , . . . , zn ∈ R as input. The mapping W2 is an aﬃne transformation which stays within the prototype space spanned by P . This process can be repeated many times and because the input dimensionality is low the computation of (7) is cheap. Figure 1 illustrates this process in a schematic layout. If dCoT is applied l times, the ﬁnal representation zi is the concatenated vector of all outputs and the original input,
+l zi = (xi , z1 i , · · · , zi ) .
+
+where · denotes the squared Frobenius norm. The solution to (2) can be obtained under closed-form as the solution to the well-known ordinary least square. W = RQ−1 with Q = XX and R = XX . (3)
+
+Marginalized corruption. Ideally, we would like the number of corrupted versions become very large, i.e. m → ∞. By the weak law of large numbers, R and Q then converge to their expectations and (3) becomes W = E [R]E [Q]
+−1
+
+,
+
+(4)
+
+with the expectations of R and Q deﬁned as
+n n
+
+E [Q] =
+i=1
+
+ˆ i ], E [R] = E [ˆ xi x
+i=1
+
+ˆ i ]. E [¯ xi x
+
+(5)
+
+The uniform corruption allows us to compute the expectations in (5) in closed form. Let us deﬁne a vector q = [p, . . . , p, 1] ∈ Rd+1 , where qα indicates if feature α survive a corruption (the constant feature is never corrupted, hence qd+1 = 1). If we denote the scatter matrix of the uncorrupted input as S = XX , we obtain E [R]αβ = Sαβ qα and E [Q]αβ = Sαβ qα qβ Sαβ qα if if α=β . α=β (6)
+
+The diagonal entries of E [Q] are the product of two identical features, and the probability of a feature surviving corruption is p. The expected value of the diagonal entries is therefore the scatter matrix multiplied by p. The oﬀdiagonal entries are the product of two diﬀerent features α and β , which are corrupted independently. The probability of both features surviving the corruption is p2 . Squashing function. The output of the linear mapping W : Rd → Rr approximates the expected value [17] of a prototype term. It can be beneﬁcial to have more bagof-word like features that are either present or not. For this purpose, we apply the tanh() squashing-function to the output z = tanh(Wx), (7)
+
+(8)
+
+4.
+
+CONNECTION
+
+which has the eﬀect of amplifying or dampening the feature values of the reconstructed prototype words. We refer to our feature learning algorithm as dCoT (Dense Cohort of Terms).
+
+3.1
+
+Recursive re-application
+
+The linear mapping in eq.(7) is trained by reconstructing prototype words from partially corrupted input vectors. This linear approach works well for prototype words that commonly appear together with words of similar meaning
+
+dCoT shares some common elements with previously proposed feature learning algorithms. In this section, we discuss their similarities and diﬀerences. Stacked Denoising Autoencoder (SDA). In the ﬁeld of image recognition, the Autoencoder [18] and the Stacked Denoising Autoencoder (SDA) [19] are widely used to learn better feature representation from raw pixels input. dCoT shares several core similarities with SDA, which in fact inspired its original development. Similar to dCoT, SDA ﬁrst corrupts the raw input, and learns to re-construct it. SDA also stacks several layers together by feeding the output of previous layers as input into sub-sequent layers. However,
+
+constant zero vector year billion dlrs mln share market bank interest price debt reagan reagon house administration white president congress senate bill states united
+
+prototype terms nasdaq nasdaq national nasd system exchange association stock securities trading common bush president george reagan house white secretary vice political chief senate union union soviet workers strike contract united employees wage members moscow colorado colorado service states texas kansas agreement association federal oklahoma approval
+
+non-prototype terms reproduction budapest crop areas weather corn dry moisture normal good agriculture winter currency talks finance hungary central bank senior contracts financial rescues banking insurance loan deposit deposits federal bill mortgage reserve
+
+newspaper institutions
+
+Figure 2: Term reconstruction from the Reuters dataset. Each column shows a diﬀerent input term (e.g. “reagan”, “nasdaq”), along with the prototype terms reconstructed from this particular input in decreasing order of feature values (top to bottom). The very left column shows the prototype terms generated by an all-empty input document. the two algorithms also have substantial diﬀerences. The mapping in dCoT is a linear mapping from input to output (with a sub-sequent application of tanh()), which is solved in closed form. In contrast, SDA employs non-linear mapping from the input to a hidden layer and then to the output. Instead of a closed-form solution, it requires extensive gradient-descent-type hill-climbing. Further, SDA actually corrupts the input and is trained with multiple epochs over the dataset, whereas dCoT marginalizes out the corruption. In terms of running time, dCoT is orders of magnitudes faster than SDA and scales to much higher dimensional inputs [20, 21]. Principle Component Analysis (PCA). Similar to dCoT, Principle Component Analysis (PCA) [22] learns a lower dimensional linear space by minimizing the reconstruction error of the original input. For text documents, PCA is widely known through its variant as latent semantic indexing (LSI) [5]. Although both dCoT and LSI minimize reconstruction errors, the exact optimization is quite different. dCoT explicitly reconstructs prototype words from corruption, whereas LSI minimizes the reconstruction error after dimensionality reduction.
+noise & & layers layers on noise on Reuters Reuters 88 86 84 Accuracy 82 80 78 76 74 1 layer 2 layers 3 layers 4 layers 5 layers 10% 20% 30% 40% 50% 60% 70% 80% 90% Noise
+
+Figure 3: Classiﬁcation accuracy trend on Reuters dataset with diﬀerent layers and noise levels.
+
+5.
+
+RESULTS
+
+We evaluate our algorithm on Reuters and Dmoz datasets together with several other algorithms for feature learning. Datasets. The Reuters-21578 dataset is a collection of documents that appeared on Reuters newswire in 1987. We follow the convention of [23], which removes documents with multiple category labels. The dataset contains 65 categories, and consists of 5946 training and 2347 testing documents. Each document is represented by sBoW representation with 18933 distinct terms. The Dmoz dataset is a hierarchical collection of webpage links. The top level of the hierarchy consists of 16 categories. Following the convention of [24], we labeled each input by its top-level category, and remove some low-frequent terms. As a result, the dataset contains 7184 and 1796 training and testing points respectively, and each input is represented by the sBoW representation that contains 16498 distinct terms. Reconstruction. Figure 2 shows example input terms (essentially one-word documents) and the prototype words that are reconstructed with dCoT on the Reuters dataset.
+
+Each column represents a diﬀerent input term (e.g. a document consisting of only the term “nasdaq”) and shows the reconstructed prototype terms in decreasing order of their feature values (top to bottom). The very left column shows the prototype features generated by an all-empty input document. These features are completely determined by the constant bias, and coincide with the most frequent prototype terms in the whole corpora. For all other columns, we subtract this bias-generated vector to highlight the prototype words generated by the actual word and not the bias. As shown in the ﬁgure, two trends can be observed. First, prototype terms are reconstructed by other less common and more speciﬁc terms. For example, president is reconstructed by reagan and bush, and stock is reconstructed by nasdaq. Both reagan and bush are speciﬁc terms describing president. This trend indicates that dCoT learns the mapping from rare terms to common terms. Second, context and topics are reconstructed from rarer terms through the recursive re-application. For example, agriculture is reconstructed by reproduction, indicating that documents containing reproduction typically discuss topics related to agriculture. This connection indicates that dCoT also learns the higher order correlations between terms and topics.
+
+Semi-supervised Learning on Reuters dataset
+92 60 90 88 Accuracy 86 84 82 80 Bag−of−words TF−IDF LSI LDA dCoT Accuracy 55 50 45 40 35 30 25 1000
+
+Semi-supervised Learning on Dmoz dataset
+
+Bag−of−words TF−IDF LSI LDA dCoT 2000 3000 4000 5000 # of labeled training points 6000 7000
+
+78 500 1000 1500 2000 2500 3000 3500 4000 4500 5000 5500 # of labeled training points
+
+Figure 4: Semi-supervised learning results on the Reuters (left) and Dmoz (right) datasets. On both datasets, dCoT out-performs all other algorithms, especially when the number of labeled inputs is relatively small. Parameter sensitivity. We also evaluate the eﬀect of diﬀerent noise level and number of layers (i.e. the number of recursive re-applications). Figure 3 shows the classiﬁcation results on Reuters dataset as a function of layers l and noise level 1 − p. After training of dCoT (on the whole dataset), we randomly select 1, 000 labeled training inputs, train an SVM classiﬁer [17] on the new feature representation, and test on the full testing set. Two trends emerge: 1. deep layers l > 1 improve over a single layered transformation — supporting our hypothesis that as we recursively re-apply dCoT, not only the feature representation is enriched, but also the higher order correlations between terms and topics are learned. 2. best results are obtained with a surprisingly high level of noise. We explain this trend by the fact that more corruption helps discover more subtle relationships between features and as we operate in the limit, and integrate out all possible corruptions, we can still learn even from substantially shortened documents. Semi-supervised Experiments. In many real-world applications, the labeled training inputs are limited, because labeling usually involves human interaction and is expensive and time-consuming. However, unlabeled data is usually large and available. In this experiment we evaluate the suitability of dCoT to take advantage of semi-supervised learning settings. We learn the new feature representation with dCoT on the full training set (without labels), but train a linear SVM classiﬁer on a small subset of labeled examples. We gradually increase the size of the labeled subset and evaluate on the whole testing set. For any given number of labeled training inputs, we average over ﬁve runs (of randomly picked labeled examples). We use the validation set to select the best combination of noise level and the number of layers. As baselines, we compare against several alternative feature representations, which are all obtained from the full training set, similarly applied to a linear SVM classiﬁer. The most basic baselines are the sBoW representation (with term frequency counts) and TF-IDF [1]. We compute the TF for each document separately, and obtain the IDF from the whole training set (including labeled and unlabeled data). We then apply the same IDF to the testing set. We also compare against latent semantic indexing (LSI) [5], for which we further split the training set into training and validation. We use the validation set to ﬁnd the best parameter
+
+Datasets TF-IDF LSI LDA dCoT Reuters 1s 51m 3h10m 2m Dmoz 1s 1h38m 9h1m 3m
+
+Table 1: Running time required for unsupervised feature learning with diﬀerent algorithms.
+
+(numbers of leading Eigenvectors), and retrain on the whole training set with the best parameter. The new representation is obtained by projecting the sBoW feature space onto the LSI eigenvectors. Finally, we also compare against Latent Dirichlet Allocation (LDA) [4]. Similar to LSI, we use a validation set to ﬁnd the best parameters, which include the Dirichlet hyper-parameter and the number of topics. The new representation learned from LDA are the topic mixture probabilities. The classiﬁcation results are presented in ﬁgure 4. The graph shows that on both Dmoz and Reuters datasets, dCoT generally out-performs all other algorithms. This trend is particularly prominent in settings with relatively little labeled training data. Running time. Table 1 compares the running times for feature learning with diﬀerent algorithms. All timings are performed on a desktop with dual IntelT M Six Core Xeon X5650 2.66GHz processors. Compared to LDA and LSI, the timing results show a three orders of magnitude speed-up on two datasets, reducing the feature learning time from several hours to a few minutes.
+
+6.
+
+CONCLUSION
+
+In this paper we present dCoT, an algorithm that efﬁciently learns a better feature representation for sBoW document data. Speciﬁcally, dCoT learns a mapping from high dimensional sparse to low dimensional dense representations by translating rare to common terms. Recursive reapplication of dCoT on its own output results in the discovery of higher order topics from raw terms. On two standard benchmark document classiﬁcation datasets we demonstrate that our algorithm achieves state-of-the-art results with very high reliability in semi-supervised settings.
+
+Acknowledgment
+This material is based upon work supported by the National Science Foundation under Grant No. 1149882. Any opinions, ﬁndings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reﬂect the views of the National Science Foundation.
+
+7.
+
+REFERENCES
+
+[1] K. Jones, “A statistical interpretation of term speciﬁcity and its application in retrieval,” Journal of documentation, vol. 28, no. 1, pp. 11–21, 1972. [2] K. Weinberger, A. Dasgupta, J. Langford, A. Smola, and J. Attenberg, “Feature hashing for large scale multitask learning,” in Proceedings of the 26th Annual International Conference on Machine Learning. ACM, 2009, pp. 1113–1120. [3] G. Csurka, C. Dance, L. Fan, J. Willamowski, and C. Bray, “Visual categorization with bags of keypoints,” in Workshop on statistical learning in computer vision, ECCV, vol. 1, 2004, p. 22. [4] D. Blei, A. Ng, and M. Jordan, “Latent dirichlet allocation,” The Journal of Machine Learning Research, vol. 3, pp. 993–1022, 2003. [5] S. Deerwester, S. Dumais, G. Furnas, T. Landauer, and R. Harshman, “Indexing by latent semantic analysis,” Journal of the American society for information science, vol. 41, no. 6, pp. 391–407, 1990. [6] H. Luhn, “A statistical approach to mechanized encoding and searching of literary information,” IBM Journal of research and development, vol. 1, no. 4, pp. 309–317, 1957. [7] G. Salton, A. Wong, and C. Yang, “A vector space model for automatic indexing,” Communications of the ACM, vol. 18, no. 11, pp. 613–620, 1975. [8] G. Salton and C. Buckley, “Term-weighting approaches in automatic text retrieval,” Information processing & management, vol. 24, no. 5, pp. 513–523, 1988. [9] A. Singhal, C. Buckley, and M. Mitra, “Pivoted document length normalization,” in Proceedings of the 19th annual international ACM SIGIR conference on Research and development in information retrieval. ACM, 1996, pp. 21–29. [10] K. Weinberger and O. Chapelle, “Large margin taxonomy embedding for document categorization,” in Advances in Neural Information Processing Systems 21, D. Koller, D. Schuurmans, Y. Bengio, and L. Bottou, Eds., 2009, pp. 1737–1744. [11] T. Hofmann, “Probabilistic latent semantic indexing,” in Proceedings of the 22nd annual international ACM SIGIR conference on Research and development in information retrieval. ACM, 1999, pp. 50–57. [12] K. Nigam, A. McCallum, S. Thrun, and T. Mitchell, “Text classiﬁcation from labeled and unlabeled documents using em,” in Machine Learning, 1999, pp. 103–134. [13] B. Bai, J. Weston, D. Grangier, R. Collobert, K. Sadamasa, Y. Qi, O. Chapelle, and K. Weinberger, “Supervised semantic indexing,” in Proceeding of the 18th ACM conference on Information and knowledge management, ser. CIKM ’09. New York, NY, USA: ACM, 2009, pp. 187–196.
+
+[14] G. Golub and C. Reinsch, “Singular value decomposition and least squares solutions,” Numerische Mathematik, vol. 14, no. 5, pp. 403–420, 1970. [15] J. Blitzer, K. Weinberger, L. K. Saul, and F. C. N. Pereira, “Hierarchical distributed representations for statistical language modeling,” in Advances in Neural and Information Processing Systems, vol. 17. Cambridge, MA: MIT Press, 2005. [16] K. Weinberger, F. Sha, and L. K. Saul, “Learning a kernel matrix for nonlinear dimensionality reduction,” in Proceedings of the Twenty First International Conference on Machine Learning (ICML-04), Banﬀ, Canada, 2004, pp. 839–846. [17] C. Bishop, Pattern Recognition and Machine Learning. Springer, 2006. [18] G. Hinton and R. Zemel, “Autoencoders, minimum description length, and helmholtz free energy,” Advances in neural information processing systems, pp. 3–3, 1994. [19] P. Vincent, H. Larochelle, Y. Bengio, and P. Manzagol, “Extracting and composing robust features with denoising autoencoders,” in Proceedings of the 25th international conference on Machine learning. ACM, 2008, pp. 1096–1103. [20] M. Chen, Z. Xu, K. Q. Weinberger, and F. Sha, “Marginalized denoising autoencoders for domain adaptation,” in Proceedings of the 29th International Conference on Machine Learning (ICML-12), ser. ICML ’12, J. Langford and J. Pineau, Eds. New York, NY, USA: ACM, July 2012, pp. 767–774. [21] Z. E. Xu, K. Q. Weinberger, and F. Sha, “Rapid feature learning with stacked linear denoisers,” CoRR, vol. abs/1105.0972, 2011. [22] I. Jolliﬀe and MyiLibrary, Principal component analysis. Wiley Online Library, 2002, vol. 2. [23] D. Cai, X. Wang, and X. He, “Probabilistic dyadic data analysis with local and global consistency,” in Proceedings of the 26th Annual International Conference on Machine Learning (ICML 2009), 2009, pp. 105–112. [24] C. Do and A. Ng, “Transfer learning for text classiﬁcation,” in Advances in Neural Information Processing Systems 18, Y. Weiss, B. Sch¨ olkopf, and J. Platt, Eds. Cambridge, MA: MIT Press, 2006, pp. 299–306.
+
+
