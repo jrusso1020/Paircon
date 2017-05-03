@@ -54,13 +54,6 @@ login-text-size {
   bottom: 0;
 }
 
-.user_registration_form {
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  margin-bottom: 50px;
-}
-
 .signup-input-label {
   margin-top: 30px;
 }
@@ -320,7 +313,7 @@ span.callout {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  margin-bottom: 50px;
+  margin-top: 50px;
 }
 
 .signup-input-label {
@@ -330,6 +323,10 @@ span.callout {
 .signup-row {
   margin-left: 0px !important;
   margin-right: 0px !important;
+}
+
+.user_registration_buffer{
+  margin-top: 50px;
 }
 
 /***********************************

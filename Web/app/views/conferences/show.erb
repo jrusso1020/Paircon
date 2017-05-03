@@ -5,24 +5,53 @@
 <div class="row">
   <div class="col-md-2 col-sm-2 col-xs-2">
     <ul class="nav nav-tabs tabs-left">
-      <li class="active"><a href="#home" class="tab_ajax" data-toggle="tab" id="home">Home</a></li>
+      <li class="active"><span class="conference_left_item tab_ajax" data-toggle="tab" id="home">Home</span></li>
 
       <% if @is_organizer or (!@is_organizer and @post_count != 0) %>
-          <li><a href="#posts" class="tab_ajax" id="posts" data-toggle="tab">Posts</a></li>
+          <li><span class="conference_left_item tab_ajax" id="posts" data-toggle="tab">Posts</span></li>
       <% end %>
 
-      <% if !@is_organizer and user_signed_in? %>
+      <% if user_signed_in? %>
           <li>
-            <a href="#recommendations" class="tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</a>
+            <span class="conference_left_item tab_ajax" data-toggle="tab" id="recommendations" data-toggle="tab">Recommendations</span>
           </li>
       <% end %>
-      <li><a href="#papers" class="tab_ajax" id="papers" data-toggle="tab">Papers</a></li>
+      <li>
+        <span class="conference_left_item tab_ajax" id="papers" data-toggle="tab">Papers
+          <% if @is_organizer %>
+            <span class="dropdown pull-right">
+              <span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus"></i></span>
+              <ul class="dropdown-menu" role="menu">
+                <!--<li><a href="#">Upload New Papers CSV</a></li>-->
+                <li><%= link_to_modal 'Add Paper', new_paper_path(conference_id: @conference.id) %></li>
+              </ul>
+            </span>
+          <% end %>
+        </span>
+      </li>
 
       <% if @is_organizer or (!@is_organizer and @total_resources != 0 and @total_events != 0) %>
-          <li><a href="#schedule" class="tab_ajax" id="schedule" data-toggle="tab">Schedule</a></li>
+          <li>
+            <span class="conference_left_item tab_ajax" id="schedule" data-toggle="tab">Schedule
+              <% if @is_organizer %>
+                  <span class="dropdown pull-right">
+                    <span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus"></i></span>
+                    <ul class="dropdown-menu" role="menu">
+                      <li>
+                        <%= link_to_modal 'Add Multiple Events / Papers', bulk_upload_conference_path(conference_id: @conference.id) %>
+                      </li>
+                      <hr style="margin-top: 5px; margin-bottom: 5px;"/>
+                      <li><%= link_to_modal 'Add Event', new_resource_schedules_path(conference_id: @conference.id, view: 'event') %></li>
+                      <li><%= link_to_modal 'Add Session', new_resource_schedules_path(conference_id: @conference.id, view: 'session') %></li>
+                    </ul>
+                  </span>
+                <% end %>
+            </span>
+          </li>
+
       <% end %>
 
-      <li><a href="#about_panel" class="tab_ajax" id="about_panel" data-toggle="tab">About</a></li>
+      <li><span class="conference_left_item tab_ajax" id="about_panel" data-toggle="tab">About</span></li>
       <hr/>
       <% if @is_organizer %>
           <li><%= link_to_modal 'Create Conference', new_conference_path() %></li>

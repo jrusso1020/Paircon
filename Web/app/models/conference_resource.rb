@@ -2,10 +2,16 @@ class ConferenceResource < ApplicationRecord
   belongs_to :conference
   has_many :conference_events
   before_create :init_id
+  attr_accessor :date
+  attr_accessor :start_time
+  attr_accessor :end_time
+  attr_accessor :presenter
+  attr_accessor :event_type
+  attr_accessor :paper_id
 
   TYPE = {
-      auditorium: 'auditorium',
-      room: 'room'
+      event: 'event',
+      session: 'session'
   }
 
   private

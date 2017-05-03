@@ -1,28 +1,32 @@
-<div class="x_panel">
-  <div class="x_title">
-    <h3>Posts
-      <ul class="nav navbar-right panel_toolbox">
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-      </ul>
+<% partial_view = params[:view].blank? %>
+
+<div class="<%= 'x_panel' if partial_view %>">
+  <div class="<%= 'x_title' if partial_view %>">
+    <h3 style="<%= 'font-size: 36px;' unless partial_view %>">Posts
+      <% if partial_view %>
+          <ul class="nav navbar-right panel_toolbox">
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          </ul>
+      <% end %>
     </h3>
 
+    <% unless partial_view %>
+        <hr/>
+    <% end %>
     <div class="clearfix"></div>
   </div>
-  <div class="x_content">
+  <div class="<%= 'x_content' if partial_view %>">
     <% if @post_count == 0 %>
-        <div class="">
-          <div style="width: 100%; text-align: center; font-style: italic;">
-            <div><%= image_tag 'sad.png', style: 'opacity: 0.3; ' %></div>
-            <br/>
-            <div><%= @conference.get_name %> is yet to post any updates ...
-            </div>
+        <div style="width: 100%; text-align: center; font-style: italic; margin-top: 10px;">
+          <div><%= image_tag 'sad.png', style: 'opacity: 0.3; ' %></div>
+          <br/>
+          <div><%= @conference.get_name %> is yet to post any updates ...
           </div>
         </div>
     <% else %>
         <div class="post_div">
           <!-- Populated via Ajax -->
         </div>
-
     <% end %>
   </div>
 </div>

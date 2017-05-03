@@ -1,39 +1,51 @@
-<div class="x_panel">
-  <div class="x_title">
-    <h3>Papers
+<% partial_view = params[:view].blank? %>
+
+<div class="<%= 'x_panel' if partial_view %>">
+  <div class="<%= 'x_title' if partial_view %>">
+    <h3 style="<%= 'font-size: 36px;' unless partial_view %>">Papers
       <ul class="nav navbar-right panel_toolbox">
         <% if @is_organizer %>
-            <li>
-              <%= link_to_modal icon_text("plus"), new_paper_path(conference_id: @conference.id) %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus <%= 'btn btn-paircon' unless partial_view %>"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <!--<li><a href="#">Upload New Papers CSV</a></li>-->
+                <li><%= link_to_modal 'Add Paper', new_paper_path(conference_id: @conference.id) %></li>
+              </ul>
             </li>
         <% end %>
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+        <% if partial_view %>
+            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+        <% end %>
       </ul>
     </h3>
-
+    <% unless partial_view %>
+        <hr/>
+    <% end %>
     <div class="clearfix"></div>
   </div>
-  <div class="x_content">
+  <div class="<%= 'x_content' if partial_view %>">
     <table id="datatable-papers" class="table table-striped">
       <thead>
-        <tr>
-          <th>Title</th>
-          <th>Authors</th>
-          <th>Affiliation</th>
-          <th>Publication</th>
-          <th>Keywords</th>
-          <th>Link</th>
-          <% if @is_organizer %>
-              <th></th>
-          <% end %>
-        </tr>
+      <tr>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Affiliation</th>
+        <th>Email</th>
+        <th>Publication</th>
+        <th>Abstract</th>
+        <th>Link</th>
+        <% if @is_organizer %>
+            <th></th>
+        <% end %>
+      </tr>
       </thead>
       <tbody>
-        <%= render @conference.papers %>
+      <%= render @conference.papers %>
       </tbody>
     </table>
   </div>
 </div>
+
 <script>
     $('#datatable-papers').DataTable();
 </script>

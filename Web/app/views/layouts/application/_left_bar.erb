@@ -65,7 +65,6 @@
                 <ul class="nav side-menu">
                   <% organizing[0..5].each do |conference| %>
                       <li>
-
                         <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name(i) %></a>
                       </li>
                       <% i = i + 1 %>
