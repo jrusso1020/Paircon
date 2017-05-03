@@ -1,8 +1,6 @@
 require 'scrapper/pdf_scrapper'
 require 'papers/paper_utils'
 class PapersController < ApplicationController
-  include ConferencesHelper
-  include PapersHelper
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 

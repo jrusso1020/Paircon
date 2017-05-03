@@ -33,8 +33,6 @@ require 'conferences/conference_utils'
 
 class Conference < ApplicationRecord
   include PublicActivity::Common
-  include ConferencesHelper
-
   has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
 
   has_many :conference_attendees, dependent: :destroy
@@ -156,8 +154,8 @@ class Conference < ApplicationRecord
     end
     zip.close
     spreadsheet.close
-    ConferenceUtils.parse_spreadsheet(spreadsheet_path, zip_path, self.id)
-    #http://www.rubydoc.info/docs/rails/4.1.7/ActionDispatch/Http/UploadedFile --> This is the object
+    tran_success, message = ConferenceUtils.parse_spreadsheet(spreadsheet_path, zip_path, self.id)
+    return tran_success, message
   end
 
   def get_counts(post = true, interested = true, resources = true, events = true)

@@ -23,49 +23,70 @@ class ConferenceUtils
   def self.parse_spreadsheet spreadsheet, zip_path, conference_id
     pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_conference_pdf_path)
     xlsx = Roo::Spreadsheet.open(spreadsheet)
+    tran_success = true
+    message = "Successfully Parsed Excel"
     if (xlsx.sheets.count != 0)
       sheet = xlsx.sheet(0)
-      sheet.each_row_streaming(offset: 1) do |row| # Will exclude first (inevitably header) row
-        unless row.blank?
-          params = {}
-          params[:paper] = {}
-          params[:paper][:title] = row[1].to_s
-          params[:paper][:year] = row[2].to_s
-          params[:paper][:author] = row[3].to_s.split(";")
-          params[:paper][:affiliation] = row[4].to_s.split(";")
-          params[:paper][:email] = row[5].to_s.split(";")
-          params[:paper][:abstract] = row[6].to_s
-          params[:session] = {}
-          params[:session][:title] = row[7].to_s
-          params[:session][:session_title] = row[12].to_s
-          d = DateTime.parse(row[8].to_s.gsub! '/', '//')
-          time = Time.at(row[9].value).in_time_zone
-          time = time.change(day: d.day, month: d.month, year: d.year)
-          params[:session][:event_start_date] = time
-          time = Time.at(row[10].value).in_time_zone
-          time = time.change(day: d.day, month: d.month, year: d.year)
-          params[:session][:event_end_date] = time
-          time = Time.at(row[15].value).in_time_zone
-          time = time.change(day: d.day, month: d.month, year: d.year)
-          params[:session][:session_start_date] = time
-          time = Time.at(row[16].value).in_time_zone
-          time = time.change(day: d.day, month: d.month, year: d.year)
-          params[:session][:session_end_date] = time
-          params[:session][:presenter] = row[13].to_s
-          params[:session][:event_type] = row[14].to_s
-          params[:session][:room] = row[11].to_s
-          pdf_name = row[17].to_s
-          paper_pdf_path = nil
-          if pdf_map.has_key?(pdf_name)
-            paper_pdf_path = pdf_map[pdf_name]
+      Conference.transaction do
+        begin
+          sheet.each_row_streaming(offset: 1) do |row| # Will exclude first (inevitably header) row
+            unless row.blank?
+              params = {}
+              params[:paper] = {}
+              params[:paper][:title] = row[1].to_s
+              params[:paper][:year] = row[2].to_s
+              params[:paper][:author] = row[3].to_s.split(";")
+              params[:paper][:affiliation] = row[4].to_s.split(";")
+              params[:paper][:email] = row[5].to_s.split(";")
+              params[:paper][:abstract] = row[6].to_s
+              params[:session] = {}
+              params[:session][:title] = row[7].to_s
+              params[:session][:session_title] = row[12].to_s
+              d = DateTime.parse(row[8].to_s.gsub! '/', '//')
+              time = Time.at(row[9].value).in_time_zone
+              time = time.change(day: d.day, month: d.month, year: d.year)
+              params[:session][:event_start_date] = time
+              time = Time.at(row[10].value).in_time_zone
+              time = time.change(day: d.day, month: d.month, year: d.year)
+              params[:session][:event_end_date] = time
+              time = Time.at(row[15].value).in_time_zone
+              time = time.change(day: d.day, month: d.month, year: d.year)
+              params[:session][:session_start_date] = time
+              time = Time.at(row[16].value).in_time_zone
+              time = time.change(day: d.day, month: d.month, year: d.year)
+              params[:session][:session_end_date] = time
+              params[:session][:presenter] = row[13].to_s
+              params[:session][:event_type] = row[14].to_s
+              params[:session][:room] = row[11].to_s
+              pdf_name = row[17].to_s
+              paper_pdf_path = nil
+              if pdf_map.has_key?(pdf_name)
+                paper_pdf_path = pdf_map[pdf_name]
+              end
+              paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
+              if not paper.nil?
+                tran_success = create_conference_events(params[:session], conference_id, paper.id)
+                if not tran_success
+                  message = "Problem Adding Papers"
+                  break
+                end
+              else
+                raise ActiveRecord::Rollback
+                tran_success = false
+                message = "Problem Adding Papers"
+                break
+              end
+            end
           end
-          paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
-          if not paper.nil?
-            create_conference_events(params[:session], conference_id, paper.id)
-          end
+        rescue => e
+          raise ActiveRecord::Rollback
+          tran_success = false
+          message = "Problem parsing Excel"
+          break
         end
       end
     end
+    return tran_success, message
   end
 
   def self.create_conference_events(session_params, conference_id, paper_id)
@@ -87,8 +108,11 @@ class ConferenceUtils
           room: session_params[:room],
           eventColor: '#' + Digest::MD5.hexdigest(session_params[:title])[0..5]
       )
+      if event_resource.nil?
+        return false
+      end
       #create the corresponding event for the event_resource
-      ConferenceEvent.create!(
+      event_event = ConferenceEvent.create!(
           conference_id: conference_id,
           conference_resource_id: event_resource.id,
           title: session_params[:title],
@@ -96,6 +120,9 @@ class ConferenceUtils
           end_date: event_end_date,
           color: '#' + Digest::MD5.hexdigest(session_params[:title])[0..5]
       )
+      if event_event.nil?
+        return false
+      end
     end
 
     #create the resource for the session
@@ -106,9 +133,12 @@ class ConferenceUtils
         room: session_params[:room],
         eventColor: '#' + Digest::MD5.hexdigest(session_params[:session_title])[0..5]
     )
+    if session_resource.nil?
+      return false
+    end
 
     #create the event data for the session
-    ConferenceEvent.create!(
+    session_event = ConferenceEvent.create!(
         conference_id: conference_id,
         conference_resource_id: session_resource.id,
         title: session_params[:session_title],
@@ -119,6 +149,10 @@ class ConferenceUtils
         paper_id: paper_id,
         color: '#' + Digest::MD5.hexdigest(session_params[:session_title])[0..5]
     )
+    if session_event.nil?
+      return false
+    end
+    return true
   end
 
   def self.create_schedule_dictionary(conference)

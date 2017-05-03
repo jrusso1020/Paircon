@@ -1,7 +1,6 @@
 require "papers/paper_utils"
 
 class ConferencesController < ApplicationController
-  include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
   before_action :authenticate_user!, except: [:home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
@@ -182,11 +181,16 @@ class ConferencesController < ApplicationController
   end
 
   def process_bulk_upload
+
     bulk_params = params[:bulk]
 
     if Conference::BULK_SPREADSHEET_MIME_TYPE.include?(bulk_params[:spreadsheet].content_type) and Conference::BULK_ARCHIVE_MIME_TYPE.include?(bulk_params[:zip].content_type)
-      message = @conference.bulk_upload(bulk_params[:spreadsheet], bulk_params[:zip])
-      render json: {status: :ok, message: message}
+      tran_success, message = @conference.bulk_upload(bulk_params[:spreadsheet], bulk_params[:zip])
+      if tran_success
+        render json: {status: :ok, message: message}
+      else
+        render json: {status: :internal_server_error, message: message}
+      end
     else
       render json: {status: :internal_server_error, message: 'You have uploaded a file with an invalid extension. Please try again later ...'}
     end
