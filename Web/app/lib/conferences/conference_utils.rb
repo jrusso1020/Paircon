@@ -67,6 +67,7 @@ class ConferenceUtils
               if not paper.nil?
                 tran_success = create_conference_events(params[:session], conference_id, paper.id)
                 if not tran_success
+                  raise ActiveRecord::Rollback
                   message = "Problem Adding Papers"
                   break
                 end
@@ -98,11 +99,11 @@ class ConferenceUtils
     # "Look for the resource with the same name in the conference"
     # "If not found, then create one"
     event_title = session_params[:title]
-    event_resource = Conference.find(conference_id).conference_resources.find_by_title(event_title)
+    conference = Conference.find(conference_id)
+    event_resource = conference.conference_resources.find_by_title(event_title)
     if event_resource.nil?
       #create the resource for the event
-      event_resource = ConferenceResource.create!(
-          conference_id: conference_id,
+      event_resource = conference.conference_resources.create!(
           title: session_params[:title],
           parent_id: nil,
           room: session_params[:room],
@@ -112,8 +113,7 @@ class ConferenceUtils
         return false
       end
       #create the corresponding event for the event_resource
-      event_event = ConferenceEvent.create!(
-          conference_id: conference_id,
+      event_event = conference.conference_events.create!(
           conference_resource_id: event_resource.id,
           title: session_params[:title],
           start_date: event_start_date,
@@ -126,8 +126,7 @@ class ConferenceUtils
     end
 
     #create the resource for the session
-    session_resource = ConferenceResource.create!(
-        conference_id: conference_id,
+    session_resource = conference.conference_resources.create!(
         title: session_params[:session_title],
         parent_id: event_resource.id,
         room: session_params[:room],
@@ -138,8 +137,7 @@ class ConferenceUtils
     end
 
     #create the event data for the session
-    session_event = ConferenceEvent.create!(
-        conference_id: conference_id,
+    session_event = conference.conference_events.create!(
         conference_resource_id: session_resource.id,
         title: session_params[:session_title],
         start_date: session_start_date,
