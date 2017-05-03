@@ -24,10 +24,6 @@ class Paper < ApplicationRecord
 
   has_many :conference_papers, dependent: :destroy
   has_many :user_papers, dependent: :destroy
-  has_many :paper_authors, dependent: :destroy
-
-  attr_accessor :affiliation
-  attr_accessor :author
 
   has_attached_file :pdf
   validates_attachment :pdf, content_type: { content_type: ['application/pdf'] }
