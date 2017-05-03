@@ -29,10 +29,10 @@
 #++
 
 require 'fileutils'
+require 'conferences/conference_utils'
 
 class Conference < ApplicationRecord
   include PublicActivity::Common
-
   has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
 
   has_many :conference_attendees, dependent: :destroy
@@ -59,6 +59,9 @@ class Conference < ApplicationRecord
 
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
   validates_attachment :cover, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
+
+  BULK_SPREADSHEET_MIME_TYPE = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+  BULK_ARCHIVE_MIME_TYPE = ['application/zip']
 
   def logo_picture
     if !self.logo_file_name.blank?
@@ -122,6 +125,37 @@ class Conference < ApplicationRecord
 
   def start_date_str
     self.start_date.strftime(DATEFORMAT)
+  end
+
+  def get_conference_pdf_path
+    return "#{Rails.root}/public/conference/#{self.id}/pdf"
+  end
+
+  def get_conference_txt_path
+    return "#{Rails.root}/public/conference/#{self.id}/txt"
+  end
+
+  def get_conference_path
+    return "#{Rails.root}/public/conference/#{self.id}"
+  end
+
+  def bulk_upload spreadsheet, zip
+    FileUtils.rm_f get_conference_path
+    FileUtils.mkdir_p get_conference_path
+    zip_path = get_conference_path + '/' + zip.original_filename
+    File.open(zip_path, 'w+') do |f|
+      f.binmode
+      f.puts(zip.read)
+    end
+    spreadsheet_path = get_conference_path + '/' + spreadsheet.original_filename
+    File.open(spreadsheet_path, 'w+') do |f|
+      f.binmode
+      f.puts(spreadsheet.read)
+    end
+    zip.close
+    spreadsheet.close
+    tran_success, message = ConferenceUtils.parse_spreadsheet(spreadsheet_path, zip_path, self.id)
+    return tran_success, message
   end
 
   def get_counts(post = true, interested = true, resources = true, events = true)

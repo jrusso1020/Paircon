@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
   resources :schedules do
     collection do
-      get :get_rooms
+      get :get_sessions
       get :get_resources
       get :get_events
       get :delete_resource
@@ -77,6 +77,7 @@ Rails.application.routes.draw do
 
   resources :conferences do
     member do
+      get :bulk_upload
       get :invite
       get :delete
       get :user_recommendations
@@ -87,6 +88,7 @@ Rails.application.routes.draw do
       post :save_cover
       post :save_logo
       post :attend_conference
+      post :process_bulk_upload
 
       get :home
       get :about_panel
