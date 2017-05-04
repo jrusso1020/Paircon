@@ -67,7 +67,7 @@
         <ul class="dropdown-menu" role="menu">
           <% unless @conference.url.blank? %>
               <li>
-                <%= link_to icon_text('pull-right globe dropdown-user-icons', 'Website'), conference_path(@conference) %>
+                <%= link_to icon_text('globe pull-right dropdown-user-icons', 'Website'), conference_path(@conference) %>
               </li>
               <li class="divider"></li>
           <% else %>

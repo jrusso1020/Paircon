@@ -1,4 +1,4 @@
-class RecommendationGenerator
+class RecommendationService
 
   def initialize(user_id, conference_id)
     @user = User.find_by(id: user_id)
@@ -8,7 +8,7 @@ class RecommendationGenerator
   def getRecommendationsForEachPaper
     conference_dir = @conference.get_pdf_text_path
     @user.papers.all.each do |user_paper|
-      uri = URI("#{PairConConfig.recommendation_system_domain}/similiarity/v1/compare/single")
+      uri = URI("#{PairConConfig.recommendation_system_domain}/single")
       req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
       req.body = { user_file: user_paper.path, conference_dir: conference_dir }.to_json
       res = Net::HTTP.start(uri.hostname, uri.port) do |http|

@@ -1,22 +1,27 @@
 <%= header_title 'Unauthorized Access' %>
 
-<div class="container body">
+<div class="container body error-page">
   <div class="main_container">
     <!-- page content -->
-    <div class="col-md-12">
-      <div class="col-middle">
-        <div class="text-center text-center">
-          <h1 class="error-number">403</h1>
-          <h2>Access denied</h2>
-          <p>Oops! You are not allowed to access this this resource. <a href="<%= PairConConfig::url[:support] %>">Report this?</a>
-          </p>
+    <div class="page-container-responsive">
+      <div class="row row-vertical-align">
+        <div class="col-md-5 col-sm-12 col-xs-12 col-middle">
+          <h1 class="text-jumbo text-ginormous hide-sm error-text-quote">Oops!</h1>
+          <h2 class="error-text-quote">You are not allowed to access this this resource.</h2>
           <% if user_signed_in? %>
-            <div class="mid_center">
-              <h3>Search</h3>
-              <%= render 'layouts/application/search' %>
-            </div>
+              <%= render 'search' %>
           <% end %>
-          <%= image_tag 'sad.png', style: 'margin-top: 30px' %>
+          <h6 class="error-text-code">Error code: 403 Access Denied</h6>
+          <ul class="list-unstyled">
+            <li>Here are some helpful links instead:</li>
+            <li><%= link_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %></li>
+            <li><%= link_to 'Privacy Policy', privacy_policy_home_index_url %></li>
+            <li><%= link_to 'Terms of Use', terms_home_index_url %></li>
+            <li><a href="<%= PairConConfig::url[:support] %>">Report this</a></li>
+          </ul>
+        </div>
+        <div class="col-md-5 text-center">
+          <%= image_tag 'errorimage.png', class: 'error-image hidden-sm hidden-xs' %>
         </div>
       </div>
     </div>

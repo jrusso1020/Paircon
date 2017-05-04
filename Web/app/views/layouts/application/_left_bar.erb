@@ -3,7 +3,7 @@
     <div class="navbar nav_title" style="border: 0;">
       <a href="<%= root_path() %>" class="site_title navbar-brand">
         <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: 'margin-left: 5px; height: 30px; display: inline-block;' %>
-        <h2 style="display: inline;">PAIR<span class="logo-dec">CON</span></h2>
+        <h2 style="color: #e6e7e8; display: inline;">PAIR<span class="logo-dec">CON</span></h2>
       </a>
     </div>
 
@@ -22,6 +22,21 @@
     <br/>
 
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+
+      <div class="search" id="search" style="margin-bottom: 20px;">
+        <a href="javascript:"><i class="fa fa-search opacity-control"></i></a>
+
+        <%= form_tag search_home_index_path, method: :get, data: {pjax: true} do %>
+            <div class="form-group search-box">
+              <input class="search-query" id="search_val" name="search_val" type="text"
+                     value="<%= params[:search_val] %>" placeholder="Search Everywhere">
+              <button id="app_search_btn" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        <% end %>
+
+      </div>
+
+
       <div class="menu_section">
         <h3>DASHBOARD</h3>
         <ul class="nav side-menu">
@@ -30,13 +45,13 @@
       </div>
 
       <% if current_user.admin? %>
-        <div class="menu_section">
-          <h3>ADMIN</h3>
-          <ul class="nav side-menu">
-            <li><a href="<%= pending_organizers_user_path(current_user) %>">Pending Organizers</a></li>
-            <li><a href="<%= approved_organizers_user_path(current_user) %>">Approved Organizers</a></li>
-          </ul>
-        </div>
+          <div class="menu_section">
+            <h3>ADMIN</h3>
+            <ul class="nav side-menu">
+              <li><a href="<%= pending_organizers_user_path(current_user) %>">Pending Organizers</a></li>
+              <li><a href="<%= approved_organizers_user_path(current_user) %>">Approved Organizers</a></li>
+            </ul>
+          </div>
       <% end %>
 
       <% i = 1 %>
@@ -65,7 +80,6 @@
                 <ul class="nav side-menu">
                   <% organizing[0..5].each do |conference| %>
                       <li>
-
                         <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name(i) %></a>
                       </li>
                       <% i = i + 1 %>

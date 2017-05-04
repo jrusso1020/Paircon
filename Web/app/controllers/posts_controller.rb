@@ -1,5 +1,4 @@
 class PostsController < ApplicationController
-  include ConferencesHelper
   before_action :find_post, only: [:edit, :update, :show, :delete, :destroy]
   before_action :authenticate_user!, except: [:index]
   before_action :set_user, only: [:show, :edit, :update, :destroy]

@@ -1,5 +1,5 @@
 <% if @view_to_render %>
-  $('#main-container').append('<%= j render "conferences/panels/user_recommendations" %>');
+$('#main-container').append('<%= j render "conferences/panels/user_recommendations" %>');
 <% else %>
-  $('#recommendation-carousel').append('<%= j render "conferences/panels/recommendation_carousel" %>');
+$('#recommendation-carousel').append('<%= j render "conferences/panels/recommendation_carousel" %>');
 <% end %>

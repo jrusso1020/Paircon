@@ -297,11 +297,15 @@ GEM
     ref (2.0.0)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    roo (2.7.1)
+      nokogiri (~> 1)
+      rubyzip (~> 1.1, < 2.0.0)
     ruby-graphviz (1.2.3)
     ruby-lint (2.3.1)
       parser (~> 2.2)
       slop (~> 3.4, >= 3.4.7)
     ruby-rc4 (0.1.5)
+    rubyzip (1.2.1)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -403,7 +407,9 @@ DEPENDENCIES
   rails-jquery-tokeninput
   rdoc
   recaptcha
+  roo
   ruby-lint
+  rubyzip
   sass-rails (~> 5.0)
   selectize-rails
   sidekiq

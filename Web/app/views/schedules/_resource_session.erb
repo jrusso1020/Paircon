@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <%= form.label :title, 'Session Title (*)' %>
+      <%= form.text_field :title, placeholder: 'Session Title', class: 'form-control' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <%= form.label :parent_id, 'Event Name (*)' %>
+      <%= form.select :parent_id, @events, {}, id: 'conference_build_select', class: 'select' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 col-sm-6 col-xs-6">
+    <div class="form-group">
+      <%= form.label :start_time, 'Start Time (*)' %>
+      <div class="input-prepend input-group">
+        <span class="add-on input-group-addon"><i class="fa fa-clock-o"></i></span>
+        <%= form.text_field :start_time, placeholder: 'Session Start Time', id: 'start_time', class: 'time form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-6">
+    <div class="form-group">
+      <%= form.label :end_time, 'End Time (*)' %>
+      <div class="input-prepend input-group">
+        <span class="add-on input-group-addon"><i class="fa fa-clock-o"></i></span>
+        <%= form.text_field :end_time, placeholder: 'Session End Time', id: 'end_time', class: 'time form-control' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <%= form.label :presenter, 'Presenter Name (*)' %>
+      <%= form.text_field :presenter, placeholder: 'Presenter Name', class: 'form-control' %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group">
+      <%= form.label :event_type, 'Event type (*)' %>
+      <%= form.select :event_type, ConferenceEvent.event_types.map { |k, v| [k.humanize, v] }, {}, class: 'form-control' %>
+    </div>
+  </div>
+</div>
+
+<% if @papers.blank? %>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h4 class="font-light" align="center">
+          <strong style="color: maroon">Please add a Paper before adding an Session.</strong>
+        </h4>
+      </div>
+    </div>
+<% else %>
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+          <%= form.label :paper_id, 'Paper (*)' %>
+          <%= form.select :paper_id, @papers, {}, id: 'conference_paper_select', class: 'select' %>
+        </div>
+      </div>
+    </div>
+<% end %>
