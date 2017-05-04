@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
   def approved_organizers
     @user = current_user
-    @approved_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :user_industry, :user_organization, 'organizers.updated_at').where(organizers: {approved: false})
+    @approved_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :user_industry, :user_organization, 'organizers.updated_at').where(organizers: {approved: true})
   end
 
   def pending_organizers
