@@ -85,7 +85,6 @@ function initializeApplication() {
 
     $(document).on('pjax:beforeSend', function () {
         NProgress.start();
-//        $('.header_btns').hide();
     });
 
     $(document).on('submit', 'form[data-pjax]', function (event) {
@@ -339,6 +338,30 @@ function loadApplicationLayout() {
             setContentHeight();
         }).parent().addClass('active active-sm');
 
+        $('#search > a').click(function () {
+            $('#search').toggleClass('keep-open');
+            $('#search>a i').toggleClass("opacity-control");
+        });
+
+        $('#search').click(function (event) {
+            $('html').one('click', function () {
+                $('#search').removeClass('keep-open');
+                $('#search>a i').addClass("opacity-control");
+            });
+
+            event.stopPropagation();
+        });
+
+        $('#search_val').keypress(function (e) {
+            if (e.keyCode === 13) {
+                if ($(this).length) {
+                    // manually invoke pjax after enter has been pressed
+                    var $url = $(this).find("a").attr("href");
+                    $.pjax({url: $url, container: '#wrap'});
+                }
+            }
+        });
+
         setContentHeight();
 
         // fixed sidebar
@@ -413,4 +436,3 @@ function initializePanels() {
     });
     // /Panel toolbox
 }
-
