@@ -12,12 +12,12 @@ class PapersController < ApplicationController
 
   def create
     if Paper::PAPER_MIME_TYPES.include?(params[:type])
-      conference_id = params[:conference_id]
+      conference = Conference.find(params[:conference_id])
       paper_pdf_path = nil
       unless params[:filename].blank?
-        pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
+        pdf_folder = conference.get_pdf_folder_path
         FileUtils.mkdir_p pdf_folder
-        new_file = Rails.root.join('public', 'conference', conference_id, 'pdf/' + params[:filename])
+        new_file = pdf_folder + '/' + params[:filename]
 
         File.open(new_file, 'wb') do |file|
           file.binmode
