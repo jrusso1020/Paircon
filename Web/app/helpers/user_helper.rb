@@ -15,6 +15,9 @@ module UserHelper
     FileUtils::rm_rf txt_folder
     FileUtils::mkdir_p txt_folder
 
+    # Notify the user the job is initiated
+    user.activity(:publication_update_begin)
+
     #Running pdf to txt conversion
     url = user.url
     scrapper = PDFScrapper.new(url, 'personal')
@@ -44,6 +47,9 @@ module UserHelper
     #setting the status to true
     user.is_scraped = true
     user.save
+
+    # Notify the user the job is complete
+    user.activity(:publication_update_complete)
   end
 
 end

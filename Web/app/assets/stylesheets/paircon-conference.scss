@@ -286,15 +286,27 @@ Conference About
   overflow: hidden;
 }
 
-
 /***********************************
 ************************************
 Top-Navbar
 ************************************
 ***********************************/
-
 .top-nav-search-bar {
   width: 40%;
   padding-top: 6px;
   margin-left: -13px;
+}
+
+/***********************************
+************************************
+Dashboard
+************************************
+***********************************/
+#dash_heading_equal{
+  display: flex;
+  flex-wrap: wrap;
+}
+.refresh_url_dash_button{
+  display: flex;
+  margin: auto !important;
 }

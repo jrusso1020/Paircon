@@ -36,6 +36,14 @@
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
+                <%= f.label :url, 'Publication URL' %>
+                <%= f.text_field :url, :class => 'form-control' %>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="form-group">
                 <%= f.label :phone_number, 'Phone Number'%>
                 <%= f.text_field :phone_number, :maxlength => 30, :class => 'form-control' %>
               </div>
@@ -44,7 +52,7 @@
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
-                <%= f.label :phone_number, 'Organization'%>
+                <%= f.label :organization, 'Organization'%>
                 <%= f.text_field :user_organization, :class => 'form-control' %>
               </div>
             </div>
@@ -52,7 +60,7 @@
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
-                <%= f.label :phone_number, 'Industry'%>
+                <%= f.label :industry, 'Industry'%>
                 <%= f.text_field :user_industry, :class => 'form-control' %>
               </div>
             </div>
@@ -60,7 +68,7 @@
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="form-group">
-                <%= f.label :phone_number, 'Graduation Year'%>
+                <%= f.label :graduation_year, 'Graduation Year'%>
                 <%= f.text_field :user_grad_year, :class => 'form-control' %>
               </div>
             </div>
