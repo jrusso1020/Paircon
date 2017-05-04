@@ -25,8 +25,10 @@ class Paper < ApplicationRecord
   has_many :conference_papers, dependent: :destroy
   has_many :user_papers, dependent: :destroy
 
+  PAPER_MIME_TYPES = ['application/pdf']
+
   has_attached_file :pdf
-  validates_attachment :pdf, content_type: { content_type: ['application/pdf'] }
+  validates_attachment :pdf, content_type: { content_type: PAPER_MIME_TYPES }
   before_create :init_id
 
   def save_pdf(conference_id, filename, request_body)

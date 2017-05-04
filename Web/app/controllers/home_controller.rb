@@ -24,12 +24,10 @@ class HomeController < ApplicationController
 
   def search
     query = params[:search_val]
-    @conferences = []
-    @conferences += Conference.where("name like ?", "%#{query}%")
-    @conferences += Conference.where("location like ?", "%#{query}%")
-    @conferences += Conference.where("domain like ?", "%#{query}%")
-
-    render :search_results
+    @objects = []
+    @objects += Conference.not_archived.where('name like ?', "%#{query}%")
+    @objects += Conference.not_archived.where('location like ?', "%#{query}%")
+    @objects += Conference.not_archived.where('domain like ?', "%#{query}%")
   end
 
 

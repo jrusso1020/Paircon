@@ -5,34 +5,38 @@ class PapersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def new
-    @title = 'Add Paper'
-    @body = 'Please enter the paper title and file upload path'
+    @title = 'Add Paper / Poster'
+    @body = 'Please enter information about the Paper, optional details about the author(s) and upload a PDF version of the Paper.'
     render layout: false
   end
 
   def create
-    conference_id = params[:conference_id]
-    paper_pdf_path = nil
-    unless params[:filename].blank?
-      pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
-      FileUtils.mkdir_p pdf_folder
-      new_file = Rails.root.join('public', 'conference', conference_id, 'pdf/' + params[:filename])
+    if Paper::PAPER_MIME_TYPES.include?(params[:type])
+      conference_id = params[:conference_id]
+      paper_pdf_path = nil
+      unless params[:filename].blank?
+        pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
+        FileUtils.mkdir_p pdf_folder
+        new_file = Rails.root.join('public', 'conference', conference_id, 'pdf/' + params[:filename])
 
-      File.open(new_file, 'wb') do |file|
-        file.binmode
-        file.puts(request.body.read)
+        File.open(new_file, 'wb') do |file|
+          file.binmode
+          file.puts(request.body.read)
+        end
+        paper_pdf_path = new_file
       end
-      paper_pdf_path = new_file
-    end
-    paper_params = paper_params()
-    paper_params[:author] = paper_params[:author].split(',')
-    paper_params[:affiliation] = paper_params[:affiliation].split(',')
-    paper_params[:email] = paper_params[:email].split(',')
+      paper_params = paper_params()
+      paper_params[:author] = paper_params[:author].split(',')
+      paper_params[:affiliation] = paper_params[:affiliation].split(',')
+      paper_params[:email] = paper_params[:email].split(',')
 
-    if PaperUtils.create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
-      render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
-    elsif
+      if PaperUtils.create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
+        render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
+      elsif
       render status: :ok, json: {message: 'Paper was successfully added to your Conference.'}.to_json
+      end
+    else
+      render status: :internal_server_error, json: {message: 'Please add a PDF of the Paper you are trying to upload!'}.to_json
     end
   end
 

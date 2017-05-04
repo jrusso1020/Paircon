@@ -5,7 +5,7 @@
     <!-- page content -->
     <div class="page-container-responsive">
       <div class="row row-vertical-align">
-        <div class="col-md-5 col-sm-12 col-xs-12 col-middle">
+        <div class="col-md-6 col-sm-12 col-xs-12 col-middle">
           <h1 class="text-jumbo text-ginormous hidden-sm-down error-text-quote">Oops!</h1>
           <h2 class="error-text-quote">Oh My! Something bad happened. We track these errors automatically</h2>
           <% if user_signed_in? %>
@@ -20,8 +20,8 @@
             <li><a href="<%= PairConConfig::url[:support] %>">Report this</a></li>
           </ul>
         </div>
-        <div class="col-md-5 text-center">
-          <%= image_tag 'errorimage.png', class: 'error-image hidden-sm hidden-xs' %>
+        <div class="col-md-6 text-center hidden-sm hidden-xs">
+          <%= image_tag 'errorimage.png', class: 'error-image' %>
         </div>
       </div>
     </div>

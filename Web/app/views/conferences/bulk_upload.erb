@@ -23,13 +23,13 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
             <div class="row fileupload-buttonbar text-center">
-              <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
+              <div class="select-button btn btn-paircon light-grey-text paircon-fileinput-button">
                 <i class="fa fa-upload"></i>
                 <span>Select Excel File (xlsx) </span>
                 <%= f.file_field :spreadsheet, id: 'spreadsheetFileUpload', type: 'file', class: 'file-upload', accept: Conference::BULK_SPREADSHEET_MIME_TYPE.join(',') %>
               </div>
 
-              <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
+              <div class="select-button btn btn-paircon light-grey-text paircon-fileinput-button">
                 <i class="fa fa-upload"></i>
                 <span>Select Zip File (zip)</span>
                 <%= f.file_field :zip, id: 'zipFileUpload', type: 'file', class: 'file-upload', accept: Conference::BULK_ARCHIVE_MIME_TYPE.join(',') %>

@@ -1,17 +1,31 @@
 /***************************************/
 //------------Search--------------//
 /***************************************/
-function initializeSearch() {
-    $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
-    $('table.display').DataTable({
-        paging : false,
-        info : false,
-        columnDefs : [
-            { targets: 'no-sort', orderable: false }
-            ]
-    });
-    // initializePanels();
+function initializeSearch(length) {
+    var enable = length > 0;
 
+    $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
+
+    $('.dataTable').DataTable({
+        bSort: enable,
+        bFilter: false,
+        bInfo: false,
+        bPaginate: false,
+        bRetrieve: true,
+        sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+        sPaginationType: "bootstrap",
+        order: [[1, 'asc']],
+        oLanguage: {
+            "sEmptyTable": "",
+            "sZeroRecords": ""
+        },
+        columnDefs: [
+            {targets: 'no-sort', orderable: false},
+            {type: 'datetime-moment', targets: [3, 4]}
+        ]
+    });
+
+    removeEmptyRowsDataTable();
 }
 /***************************************/
 //------------REFRESH PROFILE URL--------------//
@@ -121,17 +135,32 @@ function refreshProfileUrl() {
     });
 }
 /***************************************/
-//------------APPROVE ORGANIZER--------------//
+//------------APPROVE ORGANIZER--------//
 /***************************************/
-function initializeAdmin() {
-    $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
-    $('table.display').DataTable({
-        paging : false,
-        info : false,
-        columnDefs : [
-        { targets: 'no-sort', orderable: false }
-                    ]
+function initializeAdmin(length ) {
+    var enable = length > 0;
+
+    $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
+
+    $('.dataTable').DataTable({
+        bSort: enable,
+        bFilter: enable,
+        bInfo: false,
+        bPaginate: false,
+        sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+        sPaginationType: "bootstrap",
+        oLanguage: {
+            "sEmptyTable": "",
+            "sZeroRecords": ""
+        },
+        order: [[0, 'asc']],
+        columnDefs: [
+            {targets: 'no-sort', orderable: false}
+        ]
     });
+
+    removeEmptyRowsDataTable();
+
     $('.organizer-approval').click(function () {
         user_id = $(this).attr('id');
         approveOrganizer(user_id);
@@ -156,11 +185,6 @@ function approveOrganizer(user_id) {
         }
     });
 }
-function showApprovedOrganizer() {
-    $('#datatable-approvedOrganizer').DataTable();
-}
-
-
 /***************************************/
 //------------DELETE VIEW--------------//
 /***************************************/
@@ -614,10 +638,10 @@ function initLoginBoxValidation() {
 function initializePapers() {
     $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
     $('#datatable-papers').DataTable({
-        paging : false,
+        paging: false,
         info: false,
-        columnDefs : [
-            { targets: 'no-sort', orderable: false }
+        columnDefs: [
+            {targets: 'no-sort', orderable: false}
         ]
     });
 }

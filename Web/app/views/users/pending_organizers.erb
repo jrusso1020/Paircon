@@ -1,36 +1,35 @@
-<%= header_title 'Approve Organizers' %>
-<div>
-  <div class="x_title">
-    <h3>Pending Organizers
-    </h3>
-    <div class="clearfix"></div>
-  </div>
-  <div class="x_content">
-    <table class="display table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
-      <thead>
-      <tr role="row">
-        <th>Name</th>
-        <th>Email</th>
-        <th>User Industry</th>
-        <th >User Organization</th>
-        <th class="no-sort"></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @pending_organizers.each do |organizer| %>
-          <tr>
-            <td><%= organizer.full_name %></td>
-            <td><%= organizer.email %></td>
-            <td><%= organizer.user_industry.blank? ? 'N/A' : organizer.user_industry %></td>
-            <td><%= organizer.user_organization %></td>
-            <td>
-              <a id='<%= organizer.id %>' class="organizer-approval" style="cursor:pointer;" >Approve</a>
-            </td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+<%= header_title 'Pending Organizers' %>
 
-<%= javascript_tag 'initializeAdmin()' %>
+<h1>Pending Organizers</h1>
+<hr />
+<div class="clearfix"></div>
+<table class="table paircon-table table-condensed table-responsive dataTable">
+  <thead>
+  <tr role="row">
+    <th>Name</th>
+    <th>Email</th>
+    <th>User Industry</th>
+    <th>User Organization</th>
+    <th>Request Date</th>
+    <th width="50px;" class="no-sort"></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @pending_organizers.each do |organizer| %>
+      <tr>
+        <td><%= organizer.full_name %></td>
+        <td><%= organizer.email %></td>
+        <td><%= organizer.industry %></td>
+        <td><%= organizer.organization %></td>
+        <td><%= organizer.created_at.strftime(DATEFORMAT) %></td>
+        <td><a id='<%= organizer.id %>' class="organizer-approval pointer-cursor"><i class="fa fa-check"></i> Approve</a></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% if @pending_organizers.length == 0 %>
+    <%= render 'layouts/application/no_result', body: 'You have no organizer who is pending approval.' %>
+<% end %>
+
+<%= javascript_tag "initializeAdmin(#{@pending_organizers.length})" %>

@@ -1,35 +1,34 @@
-<%= header_title 'Approve Organizers' %>
+<%= header_title 'Approved Organizers' %>
 
-<div>
-  <div class="x_title">
-    <h3>Approved Organizers
-    </h3>
-    <div class="clearfix"></div>
-  </div>
-  <div class="x_content">
-    <table class="display table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
-      <thead>
-      <tr role="row">
-        <th>User Name</th>
-        <th>Email</th>
-        <th>User Industry</th>
-        <th>User Organization</th>
-        <th>Date Approved</th>
+<h1>Approved Organizers</h1>
+<hr/>
+<div class="clearfix"></div>
+<table class="table paircon-table table-condensed table-responsive dataTable">
+  <thead>
+  <tr role="row">
+    <th>User Name</th>
+    <th>Email</th>
+    <th>User Industry</th>
+    <th>User Organization</th>
+    <th>Date Approved</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @approved_organizers.each do |organizer| %>
+      <tr>
+        <td><%= organizer.full_name %></td>
+        <td><%= organizer.email %></td>
+        <td><%= organizer.industry %></td>
+        <td><%= organizer.organization %></td>
+        <td><%= organizer.updated_at.strftime(DATEFORMAT) %></td>
       </tr>
-      </thead>
-      <tbody>
-      <% @approved_organizers.each do |organizer| %>
-          <tr>
-            <td><%= organizer.full_name %></td>
-            <td><%= organizer.email %></td>
-            <td><%= organizer.user_industry.blank? ? 'N/A' : organizer.user_industry %></td>
-            <td><%= organizer.user_organization %></td>
-            <td><%= organizer.updated_at.strftime(DATEFORMAT) %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
+  <% end %>
+  </tbody>
+</table>
 
-<%= javascript_tag 'initializeAdmin()' %>
+<% if @approved_organizers.length == 0 %>
+    <%= render 'layouts/application/no_result', body: 'You have no organizer who has been approved.' %>
+<% end %>
+
+
+<%= javascript_tag "initializeAdmin(#{@approved_organizers.length})" %>

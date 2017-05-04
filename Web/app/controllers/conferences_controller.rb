@@ -1,4 +1,4 @@
-require "papers/paper_utils"
+require 'papers/paper_utils'
 
 class ConferencesController < ApplicationController
   before_action :find_conference, except: [:index, :new, :create]

@@ -17,12 +17,7 @@
   </div>
   <div class="<%= 'x_content' if partial_view %>">
     <% if @post_count == 0 %>
-        <div style="width: 100%; text-align: center; font-style: italic; margin-top: 10px;">
-          <div><%= image_tag 'sad.png', style: 'opacity: 0.3; ' %></div>
-          <br/>
-          <div><%= @conference.get_name %> is yet to post any updates ...
-          </div>
-        </div>
+        <%= render 'layouts/application/no_result', body: @conference.get_name + ' is yet to post any updates ...' %>
     <% else %>
         <div class="post_div">
           <!-- Populated via Ajax -->
