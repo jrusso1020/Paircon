@@ -62,6 +62,7 @@
 
 class User < ApplicationRecord
   include PublicActivity::Common
+  include UserHelper
 
   devise :database_authenticatable, :async, :registerable, :recoverable, :rememberable,
          :trackable, :validatable, :timeoutable, :omniauthable,
@@ -72,12 +73,14 @@ class User < ApplicationRecord
 
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_organizers, dependent: :destroy
+  has_many :user_papers, dependent: :destroy
+
+  has_one :organizer, dependent: :destroy
   has_many :identities, dependent: :destroy
 
   has_many :conferences, through: :conference_attendees
   has_many :conferences, through: :conference_organizers
-
-  has_one :organizer, dependent: :destroy
+  has_many :papers, through: :user_papers
 
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}, default_url: 'Male.jpg'
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
@@ -112,11 +115,11 @@ class User < ApplicationRecord
   end
 
   def get_pdf_text_path
-    return "#{Rails.root}/public/docs/txt/#{self.id}"
+    return "#{Rails.root}/public/users/#{self.id}/txt"
   end
 
   def get_pdf_folder_path
-    return "#{Rails.root}/public/docs/pdfs/#{self.id}"
+    return "#{Rails.root}/public/users/#{self.id}/pdfs"
   end
 
   def pending_organizer
@@ -126,6 +129,22 @@ class User < ApplicationRecord
   def activity key
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: self, recipient: self, params: {:user => self.to_json})
+  end
+
+  def scrape_profile
+    self.is_scraped = false
+    self.save
+    # delete earlier profile
+    cleanUserProfile(self)
+    begin
+      UserProfileScrapperJob.perform_later(self)
+    rescue => e
+      scrapeUserProfile(self)
+    end
+  end
+
+  def is_attending(conference_id)
+    !ConferenceAttendee.find_by(user_id: self.id, conference_id: conference_id).blank?
   end
 
   private

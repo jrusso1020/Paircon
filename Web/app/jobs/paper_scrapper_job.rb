@@ -1,8 +1,7 @@
-require 'scrapper/pdf_scrapper'
+require "papers/paper_utils"
 class PaperScrapperJob < ApplicationJob
   queue_as :default
-  include PapersHelper
   def perform(paper, conference_id)
-   extractTextFromPdf(paper, conference_id)
+   PaperUtils.extractTextFromPdf(paper, conference_id)
   end
 end

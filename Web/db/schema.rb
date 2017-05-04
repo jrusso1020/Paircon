@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413002130) do
+ActiveRecord::Schema.define(version: 20170501180806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,10 +32,11 @@ ActiveRecord::Schema.define(version: 20170413002130) do
   end
 
   create_table "conference_attendees", force: :cascade do |t|
-    t.string   "conference_id", limit: 30
-    t.string   "user_id",       limit: 30
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "conference_id",      limit: 30
+    t.string   "user_id",            limit: 30
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.boolean  "recommendation_ran",            default: false
     t.index ["user_id", "conference_id"], name: "index_conference_attendees_on_user_id_and_conference_id", unique: true, using: :btree
   end
 
@@ -44,10 +45,13 @@ ActiveRecord::Schema.define(version: 20170413002130) do
     t.string   "title"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.string   "color"
     t.string   "conference_id",          limit: 30
+    t.string   "presenter"
+    t.integer  "event_type",                        default: 0
+    t.string   "paper_id"
     t.index ["conference_resource_id"], name: "index_conference_events_on_conference_resource_id", using: :btree
   end
 
@@ -69,7 +73,7 @@ ActiveRecord::Schema.define(version: 20170413002130) do
 
   create_table "conference_resources", force: :cascade do |t|
     t.string   "conference_id", limit: 30
-    t.string   "building"
+    t.string   "room"
     t.string   "title"
     t.string   "eventColor"
     t.string   "parent_id",     limit: 30
@@ -95,7 +99,7 @@ ActiveRecord::Schema.define(version: 20170413002130) do
     t.string   "cover_content_type"
     t.integer  "cover_file_size"
     t.datetime "cover_updated_at"
-    t.string   "description",        limit: 255, default: ""
+    t.text     "description",                    default: ""
     t.string   "domain",             limit: 255, default: ""
     t.boolean  "publish",                        default: false
     t.boolean  "archive",                        default: false
@@ -123,27 +127,21 @@ ActiveRecord::Schema.define(version: 20170413002130) do
     t.index ["user_id"], name: "index_organizers_on_user_id", unique: true, using: :btree
   end
 
-  create_table "paper_authors", force: :cascade do |t|
-    t.string   "name"
-    t.string   "affiliation"
-    t.string   "paper_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "papers", force: :cascade do |t|
     t.string   "title"
-    t.text     "pdf_link"
     t.string   "md5hash"
     t.text     "path"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "pdf_file_name"
     t.string   "pdf_content_type"
     t.integer  "pdf_file_size"
     t.datetime "pdf_updated_at"
-    t.text     "keywords"
     t.date     "year"
+    t.text     "abstract"
+    t.text     "author",           default: [],              array: true
+    t.text     "affiliation",      default: [],              array: true
+    t.text     "email",            default: [],              array: true
   end
 
   create_table "posts", force: :cascade do |t|
@@ -155,13 +153,19 @@ ActiveRecord::Schema.define(version: 20170413002130) do
   end
 
   create_table "similarities", force: :cascade do |t|
-    t.string   "paper_id1",        limit: 30
-    t.string   "paper_id2",        limit: 30
+    t.string   "user_paper_id",       limit: 30
+    t.string   "conference_paper_id", limit: 30
     t.decimal  "similarity_score"
     t.string   "hash"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.index ["paper_id1", "paper_id2"], name: "index_similarities_on_paper_id1_and_paper_id2", unique: true, using: :btree
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["user_paper_id", "conference_paper_id"], name: "index_similarities_on_user_paper_id_and_conference_paper_id", unique: true, using: :btree
+  end
+
+  create_table "user_papers", force: :cascade do |t|
+    t.string "user_id"
+    t.string "paper_id"
+    t.index ["paper_id", "user_id"], name: "index_user_papers_on_paper_id_and_user_id", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -201,6 +205,7 @@ ActiveRecord::Schema.define(version: 20170413002130) do
     t.string   "user_industry",                      default: ""
     t.integer  "user_grad_year"
     t.string   "user_organization",                  default: ""
+    t.boolean  "is_scraped",                         default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

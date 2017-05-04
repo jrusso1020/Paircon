@@ -1,6 +1,6 @@
 <%= header_title @title %>
 
-<%= form_for :resource, url: create_resource_schedules_path(conference_id: params[:conference_id], view: params[:view]), html: {method: :post, id: 'add_resource_form'} do |f| %>
+<%= form_for :resource, url: create_resource_schedules_path(conference_id: params[:conference_id], view: params[:view]), html: {method: :post, id: 'add_resource_form'} do |form| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
         <i class="fa fa-group" style="margin-right: 5px;"></i>
@@ -16,53 +16,19 @@
         </div>
       </div>
 
-      <% if params[:view] == ConferenceResource::TYPE[:auditorium] %>
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <%= f.label :title, 'Auditorium Name (*)' %>
-                <%= f.text_field :title, placeholder: 'Name of Auditorium', class: 'form-control' %>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="form-group">
-                <%= f.label :building, 'Building Name' %>
-                <%= f.select :building, @buildings, {}, id: 'conference_build_select', class: 'select' %>
-                <%= f.text_field :building_other, placeholder: 'Name of Building', 'data-depends-on': '#conference_build_select', 'data-depends-on-value': 'Other', class: 'form-control' %>
-              </div>
-            </div>
-          </div>
+      <% if params[:view] == ConferenceResource::TYPE[:event] %>
+          <%= render 'resource_event', form: form %>
       <% else %>
-          <% if @auditoriums.blank? %>
+          <% if @events.blank? %>
               <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                   <h4 class="font-light" align="center">
-                    <strong>Please create an Auditorium before adding a room.</strong>
+                    <strong>Please create an Event before adding a session.</strong>
                   </h4>
                 </div>
               </div>
-
           <% else %>
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :title, 'Room Name (*)' %>
-                    <%= f.text_field :title, placeholder: 'Name of Room', class: 'form-control' %>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <div class="form-group">
-                    <%= f.label :parent_id, 'Auditorium Name (*)' %>
-                    <%= f.select :parent_id, @auditoriums, {}, id: 'conference_build_select', class: 'select' %>
-                  </div>
-                </div>
-              </div>
+              <%= render 'resource_session', form: form %>
           <% end %>
       <% end %>
     </div>
@@ -70,21 +36,17 @@
     <div class="modal-footer" style="margin-top:-5px;">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <% unless params[:view] == ConferenceResource::TYPE[:room] and @auditoriums.blank? %>
-              <% if !is_mobile_device? %>
+          <% if !is_mobile_device? %>
                 <span style="float: left !important; margin-top: 5px;">
                   <small>Note: (*) This is a required field.
                   </small>
                 </span>
-              <% end %>
-              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-              <%= f.submit 'Create', :class => 'btn btn-paircon' %>
-          <% else %>
-              <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
           <% end %>
+          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+          <%= form.submit @title, :class => "btn btn-paircon #{'disabled' if (params[:view] == ConferenceResource::TYPE[:session] and (@events.blank? or @papers.blank?))}" %>
         </div>
       </div>
     </div>
 <% end %>
 
-<%= javascript_tag 'initializeAddScheduleResource()' %>
+<%= javascript_tag "initializeAddScheduleResource('" + @conference.start_date_str + "', '" + @conference.end_date_str + "')" %>

@@ -1,9 +1,11 @@
+require "papers/paper_utils"
+
 class ConferencesController < ApplicationController
-  include ConferencesHelper
   before_action :find_conference, except: [:index, :new, :create]
   before_action :authenticate_user!, except: [:home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :set_is_organizer, only: [:home, :schedule, :posts, :about_panel, :show]
+  before_action :set_is_organizer, only: [:home, :schedule, :papers, :posts, :about_panel, :show]
+  before_action :set_view, only: [:posts, :recommendations, :papers]
 
   def index
     if params[:view] == 'organizer'
@@ -77,11 +79,10 @@ class ConferencesController < ApplicationController
   # The show action renders the individual conference after retrieving the the id
   def show
     logged_in = user_signed_in?
-
     if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
         format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
-        format.all  { render nothing: true, status: 403 }
+        format.all { render nothing: true, status: 403 }
       end
     else
       @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
@@ -98,6 +99,11 @@ class ConferencesController < ApplicationController
 
     if attendee.blank?
       @conference.conference_attendees.create(user_id: current_user.id)
+      begin
+        ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
+      rescue Redis::CannotConnectError => e
+        RecommendationService.new(user_id, conference_id).getRecommendationsForEachPaper()
+      end
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
       attendee.destroy_all
@@ -105,6 +111,21 @@ class ConferencesController < ApplicationController
     end
 
     redirect_back(fallback_location: root_path)
+  end
+
+  def user_recommendations
+    user = User.find_by(id: params[:user_id])
+    @view_to_render = (params[:view_to_render] == 'true')
+
+    similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
+    @papers_with_scores = []
+    similarities.each do |item|
+      @papers_with_scores << {user_paper: Paper.find_by(id: item.user_paper_id), conference_paper: Paper.find_by(id: item.conference_paper_id), similarity_score: item.similarity_score}
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   def invite
@@ -155,6 +176,26 @@ class ConferencesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def bulk_upload
+    render layout: false
+  end
+
+  def process_bulk_upload
+
+    bulk_params = params[:bulk]
+
+    if Conference::BULK_SPREADSHEET_MIME_TYPE.include?(bulk_params[:spreadsheet].content_type) and Conference::BULK_ARCHIVE_MIME_TYPE.include?(bulk_params[:zip].content_type)
+      tran_success, message = @conference.bulk_upload(bulk_params[:spreadsheet], bulk_params[:zip])
+      if tran_success
+        render json: {status: :ok, message: message}
+      else
+        render json: {status: :internal_server_error, message: message}
+      end
+    else
+      render json: {status: :internal_server_error, message: 'You have uploaded a file with an invalid extension. Please try again later ...'}
+    end
+  end
+
   def home
     @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
     render template: 'conferences/tab_panes/home'
@@ -162,6 +203,7 @@ class ConferencesController < ApplicationController
 
   def schedule
     @total_resources, @total_events = @conference.get_counts(false, false, true, true)
+    @schedule_data = ConferenceUtils.create_schedule_dictionary(@conference)
     render template: 'conferences/tab_panes/schedule'
   end
 
@@ -180,6 +222,7 @@ class ConferencesController < ApplicationController
   end
 
   def papers
+    @total_resources, @total_events = @conference.get_counts(false, false, true, true)
     render template: 'conferences/tab_panes/papers'
   end
 
@@ -188,7 +231,7 @@ class ConferencesController < ApplicationController
       @conference.save_image(params, true)
     end
 
-    render json: {status: 'success', url: @conference.logo_picture, filename: @conference.logo_file_name}
+    render json: {status: :ok, url: @conference.logo_picture, filename: @conference.logo_file_name}
   end
 
   def save_cover
@@ -196,7 +239,7 @@ class ConferencesController < ApplicationController
       @conference.save_image(params, false)
     end
 
-    render json: {status: 'success', url: @conference.cover_photo, filename: @conference.cover_file_name}
+    render json: {status: :ok, url: @conference.cover_photo, filename: @conference.cover_file_name}
   end
 
   # The destroy action removes the conference permanently from the database
@@ -217,13 +260,13 @@ class ConferencesController < ApplicationController
   def destroy_logo
     @conference.logo = nil unless @conference.logo.nil?
     @conference.save!(validate: false)
-    render json: {status: 'success'}
+    render json: {status: :ok}
   end
 
   def destroy_cover
     @conference.cover = nil unless @conference.cover.nil?
     @conference.save!(validate: false)
-    render json: {status: 'success'}
+    render json: {status: :ok}
   end
 
   private
@@ -246,5 +289,9 @@ class ConferencesController < ApplicationController
     else
       @is_organizer = false
     end
+  end
+
+  def set_view
+    params[:view] = 'full'
   end
 end

@@ -8,67 +8,9 @@
 
     <div class="clearfix"></div>
   </div>
-  <div class="x_content">
-
-    <div id="owl-demo" class="owl-carousel top-buffer">
-      <%# @drives.each do |drive| %>
-      <% percentage = 0.3 %>
-      <div class="usage-graph" style="transform: scale(1.2,1.2);">
-        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
-          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
-        </div>
-        <!--<label><%#= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>-->
-          <!--<p>-->
-            <!--<a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>-->
-            <!--<a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>-->
-          <!--</p>-->
-        <!--</label>-->
-      </div>
-      <div class="usage-graph" style="transform: scale(1.2,1.2);">
-        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
-          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
-        </div>
-        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
-          <!--<p>-->
-            <!--<a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>-->
-            <!--<a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>-->
-          <!--</p>-->
-        </label>
-      </div>
-      <div class="usage-graph" style="transform: scale(1.2,1.2);">
-        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
-          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
-        </div>
-        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
-          <!--<p>-->
-            <!--<a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>-->
-            <!--<a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>-->
-          <!--</p>-->
-        </label>
-      </div>
-      <div class="usage-graph" style="transform: scale(1.2,1.2);">
-        <div class="easypiechart" id="returningvisits" data-percent="<%= percentage.nan? ? 0 : (percentage*100).round(2) %>">
-          <span class="percent"><%= percentage.nan? ? 0 : (percentage*100).round(2) %></span>
-        </div>
-        <label><%= link_to "Paper 1", pdf.full_path(file: "/conference_papers/pdfs/#{@conference.id}/171.pdf") %><br>
-          <!--<p>-->
-            <!--<a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>-->
-            <!--<a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>-->
-          <!--</p>-->
-        </label>
-      </div>
-    </div>
-
-    <script>
-        var count = 3 <%#= @drives.count >= 3 ? 3 : @drives.count %>;
-        if (window.innerWidth < 768) {
-            count = 2 <%#= @drives.count >= 2 ? 2 : @drives.count %>;
-        }
-
-        initCharts(count);
-    </script>
-
-    <%# end %>
+  <div id= "recommendation-carousel" class="x_content">
 
   </div>
 </div>
+
+<%= javascript_tag "requestUserRecommendations('" + @conference.id + "','" + current_user.id + "','" + false.to_s + "')" %>

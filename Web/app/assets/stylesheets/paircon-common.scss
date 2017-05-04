@@ -281,6 +281,35 @@ a.disabled {
   pointer-events: none;
   cursor: default;
 }
+
+.selectize-input {
+  display: block;
+  width: 100%;
+  height: 36px;
+  padding: 7px 15px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #4f5259;
+  background-color: #fff !important;
+  background-image: none !important;
+  border: 1px solid #ccc !important;
+  border-radius: 0 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+
+.progress-bar {
+  background-color: $paircon-3 !important;
+  background-position: 0px 0px;
+  background-repeat: repeat-x;
+  animation: animatedBackground 15s linear infinite;
+}
+
+@keyframes animatedBackground {
+  from { background-position: 0 0; }
+  to { background-position: 100% 0; }
+}
+
 /***********************************
 ************************************
 DASHBOARD
@@ -323,23 +352,6 @@ Right Col
   height: 100%;
   margin-top: 57px !important;
   z-index: 1 !important;
-}
-
-/*conference description*/
-
-#conf-title{
-  background-color: transparent;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
-
-#conf-map{
-  height: 100%;
-  display: block;
-}
-#map-img {
-  height: 200px;
-  overflow: hidden;
 }
 
 .address {
