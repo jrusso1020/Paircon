@@ -439,3 +439,9 @@ function initializePanels() {
     });
     // /Panel toolbox
 }
+
+function removeEmptyRowsDataTable() {
+    if ($('.dataTables_empty').length > 0) {
+        $('.dataTables_empty').parent().remove();
+    }
+}

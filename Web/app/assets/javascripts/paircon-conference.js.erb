@@ -85,7 +85,7 @@ function initializeConference(id, description, start_date, end_date) {
         timePickerIncrement: 15,
         opens: "left",
         locale: {
-            format: 'DD MMM YYYY h:mm A'
+            format: 'MMMM D YYYY, h:mm a'
         }
     }, function (start, end) {
         $.ajax({
@@ -252,7 +252,7 @@ function initializeBulkFileUploader(conferenceid) {
             var result = JSON.parse(JSON.stringify(data._response.result));
             $('#closeButton').click();
             $('#uploadButton').removeClass('disabled');
-            $('#select-button').removeClass('disabled');
+            $('.select-button').removeClass('disabled');
 
             if (result.status == 'internal_server_error') {
                 showErrorMsg(result.message);
@@ -282,7 +282,7 @@ function initializeBulkFileUploader(conferenceid) {
                     $('#uploadButton').text("Uploading");
                     $('#progress').fadeIn('slow');
                     $('#uploadButton').addClass('disabled');
-                    $('#select-button').addClass('disabled');
+                    $('.select-button').addClass('disabled');
                     $('#closeButton').hide();
                     $('#cancelButton').show();
 
@@ -296,6 +296,7 @@ function initializeBulkFileUploader(conferenceid) {
             return false;
         }
     });
+
 }
 
 function initCharts(count) {
@@ -600,7 +601,7 @@ function initializeAddScheduleResource(start_date, end_date) {
     $('.datetime').datetimepicker({
         minDate: moment(new Date(start_date)),
         maxDate: moment(new Date(end_date)),
-        format: 'DD MMM YYYY'
+        format: 'MMMM D YYYY'
     }).change(function (new_date) {
         $('.time').datetimepicker().date(new_date);
     });
@@ -661,7 +662,7 @@ function initializeAddScheduleEvent(start_date, end_date) {
         minDate: start_date,
         maxDate: end_date,
         stepping: 15,
-        format: 'DD MMM YYYY h:mm A'
+        format: 'MMMM DD YYYY, h:mm A'
     };
 
     $('.datetime').datetimepicker(options);

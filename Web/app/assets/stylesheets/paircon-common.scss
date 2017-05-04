@@ -225,6 +225,10 @@ Header
 Misc
 ************************************
 ***********************************/
+.pointer-cursor {
+  cursor: pointer;
+}
+
 .form_toggle_button {
   &:hover {
     text-decoration: none;
@@ -464,6 +468,7 @@ Left Col
       background: none;
       padding: 13px 0;
       margin: 0;
+      min-width: 0px;
       i {
         margin-top: -2px;
         font-size: 18px;
@@ -763,4 +768,92 @@ Error page
 
 .text-ginormous {
   font-size: 145px;
+}
+
+/***********************************
+************************************
+Tables / Datatables
+************************************
+***********************************/
+table {
+  border: none !important;
+}
+
+.paircon-table {
+  width: 100% !important; // Forced to allow row grouping and responsivenessborder-left: none;
+}
+
+.paircon-table > tbody > tr > td {
+  border-top: 0px solid #DDD !important;
+  vertical-align: middle !important;
+}
+
+.paircon-table > thead > tr > th {
+  border-bottom: 1px solid $paircon-3;
+}
+
+.paircon-table > tbody > tr {
+  background: transparent;
+  height: 45px !important;
+}
+
+.paircon-table > tbody > tr:hover {
+  background-color: rgba(44, 49, 74, 0.1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#2C314A94, endColorstr=#2C314A94);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#2C314A94, endColorstr=#2C314A94)";
+}
+
+table.dataTable thead .sorting::after,
+table.dataTable thead .sorting_asc::after,
+table.dataTable thead .sorting_desc::after {
+  content: none !important;
+}
+
+.dataTables_filter input {
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.075);
+  border-radius: 25px;
+  padding-left: 20px;
+  border: 1px solid rgba(221, 226, 232, 0.49);
+}
+
+.datatable_empty_hover:hover {
+  background: transparent !important;
+}
+
+/***********************************
+************************************
+Uploader
+************************************
+***********************************/
+.paircon-fileinput-button {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.paircon-fileinput-button input {
+  opacity: 0.0;
+  filter: alpha(opacity=0);
+  -ms-filter: "alpha(opacity=0)";
+  -khtml-opacity: 0.0;
+  -moz-opacity: 0.0;
+  height: 35px;
+  cursor: pointer;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 100px;
+  z-index: 2;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+  .paircon-fileinput-button input {
+    filter: alpha(opacity=0);
+    -ms-filter: "alpha(opacity=0)";
+    -khtml-opacity: 0.0;
+    -moz-opacity: 0.0;
+    font-size: 100%;
+    height: 100%;
+  }
 }

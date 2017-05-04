@@ -3,7 +3,7 @@
 <%= form_for Paper.new, id: 'add_new_paper' do |f| %>
     <div class="modal-header">
       <h1 class="modal-title" id="myModalLabel">
-        <i class="fa fa-group" style="margin-right: 5px;"></i>
+        <i class="fa fa-file-text-o" style="margin-right: 5px;"></i>
         <%= @title %>
       </h1>
     </div>
@@ -28,8 +28,8 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :author, "Paper Authors (Separated by ';')" %>
-            <%= f.text_field :author, placeholder: 'Author of the paper', class: 'form-control' %>
+            <%= f.label :abstract, 'Paper Abstract' %>
+            <%= f.text_area :abstract, placeholder: 'Paper abstract', class: 'form-control', id: 'abstract' %>
           </div>
         </div>
       </div>
@@ -37,66 +37,58 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :affiliation, "Author Affiliation (Separated by ';')" %>
-            <%= f.text_field :affiliation, placeholder: 'Author Affiliation', class: 'form-control' %>
+            <%= f.label :year, 'Publication year (*)' %>
+            <%= f.select :year, ((Time.zone.now.year - 100)..(Time.zone.now.year + 1)).to_a.reverse, {}, class: 'form-control' %>
           </div>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" style="margin-bottom: 0px; margin-top: 5px;">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="form-group">
-            <%= f.label :email, "Author Email (Separated by ';')" %>
-            <%= f.text_field :email, placeholder: 'Author Email', class: 'form-control' %>
+            <%= f.label :author, 'Author Information' %>
+            <table id="paperDataTable" class="table paircon-table table-responsive dataTable">
+              <thead>
+              <tr role="row">
+                <th width="1px;"></th>
+                <th>Author Name</th>
+                <th>Affiliation</th>
+                <th>Email Address</th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <i id="addRow" class="btn btn-paircon fa fa-plus"></i>
           </div>
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" style="margin-top: 10px;">
         <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="form-group">
-            <%= f.label :abstract, 'Abstract' %>
-            <%= f.text_field :abstract, placeholder: 'Paper abstract', class: 'form-control' %>
-          </div>
-        </div>
-      </div>
+          <div class="form-group text-center">
+            <div class="select-button btn btn-paircon light-grey-text paircon-fileinput-button">
+              <i class="fa fa-upload"></i>
+              Select Paper (PDF)
+              <%= content_tag :input, '', id: 'fileupload', type: 'file', name: 'fileData', accept: 'application/pdf' %>
+            </div>
 
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="form-group">
-            <%= f.label :year, 'Publication year' %>
-            <%= f.select :year, (Time.zone.now.year - 100)..(Time.zone.now.year + 1), class: 'form-control' %>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="form-group">
-            <div class="row fileupload-buttonbar text-center">
-              <div id="select-button" class="btn btn-paircon light-grey-text fileinput-button">
-                <i class="fa fa-upload"></i>
-                <span>Select Paper (PDF)</span>
-                <%= content_tag :input, '', id: 'fileupload', type: 'file', name: 'fileData', accept: 'application/pdf' %>
-              </div>
-
-              <div id="progress" class="progress progress-striped" style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
-                <div class="progress-bar bar"></div>
-              </div>
+            <div id="progress" class="progress progress-striped" style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+              <div class="progress-bar bar"></div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="modal-footer">
       <button type="button" id="closeButton" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="button" id="uploadButton" class="btn btn-paircon disabled" data-dismiss="modal">Upload</button>
+      <button type="button" id="uploadButton" class="btn btn-paircon disabled">Upload</button>
 
     </div>
 
 <% end %>
 
+<%= javascript_tag 'initializePaperAdd()' %>
 <%= javascript_tag "initializePaperFileUploader('" + params[:conference_id] + "')" %>
 
 

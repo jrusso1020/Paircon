@@ -7,7 +7,7 @@
         <div class="row">
           <p>
             <%= icon_text('tag', '') %>
-            <%= (@conference.domain.blank? and @is_organizer) ? 'To Be Defined' : @conference.domain %>
+            <%= (@conference.domain.blank? and @is_organizer) ? 'To Be Determined' : @conference.domain %>
           </p>
         </div>
     <% end %>
@@ -112,8 +112,8 @@
     <% if @conference.publish %>
         <br/>
         <div class="text-center">
-          <%= link_to_modal 'Invite Attendees', invite_conference_path() %>
           <i class="fa fa-user-plus left-buffer" aria-hidden="true"></i>
+          <%= link_to_modal 'Invite Attendees', invite_conference_path() %>
         </div>
     <% end %>
   </div>
