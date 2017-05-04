@@ -52,3 +52,9 @@ bower.json
 /Web/Gemfile.lock
 SimilarityAlgo/__pycache__
 /dump.rdb
+
+#Ignore file structuref
+.DS_Store
+
+/Web/public/conference_papers
+/Web/public/users

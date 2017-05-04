@@ -27,7 +27,7 @@
     <td>Accountant</td>
     <td>Tokyo</td>
     <td>33</td>
-    <td>2008/11/28</td>
+    <td>02:12 Dec 20, 13</td>
     <td>$162,700</td>
     <td>5407</td>
     <td>a.satou@datatables.net</td>
@@ -38,7 +38,7 @@
     <td>Chief Executive Officer (CEO)</td>
     <td>London</td>
     <td>47</td>
-    <td>2009/10/09</td>
+    <td>11:12 Dec 22, 13</td>
     <td>$1,200,000</td>
     <td>5797</td>
     <td>a.ramos@datatables.net</td>
@@ -49,7 +49,7 @@
     <td>Junior Technical Author</td>
     <td>San Francisco</td>
     <td>66</td>
-    <td>2009/01/12</td>
+    <td>05:12 Dec 28, 13</td>
     <td>$86,000</td>
     <td>1562</td>
     <td>a.cox@datatables.net</td>
@@ -60,7 +60,7 @@
     <td>Software Engineer</td>
     <td>London</td>
     <td>41</td>
-    <td>2012/10/13</td>
+    <td>03:01 Jan 1, 14</td>
     <td>$132,000</td>
     <td>2558</td>
     <td>b.greer@datatables.net</td>
@@ -71,7 +71,7 @@
     <td>Software Engineer</td>
     <td>San Francisco</td>
     <td>28</td>
-    <td>2011/06/07</td>
+    <td>03:01 Jan 1, 14</td>
     <td>$206,850</td>
     <td>1314</td>
     <td>b.wagner@datatables.net</td>
@@ -82,7 +82,7 @@
     <td>Integration Specialist</td>
     <td>New York</td>
     <td>61</td>
-    <td>2012/12/02</td>
+    <td>12:01 Jan 21, 14</td>
     <td>$372,000</td>
     <td>4804</td>
     <td>b.williamson@datatables.net</td>
@@ -93,7 +93,7 @@
     <td>Software Engineer</td>
     <td>London</td>
     <td>38</td>
-    <td>2011/05/03</td>
+    <td>06:01 Jan 23, 14</td>
     <td>$163,500</td>
     <td>6222</td>
     <td>b.nash@datatables.net</td>
@@ -104,7 +104,7 @@
     <td>Pre-Sales Support</td>
     <td>New York</td>
     <td>21</td>
-    <td>2011/12/12</td>
+    <td>10:01 Jan 28, 14</td>
     <td>$106,450</td>
     <td>8330</td>
     <td>c.vance@datatables.net</td>
@@ -115,7 +115,7 @@
     <td>Sales Assistant</td>
     <td>New York</td>
     <td>46</td>
-    <td>2011/12/06</td>
+    <td>11:02 Feb 12, 14</td>
     <td>$145,600</td>
     <td>3990</td>
     <td>c.stevens@datatables.net</td>
@@ -126,14 +126,20 @@
     <td>Senior Javascript Developer</td>
     <td>Edinburgh</td>
     <td>22</td>
-    <td>2012/03/29</td>
+    <td>03:02 Feb 18, 14</td>
     <td>$433,060</td>
     <td>6224</td>
     <td>c.kelly@datatables.net</td>
   </tr>
   </tbody>
 </table>
+<tbody>
 
-<Script>
-    $('#datatable-responsive').DataTable();
-</Script>
+
+<script>
+    $(document).ready(function() {
+        $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
+        $('#datatable-responsive').DataTable();
+
+    });
+</script>
