@@ -285,10 +285,12 @@ class SchedulesController < ApplicationController
     render json: sessions.to_json
   end
 
-  private
-
-  def find_conference
+  def get_sessions
+    sessions = [{text: 'No session', value: 'No session'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
+    render json: sessions.to_json
   end
+
+  private
 
   def find_resource
     @resource = ConferenceResource.find(params[:id])

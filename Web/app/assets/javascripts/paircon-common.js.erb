@@ -49,6 +49,7 @@ function initializeApplication() {
 
     $("a").on('pjax:complete', function () {
         NProgress.done();
+        initializePanels();
     });
 
     $(document).on('pjax:complete', function () {
@@ -56,6 +57,7 @@ function initializeApplication() {
         switchContainer();
         $('#error_callout').fadeTo('fast', 0);
         bind_notification_listing();
+        initializePanels();
 
         try {
             initLoginBoxValidation();
@@ -125,6 +127,7 @@ function initializeApplication() {
     }
 
     bind_notification_listing();
+    initializePanels();
 }
 
 // For centering login form

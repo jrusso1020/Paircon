@@ -1,0 +1,13 @@
+<% user = Hashie::Mash.new(YAML::load(@activity.parameters[:user])) %>
+
+<li class="item-success border-left-blue notification-box">
+  <div class="notification-time label label-success pull-right"><%= notification_created_time %></div>
+  <div class="row row-vertical-align-notification">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <span class="desc desc-nopadding notification-text">
+        <%= image_tag 'favicon.ico', class: 'paircon_notification_logo' %>
+        <span>&nbsp;&nbsp;Your publication profile refresh was successfully initiated </span>
+      </span>
+    </div>
+  </div>
+</li>

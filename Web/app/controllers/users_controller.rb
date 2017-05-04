@@ -66,6 +66,7 @@ class UsersController < ApplicationController
   end
 
   def refresh_profile
+    @user = current_user
     if not @user.url.blank?
       @user.scrape_profile
     end
@@ -73,7 +74,6 @@ class UsersController < ApplicationController
 
   def update
     respond_to do |format|
-
       scrape_profile = false
       if params[:referer] == REFERERS[:app_init]
         init_app_after_first_sign_up

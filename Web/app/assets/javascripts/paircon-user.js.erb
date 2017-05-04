@@ -13,7 +13,113 @@ function initializeSearch() {
     // initializePanels();
 
 }
+/***************************************/
+//------------REFRESH PROFILE URL--------------//
+/***************************************/
 
+
+function refreshProfileUrl() {
+    // Disabled Button Tooltip Mouse Events
+    $('.refresh_publication').mouseover(function () {
+        tooltip.open();
+    });
+    $('.refresh_publication').mousemove(function () {
+        tooltip.get().css({
+            'top': event.clientY + 12,
+            'left': event.clientX - 100
+        });
+    });
+    $('.refresh_publication').mouseout(function () {
+        tooltip.remove();
+    });
+    $('.refresh_publication').click(function () {
+        tooltip.remove();
+    });
+
+    $(function () {
+        tooltip = new PNotify({
+            title: 'Refresh Profile URL',
+            text: 'Refresh the list of publications from your academic profile',
+            type: 'info',
+            styling: 'fontawesome',
+            hide: false,
+            width: "200px",
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            },
+            animate_speed: "fast",
+            icon: "fa fa-commenting",
+            // Setting stack to false causes PNotify to ignore this notice when positioning.
+            stack: false,
+            auto_display: false
+        });
+        // Remove the notice if the user mouses over it.
+        tooltip.get().mouseout(function () {
+            tooltip.remove();
+        });
+    });
+
+
+    // Disabled Button Tooltip Mouse Events
+    $('.refresh_publication_disabled').mouseover(function () {
+        tooltip_disabled.open();
+    });
+    $('.refresh_publication_disabled').mousemove(function () {
+        tooltip_disabled.get().css({
+            'top': event.clientY + 12,
+            'left': event.clientX - 100
+        });
+    });
+    $('.refresh_publication_disabled').mouseout(function () {
+        tooltip_disabled.remove();
+    });
+
+    $(function () {
+        tooltip_disabled = new PNotify({
+            title: 'Please Wait...',
+            text: 'Your publication list is currently refreshing. Please wait until it is complete to refresh again.',
+            type: 'error',
+            styling: 'fontawesome',
+            width: "200px",
+            hide: false,
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            },
+            animate_speed: "fast",
+            icon: "fa fa-commenting",
+            // Setting stack to false causes PNotify to ignore this notice when positioning.
+            stack: false,
+            auto_display: false
+        });
+        // Remove the notice if the user mouses over it.
+        tooltip_disabled.get().mouseout(function () {
+            tooltip_disabled.remove();
+        });
+    });
+
+
+    // Call Refresh Function
+    $('.refresh_publication').click(function () {
+        user_id = $(this).attr('id');
+        $.ajax({
+            type: 'POST',
+            data: {id: user_id},
+            url: '/users/' + user_id + '/refresh_profile',
+            success: function () {
+                showNotificationMsg('Publication URL Refresh Initiated');
+                $.pjax.reload('[data-pjax-container]');
+            }
+        });
+    });
+}
 /***************************************/
 //------------APPROVE ORGANIZER--------------//
 /***************************************/
@@ -30,7 +136,6 @@ function initializeAdmin() {
         user_id = $(this).attr('id');
         approveOrganizer(user_id);
     });
-    initializePanels();
 
 }
 
@@ -137,7 +242,7 @@ function initializeUserShow(gender) {
         onAfterProcessImage: function () {
             $('.userimage').attr('src', $('#image_upload').attr('src'));
         },
-        onAfterCancel: function() {
+        onAfterCancel: function () {
             if (gender == 1) {
                 $('#user_avatar').attr('src', "<%= asset_path('Male.jpg') %>");
                 $('.userimage').attr('src', "<%= asset_path('Male.jpg') %>");

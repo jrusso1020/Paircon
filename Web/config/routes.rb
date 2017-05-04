@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       get :get_sessions
       get :get_resources
       get :get_events
+      get :get_events_user
       get :delete_resource
       get :new_resource
       get :new_event
@@ -132,6 +133,7 @@ Rails.application.routes.draw do
       post :submit_url
       post :request_organizer
       post :approve_organizer
+      post :refresh_profile
     end
 
     collection do

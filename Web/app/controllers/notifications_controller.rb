@@ -16,6 +16,6 @@ class NotificationsController < ApplicationController
   def read_notification
     current_user.last_notifications_read = Time.now
     current_user.save!(:validate => false)
+    render json: {status: :ok}
   end
-
 end

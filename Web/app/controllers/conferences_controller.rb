@@ -181,7 +181,6 @@ class ConferencesController < ApplicationController
   end
 
   def process_bulk_upload
-
     bulk_params = params[:bulk]
 
     if Conference::BULK_SPREADSHEET_MIME_TYPE.include?(bulk_params[:spreadsheet].content_type) and Conference::BULK_ARCHIVE_MIME_TYPE.include?(bulk_params[:zip].content_type)
