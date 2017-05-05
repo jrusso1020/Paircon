@@ -15,39 +15,19 @@
   </tr>
   </thead>
   <tbody>
-  <% @conferences_published.each do |conference| %>
-      <tr>
-        <td> <a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
+ <% @conferences_archive.each do |conference| %>
+      <tr  <% if conference.archive() ==true %> class="archived" <% end %> >
+        <td> <a id="<%= "conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
         </td>
         <td>
           <p><%= conference.location() %> </p>
         </td>
         <td>
-          <p>Published</p>
-        </td>
-      </tr>
-  <% end %>
-  <% @conferences_active.each do |conference| %>
-      <tr>
-        <td> <a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
-        </td>
-        <td>
-          <p><%= conference.location() %> </p>
-        </td>
-        <td>
-          <p>Active</p>
-        </td>
-      </tr>
-  <% end %>
-  <% @conferences_active.each do |conference| %>
-      <tr>
-        <td> <a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name() %></a>
-        </td>
-        <td>
-          <p><%= conference.location() %> </p>
-        </td>
-        <td>
-          <p>Archived</p>
+          <% if conference.archive() ==true %>
+              <p>Archived</p>
+              <% else %>
+              <p> Active </p>
+          <%end%>
         </td>
       </tr>
   <% end %>
