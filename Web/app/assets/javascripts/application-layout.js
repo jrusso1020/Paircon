@@ -37,5 +37,6 @@
 //= require paircon-user
 //= require paircon-post
 //= require paircon-conference
+//= require paircon-scheduler
 //= require paircon-paper
 
