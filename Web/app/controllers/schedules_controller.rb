@@ -72,7 +72,7 @@ class SchedulesController < ApplicationController
           start_date: session_start_date,
           end_date: session_end_date,
           presenter: conference_resource_params[:presenter],
-          event_type: ConferenceEvent.event_types[conference_resource_params[:event_type].downcase],
+          event_type: conference_resource_params[:event_type].to_i,
           paper_id: conference_resource_params[:paper_id],
           color: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
       )
