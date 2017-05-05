@@ -47,6 +47,15 @@ class Paper < ApplicationRecord
     File.delete(new_file)
   end
 
+  def get_author_information
+    dict = []
+    self.author.each_with_index do |item, index|
+      dict.push({author: self.author[index], affiliation: self.affiliation[index], email: self.email[index]})
+    end
+
+    dict.to_json
+  end
+
   def save_pdf_path(filepath)
     self.pdf = File.open(filepath, 'r')
     self.save!()
