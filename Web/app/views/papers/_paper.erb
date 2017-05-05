@@ -1,0 +1,10 @@
+<tr data-authorinfo="<%= paper.get_author_information %>">
+  <td class="<%= 'details-control' if paper.author.length > 0 %>"></td>
+  <td><%= link_to paper.title, pdf.full_path(file: paper.pdf.url), target: '_blank' %></td>
+  <td><%= paper.abstract.blank? ? 'N/A' : paper.abstract %></td>
+  <td><%= paper.year.year %></td>
+
+  <% if @is_organizer %>
+      <td><%= link_to_modal icon_text('trash', ''), delete_paper_path(paper) %></td>
+  <% end %>
+</tr>

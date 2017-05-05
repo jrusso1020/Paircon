@@ -139,3 +139,94 @@ function initializePaperFileUploader(conferenceid) {
         }
     });
 }
+
+function initializePapersView() {
+
+    function format(td) {
+        var child = '<table id="subDataTable" class="table paircon-table table-responsive dataTable">' +
+            '<thead>' +
+            '<tr role="row">' +
+            '<th>Author Name</th>' +
+            '<th>Affiliation</th>' +
+            '<th>Email Address</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody>';
+
+        var author_information = JSON.parse(JSON.stringify(td.data('authorinfo')));
+
+        for (var i = 0; i < author_information.length; i++) {
+            child = child + '<tr role="row">' +
+                '<td>' + author_information[i].author + '</td>' +
+                '<td>' + author_information[i].affiliation + '</td>' +
+                '<td>' + author_information[i].email + '</td>' +
+                '</tr>';
+        }
+
+        child = child +
+            '</tbody>' +
+            '</table>';
+
+        return child;
+    }
+
+    var table = $('#datatable-papers').DataTable({
+        responsive: true,
+        bFilter: false,
+        bInfo: false,
+        bPaginate: false,
+        sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+        sPaginationType: "bootstrap",
+        oLanguage: {
+            "sEmptyTable": "",
+            "sZeroRecords": ""
+        },
+        order: [[1, 'asc']],
+        columnDefs: [
+            {targets: 2, render: $.fn.dataTable.render.ellipsis(250, true)},
+            {targets: 'no-sort', orderable: false}
+        ]
+    });
+
+    // Add event listener for opening and closing details
+    $('#datatable-papers').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+
+        if (row.child.isShown()) {
+            // This row is already open - close it
+            row.child.hide();
+            row.child.remove().draw();
+            tr.removeClass('shown');
+        } else {
+            // Open this row
+            row.child(format(tr)).show();
+
+            $('#subDataTable').DataTable({
+                bFilter: false,
+                bInfo: false,
+                bPaginate: false,
+                bRetrieve: true,
+                bSort: false,
+                sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+                sPaginationType: "bootstrap",
+                order: [[1, 'asc']],
+                columnDefs: [
+                    {orderable: false, targets: 0}
+                ],
+                oLanguage: {
+                    "sEmptyTable": "No Authors have been defined.",
+                    "sZeroRecords": "No Authors have been defined."
+                }
+            });
+
+            $('#subDataTable_wrapper').closest('tr').addClass('datatable_empty_hover');
+
+            $('.dataTables_empty').parent().addClass('datatable_empty_hover');
+
+            tr.addClass('shown');
+        }
+    });
+
+    removeEmptyRowsDataTable();
+}

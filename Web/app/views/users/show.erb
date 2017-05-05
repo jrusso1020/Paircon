@@ -6,28 +6,33 @@
 </div>
 
 <div class="container">
-  <div class="col-md-12 col-sm-12 col-xs-12">
-    <div class="text-center">
-      <h3 id="name">
-        <%= @user.full_name %>
-        <%= link_to_modal icon_text('pencil', 'Edit'), edit_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
-      </h3>
+  <div class="row">
 
-      <div class="profile-image dropzone " data-resize="true" data-width="300" data-height="300"
-           data-url="<%= save_logo_user_url(current_user) %>" data-image="<%= asset_path(current_user.profile_photo) %>"
-           data-removeurl="<%= destroy_logo_user_url(current_user) %>">
-        <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
-      </div>
+    <div class="col-md-4 col-sm-12 col-xs-12">
+      <div class="text-center">
+        <h3 id="name">
+          <%= @user.full_name %>
+          <%= link_to_modal icon_text('pencil', 'Edit'), edit_user_path(@user.id), :class => 'btn btn-sm btn-borderless btn-inactive ' %>
+        </h3>
 
-      <div>
-        <button id="upload_image_btn" style="margin-top: 20px; margin-bottom: 20px;" class="btn btn-paircon btn-label btn-profile btn-padding">
-          <i class="fa fa-upload"></i> Upload Image
-        </button>
+        <div class="profile-image dropzone " data-resize="true" data-width="300" data-height="300"
+             data-url="<%= save_logo_user_url(current_user) %>" data-image="<%= asset_path(current_user.profile_photo) %>"
+             data-removeurl="<%= destroy_logo_user_url(current_user) %>">
+          <input class="invisible" id="profile-image-upload" type="file" name="thumb" accept="image/*"/>
+        </div>
+
+        <div>
+          <button id="upload_image_btn" style="margin-top: 20px; margin-bottom: 20px;" class="btn btn-paircon btn-label btn-profile btn-padding">
+            <i class="fa fa-upload"></i> Upload Image
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
+
+    <div class="col-md-6 col-sm-12 col-xs-12 ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <h3>Personal Information</h3>
+      </div>
       <table class="table table-responsive pull-left">
         <tbody>
         <tr>
@@ -41,82 +46,79 @@
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">Gender:</td>
-          <td class="table-accountinfo"><%= @user.gender == 1 ? "Male" : "Female" %></td>
+          <td class="table-accountinfo"><%= @user.gender == 1 ? 'Male' : 'Female' %></td>
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">Publication URL:
+            <% class_name = 'refresh_publication_disabled left-buffer publication_button' %>
+            <% spin = false %>
             <% if @user.is_scraped %> <!-- If no scraping job is running -->
-                <span id = "refresh-button-wrapper" class="text-center">
-                <button class="refresh_publication btn btn-paircon left-buffer">
-                  <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
-                </button>
-              </span>
-            <% elsif !@user.papers.blank? %> <!-- If the user has no papers -->
-                <span id = "refresh-button-wrapper" class="text-center">
-                <button class="refresh_publication btn btn-paircon left-buffer">
-                  <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
-                </button>
-              </span>
+                <% type = 'scraped' %>
+                <% class_name = 'refresh_publication left-buffer publication_button' %>
+            <% elsif @user.url.blank? %> <!-- If user has no URL (disable) -->
+                <% type = 'no-url' %>
             <% else %>
-                <span class="tooltip-wrapper text-center">
-                  <button class="refresh_publication_disabled btn btn-paircon disabled left-buffer">
-                    <i class="fa fa-refresh fa-lg" aria-hidden="true"></i>
-                  </button>
-                </span>
+                <% type = 'running' %>
+                <% spin = true %>
             <% end %>
+
+            <span class="tooltip-wrapper text-center">
+              <a class="<%= class_name %>" data-type="<%= type %>">
+                <i class="fa fa-refresh fa-lg <%= 'fa-spin' if spin %>" aria-hidden="true"></i>
+              </a>
+            </span>
+
           </td>
-          <td class="table-accountinfo" style="vertical-align: middle;"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
+          <td class="table-accountinfo" style="vertical-align: middle;"><%= @user.url.blank? ? 'N/A' : @user.url %>
+          </td>
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">Organization:</td>
-          <td class="table-accountinfo"><%= @user.organization.blank? ? 'N/A' : @user.organization %></td>
+          <td class="table-accountinfo"><%= @user.organization %></td>
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">Industry:</td>
-          <td class="table-accountinfo"><%= @user.industry.blank? ? 'N/A' : @user.industry %></td>
+          <td class="table-accountinfo"><%= @user.industry %></td>
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">Graduation Year:</td>
-          <td class="table-accountinfo"><%= @user.grad_year.blank? ? 'N/A' : @user.grad_year %></td>
+          <td class="table-accountinfo"><%= @user.grad_year %></td>
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">Academic Profile:</td>
           <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
         </tr>
+        <tr>
+          <td class="profile-title table-accountinfo">User Type:</td>
+          <td class="table-accountinfo">
+            <% if @user.attendee? and !@user.pending_organizer %>
+                <div>Attendee <%= link_to_modal '(Become an Organizer)', become_organizer_user_path(@user.id) %></div>
+            <% elsif @user.attendee? and @user.pending_organizer %>
+                <div style="opacity: 0.8">Your Organizer Request is Pending</div>
+            <% elsif @user.organizer? %>
+                Organizer
+            <% elsif @user.admin? %>
+                Admin
+            <% end %>
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
+
   </div>
   <div class="container">
     <div class="col-md-12 col-sm-12 col-xs-12">
       <h3>Preferences</h3>
     </div>
-    <div class="col-md-12 col-sm-12 col-xs-12">
-      <table class="table table-responsive">
-        <tr>
-          <th>Account</th>
-          <th>Password</th>
-          <th>User Type</th>
-        </tr>
-        <tr>
-          <td><%= link_to_modal 'Delete Account', delete_user_path(current_user) %></td>
-          <td><%= link_to_modal 'Change Password', password_reset_user_path(current_user) %></td>
-          <td>
-            <% if @user.attendee? and !@user.pending_organizer %>
-                <div><%= link_to_modal 'Become an Organizer', become_organizer_user_path(@user.id) %></div>
-            <% elsif @user.attendee? and @user.pending_organizer %>
-                <div style="opacity: 0.8">Your Organizer Request is Pending</div>
-            <% elsif @user.organizer?  %>
-                Organizer
-            <% elsif @user.admin?  %>
-              Admin
-            <% end %>
-          </td>
-        </tr>
-      </table>
+    <div class="col-md-3 col-sm-12 col-xs-12">
+      <%= link_to_modal 'Delete Account', delete_user_path(current_user) %>
+    </div>
+    <div class="col-md-3 col-sm-12 col-xs-12">
+      <%= link_to_modal 'Change Password', password_reset_user_path(current_user) %>
     </div>
   </div>
 </div>
 
 <%= javascript_tag "initializeUserShow(#{@user.gender.to_i})" %>
-<%= javascript_tag "refreshProfileUrl()" %>
+<%= javascript_tag "refreshProfileUrl('" + current_user.id.to_s + "')" %>
