@@ -1,9 +1,9 @@
 <div id="papers" class="tab-pane active">
-  <div class="col-md-12 col-sm-12 col-xs-12 top-buffer" data-step="17" data-tooltipClass='introHelper' data-intro="This displays all the papers <br/> You can add new papers by <br/> clicking the <code>+</code> icon" data-position='top'>
+  <div class="col-md-12 col-sm-12 col-xs-12 top-buffer" data-step="18" data-tooltipClass='introHelper' data-intro="This displays all the papers <br/> You can add new papers by <br/> clicking the <code>+</code> icon" data-position='top'>
     <%= render 'conferences/panels/papers' %>
   </div>
 </div>
 
 <%= render 'conferences/footer', scheduler: false %>
 
-<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 17, 'schedule')" %>
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 18, 'schedule')" %>
