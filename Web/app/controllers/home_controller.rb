@@ -25,9 +25,9 @@ class HomeController < ApplicationController
   def search
     query = params[:search_val]
     @objects = []
-    @objects += Conference.not_archived.where('name like ?', "%#{query}%")
-    @objects += Conference.not_archived.where('location like ?', "%#{query}%")
-    @objects += Conference.not_archived.where('domain like ?', "%#{query}%")
+    @objects |= Conference.not_archived.where('name like ?', "%#{query}%")
+    @objects |= Conference.not_archived.where('location like ?', "%#{query}%")
+    @objects |= Conference.not_archived.where('domain like ?', "%#{query}%")
   end
 
 
