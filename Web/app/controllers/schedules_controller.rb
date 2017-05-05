@@ -280,9 +280,18 @@ class SchedulesController < ApplicationController
 
   end
 
-  def get_sessions
-    sessions = [{text: 'No session', value: 'No session'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
-    render json: sessions.to_json
+  def get_events_user
+
+    @conferences = Conference.my_attending_conferences_active(current_user)
+    for conference in @conferences
+        events = conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
+    end
+    render json: events.to_json
+  end
+
+  def get_rooms
+    rooms = [{text: 'No Room', value: 'No Room'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
+    render json: rooms.to_json
   end
 
   def get_sessions

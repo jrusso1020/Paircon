@@ -26,8 +26,6 @@
 //= require i18n/translations
 //= require gentelella-custom
 
-//= require introjs
-
 //= require moment
 //= require bootstrap-datetimepicker
 
@@ -39,5 +37,6 @@
 //= require paircon-user
 //= require paircon-post
 //= require paircon-conference
+//= require paircon-introjs
+//= require paircon-scheduler
 //= require paircon-paper
-

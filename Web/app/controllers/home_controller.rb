@@ -8,9 +8,8 @@ class HomeController < ApplicationController
       @total_notifications = Notification.find_new_notifications(@notifications, current_user)
       @conferences_attendee_list = Conference.my_attending_conferences_active(current_user)
       @conferences_organizer_list = Conference.my_organizing_conferences_active(current_user)
-     @user_id = current_user.id
+      @user_id = current_user.id
       @user = current_user
-
   end
 
   def privacy_policy

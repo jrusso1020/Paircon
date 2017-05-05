@@ -14,7 +14,6 @@ gem 'gentelella-rails'                                            # Gentelella T
 gem 'font-awesome-sass'                                           # Font Awesome
 gem 'jquery-rails', '~> 4.1.1'                                    # JQuery
 gem 'turbolinks', '~> 5'                                          # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'introjs-rails'                                               # Used for Intros
 gem 'pdfjs_viewer-rails'                                          # Used to view PDFs
 gem 'jquery-datatables-rails'                                     # Bootstrap Datatables
 gem 'bootstrap3-datetimepicker-rails'                             # Bootstrap datetimepicker

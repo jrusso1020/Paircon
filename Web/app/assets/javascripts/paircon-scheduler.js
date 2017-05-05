@@ -16,7 +16,6 @@ jQuery.validator.addMethod("greaterThanTime",
         return moment(value, 'HH:mm A').isAfter(moment($(params).val(), 'HH:mm A'));
     }, 'Must be greater than Start time.');
 
-
 function updateEvent(id, resource_id, start_date, end_date, revertFunc) {
     $.ajax({
         type: 'POST',
@@ -59,12 +58,10 @@ function getCachedDate(conference_id, start_date_str, end_date_str) {
     }
 }
 
-
 function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, conference_id) {
 
     $(function () { // document ready
         dateNow = getCachedDate(conference_id, start_date_str, end_date_str);
-
         $('.scheduler').fullCalendar({
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             now: dateNow,

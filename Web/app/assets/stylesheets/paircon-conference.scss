@@ -281,10 +281,28 @@ Conference About
   width: 100%;
   display: block;
 }
+
 #map-img {
   height: 165px;
   overflow: hidden;
 }
+
+/***********************************
+***********************************
+Others
+************************************
+***********************************/
+
+.js-switch-box {
+  display:inline;
+  float:left;  
+}
+
+.js-switch-text {
+  padding-left: 3px;
+  display:inline;
+}
+
 
 /***********************************
 ************************************
@@ -309,4 +327,14 @@ Dashboard
 .refresh_url_dash_button{
   display: flex;
   margin: auto !important;
+}
+
+
+/***********************************
+************************************
+Introjs
+************************************
+***********************************/
+.introHelper {
+  text-align: center;
 }

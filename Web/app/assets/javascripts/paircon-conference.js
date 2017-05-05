@@ -2,51 +2,15 @@ function initializeHeader() {
     $(document).ready(function () {
         $('.dropzone').not('.static').html5imageupload();
     });
-
-    $('#followButton').click(function () {
-        document.getElementById('interested').click(); 
-    });
-    
-    $('#aboutButton').click(function () {
-        document.getElementById('about_panel').click(); 
-    });
 }
 
 var current_tab;
-
-function getUserRecommendations(conference_id, user_id, view_to_render){
-    $.ajax({
-            type: 'GET',
-            url: '/conferences/' + conference_id + '/user_recommendations',
-            data: {
-                'conference_id': conference_id,
-                'user_id': user_id,
-                'view_to_render': view_to_render
-            },
-            beforeSend: function () {
-                if (view_to_render=='true'){
-                    $("#main-container").empty();
-                }
-                else{
-                    $("#recommendation-carousel").empty();
-                }
-            }
-    });
-}
-
-function requestUserRecommendations(conference_id, user_id, view_to_render){
-    getUserRecommendations(conference_id, user_id, view_to_render);
-
-    setInterval(function() {
-        getUserRecommendations(conference_id, user_id, view_to_render);
-    }, 20 * 1000); //perform every 20 seconds
-    
-}
 
 function requestTabPane(id, tab_name) {
     Cookies.set(id + '_current_tab', tab_name);
     $('.tab_ajax').parent().removeClass('active');
     $('#' + tab_name).parent().addClass('active');
+
 
     $.ajax({
         type: 'GET',
@@ -67,11 +31,9 @@ function requestTabPane(id, tab_name) {
 }
 
 function initializeTabPanes(id) {
-    $('.tab_ajax').click(function (e) {
-        if (!$(e.target).is('i') && !$(e.target).is('a[data-toggle="modal"]')) {
-            current_tab = $(this).attr('id');
-            requestTabPane(id, current_tab);
-        }
+    $('.tab_ajax').click(function () {
+        current_tab = $(this).attr('id');
+        requestTabPane(id, current_tab);
     });
     if (typeof Cookies.get(id + '_current_tab') === 'undefined') {
         current_tab = 'home';
@@ -79,6 +41,7 @@ function initializeTabPanes(id) {
     } else {
         current_tab = Cookies.get(id + '_current_tab');
     }
+
     requestTabPane(id, current_tab);
 }
 
@@ -93,7 +56,7 @@ function initializeConference(id, description, start_date, end_date) {
         timePickerIncrement: 15,
         opens: "left",
         locale: {
-            format: 'MMMM D YYYY, h:mm a'
+            format: 'DD MMM YYYY h:mm A'
         }
     }, function (start, end) {
         $.ajax({
@@ -226,11 +189,13 @@ function retrievePosts(id) {
         }
     });
 }
-
-function initializeBulkFileUploader(conferenceid) {
+function initializeFileUploader(conferenceid) {
     $('#uploadButton').text("Upload");
     $('#progress').hide();
     $('#fileName').text("");
+    $(document).bind('drop dragover', function (e) {
+        e.preventDefault();
+    });
 
     $('#closeButton').click(function () {
         $('#uploadButton').text("Upload");
@@ -238,17 +203,24 @@ function initializeBulkFileUploader(conferenceid) {
         $('#fileName').text("");
     });
 
-    var filesList = [],
-        paramNames = [];
-    var url = '/conferences/' + conferenceid + '/process_bulk_upload';
+    $('#new_paper').validate({
+        rules: {
+            'paper[title]': {
+                required: true
+            }
+        }
+    });
 
-    $('.file-upload').fileupload({
-        url: url,
-        type: 'POST',
+    $('input[name="fileData"]').fileupload({
+        singleFileUploads: true,
+
+        multipart: false,
+        url: '/papers?conference_id=' + conferenceid,
+        sequentialUploads: true,
+        singleFileUploads: true,
         dataType: 'json',
-        autoUpload: false,
-        singleFileUploads: false,
-        multipart: true,
+        dropZone: $('#drag-area'),
+        method: 'POST',
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('#progress .bar').css(
@@ -256,62 +228,63 @@ function initializeBulkFileUploader(conferenceid) {
                 progress + '%'
             );
         },
-        always: function (e, data) {
-            var result = JSON.parse(JSON.stringify(data._response.result));
-            $('#closeButton').click();
-            $('#uploadButton').removeClass('disabled');
-            $('.select-button').removeClass('disabled');
-
-            if (result.status == 'internal_server_error') {
-                showErrorMsg(result.message);
-            } else {
-                showNotificationMsg(result.message);
-                $.pjax.reload('[data-pjax-container]');
-            }
-
+        done: function (e, data) {
+            $('#closeButton').show();
+            $('#cancelButton').hide();
         },
         add: function (e, data) {
-            for (var i = 0; i < data.files.length; i++) {
-                $(this).data('file', data.files[i].name);
-                filesList.push(data.files[i]);
-                paramNames.push(e.delegatedEvent.target.name);
-            }
-
-            var spreadsheetFile = $('#spreadsheetFileUpload').data('file');
-            var zipFile = $('#zipFileUpload').data('file');
-
-            if ($.trim(spreadsheetFile).length > 0 && $.trim(zipFile).length > 0) {
-                $('#uploadButton').removeClass('disabled');
-
-                $('#uploadButton').unbind();
-                $('#uploadButton').click(function (e) {
-                    e.preventDefault();
-
+            $('#fileName').text("[" + data.files[0].name + "]");
+            $('#uploadButton').removeClass('disabled');
+            var uploadurl = $('input[name="fileData"]').fileupload('option', 'url');
+            $('#uploadButton').unbind();
+            data.context = $('#uploadButton').click(function () {
+                if($('#new_paper').valid()){
                     $('#uploadButton').text("Uploading");
                     $('#progress').fadeIn('slow');
                     $('#uploadButton').addClass('disabled');
-                    $('.select-button').addClass('disabled');
+                    $('#select-button').addClass('disabled');
                     $('#closeButton').hide();
                     $('#cancelButton').show();
+                    $('input[name="fileData"]').fileupload('option', 'url', uploadurl + "&filename=" + data.files[0].name + "&filesize=" + data.files[0].size + "&paper[title]=" + $('#paper_title').val() + "&paper[author]=" + $('#paper_author').val() + "&paper[keywords]=" + $('#paper_keywords').val() + "&paper[year]=" + $('#paper_year').val() + "&paper[affiliation]=" + $('#paper_affiliation').val());
+                    var jqXHR = data.submit()
+                        .success(function (result, textStatus, jqXHR) {
+                            var result_string = JSON.stringify(result);
+                            showNotificationMsg(JSON.parse(result_string).message);
+                            $('#modal').modal('hide');
+                        })
+                        .error(function (jqXHR, textStatus, errorThrown) {
+                            var result_string = JSON.stringify(jqXHR.responseJSON);
+                            result_string = JSON.parse(result_string);
+                            showErrorMsg(result_string.message);
+                        })
+                        .complete(function (result, textStatus, jqXHR) {
+                            $('#closeButton').show();
+                            $('#cancelButton').hide();
+                            $('#closeButton').click();
+                            $.pjax.reload('[data-pjax-container]');
+                            $('#uploadButton').removeClass('disabled');
+                            $('#select-button').removeClass('disabled');
+                        });
 
-                    $('.file-upload').fileupload('send', {files: filesList, paramName: paramNames});
-                });
+                    $('#cancelButton').click(function (e) {
+                        $('#uploadButton').text("Upload");
+                        $('#uploadButton').removeClass('disabled');
+                        $('#select-button').removeClass('disabled');
+                        $('#progress').hide();
+                        jqXHR.abort();
+                    });
 
-            } else {
-                $('#uploadButton').addClass('disabled');
-            }
+                }else{
+                    return false;
+                }
 
-            return false;
+            });
         }
     });
 
 }
 
 function initCharts(count) {
-    var count = count >= 3 ? 3 : count;
-    if (window.innerWidth < 768) {
-        count = count >= 2 ? 2 : count;
-    }
 
     try {
         var owl = $('.owl-carousel');
@@ -455,22 +428,6 @@ function instantiateInvites(id, json) {
 /*****************************************************/
 /********************** SCHEDULE *********************/
 /*****************************************************/
-jQuery.validator.addMethod("greaterThanDate",
-    function (value, element, params) {
-        if (!/Invalid|NaN/.test(new Date(value))) {
-            return new Date(value) > new Date($(params).val());
-        }
-
-        return isNaN(value) && isNaN($(params).val())
-            || (Number(value) > Number($(params).val()));
-    }, 'Must be greater than Start Date.');
-
-jQuery.validator.addMethod("greaterThanTime",
-    function (value, element, params) {
-        return moment(value, 'HH:mm A').isAfter(moment($(params).val(), 'HH:mm A'));
-    }, 'Must be greater than Start time.');
-
-
 function updateEvent(id, resource_id, start_date, end_date, revertFunc) {
     $.ajax({
         type: 'POST',
@@ -558,7 +515,7 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
                 timelineNDays: {
                     type: 'timeline',
                     duration: {days: date_diff},
-                    buttonText: 'Complete Conference'
+                    buttonText: 'Complete Event'
                 },
                 timelineDay: {
                     type: 'day',
@@ -569,7 +526,7 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
                     buttonText: 'Day (Vertical)'
                 }
             },
-            resourceGroupField: 'room',
+            resourceGroupField: 'building',
             refetchResourcesOnNavigate: true,
             resources: '/schedules/get_resources?id=' + conference_id,
             events: '/schedules/get_events?id=' + conference_id,
@@ -603,22 +560,8 @@ function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, co
     });
 }
 
-function initializeAddScheduleResource(start_date, end_date) {
+function initializeAddScheduleResource() {
     initializeSelectize();
-
-    $('.datetime').datetimepicker({
-        minDate: moment(new Date(start_date)),
-        maxDate: moment(new Date(end_date)),
-        format: 'MMMM D YYYY'
-    }).change(function (new_date) {
-        $('.time').datetimepicker().date(new_date);
-    });
-
-    $('.time').datetimepicker({
-        minDate: moment(new Date(start_date)),
-        maxDate: moment(new Date(end_date)),
-        format: 'h:mm a'
-    });
 
     try {
         $('*[data-depends-on]').each(function () {
@@ -639,23 +582,7 @@ function initializeAddScheduleResource(start_date, end_date) {
             'resource[title]': {
                 required: true
             },
-            'resource[date]': {
-                required: true
-            },
-            'resource[start_time]': {
-                required: true
-            },
-            'resource[end_time]': {
-                greaterThanTime: "#start_time",
-                required: true
-            },
-            'resource[parent_id]': {
-                required: true
-            },
-            'resource[presenter]': {
-                required: true
-            },
-            'resource[event_type]': {
+            'resource[parent_id[': {
                 required: true
             }
         }
@@ -670,54 +597,65 @@ function initializeAddScheduleEvent(start_date, end_date) {
         minDate: start_date,
         maxDate: end_date,
         stepping: 15,
-        format: 'MMMM DD YYYY, h:mm A'
+        format: 'DD MMM YYYY h:mm A'
     };
 
     $('.datetime').datetimepicker(options);
 
-    var event_depend, $event_depend;
-    var session_depend, $session_depend;
+    var auditorium_depend, $auditorium_depend;
+    var room_depend, $room_depend;
 
-    $event_depend = $('#event_depend').selectize({
+    $auditorium_depend = $('#auditorium_depend').selectize({
         sortField: 'text',
         onChange: function (value) {
             if (!value.length) return;
 
-            session_depend.disable();
-            session_depend.clearOptions();
-            session_depend.load(function (callback) {
+            room_depend.disable();
+            room_depend.clearOptions();
+            room_depend.load(function (callback) {
                 $.ajax({
-                    url: '/schedules/get_sessions',
+                    url: '/schedules/get_rooms',
                     data: {
                         'id': value
                     },
                     success: function (results) {
-                        session_depend.enable();
+                        room_depend.enable();
                         callback(results);
-                        session_depend.addItem('No Session', false);
+                        room_depend.addItem('No Room', false);
                     },
                     error: function () {
                         callback();
                     }
                 })
             });
-            session_depend.refreshOptions();
+            room_depend.refreshOptions();
         }
     });
 
-    $session_depend = $('#session_depend').selectize({
+    $room_depend = $('#room_depend').selectize({
         sortField: 'text'
     });
 
-    event_depend = $event_depend[0].selectize
-    session_depend = $session_depend[0].selectize
+    auditorium_depend = $auditorium_depend[0].selectize
+    room_depend = $room_depend[0].selectize
+
+    jQuery.validator.addMethod("greaterThan",
+        function (value, element, params) {
+
+            if (!/Invalid|NaN/.test(new Date(value))) {
+                return new Date(value) > new Date($(params).val());
+            }
+
+            return isNaN(value) && isNaN($(params).val())
+                || (Number(value) > Number($(params).val()));
+        }, 'End Date must be greated than Start Date.');
 
     $('#event_form').validate({
         rules: {
             'event[title]': {
                 required: true
             },
-            'event[resource_event]': {
+            'event[resource_auditorium]': {
                 required: true
             },
             'event[start_date]': {
@@ -725,7 +663,7 @@ function initializeAddScheduleEvent(start_date, end_date) {
             },
             'event[end_date]': {
                 required: true,
-                greaterThanDate: "#start_date_datepicker"
+                greaterThan: "#start_date_datepicker"
             }
         }
     });

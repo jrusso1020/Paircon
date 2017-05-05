@@ -1,39 +1,39 @@
-<div class="x_panel">
+<div class="x_panel" data-step="6" data-tooltipClass='introHelper' data-intro="In the about section you will <br/> find details about the conference" data-position='left'>
   <div class="x_title">
     <h3>About
       <ul class="nav navbar-right panel_toolbox">
         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
       </ul>
     </h3>
-
     <div class="clearfix"></div>
   </div>
   <div class="x_content">
-    <% if @is_organizer %>
-        <div>
-          <%= best_in_place_if @is_organizer, @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
-          <hr/>
-        </div>
-    <% else %>
-        <% if @conference.description.length > 250 %>
-            <%= @conference.description.truncate(250) %>
-            <%= link_to ' ... Read more', '', class: "read-more-description-#{@conference.id}" %>
+    <div data-step="8" data-tooltipClass='introHelper' data-intro="Add description about <br/> the conference here" data-position='left'>
+        <% if @is_organizer %>
+            <div>
+            <%= best_in_place_if @is_organizer, @conference, :description, as: :textarea, place_holder: "&lt;&lt;Conference Description&gt;&gt;" %>
+            <hr/>
+            </div>
         <% else %>
-            <% unless @conference.description.blank? %>
-                <%= @conference.description %>
-                <hr/>
+            <% if @conference.description.length > 250 %>
+                <%= @conference.description.truncate(250) %>
+                <%= link_to ' ... Read more', '', class: "read-more-description-#{@conference.id}" %>
+            <% else %>
+                <% unless @conference.description.blank? %>
+                    <%= @conference.description %>
+                    <hr/>
+                <% end %>
             <% end %>
         <% end %>
-    <% end %>
-
-    <div class="text-center">
+    </div>
+    <div class="text-center" data-step="7" data-tooltipClass='introHelper' data-intro="Numbers of people following this conference" data-position='left'>
       <h3 class="navy-background light-grey-text">[<%= @interested_count %>] Interested</h3>
     </div>
     <br/>
 
     <% if (!@conference.start_date.blank? and !@conference.end_date.blank?) %>
+      <div data-step="9" data-tooltipClass='introHelper' data-intro="When are you planning to <br/> hold your conference event" data-position='left'>
         <strong>Event Date:</strong>
-
         <% if @is_organizer %>
             <div class="input-prepend input-group">
               <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
@@ -45,29 +45,30 @@
             </div>
         <% end %>
         <br/>
+      </div>
     <% end %>
 
     <% if !@conference.location.blank? or @is_organizer %>
-        <div>
+        <div data-step="10" data-tooltipClass='introHelper' data-intro="Where are you holding <br/> your conference" data-position='left'>
           <strong>Location:</strong> <%= best_in_place_if @is_organizer, @conference, :location, place_holder: "&lt;&lt;Address&gt;&gt;", inner_class: 'address', id: 'address-in-place' %>
         </div>
         <br/>
     <% end %>
 
     <% if !@conference.url.blank? or @is_organizer %>
-        <div>
+        <div data-step="11" data-tooltipClass='introHelper' data-intro="Add website for the <br/> conference here" data-position='left'>
           <strong>Website:</strong> <%= best_in_place_if @is_organizer, @conference, :url, place_holder: "&lt;&lt;Website URL&gt;&gt;" %>
         </div>
     <% end %>
 
     <% if !@conference.phone.blank? or @is_organizer %>
-        <div>
+        <div data-step="12" data-tooltipClass='introHelper' data-intro="Add a general phone information <br/> for the conference" data-position='left'>
           <strong>Phone:</strong> <%= best_in_place_if @is_organizer, @conference, :phone, place_holder: "&lt;&lt;Contact Phone&gt;&gt;", id: 'phone-number' %>
         </div>
     <% end %>
 
     <% if !@conference.email.blank? or @is_organizer %>
-        <div>
+        <div data-step="13" data-tooltipClass='introHelper' data-intro="Add a contact email  <br/> for the conference" data-position='left'>
           <strong>Email Address:</strong> <%= best_in_place_if @is_organizer, @conference, :email, place_holder: "&lt;&lt;Contact Email&gt;&gt;" %>
         </div>
     <% end %>
