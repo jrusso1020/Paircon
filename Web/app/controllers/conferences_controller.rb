@@ -14,13 +14,13 @@ class ConferencesController < ApplicationController
       @conferences_active = Conference.my_organizing_conferences_active(current_user)
       @conferences_archive = Conference.my_organizing_conferences_archived(current_user)
       @conf_length = @conferences_published.length + @conferences_active.length
-      @title = 'Organizing Conferences'
+      @title = 'Conferences Organized'
     else
       @conferences_published = Conference.my_attending_conferences_published(current_user)
       @conferences_active = Conference.my_attending_conferences_active(current_user)
       @conferences_archived = Conference.my_attending_conferences_archived(current_user)
       @conf_length = @conferences_published.length + @conferences_active.length
-      @title = 'Attending Conferences'
+      @title = 'Conferences Attended'
     end
   end
 
