@@ -637,18 +637,9 @@ function initLoginBoxValidation() {
 /***************************************/
 function initializePapers() {
     $.fn.dataTable.moment('DD-MM-YYYY HH:mm:ss')
-    $('.dataTable').DataTable({
-        bSort: enable,
-        bFilter: enable,
-        bInfo: false,
-        bPaginate: false,
-        sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-        sPaginationType: "bootstrap",
-        oLanguage: {
-            "sEmptyTable": "",
-            "sZeroRecords": ""
-        },
-        order: [[0, 'asc']],
+    $('#datatable-papers').DataTable({
+        paging: false,
+        info: false,
         columnDefs: [
             {targets: 'no-sort', orderable: false}
         ]
@@ -657,7 +648,7 @@ function initializePapers() {
     /***************************************/
 //------------View all Conferences --------//
     /***************************************/
-    function initializeViewAllConferences(length ) {
+    function initializeViewAllConference(length ) {
         var enable = length > 0;
 
         $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
