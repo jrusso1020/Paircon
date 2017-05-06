@@ -760,3 +760,30 @@ function initializeSelectize() {
     });
 }
 
+
+/***************************************/
+//------------View all Conferences --------//
+/***************************************/
+function initializeViewAllConferences(length ) {
+    var enable = length > 0;
+
+    $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
+
+    $('.dataTable').DataTable({
+        bSort: enable,
+        bFilter: enable,
+        bInfo: false,
+        bPaginate: false,
+        sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
+        sPaginationType: "bootstrap",
+        oLanguage: {
+            "sEmptyTable": "",
+            "sZeroRecords": ""
+        },
+        order: [[1, 'asc']],
+        columnDefs: [
+            {targets: 'no-sort', orderable: false},
+            {type: 'datetime-moment', targets: [3, 4]}
+        ]
+    });
+}
