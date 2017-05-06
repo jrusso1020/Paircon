@@ -1,11 +1,11 @@
 <div id="posts" class="tab-pane active">
-  <div class="col-md-10 col-sm-10 col-xs-10" >
+  <div class="col-md-10 col-sm-10 col-xs-10">
     <div data-step="15" data-tooltipClass='introHelper' data-intro="Use this to post updates to people <br/> interested in your conference" data-position='top'>
       <% if @is_organizer %>
           <%= render 'posts/new' %>
       <% end %>
     </div>
-    <div data-step="16" data-tooltipClass='introHelper' data-intro="This section shows all your posts" data-position='top'>
+    <div>
       <%= render 'conferences/panels/posts' %>
     </div>
   </div>
@@ -13,4 +13,4 @@
 
 <%= render 'conferences/footer', scheduler: false %>
 
-<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 15, 'papers')" %>
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 15, 'recommendations')" %>

@@ -213,6 +213,7 @@ Header
 }
 
 .sidebar-footer {
+  background: transparent !important;
   color: $color_athens_gray_approx;
 }
 
@@ -326,6 +327,30 @@ a.disabled {
 
 /***********************************
 ************************************
+PANELS
+************************************
+***********************************/
+
+.x_panel {
+  //background: #fafafa !important;
+  background: transparent !important;
+  border: 1px solid #dddddd !important;
+  border-top: 1px solid $paircon-2 !important;
+  border-radius: 1px !important;
+}
+
+.x_title {
+  border-bottom: 1px solid #e4e7ea !important;
+}
+
+.fa-panel-icon {
+  opacity: 0.2;
+  font-size: 30px !important;
+  margin-top: 2px;
+}
+
+/***********************************
+************************************
 DASHBOARD
 ************************************
 ***********************************/
@@ -345,20 +370,21 @@ DASHBOARD
   display: inline-block;
   margin: 0 auto;
 }
-#conferences_dash{
+
+#conferences_dash {
   min-height: 250px;
   height: auto;
   max-height: 450px;
   overflow-y: auto;
   overflow-x: hidden;
 }
-#notification_dash{
-  min-height: 250px;
+
+#notification_dash {
+  min-height: 450px;
+  max-height: 450px;
   height: auto;
-  max-height: 365px;
   overflow-y: auto;
   overflow-x: hidden;
-
 }
 
 /***********************************
@@ -395,6 +421,10 @@ Right Col
 Left Col
 ************************************
 ***********************************/
+.left_col {
+  padding-bottom: 40px !important;
+}
+
 .search-box {
   position: relative;
   .form-control {
@@ -789,7 +819,7 @@ table {
 }
 
 .paircon-table > thead > tr > th {
-  border-bottom: 1px solid $paircon-3;
+  border-bottom: 1px solid #dddddd;
 }
 
 .paircon-table > tbody > tr {
@@ -820,6 +850,19 @@ table.dataTable thead .sorting_desc::after {
   background: transparent !important;
 }
 
+td.details-control {
+  @extend .fa;
+  @extend .fa-plus;
+  display: table-cell;
+  cursor: pointer;
+}
+
+tr.shown td.details-control {
+  @extend .fa;
+  @extend .fa-minus;
+  display: table-cell;
+}
+
 /***********************************
 ************************************
 Uploader
@@ -847,7 +890,8 @@ Uploader
 }
 
 /* Fixes for IE < 8 */
-@media screen\9 {
+@media screen \9
+{
   .paircon-fileinput-button input {
     filter: alpha(opacity=0);
     -ms-filter: "alpha(opacity=0)";

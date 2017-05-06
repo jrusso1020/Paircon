@@ -1,9 +1,9 @@
 <div id="schedule" class="tab-pane">
-  <div class="col-md-12 col-sm-12 col-xs-12" data-step="19" data-tooltipClass='introHelper' data-intro="Your schedule for <br/> conference and meetings" data-position='top'>
+  <div class="col-md-12 col-sm-12 col-xs-12" data-step="18" data-tooltipClass='introHelper' data-intro="Your schedule for <br/> conference and meetings" data-position='top'>
     <%= render 'conferences/panels/schedule' %>
   </div>
 </div>
 
 <%= render 'conferences/footer', scheduler: true %>
 
-<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 19, 'about_panel')" %>
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 18, 'about_panel')" %>

@@ -3,7 +3,8 @@ function initializeIntroJS(id) {
         if (typeof Cookies.get(id + '_introjs') === 'undefined') {
             Cookies.set(id + '_introjs', true);
         }   
-    } else if (Cookies.get("introjs_checked") == "false") {
+    }
+    if (Cookies.get("introjs_checked") == "false") {
         Cookies.set(id + '_introjs', false);
     }
     startIntroJS(id);
@@ -20,12 +21,15 @@ function startIntroJS(id) {
 function nextIntroJS(id, nextStep, nextPage) {
     if (Cookies.get(id + '_introjs') == "true") {
         if (nextPage == "home") {
+            Cookies.set("introjs_checked", false);
             Cookies.set(id + '_introjs', false);     
         } 
         introJs().setOption('doneLabel', 'Next page').goToStepNumber(nextStep).start().oncomplete(function() {
             $("#" + nextPage).click();
         });  
-    };
+    } else {
+        introJs().exit();
+    }
     completeIntroJS(id);  
 }
 
@@ -33,10 +37,11 @@ function completeIntroJS(id) {
     $('.introjs-skipbutton').click(function () {
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
-
+        introJs().exit();
     }); 
     $('.introjs-overlay').click(function () {  
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
+        introJs().exit();
     });
 }

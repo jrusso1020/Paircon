@@ -1,7 +1,9 @@
 <div id="recommendation" class="tab-pane">
-  <div class="col-md-12 col-sm-12 col-xs-12">
+  <div class="col-md-12 col-sm-12 col-xs-12" data-step="16" data-tooltipClass='introHelper' data-intro="Use this to post updates to people <br/> interested in your conference" data-position='top'>
     <%= render 'conferences/panels/recommendations_full' %>
   </div>
 </div>
 
 <%= render 'conferences/footer', scheduler: false %>
+
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 16, 'papers')" %>

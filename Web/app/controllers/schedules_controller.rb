@@ -6,7 +6,7 @@ class SchedulesController < ApplicationController
   before_action :find_event, only: [:delete_event, :destroy_event, :update_event]
 
   def new_resource
-    @conference =  Conference.find_by_id(params[:conference_id])
+    @conference = Conference.find_by_id(params[:conference_id])
     if params[:view] == ConferenceResource::TYPE[:event]
       @title = 'Add Event'
       @body = 'Please enter information about the Event you are hosting and add the name of the Room to which this Event belongs.'
@@ -16,7 +16,7 @@ class SchedulesController < ApplicationController
       @body = 'Please information about the Session along with the type of Session, name of Paper and the Event to which this Session belongs.'
       @events = @conference.conference_resources.select(:title, :id).distinct().where({:parent_id => nil}).map { |obj| [obj.title, obj.id] }
       papers = @conference.papers.select(:title, :id).order(:title)
-      @papers = papers.map{|obj| [obj.title, obj.id]}
+      @papers = papers.map { |obj| [obj.title, obj.id] }
     end
     render layout: false
   end
@@ -72,7 +72,7 @@ class SchedulesController < ApplicationController
           start_date: session_start_date,
           end_date: session_end_date,
           presenter: conference_resource_params[:presenter],
-          event_type: ConferenceEvent.event_types[conference_resource_params[:event_type].downcase],
+          event_type: conference_resource_params[:event_type].to_i,
           paper_id: conference_resource_params[:paper_id],
           color: '#' + Digest::MD5.hexdigest(conference_resource_params[:title])[0..5]
       )
@@ -281,17 +281,12 @@ class SchedulesController < ApplicationController
   end
 
   def get_events_user
-
-    @conferences = Conference.my_attending_conferences_active(current_user)
-    for conference in @conferences
-        events = conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
+    events = []
+    Conference.my_attending_conferences_active(current_user).each do |conference|
+      events = conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
     end
-    render json: events.to_json
-  end
 
-  def get_rooms
-    rooms = [{text: 'No Room', value: 'No Room'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
-    render json: rooms.to_json
+    render json: events.to_json
   end
 
   def get_sessions

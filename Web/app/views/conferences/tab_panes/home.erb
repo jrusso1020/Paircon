@@ -8,7 +8,6 @@
         <%= render 'posts/new' %>
     <% end %>
 
-    <%= render 'conferences/panels/papers' %>
     <%= render 'conferences/panels/posts' %>
   </div>
   <div class="col-md-3 col-sm-3 col-xs-12 hidden-xs">
@@ -17,3 +16,5 @@
 </div>
 
 <%= render 'conferences/footer', scheduler: true %>
+
+<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 1, 'posts')" %>
