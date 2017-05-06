@@ -1,0 +1,6 @@
+similiarity_algo.egg-info/
+build/
+.eggs/
+dist/
+.idea/
+__pycache__

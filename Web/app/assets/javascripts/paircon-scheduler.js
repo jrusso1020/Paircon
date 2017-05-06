@@ -302,7 +302,7 @@ function initializeScheduleUserEvents() {
         events: '/schedules/get_events_user',
         header: {
             left: 'title',
-            right: 'listWeekView prev,next'
+            right: 'prev,next'
         },
         defaultView: 'listWeekView',
         views: {

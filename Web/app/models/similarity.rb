@@ -18,8 +18,8 @@
 #++
 
 class Similarity < ApplicationRecord
-  belongs_to :user_paper, :class_name => "Paper"
-  belongs_to :conference_paper, :class_name => "Paper"
+  belongs_to :user_paper, class_name: 'Paper'
+  belongs_to :conference_paper, class_name: 'Paper'
 
   before_create :init_id
 

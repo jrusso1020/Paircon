@@ -12,6 +12,7 @@ class HomeController < ApplicationController
 
     upcoming_conferences = Conference.my_attending_conferences_active(current_user).where(Conference.arel_table[:start_date].gt(DateTime.now()))
     next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
+    popular_conference =
 
     @summary = {next_conference: {
         object: next_conference,

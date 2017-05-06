@@ -1,42 +1,38 @@
+<%= header_title 'Search' %>
+
+<% title = "Search Results For '#{params[:search_val]}'" %>
+
 <div id="page-heading">
-  <%= header_title 'Search' %>
-
-  <% title = "Search Results For '#{params[:search_val]}'" %>
-
-  <div id="page-heading">
-    <%= page_title title %>
-    <hr/>
-  </div>
-
-  <div class="clearfix"></div>
-  <% unless @objects.blank? %>
-      <table class="table paircon-table table-condensed table-responsive dataTable">
-        <thead>
-        <tr role="row">
-          <th class="no-sort" width="20px"></th>
-          <th>Conference Name</th>
-          <th>Conference Domain</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Conference Location</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @objects.each do |conference| %>
-            <tr>
-              <td><%= image_tag conference.logo_picture, style: 'width: 20px;' %></td>
-              <td><%= link_to conference.get_name, conference_path(conference) %></td>
-              <td><%= conference.domain.blank? ? 'N/A' : conference.domain %></td>
-              <td><%= conference.start_date_str %></td>
-              <td><%= conference.end_date_str %></td>
-              <td><%= conference.location.blank? ? 'N/A' : conference.location %></td>
-            </tr>
-        <% end %>
-        </tbody>
-      </table>
-  <% else %>
-      <%= render 'layouts/application/no_result', body: 'Are you sure what you are looking for? We can\'t certainly find it here ...' %>
-  <% end %>
-
-  <%= javascript_tag "initializeSearch(#{@objects.length})" %>
+  <%= page_title title %>
 </div>
+
+<% unless @objects.blank? %>
+    <table class="table paircon-table table-condensed table-responsive dataTable">
+      <thead>
+      <tr role="row">
+        <th class="no-sort" width="20px"></th>
+        <th>Conference Name</th>
+        <th>Conference Domain</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Conference Location</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @objects.each do |conference| %>
+          <tr>
+            <td><%= image_tag conference.logo_picture, style: 'width: 20px;' %></td>
+            <td><%= link_to conference.get_name, conference_path(conference) %></td>
+            <td><%= conference.domain.blank? ? 'N/A' : conference.domain %></td>
+            <td><%= conference.start_date_str %></td>
+            <td><%= conference.end_date_str %></td>
+            <td><%= conference.location.blank? ? 'N/A' : conference.location %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <%= render 'layouts/application/no_result', body: 'Are you sure what you are looking for? We can\'t certainly find it here ...' %>
+<% end %>
+
+<%= javascript_tag "initializeSearch(#{@objects.length})" %>
