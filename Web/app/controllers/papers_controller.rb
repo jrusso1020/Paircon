@@ -26,9 +26,9 @@ class PapersController < ApplicationController
         paper_pdf_path = new_file
       end
       paper_params = paper_params()
-      paper_params[:author] = paper_params[:author].split(',')
-      paper_params[:affiliation] = paper_params[:affiliation].split(',')
-      paper_params[:email] = paper_params[:email].split(',')
+      paper_params[:author] = paper_params[:author].split(';')
+      paper_params[:affiliation] = paper_params[:affiliation].split(';')
+      paper_params[:email] = paper_params[:email].split(';')
 
       if PaperUtils.create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
         render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
