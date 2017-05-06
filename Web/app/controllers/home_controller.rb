@@ -17,8 +17,15 @@ class HomeController < ApplicationController
 
     next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
     recommended_similarity = Similarity.where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]
+    # To Be Completed
+
     popular_conference_hash = ConferenceAttendee.where(conference_id: upcoming_conferences_ids).select(:conference_id).group(:conference_id).order('count_conference_id desc').limit(1).count(:conference_id)
     popular_conference = Conference.find(popular_conference_hash.keys.first)
+
+    total_recommendations = Similarity.where(user_paper_id: user_paper_ids)
+    total_recommendations_count = total_recommendations.count()
+    total_recommendations_good = total_recommendations.where(Similarity.arel_table[:similarity_score].gt(0.50)).count()
+
 
     @summary = {next_conference: {
         object: next_conference,
@@ -35,7 +42,10 @@ class HomeController < ApplicationController
         object: popular_conference,
         name: popular_conference.blank? ? 'N/A' : popular_conference.get_name,
         date: popular_conference.blank? ? 'N/A' : popular_conference.start_date_str,
-        count: popular_conference_hash.values.first,
+        count: popular_conference_hash.values.first.to_s + ' members are interested',
+    }, total_recommendations: {
+        count: total_recommendations_count.to_s,
+        good_recommendations: total_recommendations_good.to_s + ' have a score of above 50%'
     }
     }
   end

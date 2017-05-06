@@ -1,7 +1,7 @@
 /***************************************************/
 /******************** DASHBOARD ********************/
 /***************************************************/
-function changeTiles(upcomingConferenceHeader, upcomingConferenceBody, upcomingConferenceFooter, recommendedConferenceHeader, recommendedConferenceBody, recommendedConferenceFooter, popularConferenceHeader, popularConferenceBody, popularConferenceFooter) {
+function changeTiles(upcomingConferenceHeader, upcomingConferenceBody, upcomingConferenceFooter, recommendedConferenceHeader, recommendedConferenceBody, recommendedConferenceFooter, popularConferenceHeader, popularConferenceBody, popularConferenceFooter, totalRecommendationsHeader, totalRecommendationsBody, totalRecommendationsFooter) {
     $('#upcomingConferenceHeader').shuffleLetters({text: upcomingConferenceHeader});
     $('#upcomingConferenceBody').shuffleLetters({text: upcomingConferenceBody});
     $('#upcomingConferenceFooter').shuffleLetters({text: upcomingConferenceFooter});
@@ -13,6 +13,10 @@ function changeTiles(upcomingConferenceHeader, upcomingConferenceBody, upcomingC
     $('#popularConferenceHeader').shuffleLetters({text: popularConferenceHeader});
     $('#popularConferenceBody').shuffleLetters({text: popularConferenceBody});
     $('#popularConferenceFooter').shuffleLetters({text: popularConferenceFooter});
+
+    $('#totalRecommendationsHeader').shuffleLetters({text: totalRecommendationsHeader});
+    $('#totalRecommendationsBody').shuffleLetters({text: totalRecommendationsBody});
+    $('#totalRecommendationsFooter').shuffleLetters({text: totalRecommendationsFooter});
 }
 
 /***************************************************/
