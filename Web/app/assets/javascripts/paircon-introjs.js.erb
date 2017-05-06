@@ -44,6 +44,14 @@ function nextIntroJS(id, nextStep, nextPage) {
     } else {
         introJs().exit();
     }
+
+    $('.introjs-nextbutton').click(function () {
+        var xStr = document.querySelector( ".introjs-helperNumberLayer" );
+        var xInt = parseInt(xStr.innerText)
+        if (xInt >= 14) {
+            $("#" + nextPage).click();
+        }
+    }); 
     completeIntroJS(id);  
 }
 
