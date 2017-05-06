@@ -67,22 +67,23 @@ class ConferenceUtils
               if not paper.nil?
                 tran_success = create_conference_events(params[:session], conference_id, paper.id)
                 if not tran_success
-                  raise ActiveRecord::Rollback
                   message = "Problem Adding Papers"
+                  tran_success = false
+                  raise ActiveRecord::Rollback
                   break
                 end
               else
-                raise ActiveRecord::Rollback
                 tran_success = false
                 message = "Problem Adding Papers"
+                raise ActiveRecord::Rollback
                 break
               end
             end
           end
         rescue => e
-          raise ActiveRecord::Rollback
           tran_success = false
           message = "Problem parsing Excel"
+          raise ActiveRecord::Rollback
           break
         end
       end
