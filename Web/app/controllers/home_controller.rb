@@ -10,15 +10,24 @@ class HomeController < ApplicationController
     @conferences_organizer_list = Conference.my_organizing_conferences(current_user).active
     @user = current_user
 
-    upcoming_conferences = Conference.my_attending_conferences_active(current_user).where(Conference.arel_table[:start_date].gt(DateTime.now()))
+    upcoming_conferences = Conference.my_attending_conferences(current_user).active.where(Conference.arel_table[:start_date].gt(DateTime.now()))
     next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
 
-        @summary = {next_conference: {
-            object: next_conference,
-            name: next_conference.blank? ? 'N/A' : next_conference.get_name,
-            date: next_conference.blank? ? 'N/A' : next_conference.start_date_str,
-            location: (next_conference.blank? or next_conference.location.blank?) ? 'N/A' : next_conference.location,
-        }}
+    upcoming_conferences_paper_ids = upcoming_conferences.includes(:papers).select(papers: :id).pluck('papers.id')
+    user_paper_ids = current_user.papers.pluck(:id)
+
+    recommended_similarity = Similarity.where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]
+
+    @summary = {next_conference: {
+                object: next_conference,
+                name: next_conference.blank? ? 'N/A' : next_conference.get_name,
+                date: next_conference.blank? ? 'N/A' : next_conference.start_date_str,
+                location: (next_conference.blank? or next_conference.location.blank?) ? 'N/A' : next_conference.location,
+             }, recommended_similarity: {
+                object: recommended_similarity
+                # name: recommended_similarity.blank? 'N/A' : recommended_similarity.,
+             }
+    }
   end
 
   def privacy_policy

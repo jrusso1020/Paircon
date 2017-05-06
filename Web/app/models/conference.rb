@@ -34,7 +34,7 @@ require 'conferences/conference_utils'
 class Conference < ApplicationRecord
   include PublicActivity::Common
 
-  has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
+  has_many :notification, foreign_key: :trackable_id, class_name: 'Notification', dependent: :destroy
 
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_resources, dependent: :destroy

@@ -117,7 +117,7 @@ class ConferencesController < ApplicationController
   end
 
   def user_recommendations
-    user = User.find_by(id: params[:user_id])
+    user = current_user
     @view_to_render = (params[:view_to_render] == 'true')
 
     similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
