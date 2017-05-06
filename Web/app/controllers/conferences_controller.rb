@@ -103,7 +103,7 @@ class ConferencesController < ApplicationController
       begin
         ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
       rescue Redis::CannotConnectError => e
-        RecommendationService.new(user_id, conference_id).getRecommendationsForEachPaper()
+        RecommendationService.new(current_user.id, @conference.id).getRecommendationsForEachPaper()
       end
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
