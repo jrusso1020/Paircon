@@ -11,22 +11,32 @@ class HomeController < ApplicationController
     @user = current_user
 
     upcoming_conferences = Conference.my_attending_conferences(current_user).active.where(Conference.arel_table[:start_date].gt(DateTime.now()))
-    next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
-
+    upcoming_conferences_ids = upcoming_conferences.pluck(:id)
     upcoming_conferences_paper_ids = upcoming_conferences.includes(:papers).select(papers: :id).pluck('papers.id')
     user_paper_ids = current_user.papers.pluck(:id)
 
+    next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
     recommended_similarity = Similarity.where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]
+    popular_conference_hash = ConferenceAttendee.where(conference_id: upcoming_conferences_ids).select(:conference_id).group(:conference_id).order('count_conference_id desc').limit(1).count(:conference_id)
+    popular_conference = Conference.find(popular_conference_hash.keys.first)
 
     @summary = {next_conference: {
-                object: next_conference,
-                name: next_conference.blank? ? 'N/A' : next_conference.get_name,
-                date: next_conference.blank? ? 'N/A' : next_conference.start_date_str,
-                location: (next_conference.blank? or next_conference.location.blank?) ? 'N/A' : next_conference.location,
-             }, recommended_similarity: {
-                object: recommended_similarity
-                # name: recommended_similarity.blank? 'N/A' : recommended_similarity.,
-             }
+        object: next_conference,
+        name: next_conference.blank? ? 'N/A' : next_conference.get_name,
+        date: next_conference.blank? ? 'N/A' : next_conference.start_date_str,
+        location: (next_conference.blank? or next_conference.location.blank?) ? 'N/A' : next_conference.location,
+    }, recommended_similarity: {
+        paper_object: recommended_similarity,
+        conference_object: recommended_similarity,
+        paper_name: 'N/A',
+        paper_author: 'N/A',
+        conference_name: 'N/A'
+    }, popular_conference: {
+        object: popular_conference,
+        name: popular_conference.blank? ? 'N/A' : popular_conference.get_name,
+        date: popular_conference.blank? ? 'N/A' : popular_conference.start_date_str,
+        count: popular_conference_hash.values.first,
+    }
     }
   end
 

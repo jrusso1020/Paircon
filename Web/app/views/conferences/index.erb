@@ -2,38 +2,43 @@
 
 <div id="page-heading">
   <%= page_title @title %>
+  <div class="btn-toolbar heading-btn">
+    <div class="btn-group ">
+      Show Archived Conferences&nbsp;&nbsp;<input id="archiveCheckBox" type="checkbox" class="js-switch"/>
+    </div>
+  </div>
 </div>
 
 <table class="table paircon-table table-condensed table-responsive dataTable">
   <thead>
   <tr role="row">
-    <th class="no-sort" width="10px"></th>
+    <th class="no-sort" width="20px"></th>
     <th>Conference Name</th>
     <th>Conference Domain</th>
     <th>Start Date</th>
     <th>End Date</th>
     <th>Conference Location</th>
+    <th class="hidden">Status</th>
   </tr>
   </thead>
   <tbody>
- <% @conferences_all.each do |conference| %>
-      <% if conference.archive() ==true %>
-          <tr class="archived" >
-         <td><i class="fa fa-archive"></i>   </td>
-        <%else%>
-        <tr>
-         <td><i class="fa fa-users"></i> </td>
-       <%end%>
-      <td><%= link_to conference.get_name, conference_path(conference) %></td>
-      <td><%= conference.domain.blank? ? 'N/A' : conference.domain %></td>
-      <td><%= conference.start_date_str %></td>
-      <td><%= conference.end_date_str %></td>
-      <td><%= conference.location.blank? ? 'N/A' : conference.location %></td>
+  <% @conferences.each do |conference| %>
+      <tr class="<%= 'archive' if conference.archive? %>">
+        <td><%= image_tag conference.logo_picture, style: 'width: 20px;' %></td>
+        <td><%= link_to conference.get_name, conference_path(conference) %>
+          <% if conference.archive? %>
+              <i class="fa fa-archive pull-right" style="margin-right: 5px;"/>
+          <% end %>
+        </td>
+        <td><%= conference.domain.blank? ? 'N/A' : conference.domain %></td>
+        <td><%= conference.start_date_str %></td>
+        <td><%= conference.end_date_str %></td>
+        <td><%= conference.location.blank? ? 'N/A' : conference.location %></td>
+        <td><%= conference.archive? %></td>
       </tr>
   <% end %>
   </tbody>
 </table>
 
 
-<%= javascript_tag "initializeViewAllConferences(#{@conf_length})" %>
-
+<%= javascript_tag "initializeViewAllConferences(#{@conferences.length})" %>

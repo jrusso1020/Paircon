@@ -55,13 +55,12 @@
       <% end %>
 
       <% i = 1 %>
-      <% attending = Conference.my_attending_conferences(current_user).active %>
-      <% if attending.length != 0 %>
+      <% if @attending_conferences.length != 0 %>
           <div class="menu_section">
             <h3>ATTENDING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'attendee'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
             </h3>
             <ul class="nav side-menu">
-              <% attending[0..5].each do |conference| %>
+              <% @attending_conferences[0..5].each do |conference| %>
                   <li class="overflow-ellipsis">
                     <a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name(i) %></a>
                   </li>
@@ -72,13 +71,12 @@
       <% end %>
 
       <% unless current_user.attendee? %>
-          <% organizing = Conference.my_organizing_conferences(current_user).active %>
-          <% if organizing.length != 0 %>
+          <% if @organizing_conferences.length != 0 %>
               <div class="menu_section">
                 <h3>ORGANIZING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'organizer'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
                 </h3>
                 <ul class="nav side-menu">
-                  <% organizing[0..5].each do |conference| %>
+                  <% @organizing_conferences[0..5].each do |conference| %>
                       <li class="overflow-ellipsis">
                         <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name(i) %></a>
                       </li>

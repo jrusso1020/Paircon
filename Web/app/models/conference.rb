@@ -117,7 +117,7 @@ class Conference < ApplicationRecord
   end
 
   def get_name id=nil
-    self.name.blank? ? "ConferenceConferenceConference #{id}".strip : self.name.strip
+    self.name.blank? ? "Conference #{id}".strip : self.name.strip
   end
 
   def end_date_str
@@ -174,7 +174,7 @@ class Conference < ApplicationRecord
   end
 
   def self.my_organizing_conferences user
-    Conference.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+    Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   def self.my_attending_conferences user
