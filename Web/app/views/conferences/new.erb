@@ -35,18 +35,7 @@
 </div>
 <% end %>
 
-<script>
-    enableSwitchery();
-    $('#continue_button').click(function( ){
-        var x = document.getElementById("introjs_checkbox").checked;
-        if (x) {
-          Cookies.set("introjs_checked", "true");
-        } else {
-          Cookies.set("introjs_checked", "false");
-        }
-       $('#form_submit').click();
-    });
-</script>
+<%= javascript_tag 'initializeSwitchery()' %>
 
 
 
