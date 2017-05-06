@@ -18,7 +18,7 @@ h2, .h2 {
 }
 
 h1, h2, h3, h4, h5 {
-  font-weight: 200;
+  font-weight: 200 !important;
 }
 
 .btn {
@@ -226,6 +226,32 @@ Header
 Misc
 ************************************
 ***********************************/
+#page-heading {
+  @include clearfix();
+  border-bottom: 1px solid #D2D3D6;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+
+  h1 {
+    display: inline-block;
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1; // 30px;
+    margin: 0;
+    padding: 20px 20px 0;
+  }
+}
+
+.heading-btn {
+  display: inline-block !important;
+  float: right;
+  padding: 30px 20px 0;
+
+  @media screen and (max-width: $screen-xs-max) {
+    padding-left: 0px;
+  }
+}
+
 .pointer-cursor {
   cursor: pointer;
 }
@@ -325,6 +351,9 @@ a.disabled {
   align-items: center;
 }
 
+.btn-disabled {
+  @extend .disabled;
+}
 /***********************************
 ************************************
 PANELS
@@ -805,6 +834,10 @@ Error page
 Tables / Datatables
 ************************************
 ***********************************/
+.table {
+  background: transparent !important;
+}
+
 table {
   border: none !important;
 }

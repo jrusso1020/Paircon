@@ -62,7 +62,7 @@
             </h3>
             <ul class="nav side-menu">
               <% attending[0..5].each do |conference| %>
-                  <li>
+                  <li class="overflow-ellipsis">
                     <a id="<%= "attending_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name(i) %></a>
                   </li>
                   <% i = i + 1 %>
@@ -79,7 +79,7 @@
                 </h3>
                 <ul class="nav side-menu">
                   <% organizing[0..5].each do |conference| %>
-                      <li>
+                      <li class="overflow-ellipsis">
                         <a id="<%= "organizing_conference_#{conference.id}" %>" href="<%= conference_path(conference) %>"><%= conference.get_name(i) %></a>
                       </li>
                       <% i = i + 1 %>

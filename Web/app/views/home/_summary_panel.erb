@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-3 col-xs-6 col-sm-3" style="padding-left: 5px; padding-right: 5px;">
+    <div class="info-tiles tiles-toyo">
+      <div class="tiles-heading">Next Upcoming Conference</div>
+      <div class="tiles-body-alt">
+        <i class="fa fa-calendar"></i>
+        <a href="<%= @summary[:next_conference][:object].nil? ? '#' : conference_path(@summary[:next_conference][:object]) %>" class="text-center tile-header" id="upcomingConferenceHeader"></a>
+        <small class="tile-body" id="upcomingConferenceBody"></small>
+      </div>
+      <div class="tiles-footer tile-footer" id="upcomingConferenceFooter"></div>
+    </div>
+  </div>
+  <div class="col-md-3 col-xs-6 col-sm-3" style="padding-left: 5px; padding-right: 5px;">
+    <div class="info-tiles tiles-success">
+      <div class="tiles-heading">Recommended Papers</div>
+      <div class="tiles-body-alt">
+        <i class="fa fa-users"></i>
+        <div class="text-center tile-header" id="recommendedConferenceHeader"></div>
+        <small class="tile-body" id="recommendedConferenceBody"></small>
+      </div>
+      <div class="tiles-footer tile-footer" id="recommendedConferenceFooter"></div>
+    </div>
+  </div>
+  <div class="col-md-3 col-xs-6 col-sm-3" style="padding-left: 5px; padding-right: 5px;">
+    <div class="info-tiles tiles-orange">
+      <div class="tiles-heading">Most Popular Conference</div>
+      <div class="tiles-body-alt">
+        <i class="fa fa-users"></i>
+        <div class="text-center tile-header" id="popularConferenceHeader"></div>
+        <small class="tile-body" id="popularConferenceBody"></small>
+      </div>
+      <div class="tiles-footer tile-footer" id="popularConferenceFooter"></div>
+    </div>
+  </div>
+  <div class="col-md-3 col-xs-6 col-sm-3" style="padding-left: 5px; padding-right: 5px;">
+    <div class="info-tiles tiles-alizarin">
+      <div class="tiles-heading">Total Conferences</div>
+      <div class="tiles-body-alt">
+        <i class="fa fa-users"></i>
+        <div class="text-center tile-header" id="totalConferenceHeader"></div>
+        <small class="tile-body" id="totalConferenceBody"></small>
+      </div>
+      <div class="tiles-footer tile-footer" id="totalConferenceFooter"></div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_tag "changeTiles('" + @summary[:next_conference][:name] + "', '" + @summary[:next_conference][:date] + "', '" + @summary[:next_conference][:location] + "', '" + 'Test4' + "', '" + 'Test5' + "', '" + 'Test6' + "', '" + 'Test7' + "', '" + 'Test8' + "', '" + 'Test9' + "')" %>

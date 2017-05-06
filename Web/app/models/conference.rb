@@ -117,7 +117,7 @@ class Conference < ApplicationRecord
   end
 
   def get_name id=nil
-    self.name.blank? ? "Conference #{id}".strip : self.name.strip
+    self.name.blank? ? "ConferenceConferenceConference #{id}".strip : self.name.strip
   end
 
   def end_date_str
