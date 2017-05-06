@@ -8,12 +8,15 @@ class ConferencesController < ApplicationController
   before_action :set_view, only: [:posts, :recommendations, :papers]
 
   def index
+
     if params[:view] == 'organizer'
-      @conferences = Conference.my_organizing_conferences_published(current_user)
-      @title = 'Organizing Conferences'
+      @conferences_all = Conference.my_organizing_conferences(current_user)
+      @conf_length =  @conferences_all.length
+      @title = 'Conferences Organized'
     else
-      @conferences = Conference.my_attending_conferences_published(current_user)
-      @title = 'Attending Conferences'
+      @conferences_all = Conference.my_attending_conferences(current_user)
+      @conf_length =  @conferences_all.length
+      @title = 'Conferences Attended'
     end
   end
 

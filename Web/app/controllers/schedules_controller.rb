@@ -282,7 +282,7 @@ class SchedulesController < ApplicationController
 
   def get_events_user
     events = []
-    Conference.my_attending_conferences_active(current_user).each do |conference|
+    Conference.my_attending_conferences(current_user).active.each do |conference|
       events = conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
     end
 
