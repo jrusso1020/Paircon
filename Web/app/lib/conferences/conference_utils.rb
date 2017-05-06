@@ -167,7 +167,7 @@ class ConferenceUtils
       end
     end
 
-    all_papers = conference.papers.map { |obj| {id: obj.id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url} }
+    all_papers = conference.papers.map { |obj| {id: obj.id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url, abstract: obj.abstract} }
     papers = {}
     all_papers.each do |paper|
       papers[paper[:id]] = paper
@@ -197,10 +197,11 @@ class ConferenceUtils
             sessions_params = {title: details[:title],
                                start_time: details[:start_date],
                                end_time: details[:end_date],
-                               # pdf_link: paper[:url],
+                               pdf_link: paper[:url],
                                type: details[:event_type],
                                author: paper[:author],
-                               affiliation: paper[:affiliation]
+                               affiliation: paper[:affiliation],
+                               abstract: paper[:abstract]
             }
             output[parent_id][:sessions].push(sessions_params)
 
@@ -223,7 +224,6 @@ class ConferenceUtils
     ordered_event.each do |event|
       final_output.push(output[event])
     end
-
     return final_output
   end
 
