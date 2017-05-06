@@ -1,128 +1,30 @@
 /***************************************/
-//------------Search--------------//
+//------------REFRESH PROFILE URL------//
 /***************************************/
-function initializeSearch(length) {
-    var enable = length > 0;
+function refreshProfileUrl(user_id) {
+    // Disabled Button Tooltip Mouse Events
+    var selector = $('.publication_button');
+    var tooltip;
 
-    $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
+    if (selector.data('type') === 'scraped') {
+        tooltip = createTooltip('Refresh Profile URL', 'Refresh the list of publications from your academic profile', 'info');
+    } else if (selector.data('type') === 'no-url') {
+        tooltip = createTooltip('Missing Publication URL', 'Publication URL has not been defined. Please add a URL and try again later.', 'info');
+    } else {
+        tooltip = createTooltip('Refreshing in Progress', 'We are updating your URL already. Please wait and try again later.', 'refresh fa-spin');
+    }
 
-    $('.dataTable').DataTable({
-        bSort: enable,
-        bFilter: false,
-        bInfo: false,
-        bPaginate: false,
-        bRetrieve: true,
-        sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-        sPaginationType: "bootstrap",
-        order: [[1, 'asc']],
-        oLanguage: {
-            "sEmptyTable": "",
-            "sZeroRecords": ""
-        },
-        columnDefs: [
-            {targets: 'no-sort', orderable: false},
-            {type: 'datetime-moment', targets: [3, 4]}
-        ]
+    // Remove the notice if the user mouses over it.
+    tooltip.get().mouseout(function () {
+        tooltip.remove();
     });
 
-    removeEmptyRowsDataTable();
-}
-/***************************************/
-//------------REFRESH PROFILE URL--------------//
-/***************************************/
-
-
-function refreshProfileUrl() {
-    // Disabled Button Tooltip Mouse Events
-    $('.refresh_publication').mouseover(function () {
+    selector.mouseover(function () {
         tooltip.open();
     });
-    $('.refresh_publication').mousemove(function () {
-        tooltip.get().css({
-            'top': event.clientY + 12,
-            'left': event.clientX - 100
-        });
-    });
-    $('.refresh_publication').mouseout(function () {
-        tooltip.remove();
-    });
-    $('.refresh_publication').click(function () {
-        tooltip.remove();
-    });
-
-    $(function () {
-        tooltip = new PNotify({
-            title: 'Refresh Profile URL',
-            text: 'Refresh the list of publications from your academic profile',
-            type: 'info',
-            styling: 'fontawesome',
-            hide: false,
-            width: "200px",
-            buttons: {
-                closer: false,
-                sticker: false
-            },
-            history: {
-                history: false
-            },
-            animate_speed: "fast",
-            icon: "fa fa-commenting",
-            // Setting stack to false causes PNotify to ignore this notice when positioning.
-            stack: false,
-            auto_display: false
-        });
-        // Remove the notice if the user mouses over it.
-        tooltip.get().mouseout(function () {
-            tooltip.remove();
-        });
-    });
-
-
-    // Disabled Button Tooltip Mouse Events
-    $('.refresh_publication_disabled').mouseover(function () {
-        tooltip_disabled.open();
-    });
-    $('.refresh_publication_disabled').mousemove(function () {
-        tooltip_disabled.get().css({
-            'top': event.clientY + 12,
-            'left': event.clientX - 100
-        });
-    });
-    $('.refresh_publication_disabled').mouseout(function () {
-        tooltip_disabled.remove();
-    });
-
-    $(function () {
-        tooltip_disabled = new PNotify({
-            title: 'Please Wait...',
-            text: 'Your publication list is currently refreshing. Please wait until it is complete to refresh again.',
-            type: 'error',
-            styling: 'fontawesome',
-            width: "200px",
-            hide: false,
-            buttons: {
-                closer: false,
-                sticker: false
-            },
-            history: {
-                history: false
-            },
-            animate_speed: "fast",
-            icon: "fa fa-commenting",
-            // Setting stack to false causes PNotify to ignore this notice when positioning.
-            stack: false,
-            auto_display: false
-        });
-        // Remove the notice if the user mouses over it.
-        tooltip_disabled.get().mouseout(function () {
-            tooltip_disabled.remove();
-        });
-    });
-
 
     // Call Refresh Function
-    $('.refresh_publication').click(function () {
-        user_id = $(this).attr('id');
+    selector.not('.refresh_publication_disabled').click(function () {
         $.ajax({
             type: 'POST',
             data: {id: user_id},
@@ -133,6 +35,7 @@ function refreshProfileUrl() {
             }
         });
     });
+
 }
 /***************************************/
 //------------APPROVE ORGANIZER--------//
@@ -143,6 +46,7 @@ function initializeAdmin(length ) {
     $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
 
     $('.dataTable').DataTable({
+        responsive: true,
         bSort: enable,
         bFilter: enable,
         bInfo: false,

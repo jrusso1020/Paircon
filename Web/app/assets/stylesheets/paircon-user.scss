@@ -11,3 +11,13 @@ Form
   margin-bottom: 20px;
   margin-top: 20px;
 }
+
+.refresh_publication_disabled, .refresh_publication_disabled:hover {
+  color: grey !important;
+  opacity: 0.7;
+}
+
+.ui-pnotify-icon {
+  margin-top: 5px;
+  margin-right: 5px;
+}

@@ -445,3 +445,26 @@ function removeEmptyRowsDataTable() {
         $('.dataTables_empty').parent().remove();
     }
 }
+
+
+function createTooltip(title, body, icon) {
+    return new PNotify({
+        title: title,
+        text: body,
+        type: 'info',
+        addclass: 'dark',
+        styling: 'fontawesome',
+        width: "350px",
+        buttons: {
+            closer: false,
+            sticker: false
+        },
+        history: {
+            history: false
+        },
+        icon: "fa fa-" + icon,
+        // Setting stack to false causes PNotify to ignore this notice when positioning.
+        stack: false,
+        auto_display: false
+    });
+}

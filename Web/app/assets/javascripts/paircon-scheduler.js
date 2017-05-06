@@ -286,45 +286,42 @@ function initializeSelectize() {
 
 
 function initializeScheduleUserEvents() {
-    $(document).ready(function () {
-        $('#user_scheduler').fullCalendar({
-            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-            contentHeight: 300,
-            selectable: false,
-            selectHelper: false,
-            editable: false,
-            eventStartEditable: false,
-            eventDurationEditable: false,
-            filterResourcesWithEvents: false,
-            eventLimit: true,
-            aspectRatio: 1.80,
-            scrollTime: '08:00',
-            header: {
-                left: 'title',
-                right: 'monthView,weekView,dayView,listWeekView prev,next'
+    $('#user_scheduler').fullCalendar({
+        schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+        contentHeight: 300,
+        selectable: false,
+        selectHelper: false,
+        editable: false,
+        eventStartEditable: false,
+        eventDurationEditable: false,
+        filterResourcesWithEvents: false,
+        eventLimit: true,
+        refetchResourcesOnNavigate: true,
+        aspectRatio: 1.80,
+        scrollTime: '08:00',
+        events: '/schedules/get_events_user',
+        header: {
+            left: 'title',
+            right: 'monthView,weekView,dayView,listWeekView prev,next'
+        },
+        defaultView: 'month',
+        views: {
+            weekView: {
+                type: 'agendaWeek',
+                buttonText: 'Week'
             },
-            defaultView: 'timelineDay',
-            views: {
-                weekView: {
-                    type: 'agendaWeek',
-                    buttonText: 'Week'
-                },
-                listWeekView: {
-                    type: 'listWeek',
-                    buttonText: 'List'
-                },
-                dayView: {
-                    type: 'agendaDay',
-                    buttonText: 'Day'
-                },
-                monthView: {
-                    type: 'month',
-                    buttonText: 'Month'
-                }
+            listWeekView: {
+                type: 'listWeek',
+                buttonText: 'List'
             },
-
-            events: '/schedules/get_events_user'
-
-        });
+            dayView: {
+                type: 'agendaDay',
+                buttonText: 'Day'
+            },
+            monthView: {
+                type: 'month',
+                buttonText: 'Month'
+            }
+        }
     });
 }
