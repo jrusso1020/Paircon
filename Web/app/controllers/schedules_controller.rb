@@ -209,37 +209,37 @@ class SchedulesController < ApplicationController
   # def delete_event
   #   render layout: false
   # end
-  #
-  # def destroy_resource
-  #   ConferenceResource.transaction do
-  #     ConferenceResource.where(parent_id: @resource.id).destroy_all
-  #
-  #     name = @resource.title
-  #
-  #     if @resource.destroy
-  #       flash[:notice] = "Successfully deleted '" + name + "'."
-  #     else
-  #       flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
-  #     end
-  #   end
-  #
-  #   redirect_back(fallback_location: root_path)
-  # end
-  #
-  #
-  # def destroy_event
-  #   ConferenceEvent.transaction do
-  #     name = @event.title
-  #
-  #     if @event.destroy
-  #       flash[:notice] = "Successfully deleted '" + name + "'."
-  #     else
-  #       flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
-  #     end
-  #   end
-  #
-  #   redirect_back(fallback_location: root_path)
-  # end
+
+  def destroy_resource
+    ConferenceResource.transaction do
+      ConferenceResource.where(parent_id: @resource.id).destroy_all
+
+      name = @resource.title
+
+      if @resource.destroy
+        flash[:notice] = "Successfully deleted '" + name + "'."
+      else
+        flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
+      end
+    end
+
+    redirect_back(fallback_location: root_path)
+  end
+
+
+  def destroy_event
+    ConferenceEvent.transaction do
+      name = @event.title
+
+      if @event.destroy
+        flash[:notice] = "Successfully deleted '" + name + "'."
+      else
+        flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
+      end
+    end
+
+    redirect_back(fallback_location: root_path)
+  end
 
   def get_resources
     @conference = Conference.find(params[:id])

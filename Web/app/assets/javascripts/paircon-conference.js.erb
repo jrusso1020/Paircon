@@ -14,33 +14,33 @@ function initializeHeader() {
 
 var current_tab;
 
-function getUserRecommendations(conference_id, user_id, view_to_render){
+function getUserRecommendations(conference_id, user_id, view_to_render) {
     $.ajax({
-            type: 'GET',
-            url: '/conferences/' + conference_id + '/user_recommendations',
-            data: {
-                'conference_id': conference_id,
-                'user_id': user_id,
-                'view_to_render': view_to_render
-            },
-            beforeSend: function () {
-                if (view_to_render=='true'){
-                    $("#main-container").empty();
-                }
-                else{
-                    $("#recommendation-carousel").empty();
-                }
+        type: 'GET',
+        url: '/conferences/' + conference_id + '/user_recommendations',
+        data: {
+            'conference_id': conference_id,
+            'user_id': user_id,
+            'view_to_render': view_to_render
+        },
+        beforeSend: function () {
+            if (view_to_render == 'true') {
+                $("#main-container").empty();
             }
+            else {
+                $("#recommendation-carousel").empty();
+            }
+        }
     });
 }
 
-function requestUserRecommendations(conference_id, user_id, view_to_render){
+function requestUserRecommendations(conference_id, user_id, view_to_render) {
     getUserRecommendations(conference_id, user_id, view_to_render);
 
-    setInterval(function() {
+    setInterval(function () {
         getUserRecommendations(conference_id, user_id, view_to_render);
     }, 20 * 1000); //perform every 20 seconds
-    
+
 }
 
 function requestTabPane(id, tab_name) {
@@ -346,36 +346,6 @@ function initCharts(count) {
     }
     catch (e) {
     }
-}
-/***************************************************/
-/********************** SEARCH *********************/
-/***************************************************/
-function initializeSearch(length) {
-    var enable = length > 0;
-
-    $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
-
-    $('.dataTable').DataTable({
-        responsive: true,
-        bSort: enable,
-        bFilter: false,
-        bInfo: false,
-        bPaginate: false,
-        bRetrieve: true,
-        sDom: "<'row'<'col-xs-6'l><'col-xs-6'f>r>t<'row'<'col-xs-6'i><'col-xs-6'p>>",
-        sPaginationType: "bootstrap",
-        order: [[1, 'asc']],
-        oLanguage: {
-            "sEmptyTable": "",
-            "sZeroRecords": ""
-        },
-        columnDefs: [
-            {targets: 'no-sort', orderable: false},
-            {type: 'datetime-moment', targets: [3, 4]}
-        ]
-    });
-
-    removeEmptyRowsDataTable();
 }
 
 /****************************************************/
@@ -772,12 +742,12 @@ function initializeSelectize() {
 /***************************************/
 //------------View all Conferences --------//
 /***************************************/
-function initializeViewAllConferences(length ) {
+function initializeViewAllConferences(length) {
     var enable = length > 0;
 
     $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
 
-    $('.dataTable').DataTable({
+    var table = $('.dataTable').DataTable({
         bSort: enable,
         bFilter: enable,
         bInfo: false,
@@ -790,8 +760,35 @@ function initializeViewAllConferences(length ) {
         },
         order: [[1, 'asc']],
         columnDefs: [
+            {targets: 'hidden', visible: false, searchable: false},
             {targets: 'no-sort', orderable: false},
             {type: 'datetime-moment', targets: [3, 4]}
         ]
+    });
+
+    enableSwitchery();
+
+    setArchiveDatatable(table, false);
+
+    $('.switchery').click(function () {
+        setArchiveDatatable(table, $('#archiveCheckBox').prop('checked'));
+    });
+}
+
+function setArchiveDatatable(table, status) {
+    table.rows().eq(0).each(function (index) {
+        var row = table.row(index);
+
+        var data = row.data();
+
+        if (status) {
+            $(row.node()).removeClass('hidden');
+        } else {
+            if (data[6] == "true") {
+                $(row.node()).addClass('hidden');
+            } else {
+                $(row.node()).removeClass('hidden');
+            }
+        }
     });
 }

@@ -56,7 +56,6 @@ gem 'sidekiq'                                                     # For Backgrou
 # Authorization
 gem 'devise'                                                      # For Login system
 gem 'devise-async'                                                # For Sending Emails
-# gem 'devise-token_authenticatable'                                # Authenticating based on Tokens
 gem 'omniauth'                                                    # For login from social websites
 gem 'omniauth-google-oauth2'                                      # For login from google
 gem 'omniauth-facebook'                                           # For login from facebook
@@ -83,6 +82,7 @@ gem 'timezone'                                                    # Calculation 
 # gem 'sitemap_generator'                                         # For Generating Sitemaps for Google etc.
 
 group :development, :test do
+  gem 'foreman'                                                   # Used to run locally
   gem 'rack-mini-profiler', require: false                        # Used for memory profiling
   gem 'memory_profiler'                                           # Used for memory profiling
   gem 'flamegraph'                                                # Used for memory profiling
@@ -93,7 +93,7 @@ group :development, :test do
   gem 'annotate'                                                  # Adding annotations to models (http://github.com/ctran/annotate_models)
   gem 'byebug', platform: :mri                                    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'passenger', '~> 5.0.7'                                     # Web Server (Best)
-  #gem 'puma', '~> 2.8.1'                                         # Web Server (Lighter)
+  # gem 'puma'                                                      # Web Server (Lighter)
   gem 'web-console', '>= 3.3.0'                                   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   # gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring-watcher-listen', '~> 2.0.0'
