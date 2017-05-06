@@ -1,15 +1,8 @@
-<div class="x_panel top-buffer">
-  <div class="x_title">
-    <h3>Paircon Recommendations
-      <ul class="nav navbar-right panel_toolbox">
-        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-      </ul>
-    </h3>
+<h1>Paircon Recommendations</h1>
+<hr />
 
-    <div class="clearfix"></div>
-  </div>
-  <div id="main-container" class="x_content">
-  </div>
+<div class="clearfix"></div>
+<div id="main-container" class="x_content">
 </div>
 
 <%= javascript_tag "requestUserRecommendations('" + @conference.id + "','" + current_user.id + "','true')" %>
