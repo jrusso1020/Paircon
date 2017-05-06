@@ -121,11 +121,11 @@ class Conference < ApplicationRecord
   end
 
   def end_date_str
-    self.end_date.strftime(DATEFORMAT)
+    self.end_date.strftime(DATETIMEFORMAT)
   end
 
   def start_date_str
-    self.start_date.strftime(DATEFORMAT)
+    self.start_date.strftime(DATETIMEFORMAT)
   end
 
   def get_conference_pdf_path

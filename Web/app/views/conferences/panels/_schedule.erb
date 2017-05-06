@@ -19,9 +19,9 @@
     <hr/>
 
     <div class="clearfix"></div>
-    <table class="table table-striped">
+    <table class="table table-striped hidden">
       <!--<table class="datatable-schedule table table-striped">-->
-      <% $days = %w(Monday Tuesday Wednesday Thursday Friday) %>    <%# Make these dynamic. Should be days of conference%>
+      <% $days = %w(Thursday Friday) %>    <%# Make these dynamic. Should be days of conference%>
       <% $days.each do |day| %>
           <thead>
           <tr>
@@ -50,46 +50,69 @@
     </table>
 <% end %>
 
-<h1>Detailed Schedule</h1>
-<hr/>
+<!--<h1>Detailed Schedule</h1>-->
+<!--<hr/>-->
 <div class="clearfix"></div>
 
 <div class="panel-group" id="accordion">
-  <% $first = true %>
-  <% $topics = %w(Topic1 Topic2 Topic3 Topic4 Topic5) %>
-  <% $days.each do |day| %>
-      <% $topics.each do |topic| %>
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
-                <a data-toggle="collapse" data-parent="#accordion" href="#<%= "#{day}#{topic}" %>"><b><%= "#{day}: " %></b><%= "#{topic}" %>
-                </a>
-              </h3>
-            </div>
-            <% if $first == true %> <%# default show first accordion panel open%>
-                <div id="<%= "#{day}#{topic}" %>" class="panel-collapse collapse in">
-                  <% $first = false %>
-            <% else %>
-                <div id="<%= "#{day}#{topic}" %>" class="panel-collapse collapse">
-            <% end %>
-            <div class="panel-body">
-              <h4><b>Location: </b>General Location</h4>
-              <h4><b>Time: </b>Start Time - End Time</h4>
-              <% $c = 1 %>
-              <% $num = 7 %>
-              <% until $c > $num do %>
+  <% first = true %>
+  <% @schedule_data.each do |event| %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#<%= "#{event[:title].delete(' ')}" %>"><b><%= "#{event[:start_date].strftime(WEEKDAYFORMAT)}, #{event[:start_date].strftime(DATEFORMAT)}: " %></b><%= "#{event[:title]}" %>
+            </a>
+          </h3>
+        </div>
+        <% if first == true %> <%# default show first accordion panel open%>
+            <div id="<%= "#{event[:title].delete(' ')}" %>" class="panel-collapse collapse in">
+              <% first = false %>
+        <% else %>
+            <div id="<%= "#{event[:title].delete(' ')}" %>" class="panel-collapse collapse">
+        <% end %>
+        <div class="panel-body">
+          <h4><b>Location: </b><%= "#{event[:room]}" %></h4>
+          <h4>
+            <b>Time: </b><%= "#{event[:start_date].strftime(TIMEFORMAT)} - #{event[:end_date].strftime(TIMEFORMAT)}" %>
+          </h4>
+
+          <% unless event[:sessions].blank? %>
+              <% event[:sessions].each do |session| %>
                   <p>
-                    <b><a href="#">Paper Title <%= "#{$c}" %> </a></b> ||
-                    Author Names <i> Author Institutions </i> ||
-                    <a href="#"> Abstract </a> ||
-                    Specific Location
+                    <%= "#{session[:start_time]}" %> ||
+                    <b><%= link_to session[:title], pdf.full_path(file: session[:pdf_link]), target: '_blank' %></b> ||
+                    <% session[:author].each_with_index do |name, index| %>
+                        <%= "#{name}" %> <i><%= "#{session[:affiliation][index]} " %></i>
+                    <% end %> ||
+                    <a data-toggle="collapse" href="#<%= "#{event[:title].delete(' ')}#{session[:paper_id]}Abstract" %>" aria-expanded="false" aria-controls="<%= "#{event[:title].delete(' ')}#{session[:paper_id]}Abstract" %>">
+                      Abstract
+                    </a>
                   </p>
-                  <% $c += 1 %>
+                  <div class="collapse" id="<%= "#{event[:title].delete(' ')}#{session[:paper_id]}Abstract" %>">
+                    <div class="panel panel-default">
+                      <div class="panel-body">
+                        <%#= "#{session[:abstract]}" %>
+                        Humans have an impressive ability to reason about new concepts and experiences from just a
+                        single example. In particular, humans have an ability for one-shot generalization: an ability to
+                        encounter a new concept, understand its structure, and then be able to generate compelling
+                        alternative variations of the concept. We develop machine learning systems with this important
+                        capacity by developing new deep generative models, models that combine the representational
+                        power of deep learning with the inferential power of Bayesian reasoning. We develop a class of
+                        sequential generative models that are built on the principles of feedback and attention. These
+                        two characteristics lead to generative models that are among the state-of-the art in density
+                        estimation and image generation. We demonstrate the one-shot generalization ability of our
+                        models using three tasks: unconditional sampling, generating new exemplars of a given concept,
+                        and generating new exemplars of a family of concepts. In all cases our models are able to
+                        generate compelling and diverse samples—having seen new examples just once—providing an
+                        important class of general-purpose models for one-shot machine learning.
+                      </div>
+                    </div>
+                  </div>
               <% end %>
-            </div>
-            </div>
-            </div>
-      <% end %>
+          <% end %>
+        </div>
+        </div>
+        </div>
   <% end %>
   </div>
 </div>
