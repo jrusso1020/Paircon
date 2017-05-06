@@ -18,8 +18,8 @@
 #++
 
 class Similarity < ApplicationRecord
-  belongs_to :user_paper, :class_name => "Paper"
-  belongs_to :conference_paper, :class_name => "Paper"
+  belongs_to :user_paper
+  belongs_to :conference_paper, foreign_key: 'conference_id'
 
   before_create :init_id
 
