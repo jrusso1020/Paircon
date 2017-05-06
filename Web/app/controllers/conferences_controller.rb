@@ -10,11 +10,11 @@ class ConferencesController < ApplicationController
   def index
 
     if params[:view] == 'organizer'
-      @conferences_all = Conference.my_organizing_conferences_all(current_user)
+      @conferences_all = Conference.my_organizing_conferences_published(current_user)
       @conf_length =  @conferences_all.length
       @title = 'Conferences Organized'
     else
-      @conferences_all = Conference.my_attending_conferences_all(current_user)
+      @conferences_all = Conference.my_attending_conferences_published(current_user)
       @conf_length =  @conferences_all.length
       @title = 'Conferences Attended'
     end

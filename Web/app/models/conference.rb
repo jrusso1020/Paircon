@@ -174,11 +174,11 @@ class Conference < ApplicationRecord
   end
 
   def self.my_organizing_conferences_published user
-    Conference.published.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+    Conference.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   def self.my_attending_conferences_published user
-    Conference.published.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
+    Conference.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
   def self.my_organizing_conferences_active user
@@ -187,14 +187,6 @@ class Conference < ApplicationRecord
 
   def self.my_attending_conferences_active user
     Conference.active.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
-  end
-
-  def self.my_organizing_conferences_all user
-    Conference.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
-  end
-
-  def self.my_attending_conferences_all user
-    Conference.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
   def get_pdf_text_path
