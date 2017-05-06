@@ -780,9 +780,10 @@ function initializeViewAllConferences(length ) {
             "sEmptyTable": "",
             "sZeroRecords": ""
         },
-        order: [[0, 'asc']],
+        order: [[1, 'asc']],
         columnDefs: [
-            {targets: 'no-sort', orderable: false}
+            {targets: 'no-sort', orderable: false},
+            {type: 'datetime-moment', targets: [3, 4]}
         ]
     });
 }
