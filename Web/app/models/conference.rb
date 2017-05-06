@@ -57,7 +57,6 @@ class Conference < ApplicationRecord
   scope :published, lambda { where(publish: true) }
 
   scope :active, lambda { not_archived.or(published) }
-  scope :archived, lambda { !active}
 
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
   validates_attachment :cover, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
@@ -190,12 +189,12 @@ class Conference < ApplicationRecord
     Conference.active.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
-  def self.my_organizing_conferences_archived user
-    Conference.archived.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+  def self.my_organizing_conferences_all user
+    Conference.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
-  def self.my_attending_conferences_archived user
-    Conference.archived.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
+  def self.my_attending_conferences_all user
+    Conference.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
   def get_pdf_text_path
