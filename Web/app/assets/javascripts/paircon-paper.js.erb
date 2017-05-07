@@ -59,9 +59,13 @@ function initializePaperAdd() {
 function initializePaperFileUploader(conferenceid) {
     var table = $('#paperDataTable').DataTable();
 
+    var filesList = [],
+        paramNames = [];
+
     $('#uploadButton').text("Upload");
     $('#progress').hide();
     $('#fileName').text("");
+
     $(document).bind('drop dragover', function (e) {
         e.preventDefault();
     });
@@ -81,13 +85,13 @@ function initializePaperFileUploader(conferenceid) {
     });
 
     $('input[name="fileData"]').fileupload({
-        singleFileUploads: true,
-        multipart: false,
-        url: '/papers?conference_id=' + conferenceid,
-        sequentialUploads: true,
-        dataType: 'json',
+        url: '/papers',
         dropZone: $('#drag-area'),
-        method: 'POST',
+        type: 'POST',
+        dataType: 'json',
+        autoUpload: false,
+        singleFileUploads: false,
+        multipart: true,
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('#progress .bar').css(
@@ -110,32 +114,53 @@ function initializePaperFileUploader(conferenceid) {
 
         },
         add: function (e, data) {
-            $('#fileName').text("[" + data.files[0].name + "]");
-            $('#uploadButton').removeClass('disabled');
-            var uploadurl = $('input[name="fileData"]').fileupload('option', 'url');
-            $('#uploadButton').unbind();
-            data.context = $('#uploadButton').click(function () {
-                if ($('#new_paper').valid()) {
-                    $('#uploadButton').text("Uploading");
-                    $('#progress').fadeIn('slow');
-                    $('#uploadButton').addClass('disabled');
-                    $('.select-button').addClass('disabled');
-                    $('#closeButton').hide();
-                    $('input[name="fileData"]').fileupload('option', 'url', uploadurl + "&filename=" + data.files[0].name +
-                        "&filesize=" + data.files[0].size +
-                        "&type=" + data.files[0].type +
-                        "&paper[title]=" + $('#paper_title').val() +
-                        "&paper[author]=" + table.columns(1).data().eq(0).join(';') +
-                        "&paper[abstract]=" + $('#paper_abstract').val() +
-                        "&paper[year]=" + $('#paper_year').val() +
-                        "&paper[email]=" + table.columns(3).data().eq(0).join(';') +
-                        "&paper[affiliation]=" + table.columns(2).data().eq(0).join(';'));
-                    var jqXHR = data.submit();
-                } else {
-                    return false;
-                }
+            for (var i = 0; i < data.files.length; i++) {
+                $(this).data('file', data.files[i].name);
+                filesList.push(data.files[i]);
+                paramNames.push(e.delegatedEvent.target.name);
+            }
 
-            });
+            var file = $('#fileupload').data('file');
+
+            if ($.trim(file).length > 0) {
+                $('#uploadButton').removeClass('disabled');
+
+                $('#uploadButton').unbind();
+                $('#uploadButton').click(function (e) {
+
+                    e.preventDefault();
+
+                    if ($('#new_paper').valid()) {
+                        $('#uploadButton').text("Uploading");
+                        $('#progress').fadeIn('slow');
+                        $('#uploadButton').addClass('disabled');
+                        $('.select-button').addClass('disabled');
+                        $('#closeButton').hide();
+                        $('#cancelButton').show();
+
+                        $('.file-upload').fileupload('send', {
+                            files: filesList, paramName: paramNames, formData: {
+                                json: JSON.stringify({
+                                    "conference_id": conferenceid,
+                                    "paper": {
+                                        title: $('#paper_title').val(),
+                                        author: table.columns(1).data().eq(0).join(';'),
+                                        abstract: $('#paper_abstract').val(),
+                                        year: $('#paper_year').val(),
+                                        email: table.columns(3).data().eq(0).join(';'),
+                                        affiliation: table.columns(2).data().eq(0).join(';')
+                                    }
+                                })
+                            }
+                        });
+                    }
+                });
+
+            } else {
+                $('#uploadButton').addClass('disabled');
+            }
+
+            return false;
         }
     });
 }

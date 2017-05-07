@@ -55,7 +55,6 @@ class Paper < ApplicationRecord
     self.pdf = File.open(filepath, 'r')
     self.md5hash = Digest::MD5.hexdigest(File.read(filepath))
     self.save!()
-    # File.delete(filepath)
   end
 
   private

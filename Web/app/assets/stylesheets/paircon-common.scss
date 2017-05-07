@@ -226,6 +226,14 @@ Header
 Misc
 ************************************
 ***********************************/
+.introjs-tooltip {
+  direction: ltr !important;
+}
+
+.introjs-bullets {
+  display: none !important;
+}
+
 #page-heading {
   @include clearfix();
   border-bottom: 1px solid #D2D3D6;
@@ -463,7 +471,7 @@ Right Col
   position: relative;
   height: 100%;
   margin-top: 57px !important;
-  z-index: 1 !important;
+  z-index: 1;
 }
 
 .address {

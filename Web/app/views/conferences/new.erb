@@ -20,11 +20,23 @@
 <div class="modal-footer" style="margin-top:-5px;">
   <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
-      <% if request.xhr? %>
-          <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-      <% end %>
-          <%= f.submit 'Continue', :class => 'form-control', :class => 'btn btn-paircon' %>
+      <div class="js-switch-box">
+        <input type="checkbox" id="introjs_checkbox" class="js-switch" value="checked" checked /><span class="js-switch-text">Show the tutorial</span>
+      </div>
+      <div>
+        <% if request.xhr? %>
+            <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+        <% end %>
+        <button class="btn btn-paircon" id="continue_button">Continue</button>
+        <%= f.submit 'Continue', :class => 'form-control', id: 'form_submit', :class => 'hide btn btn-paircon' %>
+      </div>
     </div>
   </div>
 </div>
 <% end %>
+
+<%= javascript_tag 'initializeSwitchery()' %>
+
+
+
+

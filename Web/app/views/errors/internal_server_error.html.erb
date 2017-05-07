@@ -9,7 +9,7 @@
           <h1 class="text-jumbo text-ginormous hidden-sm-down error-text-quote">Oops!</h1>
           <h2 class="error-text-quote">Oh My! Something bad happened. We track these errors automatically</h2>
           <% if user_signed_in? %>
-              <%= render 'search' %>
+              <%= render 'errors/search' %>
           <% end %>
           <h6 class="error-text-code">Error code: 500 Internal Server Error</h6>
           <ul class="list-unstyled">

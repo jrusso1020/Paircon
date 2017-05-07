@@ -69,7 +69,8 @@
             <div class="select-button btn btn-paircon light-grey-text paircon-fileinput-button">
               <i class="fa fa-upload"></i>
               Select Paper (PDF)
-              <%= content_tag :input, '', id: 'fileupload', type: 'file', name: 'fileData', accept: 'application/pdf' %>
+              <%= f.file_field :pdf, id: 'fileupload', type: 'file', name: 'fileData', class: 'file-upload', accept: Paper::PAPER_MIME_TYPES.join(',') %>
+              <%#= content_tag :input, '', id: 'fileupload', type: 'file', name: 'fileData', accept: 'application/pdf' %>
             </div>
 
             <div id="progress" class="progress progress-striped" style="border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">

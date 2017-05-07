@@ -16,3 +16,7 @@
 </div>
 
 <%= render 'conferences/footer', scheduler: true %>
+
+<% if @is_organizer %>
+  <%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 14, 1, 'home', 'posts')" %>
+<% end %>
