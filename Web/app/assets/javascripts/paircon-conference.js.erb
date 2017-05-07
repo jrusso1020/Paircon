@@ -26,6 +26,7 @@ function getUserRecommendations(conference_id, user_id, view_to_render){
         });
 }
 
+
 function requestUserRecommendations(conference_id, user_id, view_to_render){
     var xhr = getUserRecommendations(conference_id, user_id, view_to_render);
 
@@ -33,7 +34,7 @@ function requestUserRecommendations(conference_id, user_id, view_to_render){
         xhr = getUserRecommendations(conference_id, user_id, view_to_render);
     }, 20 * 1000); //perform every 20 seconds
 
-    $( window ).unload(function() {
+    $( window ).beforeUnload(function() {
         clearInterval(intervalHandle);
         if(xhr && xhr.readyState != 4){
             xhr.abort();

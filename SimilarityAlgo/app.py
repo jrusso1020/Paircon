@@ -69,4 +69,4 @@ def after(response):
 #app.run(debug=True)
 
 # run in production multithreaded
-app.run(threaded=True)
+app.run(host='0.0.0.0', threaded=True)
