@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504044732) do
+ActiveRecord::Schema.define(version: 20170507072157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,11 +32,10 @@ ActiveRecord::Schema.define(version: 20170504044732) do
   end
 
   create_table "conference_attendees", force: :cascade do |t|
-    t.string   "conference_id",      limit: 30
-    t.string   "user_id",            limit: 30
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.boolean  "recommendation_ran",            default: false
+    t.string   "conference_id", limit: 30
+    t.string   "user_id",       limit: 30
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.index ["user_id", "conference_id"], name: "index_conference_attendees_on_user_id_and_conference_id", unique: true, using: :btree
   end
 
@@ -156,7 +155,7 @@ ActiveRecord::Schema.define(version: 20170504044732) do
     t.string   "user_paper_id",       limit: 30
     t.string   "conference_paper_id", limit: 30
     t.decimal  "similarity_score"
-    t.string   "hash"
+    t.string   "md5hash"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
     t.index ["user_paper_id", "conference_paper_id"], name: "index_similarities_on_user_paper_id_and_conference_paper_id", unique: true, using: :btree

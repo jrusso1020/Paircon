@@ -5,35 +5,51 @@ function initializeHeader() {
 }
 
 var current_tab;
-
-function getUserRecommendations(conference_id, user_id, view_to_render) {
+var path = null;
+function getUserRecommendations(conference_id, user_id, view_to_render, count){
     $.ajax({
-        type: 'GET',
-        url: '/conferences/' + conference_id + '/user_recommendations',
-        data: {
-            'conference_id': conference_id,
-            'user_id': user_id,
-            'view_to_render': view_to_render
-        },
-        beforeSend: function () {
-            if (view_to_render == 'true') {
-                $("#main-container").empty();
+            type: 'GET',
+            url: '/conferences/' + conference_id + '/user_recommendations',
+            data: {
+                'conference_id': conference_id,
+                'user_id': user_id,
+                'view_to_render': view_to_render
+            },
+            complete: setTimeout(function() {
+                if(path!=null && (window.location.pathname==path)){
+                    getUserRecommendations(conference_id, user_id, view_to_render, count+1);
+                }
+                else{
+                    path=null;
+                }
+            }, 20*1000),
+            beforeSend: function () {
+                if (view_to_render=='true'){
+                    $("#main-container").empty();
+                }
+                else{
+                    $("#recommendation-carousel").empty();
+                }
+            },
+            success: function (text, status, xhr) {
+                if(count==0){
+                    showNotificationMsg('Your recommendations have been successfully updated.');
+                }
+            },
+            error: function (xhr, status, text) {
+                if(count==0){
+                    showErrorMsg(xhr.responseText);
+                }
             }
-            else {
-                $("#recommendation-carousel").empty();
-            }
-        }
-    });
+        });
 }
 
-function requestUserRecommendations(conference_id, user_id, view_to_render) {
-    getUserRecommendations(conference_id, user_id, view_to_render);
 
-    setInterval(function () {
-        getUserRecommendations(conference_id, user_id, view_to_render);
-    }, 20 * 1000); //perform every 20 seconds
-
+function requestUserRecommendations(conference_id, user_id, view_to_render){
+    getUserRecommendations(conference_id, user_id, view_to_render, 0);
+    path = window.location.pathname; 
 }
+
 
 function requestTabPane(id, tab_name) {
     Cookies.set(id + '_current_tab', tab_name);

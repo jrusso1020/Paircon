@@ -9,10 +9,10 @@
       <% @papers_with_scores.each do |result| %>
         <div class ="col-md-4 col-sm-6 col-xs-6 top-buffer">
           <div class="usage-graph " style="transform: scale(1.2,1.2);">
-            <div class="easypiechart" id="returningvisits" data-percent="<%= result.similarity_score.nan? ? 0 : (result.similarity_score*100).round(2) %>">
-              <span class="percent"><%= result.similarity_score.nan? ? 0 : (result.similarity_score*100).round(2) %></span>
+            <div class="easypiechart" id="returningvisits" data-percent="<%= result[:similarity_score].nan? ? 0 : (result[:similarity_score]*100).round(2) %>">
+              <span class="percent"><%= result[:similarity_score].nan? ? 0 : (result[:similarity_score]*100).round(2) %></span>
             </div>
-            <label><%= link_to "#{result.conference_paper.title}", pdf.full_path(file: "#{result.conference_paper.pdf_link}") %><br>
+            <label><%= link_to "#{result[:conference_paper][:title]}", pdf.full_path(file: "#{result[:conference_paper].pdf.url}") %><br>
               <!--<p>-->
                 <!--<a href="#"><i class="fa fa-thumbs-up right-buffer approve" aria-hidden="true"></i></a>-->
                 <!--<a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>-->
@@ -21,15 +21,15 @@
           </div>
           <div class = "text-center">
             <p>
-              <b>Related To: </b><%= result.user_paper.title%>
+              <b>Related To: </b><%= result[:user_paper][:title]%>
             </p>
-            <button class="btn btn-paircon btn-center" type="button" data-toggle="modal" data-target=<%= "##{result.conference_paper.title}"%>>More</button>
+            <button class="btn btn-paircon btn-center" type="button" data-toggle="modal" data-target=<%= "##{result[:conference_paper][:title]}"%>>More</button>
           </div>
-          <div class="modal fade" id=<%= "#{result.conference_paper.title}"%> tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal fade" id=<%= "#{result[:conference_paper][:title]}"%> tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title"><%="#{result.conference_paper.title}"%>
+                  <h5 class="modal-title"><%="#{result[:conference_paper][:title]}"%>
                     <!--<a href="#"><i class="fa fa-thumbs-up right-buffer left-buffer approve" aria-hidden="true"></i></a>-->
                     <!--<a href="#"><i class="fa fa-thumbs-down deny" aria-hidden="true"></i></a>-->
                   </h5>
@@ -40,7 +40,13 @@
                 <div class="modal-body">
                   <div class ="container">
                     <div class="col-md-6 col-sm-6 col-xs-12">
-                      <p><b>Authors: </b><%= result.conference_paper.authors.join(", ")%></p>
+                      <p><b>Authors: </b>
+                      <% if result[:conference_paper][:authors].present? %>
+                        <%= result[:conference_paper][:authors].join(", ")%>
+                      <% else %>
+                        <% "N/A" %>
+                      <% end %>
+                      </p>
                     </div>
                     <div class="col-md-6 col-sm-6 col-xs-12 text-center">
                       <p><a href="#"><i class="fa fa-file fa-4x" aria-hidden="true"></i><br>Open Paper</a></p>
