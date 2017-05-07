@@ -51,7 +51,7 @@ class Paper < ApplicationRecord
   def save_pdf_path(filepath)
     self.pdf = File.open(filepath, 'r')
     self.save!()
-    File.delete(filepath)
+    # File.delete(filepath)
   end
 
   private
