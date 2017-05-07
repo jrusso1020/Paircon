@@ -13,6 +13,8 @@
 # == Schema Information End
 #++
 
+require 'digest/md5'
+
 class Paper < ApplicationRecord
   has_many :conference_papers, dependent: :destroy
   has_many :user_papers, dependent: :destroy
@@ -34,6 +36,7 @@ class Paper < ApplicationRecord
     end
 
     self.pdf = File.open(new_file, 'r')
+    self.md5hash = Digest::MD5.hexdigest(File.read(new_file))
     self.save!(validate: false)
 
     File.delete(new_file)
@@ -50,6 +53,7 @@ class Paper < ApplicationRecord
 
   def save_pdf_path(filepath)
     self.pdf = File.open(filepath, 'r')
+    self.md5hash = Digest::MD5.hexdigest(File.read(filepath))
     self.save!()
     # File.delete(filepath)
   end
