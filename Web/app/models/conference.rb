@@ -2,31 +2,31 @@
 #
 # Table name: conferences
 #
-# *id*::                 <tt>string(30), not null, primary key</tt>
-# *name*::               <tt>string</tt>
-# *start_date*::         <tt>datetime</tt>
-# *end_date*::           <tt>datetime</tt>
-# *url*::                <tt>text</tt>
-# *location*::           <tt>string</tt>
-# *created_at*::         <tt>datetime, not null</tt>
-# *updated_at*::         <tt>datetime, not null</tt>
-# *logo_file_name*::     <tt>string</tt>
-# *logo_content_type*::  <tt>string</tt>
-# *logo_file_size*::     <tt>integer</tt>
-# *logo_updated_at*::    <tt>datetime</tt>
-# *cover_file_name*::    <tt>string</tt>
-# *cover_content_type*:: <tt>string</tt>
-# *cover_file_size*::    <tt>integer</tt>
-# *cover_updated_at*::   <tt>datetime</tt>
-# *description*::        <tt>string(255), default("")</tt>
-# *domain*::             <tt>string(255), default("")</tt>
-# *publish*::            <tt>boolean, default(FALSE)</tt>
-# *archive*::            <tt>boolean, default(FALSE)</tt>
-# *phone*::              <tt>string(255), default("")</tt>
-# *email*::              <tt>string(255), default("")</tt>
-#--
-# == Schema Information End
-#++
+#  id                 :string(30)       not null, primary key
+#  name               :string
+#  start_date         :datetime
+#  end_date           :datetime
+#  url                :text
+#  location           :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  logo_file_name     :string
+#  logo_content_type  :string
+#  logo_file_size     :integer
+#  logo_updated_at    :datetime
+#  cover_file_name    :string
+#  cover_content_type :string
+#  cover_file_size    :integer
+#  cover_updated_at   :datetime
+#  description        :text             default("")
+#  domain             :string(255)      default("")
+#  publish            :boolean          default(FALSE)
+#  archive            :boolean          default(FALSE)
+#  phone              :string(255)      default("")
+#  email              :string(255)      default("")
+#  lat                :decimal(, )
+#  long               :decimal(, )
+#
 
 require 'fileutils'
 require 'conferences/conference_utils'
@@ -174,11 +174,11 @@ class Conference < ApplicationRecord
   end
 
   def self.my_organizing_conferences user
-    Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+    Conference.includes(:conference_attendees, :conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   def self.my_attending_conferences user
-    Conference.includes(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
+    Conference.includes(:conference_attendees, :conference_organizers).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
   def get_pdf_text_path
