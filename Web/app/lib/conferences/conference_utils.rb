@@ -204,7 +204,6 @@ class ConferenceUtils
                                author: paper[:author],
                                affiliation: paper[:affiliation],
                                paper_id: details[:paper_id],
-                               abstract: paper[:abstract]
 
             }
             output[parent_id][:sessions].push(sessions_params)
