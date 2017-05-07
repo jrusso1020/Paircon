@@ -2,18 +2,16 @@
 #
 # Table name: posts
 #
-# *id*::            <tt>string(30), not null, primary key</tt>
-# *conference_id*:: <tt>string(30)</tt>
-# *description*::   <tt>text</tt>
-# *created_at*::    <tt>datetime, not null</tt>
-# *updated_at*::    <tt>datetime, not null</tt>
+#  id            :string(30)       not null, primary key
+#  conference_id :string(30)
+#  description   :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 # Indexes
 #
 #  index_posts_on_conference_id  (conference_id)
-#--
-# == Schema Information End
-#++
+#
 
 class Post < ApplicationRecord
   include PublicActivity::Common

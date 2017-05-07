@@ -13,6 +13,8 @@ module PairCon
     # -- all .rb files in that directory are automatically loaded.
     local_settings = YAML.load_file("#{Rails.root}/config/local_settings.yml")
 
+    config.web_console.development_only = false
+
     # Custom directories with classes and modules you want to be auto loadable.
     config.autoload_paths += %W(#{config.root}/lib)
 

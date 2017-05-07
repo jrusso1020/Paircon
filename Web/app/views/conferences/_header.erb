@@ -46,18 +46,18 @@
         </div>
         <div data-step="2" data-tooltipClass='introHelper' data-intro="What domain does your <br/> conference belong to?" data-position='right'>
           <% if (@is_organizer or !@conference.domain.blank?) %>
-            <h3>
-              <span><%= icon_text('tag fa-lg', '') %>
-                <%= best_in_place_if @is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %>
-              </span>
-            </h3>
+              <h3>
+            <span><%= icon_text('tag fa-lg', '') %>
+              <%= best_in_place_if @is_organizer, @conference, :domain, as: :input, place_holder: "&lt;&lt;Conference Domain&gt;&gt;" %>
+            </span>
+              </h3>
           <% end %>
         </div>
       </div>
       <div class="btn-group" style="padding-left:50px; padding-right: 50px;">
         <% if user_signed_in? %>
-            <a id="followButton" class="btn btn-paircon" data-toggle="dropdown" data-step="5" data-tooltipClass='introHelper' data-intro="Follow to get updates from this Conference!"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
-            <button type="button" class="btn btn-paircon dropdown-toggle">
+            <a id="followButton" class="btn btn-paircon" data-step="5" data-tooltipClass='introHelper' data-intro="Follow to get updates from this Conference!"><%= @conference.conference_attendees.where(user_id: current_user.id).blank? ? 'Follow' : 'Stop Following' %></a>
+            <button type="button" class="btn btn-paircon dropdown-toggle" data-toggle="dropdown">
               <span class="caret"></span>
             </button>
         <% else %>
@@ -72,11 +72,12 @@
         <ul class="dropdown-menu" role="menu">
           <% unless @conference.url.blank? %>
               <li>
-                <%= link_to icon_text('pull-right globe dropdown-user-icons', 'Website'), conference_path(@conference) %>
+                <%= link_to icon_text('globe pull-right dropdown-user-icons', 'Website'), conference_path(@conference) %>
               </li>
               <li class="divider"></li>
           <% else %>
-              <li><a href="#" id="aboutButton">About<i class="pull-right fa fa-info dropdown-user-icons"></i></a>
+              <li>
+                <a href="#" id="aboutButton">About<i class="pull-right fa fa-info dropdown-user-icons"></i></a>
               </li>
           <% end %>
 
@@ -103,7 +104,7 @@
                 </a>
               </li>
           <% end %>
-        </ul> 
+        </ul>
       </div>
     </div>
   </div>
