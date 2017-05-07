@@ -18,6 +18,9 @@
 class ConferencePaper < ApplicationRecord
   belongs_to :conference
   belongs_to :paper
+
+  has_many :similarities, class_name: 'Similarity', foreign_key: :conference_paper_id, primary_key: :conference_id
+
   before_create :init_id
 
   private

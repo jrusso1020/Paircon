@@ -10,12 +10,10 @@ class ConferencesController < ApplicationController
   def index
 
     if params[:view] == 'organizer'
-      @conferences_all = Conference.my_organizing_conferences(current_user)
-      @conf_length =  @conferences_all.length
+      @conferences = Conference.my_organizing_conferences(current_user)
       @title = 'Conferences Organized'
     else
-      @conferences_all = Conference.my_attending_conferences(current_user)
-      @conf_length =  @conferences_all.length
+      @conferences = Conference.my_attending_conferences(current_user)
       @title = 'Conferences Attended'
     end
   end
@@ -105,7 +103,7 @@ class ConferencesController < ApplicationController
       begin
         ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
       rescue Redis::CannotConnectError => e
-        RecommendationService.new(user_id, conference_id).getRecommendationsForEachPaper()
+        RecommendationService.new(current_user.id, @conference.id).getRecommendationsForEachPaper()
       end
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
@@ -117,7 +115,7 @@ class ConferencesController < ApplicationController
   end
 
   def user_recommendations
-    user = User.find_by(id: params[:user_id])
+    user = current_user
     @view_to_render = (params[:view_to_render] == 'true')
 
     similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)

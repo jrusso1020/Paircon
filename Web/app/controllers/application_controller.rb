@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :is_app_init_for_sign_up
   before_action :set_mailer_url_options
   before_action :set_cache_buster
+  before_action :load_left_column
   skip_before_action :set_mobile_format
 
   etag { current_user.try :id }
@@ -58,6 +59,17 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def load_left_column
+    if signed_in?(:user)
+      @attending_conferences = Conference.my_attending_conferences(current_user)
+
+      unless current_user.attendee?
+        @organizing_conferences = Conference.my_organizing_conferences(current_user)
+      end
+
+    end
+  end
 
   def layout
     request.xhr? ? false : 'application'

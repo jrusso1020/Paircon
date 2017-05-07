@@ -288,7 +288,7 @@ function initializeSelectize() {
 function initializeScheduleUserEvents() {
     $('#user_scheduler').fullCalendar({
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        contentHeight: 300,
+        contentHeight: 385,
         selectable: false,
         selectHelper: false,
         editable: false,
@@ -302,9 +302,9 @@ function initializeScheduleUserEvents() {
         events: '/schedules/get_events_user',
         header: {
             left: 'title',
-            right: 'monthView,weekView,dayView,listWeekView prev,next'
+            right: 'prev,next'
         },
-        defaultView: 'month',
+        defaultView: 'listWeekView',
         views: {
             weekView: {
                 type: 'agendaWeek',
