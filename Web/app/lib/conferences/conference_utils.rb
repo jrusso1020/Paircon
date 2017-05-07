@@ -196,12 +196,15 @@ class ConferenceUtils
           paper = papers[details[:paper_id]]
           if not paper.nil?
             sessions_params = {title: details[:title],
-                               start_time: details[:start_date],
-                               end_time: details[:end_date],
+                               start_time: details[:start_date].strftime(TIMEFORMAT),
+                               end_time: details[:end_date].strftime(TIMEFORMAT),
+                               start_date: details[:start_date].strftime(DATEFORMAT),
+                               end_date: details[:end_date].strftime(DATEFORMAT),
                                pdf_link: paper[:url],
                                type: details[:event_type],
                                author: paper[:author],
                                affiliation: paper[:affiliation],
+                               paper_id: details[:paper_id],
                                abstract: paper[:abstract]
             }
             output[parent_id][:sessions].push(sessions_params)
@@ -218,6 +221,7 @@ class ConferenceUtils
           output[detail_id][:room] = event[:room]
           output[detail_id][:start_date] = details[:start_date]
           output[detail_id][:end_date] = details[:end_date]
+          output[detail_id][:event_id] = details[:id]
         end
       end
     end

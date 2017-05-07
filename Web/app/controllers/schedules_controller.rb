@@ -95,8 +95,8 @@ class SchedulesController < ApplicationController
   #     @sessions = @sessions + @conference.conference_resources.where(parent_id: events.first.id).select(:title, :id).distinct().order(:title).map { |obj| [obj.title, obj.id] }
   #   end
   #
-  #   @start_date = params[:start_date].blank? ? '' : DateTime.parse(params[:start_date]).strftime(DATEFORMAT)
-  #   @end_date = params[:end_date].blank? ? '' : DateTime.parse(params[:end_date]).strftime(DATEFORMAT)
+  #   @start_date = params[:start_date].blank? ? '' : DateTime.parse(params[:start_date]).strftime(DATETIMEFORMAT)
+  #   @end_date = params[:end_date].blank? ? '' : DateTime.parse(params[:end_date]).strftime(DATETIMEFORMAT)
   #
   #   if !params[:resource_id].blank?
   #     resource = ConferenceResource.find(params[:resource_id])
