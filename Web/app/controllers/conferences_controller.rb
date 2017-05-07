@@ -84,7 +84,7 @@ class ConferencesController < ApplicationController
       begin
         ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
       rescue Redis::CannotConnectError => e
-        RecommendationService.new(user_id, conference_id).getRecommendationsForEachPaper()
+        RecommendationService.new(current_user.id, @conference.id).getRecommendationsForEachPaper()
       end
     end
     if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)

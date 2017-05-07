@@ -41,9 +41,13 @@ def compare_paper_to_conference():
   if request.headers['Content-Type'] == 'application/json':
     app.logger.debug(request.data)
     data = request.get_json()
-    similiarities = Cosine_Similiarity().compute_cosine_sim_one(data["user_file"], data["conference_dir"])
-    resp = jsonify(similiarities)
-    resp.status_code = 200
+    try:
+      similiarities = Cosine_Similiarity().compute_cosine_sim_one(data["user_file"], data["conference_dir"])
+      resp = jsonify(similiarities)
+      resp.status_code = 200
+    except e:
+      resp = jsonify(e)
+      resp.status_code = 500
 
   else:
     message = {
