@@ -230,6 +230,10 @@ Misc
   direction: ltr !important;
 }
 
+.introjs-bullets {
+  display: none !important;
+}
+
 #page-heading {
   @include clearfix();
   border-bottom: 1px solid #D2D3D6;
