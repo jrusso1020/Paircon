@@ -220,6 +220,7 @@ class ConferenceUtils
           output[detail_id][:room] = event[:room]
           output[detail_id][:start_date] = details[:start_date]
           output[detail_id][:end_date] = details[:end_date]
+          output[detail_id][:event_id] = details[:id]
         end
       end
     end
