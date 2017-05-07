@@ -75,17 +75,20 @@ function completeIntroJS(id) {
         introJs().exit();
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
+        $("#home").click();
     });
 
     $('.introjs-skipbutton').click(function () {
+        introJs().exit();
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
-        introJs().exit();
+        $("#home").click();
     });
 
     $('.introjs-overlay').click(function () {
+        introJs().exit();
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
-        introJs().exit();
+        $("#home").click();
     });
 }
