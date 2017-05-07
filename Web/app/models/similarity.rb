@@ -2,24 +2,22 @@
 #
 # Table name: similarities
 #
-# *id*::               <tt>integer, not null, primary key</tt>
-# *paper_id1*::        <tt>string(30)</tt>
-# *paper_id2*::        <tt>string(30)</tt>
-# *similarity_score*:: <tt>decimal(, )</tt>
-# *hash*::             <tt>string</tt>
-# *created_at*::       <tt>datetime, not null</tt>
-# *updated_at*::       <tt>datetime, not null</tt>
+#  id                  :string(30)       not null, primary key
+#  user_paper_id       :string(30)
+#  conference_paper_id :string(30)
+#  similarity_score    :decimal(, )
+#  md5hash             :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #
-#  index_similarities_on_paper_id1_and_paper_id2  (paper_id1,paper_id2) UNIQUE
-#--
-# == Schema Information End
-#++
+#  index_similarities_on_user_paper_id_and_conference_paper_id  (user_paper_id,conference_paper_id) UNIQUE
+#
 
 class Similarity < ApplicationRecord
-  belongs_to :user_paper
-  belongs_to :conference_paper, foreign_key: 'conference_id'
+  belongs_to :user_paper, foreign_key: :user_paper_id, primary_key: :paper_id
+  belongs_to :conference_paper, foreign_key: :conference_paper_id, primary_key: :paper_id
 
   before_create :init_id
 

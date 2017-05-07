@@ -1,4 +1,3 @@
-NOT_FOUND_404 = "#{Rails.root}/public/404"
 GOOGLE_OAUTH2_SCOPE = 'email'
 RESERVED_SUBDOMAIN = 'app'
 DATETIMEFORMAT = '%B %d %Y, %I:%M %p'

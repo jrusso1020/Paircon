@@ -2,20 +2,18 @@
 #
 # Table name: identities
 #
-# *id*::         <tt>integer, not null, primary key</tt>
-# *user_id*::    <tt>string(30)</tt>
-# *provider*::   <tt>string</tt>
-# *uid*::        <tt>string</tt>
-# *auth_data*::  <tt>text</tt>
-# *created_at*:: <tt>datetime, not null</tt>
-# *updated_at*:: <tt>datetime, not null</tt>
+#  id         :string(30)       not null, primary key
+#  user_id    :string(30)
+#  provider   :string
+#  uid        :string
+#  auth_data  :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #
 #  index_identities_on_user_id  (user_id)
-#--
-# == Schema Information End
-#++
+#
 
 class Identity < ActiveRecord::Base
   belongs_to :user

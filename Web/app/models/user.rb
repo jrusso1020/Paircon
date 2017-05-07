@@ -2,51 +2,52 @@
 #
 # Table name: users
 #
-# *id*::                      <tt>string(30), not null, primary key</tt>
-# *email*::                   <tt>string, default(""), not null</tt>
-# *encrypted_password*::      <tt>string, default(""), not null</tt>
-# *reset_password_token*::    <tt>string</tt>
-# *reset_password_sent_at*::  <tt>datetime</tt>
-# *remember_created_at*::     <tt>datetime</tt>
-# *sign_in_count*::           <tt>integer, default(0), not null</tt>
-# *current_sign_in_at*::      <tt>datetime</tt>
-# *last_sign_in_at*::         <tt>datetime</tt>
-# *current_sign_in_ip*::      <tt>string</tt>
-# *last_sign_in_ip*::         <tt>string</tt>
-# *confirmation_token*::      <tt>string</tt>
-# *confirmed_at*::            <tt>datetime</tt>
-# *confirmation_sent_at*::    <tt>datetime</tt>
-# *unconfirmed_email*::       <tt>string</tt>
-# *created_at*::              <tt>datetime, not null</tt>
-# *updated_at*::              <tt>datetime, not null</tt>
-# *first_name*::              <tt>string(20)</tt>
-# *last_name*::               <tt>string(20)</tt>
-# *default_lang*::            <tt>string, default("en")</tt>
-# *is_deleted*::              <tt>boolean, default(FALSE)</tt>
-# *is_active*::               <tt>boolean, default(FALSE)</tt>
-# *is_app_init*::             <tt>boolean, default(FALSE)</tt>
-# *time_zone_name*::          <tt>string</tt>
-# *last_messages_read*::      <tt>datetime</tt>
-# *last_notifications_read*:: <tt>datetime</tt>
-# *logo_file_name*::          <tt>string</tt>
-# *logo_content_type*::       <tt>string</tt>
-# *logo_file_size*::          <tt>integer</tt>
-# *logo_updated_at*::         <tt>datetime</tt>
-# *phone_number*::            <tt>string(30)</tt>
-# *gender*::                  <tt>integer, default(1)</tt>
-# *url*::                     <tt>text</tt>
-# *user_type*::               <tt>integer, default("attendee")</tt>
-# *user_industry*::           <tt>string, default("")</tt>
-# *user_grad_year*::          <tt>integer</tt>
-# *user_organization*::       <tt>string, default("")</tt>
-# *invitation_token*::        <tt>string</tt>
-# *invitation_created_at*::   <tt>datetime</tt>
-# *invitation_sent_at*::      <tt>datetime</tt>
-# *invitation_accepted_at*::  <tt>datetime</tt>
-# *invitation_limit*::        <tt>integer</tt>
-# *invited_by_type*::         <tt>string</tt>
-# *invited_by_id*::           <tt>integer</tt>
-# *invitations_count*::       <tt>integer, default(0)</tt>
+#  id                      :string(30)       not null, primary key
+#  email                   :string           default(""), not null
+#  encrypted_password      :string           default(""), not null
+#  reset_password_token    :string
+#  reset_password_sent_at  :datetime
+#  remember_created_at     :datetime
+#  sign_in_count           :integer          default(0), not null
+#  current_sign_in_at      :datetime
+#  last_sign_in_at         :datetime
+#  current_sign_in_ip      :string
+#  last_sign_in_ip         :string
+#  confirmation_token      :string
+#  confirmed_at            :datetime
+#  confirmation_sent_at    :datetime
+#  unconfirmed_email       :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  first_name              :string(20)
+#  last_name               :string(20)
+#  default_lang            :string           default("en")
+#  is_deleted              :boolean          default(FALSE)
+#  is_active               :boolean          default(FALSE)
+#  is_app_init             :boolean          default(FALSE)
+#  time_zone_name          :string
+#  last_messages_read      :datetime
+#  last_notifications_read :datetime
+#  logo_file_name          :string
+#  logo_content_type       :string
+#  logo_file_size          :integer
+#  logo_updated_at         :datetime
+#  phone_number            :string(30)
+#  gender                  :integer          default(1)
+#  url                     :text
+#  user_type               :integer          default("attendee")
+#  industry                :string           default("N/A")
+#  grad_year               :integer
+#  organization            :string           default("N/A")
+#  invitation_token        :string
+#  invitation_created_at   :datetime
+#  invitation_sent_at      :datetime
+#  invitation_accepted_at  :datetime
+#  invitation_limit        :integer
+#  invited_by_type         :string
+#  invited_by_id           :integer
+#  invitations_count       :integer          default(0)
+#  is_scraped              :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -56,9 +57,7 @@
 #  index_users_on_invitations_count     (invitations_count)
 #  index_users_on_invited_by_id         (invited_by_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#--
-# == Schema Information End
-#++
+#
 
 class User < ApplicationRecord
   include PublicActivity::Common

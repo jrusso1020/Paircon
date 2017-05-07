@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render file: NOT_FOUND_404, formats: [:html], layout: false, status: 404
+    render file: '/errors/internal_server_error', formats: [:html], layout: false, status: 404
   end
 
   def layout_by_resource

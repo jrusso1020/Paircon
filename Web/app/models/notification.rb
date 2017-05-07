@@ -2,26 +2,24 @@
 #
 # Table name: activities
 #
-# *id*::             <tt>integer, not null, primary key</tt>
-# *trackable_type*:: <tt>string</tt>
-# *trackable_id*::   <tt>string(30)</tt>
-# *owner_type*::     <tt>string</tt>
-# *owner_id*::       <tt>string(30)</tt>
-# *key*::            <tt>string</tt>
-# *parameters*::     <tt>text</tt>
-# *recipient_type*:: <tt>string</tt>
-# *recipient_id*::   <tt>string(30)</tt>
-# *created_at*::     <tt>datetime</tt>
-# *updated_at*::     <tt>datetime</tt>
+#  id             :string(30)       not null, primary key
+#  trackable_type :string
+#  trackable_id   :string(30)
+#  owner_type     :string
+#  owner_id       :string(30)
+#  key            :string
+#  parameters     :text
+#  recipient_type :string
+#  recipient_id   :string(30)
+#  created_at     :datetime
+#  updated_at     :datetime
 #
 # Indexes
 #
 #  index_activities_on_owner_id_and_owner_type          (owner_id,owner_type)
 #  index_activities_on_recipient_id_and_recipient_type  (recipient_id,recipient_type)
 #  index_activities_on_trackable_id_and_trackable_type  (trackable_id,trackable_type)
-#--
-# == Schema Information End
-#++
+#
 
 class Notification < PublicActivity::Activity
   belongs_to :creator, :class_name => 'User', :foreign_key => 'owner_id'

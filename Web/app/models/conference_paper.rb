@@ -2,24 +2,22 @@
 #
 # Table name: conference_papers
 #
-# *id*::            <tt>integer, not null, primary key</tt>
-# *paper_id*::      <tt>string(30)</tt>
-# *conference_id*:: <tt>string(30)</tt>
-# *created_at*::    <tt>datetime, not null</tt>
-# *updated_at*::    <tt>datetime, not null</tt>
+#  id            :integer          not null, primary key
+#  paper_id      :string(30)
+#  conference_id :string(30)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
 #
 # Indexes
 #
 #  index_conference_papers_on_paper_id_and_conference_id  (paper_id,conference_id) UNIQUE
-#--
-# == Schema Information End
-#++
+#
 
 class ConferencePaper < ApplicationRecord
   belongs_to :conference
   belongs_to :paper
 
-  has_many :similarities, class_name: 'Similarity', foreign_key: :conference_paper_id, primary_key: :conference_id
+  has_many :similarities, class_name: 'Similarity', foreign_key: :conference_paper_id, primary_key: :conference_id, dependent: :destroy
 
   before_create :init_id
 
