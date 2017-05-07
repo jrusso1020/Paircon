@@ -6,4 +6,6 @@
 
 <%= render 'conferences/footer', scheduler: true %>
 
-<%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 18, 18, 'papers', 'about_panel')" %>
+<% if @is_organizer %>
+  <%= javascript_tag "nextIntroJS('" + @conference.id.to_s + "', 18, 18, 'papers', 'about_panel')" %>
+<% end %>
