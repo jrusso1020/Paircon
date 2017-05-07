@@ -8,6 +8,5 @@
 
 
 <% if @is_organizer %>
-    <script>console.log("good")</script>
     <%= javascript_tag "initializeIntroJS('" + @conference.id.to_s + "')" %>
 <% end %>

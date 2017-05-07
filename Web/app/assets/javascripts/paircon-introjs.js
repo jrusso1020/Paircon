@@ -42,12 +42,12 @@ function nextIntroJS(id, prevStep, nextStep, prevPage, nextPage) {
             Cookies.set(id + '_introjs', false);     
         } 
         if (Cookies.get(id + '_introjs_prev_step') == "false") {
-            introJs().setOption('doneLabel', 'Next page').setOption('keyboardNavigation', false).goToStepNumber(nextStep).start().oncomplete(function() {
+            introJs().setOption('keyboardNavigation', false).goToStepNumber(nextStep).start().oncomplete(function() {
                 $("#" + nextPage).click();
             });  
         } else if (Cookies.get(id + '_introjs_prev_step') == "true") {
             Cookies.set(id + '_introjs_prev_step', false);
-            introJs().setOption('doneLabel', 'Next page').setOption('keyboardNavigation', false).goToStepNumber(prevStep).start().oncomplete(function() {
+            introJs().setOption('keyboardNavigation', false).goToStepNumber(prevStep).start().oncomplete(function() {
                 $("#" + nextPage).click();
             });  
         }
@@ -77,6 +77,11 @@ function nextIntroJS(id, prevStep, nextStep, prevPage, nextPage) {
 }
 
 function completeIntroJS(id) {  
+    $('.introjs-donebutton').click(function () {  
+        introJs().exit();
+        Cookies.set("introjs_checked", false);
+        Cookies.set(id + '_introjs', false);
+    });
     $('.introjs-skipbutton').click(function () {
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
