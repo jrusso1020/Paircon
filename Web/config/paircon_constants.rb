@@ -1,6 +1,9 @@
 GOOGLE_OAUTH2_SCOPE = 'email'
 RESERVED_SUBDOMAIN = 'app'
-DATEFORMAT = '%B %d %Y, %I:%M %p'
+DATETIMEFORMAT = '%B %d %Y, %I:%M %p'
+DATEFORMAT = '%B %d'
+TIMEFORMAT = '%I:%M %p'
+WEEKDAYFORMAT = '%A'
 
 REFERERS = {
     app_init: '1',
