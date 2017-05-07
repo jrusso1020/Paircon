@@ -2,7 +2,6 @@
 
 <div id="page-heading">
   <%= page_title 'Personal Settings' %>
-  <hr/>
 </div>
 
 <div class="container">
@@ -83,10 +82,6 @@
         <tr>
           <td class="profile-title table-accountinfo">Graduation Year:</td>
           <td class="table-accountinfo"><%= @user.grad_year %></td>
-        </tr>
-        <tr>
-          <td class="profile-title table-accountinfo">Academic Profile:</td>
-          <td class="table-accountinfo"><%= @user.url.blank? ? 'N/A' : @user.url %></td>
         </tr>
         <tr>
           <td class="profile-title table-accountinfo">User Type:</td>

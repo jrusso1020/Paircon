@@ -34,7 +34,7 @@ require 'conferences/conference_utils'
 class Conference < ApplicationRecord
   include PublicActivity::Common
 
-  has_many :notification, foreign_key: 'trackable_id', class_name: 'Notification', dependent: :destroy
+  has_many :notification, foreign_key: :trackable_id, class_name: 'Notification', dependent: :destroy
 
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_resources, dependent: :destroy
@@ -174,7 +174,7 @@ class Conference < ApplicationRecord
   end
 
   def self.my_organizing_conferences user
-    Conference.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+    Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   def self.my_attending_conferences user
