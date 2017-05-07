@@ -2,16 +2,22 @@
 #
 # Table name: papers
 #
-# *id*::         <tt>string(30), not null, primary key</tt>
-# *title*::      <tt>string</tt>
-# *pdf_link*::   <tt>text</tt>
-# *md5hash*::    <tt>string</tt>
-# *path*::       <tt>text</tt>
-# *created_at*:: <tt>datetime, not null</tt>
-# *updated_at*:: <tt>datetime, not null</tt>
-#--
-# == Schema Information End
-#++
+#  id               :string(30)       not null, primary key
+#  title            :string
+#  md5hash          :string
+#  path             :text
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  pdf_file_name    :string
+#  pdf_content_type :string
+#  pdf_file_size    :integer
+#  pdf_updated_at   :datetime
+#  year             :date
+#  abstract         :text
+#  author           :text             default([]), is an Array
+#  affiliation      :text             default([]), is an Array
+#  email            :text             default([]), is an Array
+#
 
 require 'digest/md5'
 

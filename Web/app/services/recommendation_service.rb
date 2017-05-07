@@ -8,7 +8,7 @@ class RecommendationService
   def getRecommendationsForEachPaper
     conference_dir = @conference.get_pdf_text_path
     @user.papers.all.each do |user_paper|
-      if !(@conference.conference_papers.size == Similarity.where(user_paper_id: user_paper.id, conference_paper_id: @conference.conference_papers.pluck(:paper_id)).size)
+      unless @conference.conference_papers.size == Similarity.where(user_paper_id: user_paper.id, conference_paper_id: @conference.conference_papers.pluck(:paper_id)).size
         uri = URI("#{PairConConfig.recommendation_system_domain}/single")
         req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
         req.body = { user_file: user_paper.path, conference_dir: conference_dir }.to_json
@@ -18,10 +18,10 @@ class RecommendationService
 
         response = JSON.parse res.body
         Similarity.transaction do
-          response["papers_scores"].each do |conference_obj|
-            conference_paper = Paper.find_by(path: conference_obj["conference_paper"])
-            if Similarity.find_by(user_paper_id: user_paper.id, conference_paper_id: conference_paper.id, similarity_score: conference_obj["score"]).blank?
-              Similarity.create!(user_paper_id: user_paper.id, conference_paper_id: conference_paper.id, similarity_score: conference_obj["score"])
+          response['papers_scores'].each do |conference_obj|
+            conference_paper = Paper.find_by(path: conference_obj['conference_paper'])
+            if Similarity.find_by(user_paper_id: user_paper.id, conference_paper_id: conference_paper.id, similarity_score: conference_obj['score']).blank?
+              Similarity.create!(user_paper_id: user_paper.id, conference_paper_id: conference_paper.id, similarity_score: conference_obj['score'])
             end
           end
         end

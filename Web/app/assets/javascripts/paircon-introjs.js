@@ -1,17 +1,3 @@
-function initializeSwitchery() {
-    enableSwitchery();
-    $('#continue_button').click(function () {
-        var x = $("#introjs_checkbox").checked;
-        if (x) {
-            Cookies.set("introjs_checked", "true");
-        } else {
-            Cookies.set("introjs_checked", "false");
-        }
-        $('#form_submit').click();
-    });
-}
-
-
 function initializeIntroJS(id) {
     if (Cookies.get("introjs_checked") == "true") {
         if (typeof Cookies.get(id + '_introjs') === 'undefined') {
@@ -36,52 +22,52 @@ function startIntroJS(id) {
 }
 
 function nextIntroJS(id, prevStep, nextStep, prevPage, nextPage) {
+    $(document).ready(function() {
+        if (Cookies.get(id + '_introjs') == "true") {
+            if (nextPage == "home") {
+                Cookies.set("introjs_checked", false);
+                Cookies.set(id + '_introjs', false);
+            }
+            if (Cookies.get(id + '_introjs_prev_step') == "false") {
+                introJs().setOption('keyboardNavigation', false).goToStepNumber(nextStep).start().oncomplete(function () {
+                    $("#" + nextPage).click();
+                });
+            } else if (Cookies.get(id + '_introjs_prev_step') == "true") {
+                Cookies.set(id + '_introjs_prev_step', false);
+                introJs().setOption('keyboardNavigation', false).goToStepNumber(prevStep).start().oncomplete(function () {
+                    $("#" + nextPage).click();
+                });
+            }
 
-    if (Cookies.get(id + '_introjs') == "true") {
-        if (nextPage == "home") {
-            Cookies.set("introjs_checked", false);
-            Cookies.set(id + '_introjs', false);
-        }
-        if (Cookies.get(id + '_introjs_prev_step') == "false") {
-            introJs().setOption('keyboardNavigation', false).goToStepNumber(nextStep).start().oncomplete(function () {
-                $("#" + nextPage).click();
-            });
-        } else if (Cookies.get(id + '_introjs_prev_step') == "true") {
-            Cookies.set(id + '_introjs_prev_step', false);
-            introJs().setOption('keyboardNavigation', false).goToStepNumber(prevStep).start().oncomplete(function () {
-                $("#" + nextPage).click();
-            });
-        }
-
-    } else {
-        introJs().exit();
-    }
-
-    $('.introjs-prevbutton').click(function () {
-        Cookies.set(id + '_introjs_prev_step', true);
-        var xStr = document.querySelector(".introjs-helperNumberLayer");
-        var xInt = parseInt(xStr.innerText);
-        if (nextStep == xInt) {
+        } else {
             introJs().exit();
-            $("#" + prevPage).click();
         }
-    });
 
-    $('.introjs-nextbutton').click(function () {
+        $('.introjs-prevbutton').click(function () {
+            Cookies.set(id + '_introjs_prev_step', true);
+            var xStr = document.querySelector(".introjs-helperNumberLayer");
+            var xInt = parseInt(xStr.innerText);
+            if (nextStep == xInt) {
+                introJs().exit();
+                $("#" + prevPage).click();
+            }
+        });
+
+        $('.introjs-nextbutton').click(function () {
+            $('.introjs-nextbutton').removeClass('introjs-disabled');
+
+            var xStr = document.querySelector(".introjs-helperNumberLayer");
+            var xInt = parseInt(xStr.innerText);
+            if (xInt >= 14) {
+                introJs().exit();
+                $("#" + nextPage).click();
+            }
+        });
+
+        completeIntroJS(id);
+
         $('.introjs-nextbutton').removeClass('introjs-disabled');
-
-        var xStr = document.querySelector(".introjs-helperNumberLayer");
-        var xInt = parseInt(xStr.innerText);
-        if (xInt >= 14) {
-            introJs().exit();
-            $("#" + nextPage).click();
-        }
     });
-
-    completeIntroJS(id);
-
-    $('.introjs-nextbutton').removeClass('introjs-disabled');
-
 }
 
 function completeIntroJS(id) {
@@ -89,17 +75,20 @@ function completeIntroJS(id) {
         introJs().exit();
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
+        $("#home").click();
     });
 
     $('.introjs-skipbutton').click(function () {
+        introJs().exit();
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
-        introJs().exit();
+        $("#home").click();
     });
 
     $('.introjs-overlay').click(function () {
+        introJs().exit();
         Cookies.set("introjs_checked", false);
         Cookies.set(id + '_introjs', false);
-        introJs().exit();
+        $("#home").click();
     });
 }
