@@ -32,8 +32,9 @@ function getUserRecommendations(conference_id, user_id, view_to_render, count){
                 }
             },
             success: function (text, status, xhr) {
-                showNotificationMsg('Your recommendations have been successfully updated.');
-                // $.pjax.reload('[data-pjax-container]');
+                if(count==0){
+                    showNotificationMsg('Your recommendations have been successfully updated.');
+                }
             },
             error: function (xhr, status, text) {
                 if(count==0){
