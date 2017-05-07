@@ -80,6 +80,13 @@ class ConferencesController < ApplicationController
   # The show action renders the individual conference after retrieving the the id
   def show
     logged_in = user_signed_in?
+    if logged_in and !@is_organizer and !current_user.all_similarities_generated(@conference.id)
+      begin
+        ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
+      rescue Redis::CannotConnectError => e
+        RecommendationService.new(user_id, conference_id).getRecommendationsForEachPaper()
+      end
+    end
     if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
         format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
@@ -100,11 +107,6 @@ class ConferencesController < ApplicationController
 
     if attendee.blank?
       @conference.conference_attendees.create(user_id: current_user.id)
-      begin
-        ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
-      rescue Redis::CannotConnectError => e
-        RecommendationService.new(current_user.id, @conference.id).getRecommendationsForEachPaper()
-      end
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
       attendee.destroy_all

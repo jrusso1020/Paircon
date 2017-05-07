@@ -6,33 +6,39 @@ function initializeHeader() {
 
 var current_tab;
 
-function getUserRecommendations(conference_id, user_id, view_to_render) {
-    $.ajax({
-        type: 'GET',
-        url: '/conferences/' + conference_id + '/user_recommendations',
-        data: {
-            'conference_id': conference_id,
-            'user_id': user_id,
-            'view_to_render': view_to_render
-        },
-        beforeSend: function () {
-            if (view_to_render == 'true') {
-                $("#main-container").empty();
+function getUserRecommendations(conference_id, user_id, view_to_render){
+    return $.ajax({
+            type: 'GET',
+            url: '/conferences/' + conference_id + '/user_recommendations',
+            data: {
+                'conference_id': conference_id,
+                'user_id': user_id,
+                'view_to_render': view_to_render
+            },
+            beforeSend: function () {
+                if (view_to_render=='true'){
+                    $("#main-container").empty();
+                }
+                else{
+                    $("#recommendation-carousel").empty();
+                }
             }
-            else {
-                $("#recommendation-carousel").empty();
-            }
-        }
-    });
+        });
 }
 
-function requestUserRecommendations(conference_id, user_id, view_to_render) {
-    getUserRecommendations(conference_id, user_id, view_to_render);
+function requestUserRecommendations(conference_id, user_id, view_to_render){
+    var xhr = getUserRecommendations(conference_id, user_id, view_to_render);
 
-    setInterval(function () {
-        getUserRecommendations(conference_id, user_id, view_to_render);
+    var intervalHandle = setInterval(function() {
+        xhr = getUserRecommendations(conference_id, user_id, view_to_render);
     }, 20 * 1000); //perform every 20 seconds
 
+    $( window ).unload(function() {
+        clearInterval(intervalHandle);
+        if(xhr && xhr.readyState != 4){
+            xhr.abort();
+        }
+    });
 }
 
 function requestTabPane(id, tab_name) {
