@@ -80,7 +80,7 @@ class ConferencesController < ApplicationController
   # The show action renders the individual conference after retrieving the the id
   def show
     logged_in = user_signed_in?
-    if logged_in and !@is_organizer and !current_user.all_similarities_generated(@conference.id)
+    if logged_in and !current_user.all_similarities_generated(@conference.id)
       begin
         ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
       rescue Redis::CannotConnectError => e
