@@ -6,6 +6,8 @@
 // = require i18n
 // = require i18n/translations
 
+//= require dataTables/jquery.dataTables
+
 // = require home
 // = require user
 // = require common
