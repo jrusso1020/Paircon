@@ -19,6 +19,18 @@ function refreshProfileUrl(user_id) {
         tooltip.remove();
     });
 
+    selector.mousemove(function (event) {
+        // Mouse Move:
+        tooltip.get().css({
+            'top': event.clientY + 12,
+            'left': event.clientX - 350
+        });
+    });
+
+    selector.mouseout(function () {
+        tooltip.remove();
+    });
+
     selector.mouseover(function () {
         tooltip.open();
     });
@@ -40,7 +52,7 @@ function refreshProfileUrl(user_id) {
 /***************************************/
 //------------APPROVE ORGANIZER--------//
 /***************************************/
-function initializeAdmin(length ) {
+function initializeAdmin(length) {
     var enable = length > 0;
 
     $.fn.dataTable.moment('MMMM D YYYY, h:mm a');
@@ -535,3 +547,4 @@ function initLoginBoxValidation() {
         }
     });
 }
+

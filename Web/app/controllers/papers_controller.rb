@@ -3,6 +3,7 @@ require 'papers/paper_utils'
 class PapersController < ApplicationController
   before_action :authenticate_user!, except: [:validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :find_paper, except: [:index, :new, :create]
 
   def new
     @title = 'Add Paper / Poster'
@@ -11,32 +12,33 @@ class PapersController < ApplicationController
   end
 
   def create
-    if Paper::PAPER_MIME_TYPES.include?(params[:type])
-      conference = Conference.find(params[:conference_id])
-      paper_pdf_path = nil
-      unless params[:filename].blank?
-        pdf_folder = conference.get_pdf_folder_path
-        FileUtils.mkdir_p pdf_folder
-        new_file = pdf_folder + '/' + params[:filename]
+    parameters = JSON(params[:json], symbolize_names: true)
 
-        File.open(new_file, 'wb') do |file|
-          file.binmode
-          file.puts(request.body.read)
-        end
-        paper_pdf_path = new_file
+    if Paper::PAPER_MIME_TYPES.include?(params[:fileData].content_type)
+      conference = Conference.find(parameters[:conference_id])
+      pdf_folder = conference.get_pdf_folder_path
+      FileUtils.mkdir_p pdf_folder
+      new_file = pdf_folder + '/' + params[:fileData].original_filename
+
+      File.open(new_file, 'wb') do |file|
+        file.binmode
+        file.puts(params[:fileData].read)
       end
-      paper_params = paper_params()
-      paper_params[:author] = paper_params[:author].split(',')
-      paper_params[:affiliation] = paper_params[:affiliation].split(',')
-      paper_params[:email] = paper_params[:email].split(',')
 
-      if PaperUtils.create_paper(paper_params, params[:conference_id], paper_pdf_path).nil?
-        render status: :internal_server_error, json: {message: 'Error creating new paper!'}.to_json
-      elsif
-      render status: :ok, json: {message: 'Paper was successfully added to your Conference.'}.to_json
+      paper_pdf_path = new_file
+      paper_params = paper_params(ActionController::Parameters.new(paper: parameters[:paper]))
+      paper_params[:author] = paper_params[:author].split(';')
+      paper_params[:affiliation] = paper_params[:affiliation].split(';')
+      paper_params[:email] = paper_params[:email].split(';')
+
+      Rails.logger.debug(paper_params)
+
+      if PaperUtils.create_paper(paper_params, conference.id, paper_pdf_path).nil?
+        render json: {status: :internal_server_error, message: 'Error creating new paper!'}
+      elsif render json: {status: :ok, message: 'Paper was successfully added to your Conference.'}
       end
     else
-      render status: :internal_server_error, json: {message: 'Please add a PDF of the Paper you are trying to upload!'}.to_json
+      render json: {status: :internal_server_error, message: 'Please add a PDF of the Paper you are trying to upload!'}
     end
   end
 
@@ -45,9 +47,8 @@ class PapersController < ApplicationController
   end
 
   def destroy
-    paper = Paper.find(params[:id])
     Paper.transaction do
-      if paper.destroy
+      if @paper.destroy
         flash[:notice] = 'Paper has been successfully deleted.'
       else
         flash[:error] = 'Unable to delete Paper due to some error. Please try again later ...'
@@ -57,7 +58,6 @@ class PapersController < ApplicationController
   end
 
   def update
-    paper = Paper.find(params[:id])
     paper_params = paper_params()
     unless paper_params[:author].nil?
       paper_params[:author] = paper_params[:author].split(";")
@@ -68,10 +68,10 @@ class PapersController < ApplicationController
     unless paper_params[:email].nil?
       paper_params[:email] = paper_params[:email].split(";")
     end
-    if paper.update_attributes(paper_params)
-      render json: {status: :success, text: paper.title}
+    if @paper.update_attributes(paper_params)
+      render json: {status: :success, text: @paper.title}
     else
-      render json: {status: :error, text: paper.title}
+      render json: {status: :error, text: @paper.title}
     end
   end
 
@@ -81,9 +81,12 @@ class PapersController < ApplicationController
     @user = current_user
   end
 
-  def paper_params
-    params.require(:paper).permit(:pdf, :title, :abstract, :year, :author, :affiliation, :email)
+  def paper_params(parameters=params)
+    parameters.require(:paper).permit(:pdf, :title, :abstract, :year, :author, :affiliation, :email)
   end
 
+  def find_paper
+    @paper = Paper.find(params[:id])
+  end
 
 end

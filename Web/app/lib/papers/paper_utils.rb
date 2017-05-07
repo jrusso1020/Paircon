@@ -1,12 +1,13 @@
-require "scrapper/pdf_scrapper"
+require 'scrapper/pdf_scrapper'
 
 class PaperUtils
   def self.extractTextFromPdf(paper, conference_id)
     pdf_path = paper.pdf.path
+    conference = Conference.find(conference_id)
     unless pdf_path.nil?
       scrapper = PDFScrapper.new('dummy', PDFScrapper::PageType[:personal])
-      txt_file = Rails.root.join('public', 'conference', conference_id, 'txt', File.basename(paper.pdf_file_name, File.extname(paper.pdf_file_name)) + ".txt")
-      txt_folder = Rails.root.join('public', 'conference', conference_id, 'txt')
+      txt_folder = conference.get_pdf_text_path
+      txt_file = Rails.root.join(txt_folder, File.basename(paper.pdf_file_name, File.extname(paper.pdf_file_name)) + '.txt')
       FileUtils::mkdir_p txt_folder
       scrapper.convertSinglePdfToText(pdf_path, txt_folder)
       paper.update(path: txt_file)

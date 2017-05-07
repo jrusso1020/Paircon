@@ -58,7 +58,6 @@ function initializeApplication() {
         $('#error_callout').fadeTo('fast', 0);
         bind_notification_listing();
         initializePanels();
-
         try {
             initLoginBoxValidation();
         } catch (err) {
@@ -390,24 +389,20 @@ function loadApplicationLayout() {
         $('.avatar_label').initial();
     });
 
-    enableSwitchery();
     init_sidebar();
 }
 
 function enableSwitchery() {
     // Switchery
-    $(document).ready(function () {
-        if ($(".js-switch")[0]) {
-            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-            elems.forEach(function (html) {
-                var switchery = new Switchery(html, {
-                    color: '#0AC0F3',
-                    size: 'small'
-                });
+    if ($(".js-switch")[0]) {
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        elems.forEach(function (html) {
+            var switchery = new Switchery(html, {
+                color: '#2C314A',
+                size: 'small'
             });
-        }
-    });
-    // /Switchery
+        });
+    }
 }
 
 function initializePanels() {

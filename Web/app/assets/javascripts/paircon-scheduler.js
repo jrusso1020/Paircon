@@ -59,7 +59,6 @@ function getCachedDate(conference_id, start_date_str, end_date_str) {
     }
 }
 
-
 function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, conference_id) {
 
     $(function () { // document ready
@@ -156,7 +155,7 @@ function initializeAddScheduleResource(start_date, end_date) {
     $('.datetime').datetimepicker({
         minDate: moment(new Date(start_date)),
         maxDate: moment(new Date(end_date)),
-        format: 'DD MMM YYYY'
+        format: 'MMMM D YYYY'
     }).change(function (new_date) {
         $('.time').datetimepicker().date(new_date);
     });
@@ -217,7 +216,7 @@ function initializeAddScheduleEvent(start_date, end_date) {
         minDate: start_date,
         maxDate: end_date,
         stepping: 15,
-        format: 'DD MMM YYYY h:mm A'
+        format: 'MMMM DD YYYY, h:mm A'
     };
 
     $('.datetime').datetimepicker(options);
@@ -288,7 +287,7 @@ function initializeSelectize() {
 function initializeScheduleUserEvents() {
     $('#user_scheduler').fullCalendar({
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
-        contentHeight: 300,
+        contentHeight: 385,
         selectable: false,
         selectHelper: false,
         editable: false,
@@ -302,9 +301,9 @@ function initializeScheduleUserEvents() {
         events: '/schedules/get_events_user',
         header: {
             left: 'title',
-            right: 'monthView,weekView,dayView,listWeekView prev,next'
+            right: 'prev,next'
         },
-        defaultView: 'month',
+        defaultView: 'listWeekView',
         views: {
             weekView: {
                 type: 'agendaWeek',

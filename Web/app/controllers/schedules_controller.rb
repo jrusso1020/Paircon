@@ -209,37 +209,37 @@ class SchedulesController < ApplicationController
   # def delete_event
   #   render layout: false
   # end
-  #
-  # def destroy_resource
-  #   ConferenceResource.transaction do
-  #     ConferenceResource.where(parent_id: @resource.id).destroy_all
-  #
-  #     name = @resource.title
-  #
-  #     if @resource.destroy
-  #       flash[:notice] = "Successfully deleted '" + name + "'."
-  #     else
-  #       flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
-  #     end
-  #   end
-  #
-  #   redirect_back(fallback_location: root_path)
-  # end
-  #
-  #
-  # def destroy_event
-  #   ConferenceEvent.transaction do
-  #     name = @event.title
-  #
-  #     if @event.destroy
-  #       flash[:notice] = "Successfully deleted '" + name + "'."
-  #     else
-  #       flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
-  #     end
-  #   end
-  #
-  #   redirect_back(fallback_location: root_path)
-  # end
+
+  def destroy_resource
+    ConferenceResource.transaction do
+      ConferenceResource.where(parent_id: @resource.id).destroy_all
+
+      name = @resource.title
+
+      if @resource.destroy
+        flash[:notice] = "Successfully deleted '" + name + "'."
+      else
+        flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
+      end
+    end
+
+    redirect_back(fallback_location: root_path)
+  end
+
+
+  def destroy_event
+    ConferenceEvent.transaction do
+      name = @event.title
+
+      if @event.destroy
+        flash[:notice] = "Successfully deleted '" + name + "'."
+      else
+        flash[:error] = "Unable to delete '" + name + "' due to some error. Please try again later ..."
+      end
+    end
+
+    redirect_back(fallback_location: root_path)
+  end
 
   def get_resources
     @conference = Conference.find(params[:id])
@@ -282,7 +282,7 @@ class SchedulesController < ApplicationController
 
   def get_events_user
     events = []
-    Conference.my_attending_conferences_active(current_user).each do |conference|
+    Conference.my_attending_conferences(current_user).active.each do |conference|
       events = conference.conference_events.order(:title).map { |obj| {id: obj.id, resourceId: obj.conference_resource_id, title: obj.title, start: obj.start_date.to_time.iso8601, end: obj.end_date.to_time.iso8601, color: obj.color} }
     end
 

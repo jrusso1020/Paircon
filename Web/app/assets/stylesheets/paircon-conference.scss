@@ -37,7 +37,7 @@ Left Bar
 }
 
 .tabs-left > li > span {
-  border: 1px solid #f7f7f7;
+  border: 1px solid transparent;
 }
 
 .tabs-left > li.active > span {
@@ -281,10 +281,28 @@ Conference About
   width: 100%;
   display: block;
 }
+
 #map-img {
   height: 165px;
   overflow: hidden;
 }
+
+/***********************************
+***********************************
+Others
+************************************
+***********************************/
+
+.js-switch-box {
+  display:inline;
+  float:left;  
+}
+
+.js-switch-text {
+  padding-left: 3px;
+  display:inline;
+}
+
 
 /***********************************
 ************************************
@@ -309,4 +327,16 @@ Dashboard
 .refresh_url_dash_button{
   display: flex;
   margin: auto !important;
+}
+.archived{
+  opacity: 0.7;
+}
+
+/***********************************
+************************************
+Introjs
+************************************
+***********************************/
+.introHelper {
+  text-align: center;
 }

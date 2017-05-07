@@ -8,12 +8,13 @@ class ConferencesController < ApplicationController
   before_action :set_view, only: [:posts, :recommendations, :papers]
 
   def index
+
     if params[:view] == 'organizer'
-      @conferences = Conference.my_organizing_conferences_published(current_user)
-      @title = 'Organizing Conferences'
+      @conferences = Conference.my_organizing_conferences(current_user)
+      @title = 'Conferences Organized'
     else
-      @conferences = Conference.my_attending_conferences_published(current_user)
-      @title = 'Attending Conferences'
+      @conferences = Conference.my_attending_conferences(current_user)
+      @title = 'Conferences Attended'
     end
   end
 
@@ -79,6 +80,13 @@ class ConferencesController < ApplicationController
   # The show action renders the individual conference after retrieving the the id
   def show
     logged_in = user_signed_in?
+    if logged_in and !@is_organizer and !current_user.all_similarities_generated(@conference.id)
+      begin
+        ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
+      rescue Redis::CannotConnectError => e
+        RecommendationService.new(current_user.id, @conference.id).getRecommendationsForEachPaper()
+      end
+    end
     if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
         format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
@@ -99,11 +107,6 @@ class ConferencesController < ApplicationController
 
     if attendee.blank?
       @conference.conference_attendees.create(user_id: current_user.id)
-      begin
-        ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
-      rescue Redis::CannotConnectError => e
-        RecommendationService.new(user_id, conference_id).getRecommendationsForEachPaper()
-      end
       flash[:notice] = "You have successfully joined '#{@conference.get_name}'."
     else
       attendee.destroy_all
@@ -114,7 +117,7 @@ class ConferencesController < ApplicationController
   end
 
   def user_recommendations
-    user = User.find_by(id: params[:user_id])
+    user = current_user
     @view_to_render = (params[:view_to_render] == 'true')
 
     similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)

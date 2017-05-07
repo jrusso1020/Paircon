@@ -35,8 +35,9 @@
 //= require scheduler
 //= require paircon-common
 //= require paircon-user
+//= require paircon-home
 //= require paircon-post
 //= require paircon-conference
+//= require paircon-introjs
 //= require paircon-scheduler
 //= require paircon-paper
-
