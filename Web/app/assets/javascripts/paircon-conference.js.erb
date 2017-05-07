@@ -6,7 +6,7 @@ function initializeHeader() {
     $('#followButton').click(function () {
         $('#interested').click();
     });
-    
+
     $('#aboutButton').click(function () {
         $('#about_panel').click();
     });
@@ -14,48 +14,48 @@ function initializeHeader() {
 
 var current_tab;
 var path = null;
-function getUserRecommendations(conference_id, user_id, view_to_render, count){
+function getUserRecommendations(conference_id, user_id, view_to_render, count) {
     $.ajax({
-            type: 'GET',
-            url: '/conferences/' + conference_id + '/user_recommendations',
-            data: {
-                'conference_id': conference_id,
-                'user_id': user_id,
-                'view_to_render': view_to_render
-            },
-            complete: setTimeout(function() {
-                if(path!=null && (window.location.pathname==path)){
-                    getUserRecommendations(conference_id, user_id, view_to_render, count+1);
-                }
-                else{
-                    path=null;
-                }
-            }, 20*1000),
-            beforeSend: function () {
-                if (view_to_render=='true'){
-                    $("#main-container").empty();
-                }
-                else{
-                    $("#recommendation-carousel").empty();
-                }
-            },
-            success: function (text, status, xhr) {
-                if(count==0){
-                    showNotificationMsg('Your recommendations have been successfully updated.');
-                }
-            },
-            error: function (xhr, status, text) {
-                if(count==0){
-                    showErrorMsg(xhr.responseText);
-                }
+        type: 'GET',
+        url: '/conferences/' + conference_id + '/user_recommendations',
+        data: {
+            'conference_id': conference_id,
+            'user_id': user_id,
+            'view_to_render': view_to_render
+        },
+        complete: setTimeout(function () {
+            if (path != null && (window.location.pathname == path)) {
+                getUserRecommendations(conference_id, user_id, view_to_render, count + 1);
             }
-        });
+            else {
+                path = null;
+            }
+        }, 20 * 1000),
+        beforeSend: function () {
+            if (view_to_render == 'true') {
+                $("#main-container").empty();
+            }
+            else {
+                $("#recommendation-carousel").empty();
+            }
+        },
+        success: function (text, status, xhr) {
+            if (count == 0) {
+                showNotificationMsg('Your recommendations have been successfully updated.');
+            }
+        },
+        error: function (xhr, status, text) {
+            if (count == 0) {
+                showErrorMsg(xhr.responseText);
+            }
+        }
+    });
 }
 
 
-function requestUserRecommendations(conference_id, user_id, view_to_render){
+function requestUserRecommendations(conference_id, user_id, view_to_render) {
     getUserRecommendations(conference_id, user_id, view_to_render, 0);
-    path = window.location.pathname; 
+    path = window.location.pathname;
 }
 
 
@@ -362,6 +362,19 @@ function initCharts(count) {
     }
     catch (e) {
     }
+}
+
+function initializeConferenceNew() {
+    enableSwitchery();
+    $('#continue_button').click(function () {
+        var x = $("#introjs_checkbox").prop('checked');
+        if (x) {
+            Cookies.set("introjs_checked", "true");
+        } else {
+            Cookies.set("introjs_checked", "false");
+        }
+        $('#form_submit').click();
+    });
 }
 
 /****************************************************/

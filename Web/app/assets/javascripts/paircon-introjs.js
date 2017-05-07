@@ -1,17 +1,3 @@
-function initializeSwitchery() {
-    enableSwitchery();
-    $('#continue_button').click(function () {
-        var x = $("#introjs_checkbox").checked;
-        if (x) {
-            Cookies.set("introjs_checked", "true");
-        } else {
-            Cookies.set("introjs_checked", "false");
-        }
-        $('#form_submit').click();
-    });
-}
-
-
 function initializeIntroJS(id) {
     if (Cookies.get("introjs_checked") == "true") {
         if (typeof Cookies.get(id + '_introjs') === 'undefined') {
