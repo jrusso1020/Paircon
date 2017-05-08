@@ -2,18 +2,16 @@
 #
 # Table name: organizers
 #
-# *id*::         <tt>string(30), not null, primary key</tt>
-# *user_id*::    <tt>string</tt>
-# *approved*::   <tt>boolean, default(FALSE)</tt>
-# *created_at*:: <tt>datetime, not null</tt>
-# *updated_at*:: <tt>datetime, not null</tt>
+#  id         :string(30)       not null, primary key
+#  user_id    :string
+#  approved   :boolean          default(FALSE)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #
 #  index_organizers_on_user_id  (user_id) UNIQUE
-#--
-# == Schema Information End
-#++
+#
 
 class Organizer < ApplicationRecord
   belongs_to :user

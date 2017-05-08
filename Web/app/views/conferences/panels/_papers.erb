@@ -24,23 +24,26 @@
     <div class="clearfix"></div>
   </div>
   <div class="<%= 'x_content' if partial_view %>">
-    <table id="datatable-papers" class="table paircon-table table-condensed table-responsive dataTable">
-      <thead>
-      <tr>
-        <th width="10px;" class="no-sort"></th>
-        <th>Title</th>
-        <th width="60%">Abstract</th>
-        <th width="100px;">Year</th>
-        <% if @is_organizer %>
+    <% if @conference.papers.length == 0 %>
+        <%= render 'layouts/application/no_result', body: @conference.get_name + ' is yet to post post any papers ... Add some papers to make this view available to Attendees.' %>
+    <% else %>
+        <table id="datatable-papers" class="table paircon-table table-condensed table-responsive dataTable">
+          <thead>
+          <tr>
             <th width="10px;" class="no-sort"></th>
-        <% end %>
-      </tr>
-      </thead>
-      <tbody>
-      <%= render @conference.papers %>
-      </tbody>
-    </table>
-
+            <th>Title</th>
+            <th width="60%">Abstract</th>
+            <th width="100px;">Year</th>
+            <% if @is_organizer %>
+                <th width="10px;" class="no-sort"></th>
+            <% end %>
+          </tr>
+          </thead>
+          <tbody>
+          <%= render @conference.papers %>
+          </tbody>
+        </table>
+    <% end %>
 
   </div>
 </div>

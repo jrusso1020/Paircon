@@ -5,33 +5,35 @@
 </div>
 
 <div class="clearfix"></div>
-<table class="table paircon-table table-condensed table-responsive dataTable">
-  <thead>
-  <tr role="row">
-    <th>Name</th>
-    <th>Email</th>
-    <th>User Industry</th>
-    <th>User Organization</th>
-    <th>Request Date</th>
-    <th width="50px;" class="no-sort"></th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @pending_organizers.each do |organizer| %>
-      <tr>
-        <td><%= organizer.full_name %></td>
-        <td><%= organizer.email %></td>
-        <td><%= organizer.industry %></td>
-        <td><%= organizer.organization %></td>
-        <td><%= organizer.created_at.strftime(DATEFORMAT) %></td>
-        <td><a id='<%= organizer.id %>' class="organizer-approval pointer-cursor"><i class="fa fa-check"></i> Approve</a></td>
-      </tr>
-  <% end %>
-  </tbody>
-</table>
-
 <% if @pending_organizers.length == 0 %>
     <%= render 'layouts/application/no_result', body: 'You have no organizer who is pending approval.' %>
+<% else %>
+    <table class="table paircon-table table-condensed table-responsive dataTable">
+      <thead>
+      <tr role="row">
+        <th>Name</th>
+        <th>Email</th>
+        <th>User Industry</th>
+        <th>User Organization</th>
+        <th>Request Date</th>
+        <th width="50px;" class="no-sort"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @pending_organizers.each do |organizer| %>
+          <tr>
+            <td><%= organizer.full_name %></td>
+            <td><%= organizer.email %></td>
+            <td><%= organizer.industry %></td>
+            <td><%= organizer.organization %></td>
+            <td><%= organizer.created_at.strftime(DATEFORMAT) %></td>
+            <td>
+              <a id='<%= organizer.id %>' class="organizer-approval pointer-cursor"><i class="fa fa-check"></i> Approve</a>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
 <% end %>
 
 <%= javascript_tag "initializeAdmin(#{@pending_organizers.length})" %>

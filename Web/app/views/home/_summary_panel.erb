@@ -15,11 +15,11 @@
       <div class="tiles-heading">Recommended Read</div>
       <div class="tiles-body-alt">
         <i class="fa fa-file-text-o"></i>
-        <a href="<%= @summary[:recommended_similarity][:paper_object].nil? ? '#' : pdf.full_path(file: @summary[:recommended_similarity][:paper_object].pdf.url) %>" target="_blank" class="text-center tile-header" id="recommendedConferenceHeader"></a>
+        <a href="<%= @summary[:recommended_similarity][:paper_exists] ? pdf.full_path(file: @summary[:recommended_similarity][:object].conference_paper.paper.pdf.url) : '#' %>" target="_blank" class="text-center tile-header" id="recommendedConferenceHeader"></a>
         <small class="tile-body" id="recommendedConferenceBody"></small>
       </div>
       <div class="tiles-footer tile-footer">
-        <a href="<%= @summary[:recommended_similarity][:conference_object].nil? ? '#' : conference_path(@summary[:recommended_similarity][:conference_object]) %>" id="recommendedConferenceFooter"></a>
+        <a href="<%= @summary[:recommended_similarity][:paper_exists] ? conference_path(@summary[:recommended_similarity][:object].conference_paper.conference) : '#' %>" id="recommendedConferenceFooter"></a>
       </div>
     </div>
   </div>

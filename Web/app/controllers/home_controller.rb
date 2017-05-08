@@ -16,8 +16,8 @@ class HomeController < ApplicationController
     user_paper_ids = current_user.papers.pluck(:id)
 
     next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
-    recommended_similarity = Similarity.where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]
-    # To Be Completed
+    recommended_similarity = Similarity.includes(:conference_paper).where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]
+    no_paper = (recommended_similarity.blank? or recommended_similarity.conference_paper.paper.blank?)
 
     popular_conference_hash = ConferenceAttendee.where(conference_id: upcoming_conferences_ids).select(:conference_id).group(:conference_id).order('count_conference_id desc').limit(1).count(:conference_id)
     popular_conference = popular_conference_hash.blank? ? nil : Conference.find(popular_conference_hash.keys.first)
@@ -26,18 +26,17 @@ class HomeController < ApplicationController
     total_recommendations_count = total_recommendations.count()
     total_recommendations_good = total_recommendations.where(Similarity.arel_table[:similarity_score].gt(0.50)).count()
 
-
     @summary = {next_conference: {
         object: next_conference,
         name: next_conference.blank? ? 'N/A' : next_conference.get_name,
         date: next_conference.blank? ? 'N/A' : next_conference.start_date_str,
         location: (next_conference.blank? or next_conference.location.blank?) ? 'N/A' : next_conference.location,
     }, recommended_similarity: {
-        paper_object: recommended_similarity,
-        conference_object: recommended_similarity,
-        paper_name: 'N/A',
-        paper_author: 'N/A',
-        conference_name: 'N/A'
+        object: recommended_similarity,
+        paper_exists: !no_paper,
+        paper_name: no_paper ? 'N/A' : recommended_similarity.conference_paper.paper.title,
+        paper_author: (no_paper or recommended_similarity.conference_paper.paper.author.first.blank?) ? 'N/A' : recommended_similarity.conference_paper.paper.author.first,
+        conference_name: no_paper ? 'N/A' : recommended_similarity.conference_paper.conference.get_name,
     }, popular_conference: {
         object: popular_conference,
         name: popular_conference.blank? ? 'N/A' : popular_conference.get_name,

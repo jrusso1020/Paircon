@@ -147,4 +147,10 @@ The server will then return a JSON object like so
 ```
 {'user_paper': '/Users/james/Documents/kilian_text/6139-supervised-word-movers-distance.txt', 'conference_paper': '/Users/james/Documents/conference_text/10.1.1.86.3414.txt', 'score': 0.17010696572993009}
 ```
+## Documentation
+Documentation for the project in Rails is built using [Yard](http://yardoc.org/). To run the documentation server use:
+```
+yard server --reload
+```
 
+You can view your documentation and changes live at 127.0.0.1:8808
