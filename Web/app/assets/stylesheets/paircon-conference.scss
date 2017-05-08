@@ -108,6 +108,17 @@ Scheduler
   box-shadow: none;
 }
 
+.schedule_accordian {
+  border-radius: 20px !important;
+  background: transparent;
+  text-align: justify;
+}
+
+ul.schedule_list, ul.schedule_list li {
+  margin-left: 0;
+  padding-left: 0;
+}
+
 /***********************************
 ************************************
 Invite Token Theme
@@ -156,7 +167,7 @@ li.token-input-token-bootstrap {
   float: left;
   width: 100%;
   white-space: nowrap;
-  .token-input-delete-token-bootstrap{
+  .token-input-delete-token-bootstrap {
     color: $tag-font-color;
   }
 }
@@ -237,16 +248,17 @@ Recommendation
 ************************************
 ***********************************/
 
-.approve{
+.approve {
   color: darkgreen;
 }
-.deny{
+
+.deny {
   color: darkred;
 }
 
 .modal {
   text-align: center;
-  padding: 0!important;
+  padding: 0 !important;
 }
 
 .modal:before {
@@ -269,7 +281,7 @@ Conference About
 ************************************
 ***********************************/
 
-#conf-title{
+#conf-title {
   background-color: transparent;
   margin-bottom: 0px;
   padding-bottom: 0px;
@@ -277,7 +289,7 @@ Conference About
   padding-top: 0px;
 }
 
-#conf-map{
+#conf-map {
   width: 100%;
   display: block;
 }
@@ -294,15 +306,14 @@ Others
 ***********************************/
 
 .js-switch-box {
-  display:inline;
-  float:left;  
+  display: inline;
+  float: left;
 }
 
 .js-switch-text {
   padding-left: 3px;
-  display:inline;
+  display: inline;
 }
-
 
 /***********************************
 ************************************
@@ -320,15 +331,17 @@ Top-Navbar
 Dashboard
 ************************************
 ***********************************/
-#dash_heading_equal{
+#dash_heading_equal {
   display: flex;
   flex-wrap: wrap;
 }
-.refresh_url_dash_button{
+
+.refresh_url_dash_button {
   display: flex;
   margin: auto !important;
 }
-.archived{
+
+.archived {
   opacity: 0.7;
 }
 

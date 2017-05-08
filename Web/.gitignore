@@ -30,6 +30,7 @@ public/conference_papers
 public/users
 public/system/
 public/docs/
+public/conferences/
 public/conference/
 
 *subl*
@@ -71,4 +72,7 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
-/public/conferences/
+
+# Documentation
+.yardoc/
+doc/

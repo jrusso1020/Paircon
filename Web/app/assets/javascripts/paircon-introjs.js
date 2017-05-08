@@ -1,3 +1,5 @@
+"use strict";
+
 function initializeIntroJS(id) {
     if (Cookies.get("introjs_checked") == "true") {
         if (typeof Cookies.get(id + '_introjs') === 'undefined') {

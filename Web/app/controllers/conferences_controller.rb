@@ -1,14 +1,15 @@
-require 'papers/paper_utils'
-
+# Controller primarily responsible for handling Conferences
 class ConferencesController < ApplicationController
+  require 'papers/paper_utils'
+
   before_action :find_conference, except: [:index, :new, :create]
   before_action :authenticate_user!, except: [:home, :schedule, :posts, :about_panel, :show, :invite, :create_invites, :papers]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_is_organizer, only: [:home, :schedule, :papers, :posts, :about_panel, :show]
   before_action :set_view, only: [:posts, :recommendations, :papers]
 
+  # Action used to display information about Organized / Attended Conferences
   def index
-
     if params[:view] == 'organizer'
       @conferences = Conference.my_organizing_conferences(current_user)
       @title = 'Conferences Organized'
@@ -18,12 +19,12 @@ class ConferencesController < ApplicationController
     end
   end
 
-  # New action for creating conference
+  # Action used to show modal for conference creation
   def new
     render layout: false
   end
 
-  # Create action saves the conference into database
+  # Action for processing and adding conference to the system
   def create
     @conference = Conference.new()
     if @conference.save
@@ -43,7 +44,7 @@ class ConferencesController < ApplicationController
     end
   end
 
-  # Update action updates the conference with the new information
+  # Action to update information about a conference
   def update
     redirect_bool = !conference_params[:redirect].blank?
     conference_params.delete('redirect')
@@ -77,13 +78,14 @@ class ConferencesController < ApplicationController
     end
   end
 
-  # The show action renders the individual conference after retrieving the the id
+  # Action used to show information relative to a conference
   def show
     logged_in = user_signed_in?
     if logged_in and !current_user.all_similarities_generated(@conference.id)
       begin
         ConferencePaperRecommendationJob.perform_later(current_user.id, @conference.id)
       rescue Redis::CannotConnectError => e
+        Rails.logger.error(e.inspect)
         RecommendationService.new(current_user.id, @conference.id).getRecommendationsForEachPaper()
       end
     end
@@ -98,10 +100,12 @@ class ConferencesController < ApplicationController
     end
   end
 
+  # Action used to display modal for conference deletion
   def delete
     render layout: false
   end
 
+  # Action used to mark user attendance
   def attend_conference
     attendee = @conference.conference_attendees.where(user_id: current_user.id)
 
@@ -116,14 +120,15 @@ class ConferencesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  # Action used to return recommendationsbased on a user
   def user_recommendations
     user = current_user
     @view_to_render = (params[:view_to_render] == 'true')
 
-    similarities = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
+    similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
     @papers_with_scores = []
-    similarities.each do |item|
-      @papers_with_scores << {user_paper: Paper.find_by(id: item.user_paper_id), conference_paper: Paper.find_by(id: item.conference_paper_id), similarity_score: item.similarity_score}
+    similarities.each do |similarity|
+      @papers_with_scores << {user_paper: similarity.paper_user, conference_paper: similarity.paper_conference, similarity_score: similarity.similarity_score}
     end
 
     respond_to do |format|
@@ -131,6 +136,7 @@ class ConferencesController < ApplicationController
     end
   end
 
+  # Action used to show invitation modal
   def invite
     if user_signed_in?
       conferences_ids = Conference.joins(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:id)
@@ -143,6 +149,7 @@ class ConferencesController < ApplicationController
     render layout: false
   end
 
+  # Action used to process invite creation
   def create_invites
     emails = params[:emails].split(',')
     if user_signed_in?
@@ -179,10 +186,12 @@ class ConferencesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  # Action used to show modal for bulk uploading
   def bulk_upload
     render layout: false
   end
 
+  # Action used to process bulk uploading
   def process_bulk_upload
     bulk_params = params[:bulk]
 
@@ -198,36 +207,43 @@ class ConferencesController < ApplicationController
     end
   end
 
+  # Action used to show Home Tab Pane (AJAX)
   def home
     @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
     render template: 'conferences/tab_panes/home'
   end
 
+  # Action used to show Schedule Tab Pane (AJAX)
   def schedule
     @total_resources, @total_events = @conference.get_counts(false, false, true, true)
     @schedule_data = ConferenceUtils.create_schedule_dictionary(@conference)
     render template: 'conferences/tab_panes/schedule'
   end
 
+  # Action used to show Posts Tab Pane (AJAX)
   def posts
     @post_count = @conference.get_counts(true, false, false, false)[0]
     render template: 'conferences/tab_panes/posts'
   end
 
+  # Action used to show Recommendations Tab Pane (AJAX)
   def recommendations
     render template: 'conferences/tab_panes/recommendations'
   end
 
+  # Action used to show About Tab Pane (AJAX)
   def about_panel
     @interested_count = @conference.get_counts(false, true, false, false)[0]
     render template: 'conferences/tab_panes/about_panel'
   end
 
+  # Action used to show Papers Tab Pane (AJAX)
   def papers
     @total_resources, @total_events = @conference.get_counts(false, false, true, true)
     render template: 'conferences/tab_panes/papers'
   end
 
+  # Action used to save logo for the oconference
   def save_logo
     unless params[:name].blank?
       @conference.save_image(params, true)
@@ -236,6 +252,7 @@ class ConferencesController < ApplicationController
     render json: {status: :ok, url: @conference.logo_picture, filename: @conference.logo_file_name}
   end
 
+  # Action used to save cover photo for the oconference
   def save_cover
     unless params[:name].blank?
       @conference.save_image(params, false)
@@ -244,7 +261,7 @@ class ConferencesController < ApplicationController
     render json: {status: :ok, url: @conference.cover_photo, filename: @conference.cover_file_name}
   end
 
-  # The destroy action removes the conference permanently from the database
+  # Action used to remove the conference permanently from the database
   def destroy
     Conference.transaction do
       name = @conference.get_name
@@ -259,12 +276,14 @@ class ConferencesController < ApplicationController
     redirect_to root_path
   end
 
+  # Action used to destroy the logo completely
   def destroy_logo
     @conference.logo = nil unless @conference.logo.nil?
     @conference.save!(validate: false)
     render json: {status: :ok}
   end
 
+  # Action used to destroy cover photo completely
   def destroy_cover
     @conference.cover = nil unless @conference.cover.nil?
     @conference.save!(validate: false)
@@ -273,18 +292,22 @@ class ConferencesController < ApplicationController
 
   private
 
+  # Method used to set default user
   def set_user
     @user = current_user
   end
 
+  # Method used to permit conference parameters
   def conference_params
     params.require(:conference).permit!
   end
 
+  # Method used to set default conference
   def find_conference
     @conference = Conference.find(params[:id])
   end
 
+  # Method used set if the user is an organizer or not
   def set_is_organizer
     if user_signed_in?
       @is_organizer = @conference.is_organizer(current_user)
@@ -293,6 +316,7 @@ class ConferencesController < ApplicationController
     end
   end
 
+  # Method used to set information about default view type (Side bar selection)
   def set_view
     params[:view] = 'full'
   end

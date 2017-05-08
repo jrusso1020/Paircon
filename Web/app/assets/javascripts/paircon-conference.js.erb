@@ -1,3 +1,5 @@
+"use strict";
+
 function initializeHeader() {
     $(document).ready(function () {
         $('.dropzone').not('.static').html5imageupload();
@@ -342,12 +344,11 @@ function initCharts(count) {
         $('.easypiechart').easyPieChart({
             barColor: "#34495e",
             trackColor: '#edeef0',
-            scaleColor: '#d2d3d6',
+            scaleColor: false,
             scaleLength: 5,
             lineCap: 'round',
             lineWidth: 6,
             size: 100,
-            scaleColor: false,
             onStep: function (from, to, percent) {
                 $(this.el).find('.percent').text(Math.round(percent));
             }
@@ -546,7 +547,7 @@ function getCachedDate(conference_id, start_date_str, end_date_str) {
 function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, conference_id) {
 
     $(function () { // document ready
-        dateNow = getCachedDate(conference_id, start_date_str, end_date_str);
+        var dateNow = getCachedDate(conference_id, start_date_str, end_date_str);
 
         $('.scheduler').fullCalendar({
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',

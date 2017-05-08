@@ -1,8 +1,9 @@
+require 'users/user_utils'
+
 class UserProfileScrapperJob < ApplicationJob
   queue_as :default
 
-  include UserHelper
   def perform(user)
-    scrapeUserProfile(user)
+    UserUtils.new(user).scrapeUserProfile()
   end
 end

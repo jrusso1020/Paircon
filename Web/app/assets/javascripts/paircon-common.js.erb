@@ -1,3 +1,5 @@
+"use strict";
+
 (function ($, sr) {
     // debouncing function from John Hann
     // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
@@ -33,29 +35,29 @@
 //------------PJAX ENABLER--------------//
 /****************************************/
 function initializeApplication() {
-    $(document).on('page:fetch', function () {
+    $(document).on("page:fetch", function () {
         NProgress.start();
     });
-    $(document).on('page:change', function () {
+    $(document).on("page:change", function () {
         NProgress.done();
     });
-    $(document).on('page:restore', function () {
+    $(document).on("page:restore", function () {
         NProgress.remove();
     });
 
     $.pjax.defaults.timeout = 2000;
     $.pjax.defaults.maxCacheLength = 0;
-    $(document).pjax("a:not([data-no-pjax])", '[data-pjax-container]')
+    $(document).pjax("a:not([data-no-pjax])", "[data-pjax-container]")
 
-    $("a").on('pjax:complete', function () {
+    $("a").on("pjax:complete", function () {
         NProgress.done();
         initializePanels();
     });
 
-    $(document).on('pjax:complete', function () {
+    $(document).on("pjax:complete", function () {
         NProgress.done();
         switchContainer();
-        $('#error_callout').fadeTo('fast', 0);
+        $("#error_callout").fadeTo("fast", 0);
         bind_notification_listing();
         initializePanels();
         try {
@@ -68,7 +70,7 @@ function initializeApplication() {
         setContentHeight();
     });
 
-    window.addEventListener('popstate', function (e) {
+    window.addEventListener("popstate", function (e) {
         getViewportHeight();
         switchContainer();
         try {
@@ -84,12 +86,12 @@ function initializeApplication() {
         }
     });
 
-    $(document).on('pjax:beforeSend', function () {
+    $(document).on("pjax:beforeSend", function () {
         NProgress.start();
     });
 
-    $(document).on('submit', 'form[data-pjax]', function (event) {
-        $.pjax.submit(event, '#wrap');
+    $(document).on("submit", "form[data-pjax]", function (event) {
+        $.pjax.submit(event, "#wrap");
     });
 
     $(window).resize(function () {
@@ -97,24 +99,24 @@ function initializeApplication() {
         switchContainer();
     });
 
-    $('body').on('show.bs.modal', '#modal', function () {
-        $('.modal-dialog').removeClass('modal-mg');
-        $(this).removeData('bs.modal');
+    $("body").on("show.bs.modal", "#modal", function () {
+        $(".modal-dialog").removeClass("modal-mg");
+        $(this).removeData("bs.modal");
     });
 
 
-    $('body').on('shown.bs.modal', '.modal', function () {
+    $("body").on("shown.bs.modal", ".modal", function () {
     });
 
-    $('body').on('loaded.bs.modal', '.modal', function () {
+    $("body").on("loaded.bs.modal", ".modal", function () {
     });
 
-    $('body').on('hidden.bs.modal', '#modal', function () {
+    $("body").on("hidden.bs.modal", "#modal", function () {
     });
 
     if (("onhashchange" in window)) {
-        $(window).bind('hashchange', function () {
-            window.location.hash = ''
+        $(window).bind("hashchange", function () {
+            window.location.hash = ""
         });
     }
 
@@ -131,39 +133,39 @@ function initializeApplication() {
 
 // For centering login form
 var getViewportHeight = function () {
-    $('.focusedform').css('height', $(window).height() - 40); // Prevent scroll of the whole content (mobile)
+    $(".focusedform").css("height", $(window).height() - 40); // Prevent scroll of the whole content (mobile)
 };
 
 var setContentHeight = function () {
-    var $BODY = $('body'),
-        $SIDEBAR_FOOTER = $('.sidebar-footer'),
-        $LEFT_COL = $('.left_col'),
-        $RIGHT_COL = $('.right_col'),
-        $NAV_MENU = $('.nav_menu'),
-        $FOOTER = $('footer');
+    var $BODY = $("body"),
+        $SIDEBAR_FOOTER = $(".sidebar-footer"),
+        $LEFT_COL = $(".left_col"),
+        $RIGHT_COL = $(".right_col"),
+        $NAV_MENU = $(".nav_menu"),
+        $FOOTER = $("footer");
 
     // reset height
-    $RIGHT_COL.css('min-height', $(window).height());
+    $RIGHT_COL.css("min-height", $(window).height());
 
     var bodyHeight = $BODY.outerHeight(),
-        footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
+        footerHeight = $BODY.hasClass("footer_fixed") ? -10 : $FOOTER.height(),
         leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
         contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
 
     // normalize content
     contentHeight -= $NAV_MENU.height() + footerHeight;
 
-    $RIGHT_COL.css('min-height', contentHeight);
+    $RIGHT_COL.css("min-height", contentHeight);
 };
 
 function switchContainer() {
     var animationSpeed = 300;
 
-    var is_confirmation = $('#new_user_confirmation').length > 0;
-    var is_login = $('#new_user_session').length > 0;
-    var is_recover = $('#new_user_password').length > 0;
-    var is_edit_register = $('#edit_user_password').length > 0;
-    var is_register = $('#new_user_registration').length > 0;
+    var is_confirmation = $("#new_user_confirmation").length > 0;
+    var is_login = $("#new_user_session").length > 0;
+    var is_recover = $("#new_user_password").length > 0;
+    var is_edit_register = $("#edit_user_password").length > 0;
+    var is_register = $("#new_user_registration").length > 0;
     var cheight = 100;
 
     if (is_login)
@@ -177,8 +179,8 @@ function switchContainer() {
     else if (is_edit_register)
         cheight = 305;
 
-    $('#loginbox').animate({'height': cheight + 'px'}, animationSpeed, function () {
-        $('#loginbox form').fadeTo(animationSpeed, 1);
+    $("#loginbox").animate({"height": cheight + "px"}, animationSpeed, function () {
+        $("#loginbox form").fadeTo(animationSpeed, 1);
     });
 }
 
@@ -186,13 +188,13 @@ function switchContainer() {
 //------------Notifications---------------//
 /******************************************/
 function bind_notification_listing() {
-    if ($('#notification_panel').length) {
+    if ($("#notification_panel").length) {
         $.ajax({
-            type: 'GET',
-            url: '/notifications',
-            data: 'referer=2',
+            type: "GET",
+            url: "/notifications",
+            data: "referer=2",
             success: function (html) {
-                $('#notification_panel').html(html);
+                $("#notification_panel").html(html);
                 bind_notification_read();
             }
         });
@@ -200,12 +202,12 @@ function bind_notification_listing() {
 }
 
 function bind_notification_read() {
-    $('#notification_link').click(function () {
+    $("#notification_link").click(function () {
         $.ajax({
-            type: 'POST',
-            url: '/notifications/read_notification',
+            type: "POST",
+            url: "/notifications/read_notification",
             success: function (html) {
-                $('#notification_div').remove()
+                $("#notification_div").remove()
             }
         });
     });
@@ -217,52 +219,52 @@ function bind_notification_read() {
 function showNotificationMsg(message) {
     hideProcessingMsg();
     hideErrorMsg();
-    var notficationMsgBox = $('#notification_msg_box');
-    notficationMsgBox.children('span').html(message);
+    var notficationMsgBox = $("#notification_msg_box");
+    notficationMsgBox.children("span").html(message);
     notficationMsgBox.fadeIn(1000);
 }
 
 function showErrorMsg(message) {
     hideProcessingMsg();
     hideNotificationMsg();
-    var errorMsgBox = $('#error_message_box');
-    errorMsgBox.children('span').html(message);
+    var errorMsgBox = $("#error_message_box");
+    errorMsgBox.children("span").html(message);
     errorMsgBox.fadeIn(1000);
 }
 
 function showProcessingMsg(message) {
     hideNotificationMsg();
     hideErrorMsg();
-    var processing_msg_box = $('#processing_msg_box');
-    processing_msg_box.children('span').html(message);
+    var processing_msg_box = $("#processing_msg_box");
+    processing_msg_box.children("span").html(message);
     processing_msg_box.fadeIn(1000);
 }
 
 function hideProcessingMsg() {
-    $('#processing_msg_box').hide();
+    $("#processing_msg_box").hide();
 }
 
 function hideNotificationMsg() {
-    $('#notfication_msg_box').hide();
+    $("#notfication_msg_box").hide();
 }
 
 function hideErrorMsg() {
-    $('#error_message_box').hide();
+    $("#error_message_box").hide();
 }
 
 function setAutoHideFlashMsg(id) {
-    $('#' + id + '_close').click(function () {
-        $('#' + id).hide();
+    $("#" + id + "_close").click(function () {
+        $("#" + id).hide();
     });
 
     var observer = new MutationObserver(function (mutations) {
         setTimeout(function () {
-            $('#' + id).fadeOut('slow');
+            $("#" + id).fadeOut("slow");
         }, 5000);
     });
 
     var target = document.getElementById(id);
-    observer.observe(target, {attributes: true, attributeFilter: ['style']});
+    observer.observe(target, {attributes: true, attributeFilter: ["style"]});
 }
 
 
@@ -270,28 +272,27 @@ function setAutoHideFlashMsg(id) {
 //------------LAYOUT INITIALIZER-----------//
 /******************************************/
 function loadApplicationLayout() {
-    var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
-        $BODY = $('body'),
-        $MENU_TOGGLE = $('#menu_toggle'),
-        $SIDEBAR_MENU = $('#sidebar-menu')
+    var CURRENT_URL = window.location.href.split("#")[0].split("?")[0],
+        $BODY = $("body"),
+        $MENU_TOGGLE = $("#menu_toggle"),
+        $SIDEBAR_MENU = $("#sidebar-menu")
 
     // Sidebar
+    // TODO: This is some kind of easy fix, maybe we can improve this
     function init_sidebar() {
-        // TODO: This is some kind of easy fix, maybe we can improve this
-
-        $SIDEBAR_MENU.find('a').on('click', function (ev) {
+        $SIDEBAR_MENU.find("a").on("click", function (ev) {
             var $li = $(this).parent();
 
-            if ($li.is('.active')) {
-                $li.removeClass('active active-sm');
-                $('ul:first', $li).slideUp(function () {
+            if ($li.is(".active")) {
+                $li.removeClass("active active-sm");
+                $("ul:first", $li).slideUp(function () {
                     setContentHeight();
                 });
             } else {
                 // prevent closing menu if we are on child menu
-                if (!$li.parent().is('.child_menu')) {
-                    $SIDEBAR_MENU.find('li').removeClass('active active-sm');
-                    $SIDEBAR_MENU.find('li ul').slideUp();
+                if (!$li.parent().is(".child_menu")) {
+                    $SIDEBAR_MENU.find("li").removeClass("active active-sm");
+                    $SIDEBAR_MENU.find("li ul").slideUp();
                 } else {
                     if ($BODY.is(".nav-sm")) {
                         $SIDEBAR_MENU.find("li").removeClass("active active-sm");
@@ -299,67 +300,67 @@ function loadApplicationLayout() {
                     }
                 }
 
-                $SIDEBAR_MENU.find('a[href="' + $(this).attr('href') + '"]').parent('li').addClass('active active-sm');
+                $SIDEBAR_MENU.find("a[href='" + $(this).attr("href") + "']").parent("li").addClass("active active-sm");
 
-                $SIDEBAR_MENU.find('a').filter(function () {
-                    return this.href == $(this).attr('href');
-                }).parent('li').addClass('active active-sm').parents('ul').slideDown(function () {
+                $SIDEBAR_MENU.find("a").filter(function () {
+                    return this.href == $(this).attr("href");
+                }).parent("li").addClass("active active-sm").parents("ul").slideDown(function () {
                     setContentHeight();
-                }).parent().addClass('active active-sm');
+                }).parent().addClass("active active-sm");
 
-                $('ul:first', $li).slideDown(function () {
+                $("ul:first", $li).slideDown(function () {
                     setContentHeight();
                 });
             }
         });
 
         // toggle small or large menu
-        $MENU_TOGGLE.on('click', function () {
+        $MENU_TOGGLE.on("click", function () {
 
-            if ($BODY.hasClass('nav-md')) {
-                $SIDEBAR_MENU.find('li.active ul').hide();
-                $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+            if ($BODY.hasClass("nav-md")) {
+                $SIDEBAR_MENU.find("li.active ul").hide();
+                $SIDEBAR_MENU.find("li.active").addClass("active-sm").removeClass("active");
             } else {
-                $SIDEBAR_MENU.find('li.active-sm ul').show();
-                $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
+                $SIDEBAR_MENU.find("li.active-sm ul").show();
+                $SIDEBAR_MENU.find("li.active-sm").addClass("active").removeClass("active-sm");
             }
 
-            $BODY.toggleClass('nav-md nav-sm');
+            $BODY.toggleClass("nav-md nav-sm");
 
             setContentHeight();
 
-            $('.cover-photo').css({'width': ''});
+            $(".cover-photo").css({"width": ""});
         });
 
         // check active menu
-        $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('active active-sm');
+        $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent("li").addClass("active active-sm");
 
-        $SIDEBAR_MENU.find('a').filter(function () {
+        $SIDEBAR_MENU.find("a").filter(function () {
             return this.href == CURRENT_URL;
-        }).parent('li').addClass('active active-sm').parents('ul').slideDown(function () {
+        }).parent("li").addClass("active active-sm").parents("ul").slideDown(function () {
             setContentHeight();
-        }).parent().addClass('active active-sm');
+        }).parent().addClass("active active-sm");
 
-        $('#search > a').click(function () {
-            $('#search').toggleClass('keep-open');
-            $('#search>a i').toggleClass("opacity-control");
+        $("#search > a").click(function () {
+            $("#search").toggleClass("keep-open");
+            $("#search>a i").toggleClass("opacity-control");
         });
 
-        $('#search').click(function (event) {
-            $('html').one('click', function () {
-                $('#search').removeClass('keep-open');
-                $('#search>a i').addClass("opacity-control");
+        $("#search").click(function (event) {
+            $("html").one("click", function () {
+                $("#search").removeClass("keep-open");
+                $("#search>a i").addClass("opacity-control");
             });
 
             event.stopPropagation();
         });
 
-        $('#search_val').keypress(function (e) {
+        $("#search_val").keypress(function (e) {
             if (e.keyCode === 13) {
                 if ($(this).length) {
                     // manually invoke pjax after enter has been pressed
                     var $url = $(this).find("a").attr("href");
-                    $.pjax({url: $url, container: '#wrap'});
+                    $.pjax({url: $url, container: "#wrap"});
                 }
             }
         });
@@ -368,9 +369,9 @@ function loadApplicationLayout() {
 
         // fixed sidebar
         if ($.fn.mCustomScrollbar) {
-            $('.menu_fixed').mCustomScrollbar({
+            $(".menu_fixed").mCustomScrollbar({
                 autoHideScrollbar: true,
-                theme: 'minimal',
+                theme: "minimal",
                 mouseWheel: {preventDefault: true}
             });
         }
@@ -379,14 +380,14 @@ function loadApplicationLayout() {
 
     // Tooltip
     $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip({
-            container: 'body'
+        $("[data-toggle='tooltip']").tooltip({
+            container: "body"
         });
     });
     // /Tooltip
 
     $(document).ready(function () {
-        $('.avatar_label').initial();
+        $(".avatar_label").initial();
     });
 
     init_sidebar();
@@ -395,11 +396,11 @@ function loadApplicationLayout() {
 function enableSwitchery() {
     // Switchery
     if ($(".js-switch")[0]) {
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        var elems = Array.prototype.slice.call(document.querySelectorAll(".js-switch"));
         elems.forEach(function (html) {
             var switchery = new Switchery(html, {
-                color: '#2C314A',
-                size: 'small'
+                color: "#2C314A",
+                size: "small"
             });
         });
     }
@@ -408,26 +409,26 @@ function enableSwitchery() {
 function initializePanels() {
     // Panel toolbox
     $(document).ready(function () {
-        $('.collapse-link').on('click', function () {
-            var $BOX_PANEL = $(this).closest('.x_panel'),
-                $ICON = $(this).find('i'),
-                $BOX_CONTENT = $BOX_PANEL.find('.x_content');
+        $(".collapse-link").on("click", function () {
+            var $BOX_PANEL = $(this).closest(".x_panel"),
+                $ICON = $(this).find("i"),
+                $BOX_CONTENT = $BOX_PANEL.find(".x_content");
 
             // fix for some div with hardcoded fix class
-            if ($BOX_PANEL.attr('style')) {
+            if ($BOX_PANEL.attr("style")) {
                 $BOX_CONTENT.slideToggle(200, function () {
-                    $BOX_PANEL.removeAttr('style');
+                    $BOX_PANEL.removeAttr("style");
                 });
             } else {
                 $BOX_CONTENT.slideToggle(200);
-                $BOX_PANEL.css('height', 'auto');
+                $BOX_PANEL.css("height", "auto");
             }
 
-            $ICON.toggleClass('fa-chevron-up fa-chevron-down');
+            $ICON.toggleClass("fa-chevron-up fa-chevron-down");
         });
 
-        $('.close-link').click(function () {
-            var $BOX_PANEL = $(this).closest('.x_panel');
+        $(".close-link").click(function () {
+            var $BOX_PANEL = $(this).closest(".x_panel");
 
             $BOX_PANEL.remove();
         });
@@ -436,8 +437,8 @@ function initializePanels() {
 }
 
 function removeEmptyRowsDataTable() {
-    if ($('.dataTables_empty').length > 0) {
-        $('.dataTables_empty').parent().remove();
+    if ($(".dataTables_empty").length > 0) {
+        $(".dataTables_empty").parent().remove();
     }
 }
 
@@ -446,9 +447,9 @@ function createTooltip(title, body, icon) {
     return new PNotify({
         title: title,
         text: body,
-        type: 'info',
-        addclass: 'dark',
-        styling: 'fontawesome',
+        type: "info",
+        addclass: "dark",
+        styling: "fontawesome",
         width: "350px",
         buttons: {
             closer: false,
