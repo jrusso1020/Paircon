@@ -3,16 +3,15 @@ Author : MAHAK GARG (mg2288)
 Class to extract all the pdf links from the google scholar page or a personal web page
 =end
 
-require 'nokogiri'
-require 'open-uri'
-require 'pdf-reader'
-require 'docsplit'
-
 # The PDFScrapper class scrapes the PDF off the internet
 # Two types of pages are supported - Google scholar and a personal web page with link to pdfs
 # The Google Scrapper gets blocked because of restrictions by google - so we may not use it at all
-
 class PDFScrapper
+  require 'nokogiri'
+  require 'open-uri'
+  require 'pdf-reader'
+  require 'docsplit'
+
   USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/51.0'
 
   PageType = {
@@ -109,6 +108,7 @@ class PDFScrapper
           IO.copy_stream(download, f)
         end
       rescue => ex
+        Rails.logger.error(e.inspect)
         Rails.logger.error('Could not download ' + link)
       end
 
@@ -129,6 +129,7 @@ class PDFScrapper
           end
         end
       rescue => ex
+        Rails.logger.error(e.inspect)
         Rails.logger.error('Could not download ' + link)
       end
 

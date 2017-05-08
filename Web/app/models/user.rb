@@ -60,8 +60,9 @@
 #
 
 class User < ApplicationRecord
+  require 'users/user_utils'
+
   include PublicActivity::Common
-  include UserHelper
 
   devise :database_authenticatable, :async, :registerable, :recoverable, :rememberable,
          :trackable, :validatable, :timeoutable, :omniauthable,
@@ -134,11 +135,12 @@ class User < ApplicationRecord
     self.is_scraped = false
     self.save
     # delete earlier profile
-    cleanUserProfile(self)
+    UserUtils.new(self).cleanUserProfile()
     begin
       UserProfileScrapperJob.perform_later(self)
     rescue => e
-      scrapeUserProfile(self)
+      Rails.logger.error(e.inspect)
+      UserUtils.new(self).scrapeUserProfile()
     end
   end
 

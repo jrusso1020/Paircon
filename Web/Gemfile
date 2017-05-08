@@ -89,7 +89,7 @@ group :development, :test do
   gem 'stackprof'                                                 # Used for memory profiling
   gem 'fast_stack'                                                # Used for memory profiling
   gem 'rdoc'                                                      # For Generating Documentation (Requires GraphViz Local Install)
-  gem 'rails-erd'                                                 # For Generating ERD Diagrams (https://github.com/voormedia/rails-erd)
+  gem 'yard'                                                      # For Documentation Purposes
   gem 'annotate'                                                  # Adding annotations to models (http://github.com/ctran/annotate_models)
   gem 'byebug', platform: :mri                                    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'passenger', '~> 5.0.7'                                     # Web Server (Best)

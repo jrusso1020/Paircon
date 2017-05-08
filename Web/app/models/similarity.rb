@@ -16,8 +16,8 @@
 #
 
 class Similarity < ApplicationRecord
-  belongs_to :user_paper, foreign_key: :user_paper_id, primary_key: :paper_id
-  belongs_to :conference_paper, foreign_key: :conference_paper_id, primary_key: :paper_id
+  has_one :paper_user, class_name: 'Paper', foreign_key: :id, primary_key: :user_paper_id
+  has_one :paper_conference, class_name: 'Paper', foreign_key: :id, primary_key: :conference_paper_id
 
   before_create :init_id
 

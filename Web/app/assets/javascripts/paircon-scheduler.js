@@ -1,3 +1,5 @@
+"use strict";
+
 /*****************************************************/
 /********************** SCHEDULE *********************/
 /*****************************************************/
@@ -7,8 +9,7 @@ jQuery.validator.addMethod("greaterThanDate",
             return new Date(value) > new Date($(params).val());
         }
 
-        return isNaN(value) && isNaN($(params).val())
-            || (Number(value) > Number($(params).val()));
+        return isNaN(value) && isNaN($(params).val()) || Number(value) > Number($(params).val());
     }, 'Must be greater than Start Date.');
 
 jQuery.validator.addMethod("greaterThanTime",
@@ -62,7 +63,7 @@ function getCachedDate(conference_id, start_date_str, end_date_str) {
 function initializeSchedule(start_date_str, end_date_str, date_diff, enabled, conference_id) {
 
     $(function () { // document ready
-        dateNow = getCachedDate(conference_id, start_date_str, end_date_str);
+        var dateNow = getCachedDate(conference_id, start_date_str, end_date_str);
 
         $('.scheduler').fullCalendar({
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
