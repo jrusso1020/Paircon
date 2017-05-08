@@ -161,25 +161,7 @@ var setContentHeight = function () {
 function switchContainer() {
     var animationSpeed = 300;
 
-    var is_confirmation = $("#new_user_confirmation").length > 0;
-    var is_login = $("#new_user_session").length > 0;
-    var is_recover = $("#new_user_password").length > 0;
-    var is_edit_register = $("#edit_user_password").length > 0;
-    var is_register = $("#new_user_registration").length > 0;
-    var cheight = 100;
-
-    if (is_login)
-        cheight = 314;
-    else if (is_register && window.innerWidth < 768)
-        cheight = 340;
-    else if (is_register && window.innerWidth >= 768)
-        cheight = 446;
-    else if (is_recover || is_confirmation)
-        cheight = 260;
-    else if (is_edit_register)
-        cheight = 305;
-
-    $("#loginbox").animate({"height": cheight + "px"}, animationSpeed, function () {
+    $("#loginbox").animate({"height": $(".login-form").height() + "px"}, animationSpeed, function () {
         $("#loginbox form").fadeTo(animationSpeed, 1);
     });
 }

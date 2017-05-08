@@ -174,19 +174,19 @@ class Conference < ApplicationRecord
   end
 
   def self.my_organizing_conferences user
-    Conference.includes(:conference_attendees, :conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+    Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   def self.my_attending_conferences user
-    Conference.includes(:conference_attendees, :conference_organizers).where(conference_attendees: {user_id: user.id}).order(:name)
+    Conference.joins(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
   def get_pdf_text_path
-    return "#{Rails.root}/public/conferences/#{self.id}/txt"
+    "#{Rails.root}/public/conferences/#{self.id}/txt"
   end
         
   def get_pdf_folder_path
-    return "#{Rails.root}/public/conferences/#{self.id}/pdf"
+    "#{Rails.root}/public/conferences/#{self.id}/pdf"
   end
 
   private

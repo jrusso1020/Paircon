@@ -287,7 +287,7 @@ function initSignup() {
             setDefaultImage();
         },
         onAfterCompleteImage: function () {
-            $('#userimage').attr('src', $('#image_upload').attr('src'));
+            $('#userimage').attr('src', $('.profile-image').data('image'));
         }
     });
 

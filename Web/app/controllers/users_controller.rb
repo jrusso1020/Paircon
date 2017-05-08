@@ -212,6 +212,19 @@ class UsersController < ApplicationController
     end
   end
 
+  # Action used to validate user
+  def validation
+    if !params[:is_login].blank?
+      render plain: current_user.nil? ? 'false' : 'true'
+    elsif !params[:user][:username].blank?
+      render plain: User.where(username: params[:user][:username]).first.nil? ? 'true' : 'false'
+    elsif !params[:user][:email].blank?
+      render plain: User.where(email: params[:user][:email]).first.nil? ? 'true' : 'false'
+    else
+      render plain: 'false'
+    end
+  end
+
   private
 
   # Method used to check if the user is logged in

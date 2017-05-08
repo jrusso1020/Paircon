@@ -2,7 +2,7 @@
 
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
-             :html => {:class => 'form-horizontal', id: 'new_user_registration'}) do |form| %>
+             :html => {:class => 'form-horizontal login-form', id: 'new_user_registration'}) do |form| %>
 
     <%= content_tag :div, class: 'panel-body' do %>
         <%= content_tag :h4, class: 'text-center' do %>
@@ -95,14 +95,20 @@
     <%= content_tag :div, (form.submit 'Sign up', class: 'btn btn-block btn-paircon'), class: 'form-actions clearfix' %>
 
     <%= content_tag :div, class: 'form-actions clearfix hidden-xs', style: 'text-align: left' do %>
-      <small>By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions',  terms_home_index_url() %> and that you have read our Data Use <%= link_to 'Privacy', privacy_policy_home_index_url() %>.</small>
+        <small>By clicking Sign Up, you agree to our <%= link_to 'Terms and Conditions', terms_home_index_url() %> and
+          that you have read our Data Use <%= link_to 'Privacy', privacy_policy_home_index_url() %>.
+        </small>
     <% end %>
 
-    <%= content_tag :div, class: 'footer-login' do %>
-        <%= content_tag :div, 'Sign up with', class: 'pull-left text' %>
-        <%= content_tag :div, class: 'pull-right btn-social' do %>
-            <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-facebook'), class: 'btn btn-facebook btn-footer-social', href: "#{user_facebook_omniauth_authorize_path}" %>
-            <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-google-plus'), class: 'btn btn-google-plus', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
+    <%= content_tag :div, class: 'footer-login row' do %>
+        <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6' do %>
+            <%= content_tag :div, 'Sign up with', class: 'pull-left text' %>
+        <% end %>
+        <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6' do %>
+            <%= content_tag :div, class: 'pull-right btn-social' do %>
+                <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-facebook'), class: 'btn btn-facebook btn-footer-social', href: "#{user_facebook_omniauth_authorize_path}" %>
+                <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-google-plus'), class: 'btn btn-google-plus btn-footer-social', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
+            <% end %>
         <% end %>
     <% end %>
 

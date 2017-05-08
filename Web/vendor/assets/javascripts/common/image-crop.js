@@ -77,7 +77,7 @@
         onAfterCancel:		null,
         onAfterRemoveImage:	null,
         onAfterSelectImage:	null,
-
+        onAfterCompleteImage: null
     }
 
     $.html5imageupload.prototype = {
@@ -958,7 +958,8 @@
                 $(tools).append($(_self.button.done).on({
                     'touchstart click': function(e) {
                         e.preventDefault();
-                        _self.imageCrop()
+                        _self.imageCrop();
+                        if (_self.options.onAfterCompleteImage) _self.options.onAfterCompleteImage.call(_self, _self);
                     }
                 }));
             }
