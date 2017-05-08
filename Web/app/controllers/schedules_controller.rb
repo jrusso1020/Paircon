@@ -1,10 +1,13 @@
-require 'digest/md5'
+# Controller primarily responsible for handling Schedules
 class SchedulesController < ApplicationController
+
+  require 'digest/md5'
 
   before_action :authenticate_user!, except: [:get_resources, :get_events]
   before_action :find_resource, only: [:delete_resource, :destroy_resource]
   before_action :find_event, only: [:delete_event, :destroy_event, :update_event]
 
+  # Action for showing modal for new resource creation
   def new_resource
     @conference = Conference.find_by_id(params[:conference_id])
     if params[:view] == ConferenceResource::TYPE[:event]
@@ -21,6 +24,7 @@ class SchedulesController < ApplicationController
     render layout: false
   end
 
+  # Action for processing resource creation
   def create_resource
     conference_resource_params = params.require(:resource).permit!
     if conference_resource_params[:room] == 'Other'
@@ -202,14 +206,16 @@ class SchedulesController < ApplicationController
   #
   # end
 
-  # def delete_resource
-  #   render layout: false
-  # end
-  #
   # def delete_event
   #   render layout: false
   # end
 
+  # Action for showing resource deletion modal
+  def delete_resource
+    render layout: false
+  end
+
+  # Action for processing and destroying ConferenceResource object
   def destroy_resource
     ConferenceResource.transaction do
       ConferenceResource.where(parent_id: @resource.id).destroy_all
@@ -226,7 +232,7 @@ class SchedulesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-
+  # Action for processing and destroying ConferenceEvent object
   def destroy_event
     ConferenceEvent.transaction do
       name = @event.title
@@ -241,6 +247,7 @@ class SchedulesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  # Action used to provide json containing information about ConferenceResources [All]
   def get_resources
     @conference = Conference.find(params[:id])
     resources = @conference.conference_resources.where(parent_id: nil).order(:title).map { |obj| {id: obj.id, title: obj.title, room: obj.room, eventColor: obj.eventColor} }
@@ -262,6 +269,7 @@ class SchedulesController < ApplicationController
 
   end
 
+  # Action used to provide json containing information about ConferenceEvents
   def get_events
     @conference = Conference.find(params[:id])
     resources = @conference.conference_resources
@@ -280,6 +288,7 @@ class SchedulesController < ApplicationController
 
   end
 
+  # Action used to provide json containing information about ConferenceResources [All] With Respect to Signed in User
   def get_events_user
     events = []
     Conference.my_attending_conferences(current_user).active.each do |conference|
@@ -289,6 +298,7 @@ class SchedulesController < ApplicationController
     render json: events.to_json
   end
 
+  # Action used to provide json containing information about ConferenceResource [Session]
   def get_sessions
     sessions = [{text: 'No session', value: 'No session'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
     render json: sessions.to_json
@@ -296,10 +306,12 @@ class SchedulesController < ApplicationController
 
   private
 
+  # Method used to find Default ConferenceResource
   def find_resource
     @resource = ConferenceResource.find(params[:id])
   end
 
+  # Method used to find Default ConferenceEvent
   def find_event
     @event = ConferenceEvent.find(params[:id])
   end

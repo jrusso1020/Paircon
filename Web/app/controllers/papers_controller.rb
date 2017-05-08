@@ -1,16 +1,19 @@
-require 'scrapper/pdf_scrapper'
-require 'papers/paper_utils'
+# Controller primarily responsible for handling Papers
 class PapersController < ApplicationController
+  require 'scrapper/pdf_scrapper'
+  require 'papers/paper_utils'
+
   before_action :authenticate_user!, except: [:validation]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :find_paper, except: [:index, :new, :create]
 
+  # Action used for showing modal for new paper
   def new
     @title = 'Add Paper / Poster'
     @body = 'Please enter information about the Paper, optional details about the author(s) and upload a PDF version of the Paper.'
     render layout: false
   end
 
+  # Action used to process creation of paper
   def create
     parameters = JSON(params[:json], symbolize_names: true)
 
@@ -42,10 +45,12 @@ class PapersController < ApplicationController
     end
   end
 
+  # Action used to show modal for paper deletion
   def delete
     render layout: false
   end
 
+  # Action used to process and delete paper from system
   def destroy
     Paper.transaction do
       if @paper.destroy
@@ -57,6 +62,7 @@ class PapersController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  # Action used to update paper
   def update
     paper_params = paper_params()
     unless paper_params[:author].nil?
@@ -77,14 +83,12 @@ class PapersController < ApplicationController
 
   private
 
-  def set_user
-    @user = current_user
-  end
-
+  # Method used to permit allowed parameters for paper
   def paper_params(parameters=params)
     parameters.require(:paper).permit(:pdf, :title, :abstract, :year, :author, :affiliation, :email)
   end
 
+  # Method used to set default paper
   def find_paper
     @paper = Paper.find(params[:id])
   end

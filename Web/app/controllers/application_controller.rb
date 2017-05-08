@@ -1,3 +1,4 @@
+# Controller primarily responsible for handling Application Wide Information
 class ApplicationController < ActionController::Base
   include UrlHelper
   include ActiveDevice
@@ -18,24 +19,29 @@ class ApplicationController < ActionController::Base
 
   etag { current_user.try :id }
 
+  # Action used to destroy cache
   def set_cache_buster
     response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] =' "Fri, 01 Jan 1990 00:00:00 GMT"'
   end
 
+  # Action used to run rails logger debug
   def log(data)
     Rails.logger.debug("\n\n==========LOG============\n\n#{data}\n\n=======================\n\n")
   end
 
+  # Action used to configure sign up parameters
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit({roles: []}, :email, :password, :password_confirmation, :first_name, :last_name) }
   end
 
+  # Action executed if something is not found
   def not_found
     render file: '/errors/internal_server_error', formats: [:html], layout: false, status: 404
   end
 
+  # Action used to define the type of resource (different themes)
   def layout_by_resource
     unless request.headers['X-PJAX']
 
@@ -60,6 +66,7 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Method used to load left column in application layout
   def load_left_column
     if signed_in?(:user)
       @attending_conferences = Conference.my_attending_conferences(current_user)
@@ -71,14 +78,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Method used to check the type of layout
   def layout
     request.xhr? ? false : 'application'
   end
 
+  # Method used to check current page
   def current_page
     "#{params[:controller]}_#{params[:action]}"
   end
 
+  # Method used to set user locale
   def set_locale
     if !params[:lang].blank?
       I18n.locale = params[:lang]
@@ -89,6 +99,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Method used to set current timezone
   def set_timezone
     if !signed_in?(:user)
       Time.zone = find_timezone()
@@ -97,6 +108,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Method used to find the current timezone of the user
   def find_timezone
     time_zone = ActiveSupport::TimeZone[cookies[:time_zone_name]] unless cookies[:time_zone_name].blank?
 
@@ -113,23 +125,25 @@ class ApplicationController < ActionController::Base
     time_zone
   end
 
+  # Method used to update the timezone
   def save_timezone!
     timezone = find_timezone()
     current_user.time_zone_name = timezone.name
     current_user.save!(validate: false)
   end
 
-  # Overwriting the sign_in redirect path method
+  # Method to overwrite the sign_in redirect path method
   def after_sign_in_path_for(resource_or_scope)
     save_timezone!() if current_user.time_zone_name.blank?
     stored_location_for(resource_or_scope) || dashboard_path()
   end
 
-  # Overwriting the sign_out redirect path method
+  # Method to overwrite the sign_out redirect path method
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_url()
   end
 
+  # Method executed on sign up
   def is_app_init_for_sign_up
     ActiveRecord::Base.skip_callbacks = false
 

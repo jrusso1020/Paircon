@@ -1,3 +1,5 @@
+"use strict";
+
 /***************************************/
 //------------REFRESH PROFILE URL------//
 /***************************************/
@@ -42,7 +44,7 @@ function refreshProfileUrl(user_id) {
             data: {id: user_id},
             url: '/users/' + user_id + '/refresh_profile',
             success: function () {
-                showNotificationMsg('Publication URL Refresh Initiated');
+                showNotificationMsg('Got it! We will now try to refresh your publications.');
                 $.pjax.reload('[data-pjax-container]');
             }
         });
@@ -78,8 +80,7 @@ function initializeAdmin(length) {
     removeEmptyRowsDataTable();
 
     $('.organizer-approval').click(function () {
-        user_id = $(this).attr('id');
-        approveOrganizer(user_id);
+        approveOrganizer($(this).attr('id'));
     });
 
 }

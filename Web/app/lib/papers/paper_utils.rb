@@ -19,6 +19,7 @@ class PaperUtils
       begin
         PaperScrapperJob.perform_later(paper, conference_id)
       rescue => e
+        Rails.logger.error(e.inspect)
         extractTextFromPdf(paper, conference_id)
       end
       return true

@@ -19,14 +19,6 @@ module ApplicationHelper
     @main_title = title
   end
 
-  def breadcrumb(text)
-    content_tag(:ol, nil, :class => 'breadcrumb align breadcrumb-inline') do
-      content_tag(:li, nil) do
-        content_tag(:a, text)
-      end
-    end
-  end
-
   def locale_setting_js
     javascript_tag("I18n.defaultLocale='#{I18n.default_locale}';I18n.locale='#{I18n.locale}';")
   end

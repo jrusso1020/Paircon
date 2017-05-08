@@ -1,25 +1,27 @@
-require 'base64'
-require 'scrapper/pdf_scrapper'
-require 'fileutils'
+# Controller primarily responsible for handling Users
 class UsersController < ApplicationController
+
+  require 'base64'
+  require 'scrapper/pdf_scrapper'
+  require 'fileutils'
+
   before_action :check_session, :only => [:show]
-  before_action :authenticate_user!, except: [:validation]
+  before_action :authenticate_user!
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  def check_session
-    redirect_to root_path unless current_user
-  end
-
+  # Action used to show list of approved organizers
   def approved_organizers
     @user = current_user
     @approved_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :industry, :organization, 'organizers.updated_at').where(organizers: {approved: true})
   end
 
+  # Action used to show list of pending organizers
   def pending_organizers
     @user = current_user
     @pending_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :industry, :organization, 'organizers.created_at').where(organizers: {approved: false})
   end
 
+  # Action used to process the approval of an organizer
   def approve_organizer
     tran_success = false
     user = User.find(params[:id])
@@ -39,7 +41,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # request organizer privilege
+  # Action used to process request of an organizer
   def request_organizer
     @user = current_user
     @organizer = Organizer.create!(user_id: @user.id)
@@ -53,24 +55,31 @@ class UsersController < ApplicationController
     redirect_back(fallback_location: :back)
   end
 
+  # Action used to open modal for request of becoming organizer
   def become_organizer
     @user = current_user
   end
 
+  # Action used to show settings for user
   def show
   end
 
+  # Action used to edit settings for organizer
   def edit
     render layout: 'sign_up' if params[:referer] == REFERERS[:app_init] && !current_user.is_app_init
   end
 
+  # Action used to refresh publication profile for user
   def refresh_profile
     @user = current_user
     if not @user.url.blank?
       @user.scrape_profile
     end
+
+    render json: {status: :ok, message: 'Please wait while we refresh your publications.' }
   end
 
+  # Action used to update user
   def update
     respond_to do |format|
       scrape_profile = false
@@ -107,8 +116,8 @@ class UsersController < ApplicationController
     end
   end
 
+  # Action used to delete user account
   def delete_account
-    # Need to verify current password and delete the user and logout from the current session
     @user = current_user
     if verify_recaptcha
       if @user.valid_password?(params[:user][:current_password])
@@ -131,10 +140,12 @@ class UsersController < ApplicationController
 
   end
 
+  # Action used to show modal for account deletion
   def delete
     @user = current_user
   end
 
+  # Action used to update and save the logo
   def save_logo
     unless params[:name].blank?
       FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
@@ -154,20 +165,24 @@ class UsersController < ApplicationController
     render json: {status: 'success', url: current_user.profile_photo, filename: current_user.logo_file_name} if params[:referer] != REFERERS[:app_init]
   end
 
+  # Action used to destroy user
   def destroy
     @user.destroy
   end
 
+  # Action used to destroy user logo
   def destroy_logo
     current_user.logo = nil unless current_user.logo.nil?
     current_user.save!(validate: false)
     render json: {status: 'success'}
   end
 
+  # Action used show modal for user password reset
   def password_reset
     @user = current_user
   end
 
+  # Action used to update email password
   def update_email_password
 
     @user = current_user
@@ -197,32 +212,24 @@ class UsersController < ApplicationController
     end
   end
 
-  def timezone
-    @user = current_user
-  end
-
-  def validation
-    if !params[:is_login].blank?
-      render plain: current_user.nil? ? 'false' : 'true'
-    elsif !params[:user][:username].blank?
-      render plain: User.where(username: params[:user][:username]).first.nil? ? 'true' : 'false'
-    elsif !params[:user][:email].blank?
-      render plain: User.where(email: params[:user][:email]).first.nil? ? 'true' : 'false'
-    else
-      render plain: 'false'
-    end
-  end
-
   private
 
+  # Method used to check if the user is logged in
+  def check_session
+    redirect_to root_path unless current_user
+  end
+
+  # Method used to set user
   def set_user
     @user = current_user
   end
 
+  # Method used to permit user parameter attributes
   def user_params
     params.require(:user).permit!
   end
 
+  # Method called after user completes signup
   def init_app_after_first_sign_up
     @user.is_app_init = true
     @user.last_messages_read = (Time.now - 1.week)

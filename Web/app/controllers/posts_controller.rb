@@ -1,8 +1,9 @@
+# Controller primarily responsible for handling Posts
 class PostsController < ApplicationController
   before_action :find_post, only: [:edit, :update, :show, :delete, :destroy]
   before_action :authenticate_user!, except: [:index]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  # Action used to show list of posts with loading on scrolling
   def index
     @is_organizer = user_signed_in? and Conference.find_by_id(params[:conference_id]).is_organizer(current_user)
     @posts = Post.where(conference_id: params[:conference_id]).page(params[:page]).order(created_at: :desc)
@@ -12,6 +13,7 @@ class PostsController < ApplicationController
     end
   end
 
+  # Action used to create post
   def create
     @post = Post.new(post_params)
     @post.conference_id = params[:conference_id]
@@ -27,6 +29,7 @@ class PostsController < ApplicationController
 
   end
 
+  # Action used to update post
   def update
     if @post.update_attributes(post_params)
       render json: {status: :success, text: @post.conference.name}
@@ -35,14 +38,12 @@ class PostsController < ApplicationController
     end
   end
 
-  def show
-  end
-
+  # Action used to show modal for post deletion
   def delete
     render layout: false
   end
 
-  # The destroy action removes the conference permanently from the database
+  # Action used to remove post permanently from system
   def destroy
     Post.transaction do
       if @post.destroy
@@ -56,14 +57,12 @@ class PostsController < ApplicationController
 
   private
 
-  def set_user
-    @user = current_user
-  end
-
+  # Method used to permit only allowed post parameters
   def post_params
     params.require(:post).permit!
   end
 
+  # Method used to find default post based on Parameter ID
   def find_post
     @post = Post.find(params[:id])
   end

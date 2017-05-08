@@ -22,6 +22,6 @@ namespace :spec do
 end
 
 namespace :stats do
-  desc "Report code statistics (KLOCs, etc) for non-code like HTML and CSS from the application"
-  task :static => ["spec:stats_setup", "stats"]
+  desc 'Report code statistics (KLOCs, etc) for non-code like HTML and CSS from the application'
+  task :static => ['spec:stats_setup', 'stats']
 end

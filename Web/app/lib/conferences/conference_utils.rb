@@ -164,7 +164,8 @@ class ConferenceUtils
       if resource[:parent_id].nil?
         events[resource[:id]] = {}
         events[resource[:id]][:room] = resource[:room]
-      elsif sessions[resource[:id]] = resource[:parent_id]
+      else
+        sessions[resource[:id]] = resource[:parent_id]
       end
     end
 
@@ -182,19 +183,18 @@ class ConferenceUtils
       #Not a event
       if events[detail_id].nil?
         session = sessions[detail_id]
-        if not session.nil?
+        unless session.nil?
           # add to the event
           parent_id = session
           if output[parent_id].nil?
             #create a map in the output
             output[parent_id] = {}
             output[parent_id][:sessions] = []
-          elsif if output[parent_id][:sessions].nil?
-                  output[parent_id][:sessions] = []
-                end
+          elsif output[parent_id][:sessions].nil?
+            output[parent_id][:sessions] = []
           end
           paper = papers[details[:paper_id]]
-          if not paper.nil?
+          unless paper.nil?
             sessions_params = {title: details[:title],
                                start_time: details[:start_date].strftime(TIMEFORMAT),
                                end_time: details[:end_date].strftime(TIMEFORMAT),
@@ -204,25 +204,24 @@ class ConferenceUtils
                                type: details[:event_type],
                                author: paper[:author],
                                affiliation: paper[:affiliation],
-                               paper_id: details[:paper_id],
+                               session_id: details[:id],
                                abstract: paper[:abstract]
             }
             output[parent_id][:sessions].push(sessions_params)
-
           end
         end
       else
         #add the event params
         event = events[detail_id]
         if output[detail_id].nil?
-          ordered_event.push(detail_id)
           output[detail_id] = {}
-          output[detail_id][:title] = details[:title]
-          output[detail_id][:room] = event[:room]
-          output[detail_id][:start_date] = details[:start_date]
-          output[detail_id][:end_date] = details[:end_date]
-          output[detail_id][:event_id] = details[:id]
         end
+        ordered_event.push(detail_id)
+        output[detail_id][:title] = details[:title]
+        output[detail_id][:room] = event[:room]
+        output[detail_id][:start_date] = details[:start_date]
+        output[detail_id][:end_date] = details[:end_date]
+        output[detail_id][:event_id] = details[:id]
       end
     end
     final_output = []

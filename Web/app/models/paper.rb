@@ -22,8 +22,8 @@
 require 'digest/md5'
 
 class Paper < ApplicationRecord
-  has_many :conference_papers, dependent: :destroy
-  has_many :user_papers, dependent: :destroy
+  has_one :conference_paper, dependent: :destroy
+  has_one :user_paper, dependent: :destroy
 
   PAPER_MIME_TYPES = ['application/pdf']
 

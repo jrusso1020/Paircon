@@ -1,7 +1,9 @@
+# Controller primarily responsible for handling Home
 class HomeController < ApplicationController
 
   before_action :authenticate_user!, only: [:home, :search]
 
+  # Action to display dashboard upon signing in
   def index
     authenticate_user!
     @notifications = Notification.find_all_notifications(current_user, Notification::NOTIFICATION_LIST_LIMIT)
@@ -16,8 +18,8 @@ class HomeController < ApplicationController
     user_paper_ids = current_user.papers.pluck(:id)
 
     next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
-    recommended_similarity = Similarity.includes(:conference_paper).where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]
-    no_paper = (recommended_similarity.blank? or recommended_similarity.conference_paper.paper.blank?)
+    recommended_similarity = Similarity.includes(:paper_conference).where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]
+    no_paper = (recommended_similarity.blank? or recommended_similarity.paper_conference.blank?)
 
     popular_conference_hash = ConferenceAttendee.where(conference_id: upcoming_conferences_ids).select(:conference_id).group(:conference_id).order('count_conference_id desc').limit(1).count(:conference_id)
     popular_conference = popular_conference_hash.blank? ? nil : Conference.find(popular_conference_hash.keys.first)
@@ -34,9 +36,9 @@ class HomeController < ApplicationController
     }, recommended_similarity: {
         object: recommended_similarity,
         paper_exists: !no_paper,
-        paper_name: no_paper ? 'N/A' : recommended_similarity.conference_paper.paper.title,
-        paper_author: (no_paper or recommended_similarity.conference_paper.paper.author.first.blank?) ? 'N/A' : recommended_similarity.conference_paper.paper.author.first,
-        conference_name: no_paper ? 'N/A' : recommended_similarity.conference_paper.conference.get_name,
+        paper_name: no_paper ? 'N/A' : recommended_similarity.paper_conference.title,
+        paper_author: (no_paper or recommended_similarity.paper_conference.author.first.blank?) ? 'N/A' : recommended_similarity.paper_conference.author.first,
+        conference_name: no_paper ? 'N/A' : recommended_similarity.paper_conference.conference_paper.conference.get_name,
     }, popular_conference: {
         object: popular_conference,
         name: popular_conference.blank? ? 'N/A' : popular_conference.get_name,
@@ -49,15 +51,17 @@ class HomeController < ApplicationController
     }
   end
 
+  # Action used to display privacy policy
   def privacy_policy
     render layout: false
   end
 
+  # Action used to display terms and conditions
   def terms
     render layout: false
   end
 
-
+  # Action for carrying out search and displaying results
   def search
     query = params[:search_val]
     @objects = []
