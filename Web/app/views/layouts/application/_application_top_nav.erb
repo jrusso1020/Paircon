@@ -12,6 +12,10 @@
         <div>
           &nbsp;<%= link_to_modal icon_text('plus-circle', 'Create Conference'), new_conference_path(), class: head_btn_class %>
         </div>
+        <div class="hidden-xs search-top">
+          <%= render 'layouts/application/search' %>
+        </div>
+
         <!-- User dropdown -->
         <div>
           <ul id="user-dropdown" class="nav navbar-nav navbar-right pull-right navbar-user">

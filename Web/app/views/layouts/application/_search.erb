@@ -1,9 +1,9 @@
 <%= form_tag search_home_index_path, method: :get, data: {pjax: true} do %>
-  <div class="col-xs-12 form-group pull-right top_search">
+  <div class="col-xs-12 pull-right top_search">
     <div class="input-group">
       <input class="form-control" id="search_val" name="search_val" value="<%= params[:search_val] %>" placeholder="Search for..." type="text">
       <span class="input-group-btn">
-        <button id="app_search_btn" class="btn btn-default" type="submit">Go!</button>
+        <button id="app_search_btn" class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
       </span>
     </div>
   </div>
