@@ -1,0 +1,781 @@
+Cornell	University 
+Compu1ng	and	Informa1on	Science
+
+CS	5150	So(ware	Engineering	
+23.	People	
+William	Y.	Arms
+
+Managing	People
+So9ware	development	staﬀ
+•
+
+Professional	staﬀ	are	the	major	cost	of	so(ware
+
+•
+
+Staﬀ	vary	greatly	in	producGvity:
+
+	 =>	Ability
+	 =>	EducaGon	and	training
+	 =>	MoGvaGon
+	 =>	InteracGon	with	colleagues	and	leaders
+•
+
+Work	environment	has	an	impact	on	producGvity
+
+How	do	you	lead,	mo1vate,	hire,	reward,	and	retain	good	people?
+
+Managing	People
+Theore1cal
+•
+
+OrganizaGonal	behavior
+
+•
+
+Industrial	psychology	
+
+•
+
+Group	behavior
+
+•
+
+CogniGve	fundamentals
+
+•
+
+Economic	moGvaGon
+
+Maslow's	Hierarchy	of	Needs
+
+Self-actualizaGon
+Esteem	needs
+Social	needs
+Safety	needs
+Physiological	needs
+
+Management	ImplicaGons	of	Maslow's	Hierarchy
+Physiological	needs:		
+Food,	water,	breathing,	sleep
+Safety	needs:		
+Security	of	person,	health,	family
+Social	needs:	
+Friendship,	colleagues,	inGmacy
+Esteem	needs:	
+Self	esteem,	conﬁdence,	achievements,	respect	of	others
+Self-actualiza1on:	
+The	opportunity	to	reach	full	potenGal.
+
+So(ware	is	Built	by	Teams
+Best	size	for	a	team	is	3	to	8	people
+Team	members	may	include:
+•
+
+developers	(from	trainee	to	expert)
+
+•
+
+domain	experts
+
+•
+
+graphic	or	interface	designers
+
+•
+
+so(ware	librarians
+
+•
+
+testers
+
+•
+
+etc.
+
+Teams	must	have:
+•
+
+administraGve	leadership	(manager)
+
+•
+
+technical	leadership	(may	be	the	manager)
+
+AdministraGon
+Personnel
+•
+
+Assigning	tasks
+
+•
+
+Hiring,	promoGng,	etc.
+
+Resources
+•
+
+Budgets
+
+•
+
+Space,	faciliGes
+
+•
+
+Equipment
+
+Project	management
+•
+
+RelaGonships	with	other	teams,	management,	and	clients
+
+•
+
+Project	plan	and	schedule
+
+Group	Working
+vacaGons,	training,		
+administraGon,	etc.
+
+How	1me	is	spent
+
+20%
+non-producGve
+
+30%
+working	alone
+
+50%
+interacGon	
+with	others
+
+CommunicaGon
+
+Staﬀ	mee1ngs	(non-technical)	
+Technical	mee1ngs
+Informal	
+•
+
+Kitchen,	smokers'	doorway,	a(er	work,	etc.
+
+•
+
+Walkabout	(tours)
+
+•
+
+Ad	hoc	meeGngs
+
+CommunicaGon
+Management	of	teams	dispersed	across	locaGons
+CreaGng	a	team	sense
+•
+
+Example:	Tektronics
+
+Face-to-face	meeGngs
+•
+
+Occasional	but	regular,	e.g.,	once	or	twice	per	year
+
+•
+
+EnGre	team,	including	support	staﬀ
+
+Remote	meeGngs	on	a	regular	schedule	(e.g.,	conference	calls)
+•
+
+Technical	and	administraGve	groups
+
+Clear	division	of	responsibility	between	locaGons	 	
+
+MeeGngs
+Mee1ngs	require	leadership	and	a	willingness	to	be	led
+•
+
+Time	keeping	--	do	not	be	late;	end	on	Gme	or	earlier
+
+•
+
+Clear	purpose	for	meeGng,	with	agenda
+		 e.g.,	progress	reports,	design	review,	budget
+
+•
+
+PreparaGon
+	 ->	materials	circulated	in	advance	with	Gme	to	prepare
+	 ->	studied	by	all	parGcipants
+
+•
+
+FacilitaGon	during	meeGng
+	 ->	opportuniGes	for	all	to	speak
+	 ->	summing	up	to	check	agreement
+
+•
+
+Notes	taken	during	meeGng	(scribe)	and	circulated	promptly
+
+MeeGngs
+For	excellent	advice	on	how	to	run	a	meeGng	(with	highly	humorous	examples	
+of	how	not	to),	see:
+	 John	Cleese	and	Antony	Jay,	Mee#ngs,	bloody	mee#ngs.	Video	Arts,	1976,	
+revised	2012.
+There	is	a	copy	on	YouTube:
+	 hhps://www.youtube.com/watch?v=46BFYo4drLc
+
+Hiring
+Produc1vity	is	a	combina1on	of:
+•
+
+AnalyGc	ability
+
+•
+
+Verbal	ability	and	communicaGon	skills	
+
+•
+
+EducaGon
+
+•
+
+Adaptability	and	inquisiGveness
+
+•
+
+Personality	and	amtude
+
+•
+
+Planorm	experience
+
+•
+
+Programming	language	experience
+
+•
+
+ApplicaGon	domain	knowledge
+
+Staﬀ	RetenGon
+Technically	interes1ng	work
+•
+
+up	to	date	hardware	and	so(ware
+
+•
+
+opportuniGes	to	learn	and	experiment
+
+Feeling	of	apprecia1on
+•
+
+management	recogniGon
+
+•
+
+money,	beneﬁts,	and	promoGon
+
+Working	condi1ons
+•
+
+space,	light,	noise,	parking
+
+•
+
+ﬂexibility
+
+Organiza1onal	dynamics
+
+Salaries
+Any	so9ware	developer	in	the	USA	has	plenty	of	money	to	live	on	
+(food,	clothing,	heat,	etc.).
+Salaries	are	used	to	saGsfy	the	top	levels	of	Maslow's	Hierarchy:
+•
+
+self-actualizaGon
+
+•
+
+esteem
+
+The	absolute	level	of	salary	is	less	important	than	its	relaGve	level	
+and	how	it	is	presented:
+"The	average	raise	is	4%,	but	you	are	gemng	5%."
+"Our	salaries	are	in	the	top	25%	of	internet	companies."
+
+To	Build	and	Maintain	a	Strong	Team
+Everybody	has	a	diﬀerent	style.		In	my	experience:	
+•
+
+Be	consistent	in	how	you	relate	to	people	
+
+•
+
+Be	open	about	problems	and	how	you	are	addressing	them	
+
+•
+
+Explain	your	decisions		
+
+•
+
+Do	not	have	secrets	
+
+•
+
+Ask	for	advice	and	help	
+
+•
+
+Be	construcGve	in	criGcism	of	people	outside	your	team	
+
+•
+
+Support	and	ahend	social	events
+
+Set	high	standards!
+
+Firmness
+Managers	must	be	ﬁrm	when	needed:
+•
+
+Assignment	of	tasks	must	be	equitable	and	open;	everybody	will	have	to	
+tackle	some	of	the	dreary	tasks.
+
+•
+
+Carrots	are	beher	than	sGcks,	but	poor	performance	must	be	addressed.
+
+•
+
+Nobody	is	indispensable;	nobody	should	be	allowed	to	think	that	they	
+are	indispensable.
+
+How	to	be	Led
+As	a	junior	member	of	a	team,	what	can	you	do	to	make	it	
+produc1ve?
+•
+
+Follow	the	team's	style	of	working
+
+•
+
+Understand	the	context	of	your	work
+
+•
+
+Make	pracGcal	suggesGons
+
+•
+
+Ask	for	help	if	you	need	it
+
+•
+
+Accept	less	interesGng	tasks
+
+•
+
+Ahend	social	events
+
+•
+
+Do	good	work
+
+Turning	a	Group	Around
+To	turn	a	weak	group	into	a	strong	one	is	the	one	of	the	greatest	
+challenges	of	leadership
+•
+
+The	art	of	the	possible
+
+•
+
+PromoGon	of	the	best	over	the	old	leaders
+
+•
+
+Using	opportuniGes	to	reorganize
+
+•
+
+ResignaGons	and	terminaGons
+
+•
+
+Respect	people	who	try,	but	refuse	to	accept	problem	areas
+
+Persistent	and	ﬁrm	is	beher	than	brutal	and	abrupt
+
+An	Old	Exam	QuesGon
+As	leader	of	a	so3ware	development	team,	you	have	hired	two	new	
+members	of	staﬀ.	
+(i) The	ﬁrst	has	just	graduated	from	the	Cornell	M.Eng.	program	in	
+computer	science,	with	no	work	experience.			
+(ii)	The	second	has	ﬁve	years'	experience	in	developing	advanced	
+applica#ons,	but	has	never	worked	on	this	type	of	computer.
+Some	of	the	development	tasks	are	more	interes#ng	than	others.		Some	
+tasks	are	harder	than	others.		Some	are	more		#me	cri#cal	than	others.		
+What	approach	would	you	use	in	alloca%ng	the	tasks	to	these	two	new	
+members?
+
+Bad	Answers
+"The	Cornell	graduate	has	more	experGse	to	tackle	the	harder	
+tasks."		
+"The	Cornell	graduate	is	used	to	Gme-criGcal	tasks	(course	
+assignments)."		
+"The	Cornell	graduate	should	be	given	interesGng	work	to	make	
+him/her	keen	to	conGnue	with	the	company."		
+
+Bad	Answers
+"The	Cornell	graduate	has	more	experGse	to	tackle	the	harder	tasks."			
+What	makes	you	so	superior?
+"The	Cornell	graduate	is	used	to	Gme-criGcal	tasks	(course	assignments)."			
+Sorry,	that's	not	real.
+"The	Cornell	graduate	should	be	given	interesGng	work	to	make	him/her	
+keen	to	conGnue	with	the	company."			
+But	who	cares	if	you	leave?
+A	raw	graduate	is	sGll	a	trainee	--	the	most	junior	person	--	much	to	learn	
+--	no	experience	of	producGon	quality	development.
+But,	hopefully,	with	great	potenGal!
+
+Good	Answers
+•
+
+Both	should	have	the	poten1al	to	produce	excellent	so(ware	under	Gght	
+Gme	constraints.	
+
+•
+
+Both	new	employees	need	to	learn	the	technical	environment.		Expect	
+them	both	to	work	slowly	unGl	they	learn	the	environment.
+
+•
+
+The	junior	(raw	graduate)	needs	mentoring.		The	senior	(experienced	
+developer)	might	work	independently	or	lead	a	team.
+
+•
+
+The	junior	should	not	be	put	on	1me-cri1cal	tasks.		The	experienced	
+developer	might	be.
+
+•
+
+Both	people	should	be	given	a	mixture	of	more	and	less	interesGng	tasks.		
+Discuss	the	allocaGon	with	them.
+
+Outsourcing
+When	might	you	contract	with	another	organiza1on	to	carry	out	some	or	all	
+parts	of	the	so9ware	development	process?
+•
+
+The	other	organizaGon	might	have	experGse	that	your	organizaGon	lacks.	
+
+•
+
+Your	organizaGon	might	not	have	a	large	enough	staﬀ.
+
+•
+
+The	other	organizaGon	might	have	lower	costs	(e.g.,	it	might	operate	in	a	
+country,	such	as	India,	where	costs	are	lower).
+
+Example
+Most	so(ware	for	the	US	government	is	built	by	contractors.
+
+Outsourcing
+Risks
+•
+
+The	other	organizaGon	may	not	be	as	skilled	as	you	expect.
+
+•
+
+Staﬀ	have	their	ﬁrst	loyalty	to	their	own	organizaGon.
+
+•
+
+The	other	organizaGon	may	have	use	diﬀerent	terminology	or	have	a	
+diﬀerent	culture	(e.g.,	the	organizaGon	may	not	report	problems	to	the	
+client).
+
+•
+
+Communica1on	faces	geographic	and	cultural	diﬀerences.
+
+•
+
+Unless	the	task	is	well	understood,	it	may	be	diﬃcult	to	write	a	contract	
+that	manages	costs	and	results	(e.g.,	government	contracts	are	notorious	
+for	cost	over-runs).
+
+•
+
+If	your	organizaGon	contracts	out	all	interesGng	work,	your	good	staﬀ	will	
+leave.
+
+Outsourcing
+Example
+Company	G	was	the	world's	leader	in	a	specialized	category	of	mathemaGcal	
+so(ware.		G	had	successfully	implemented	several	packages	for	various	
+manufacturers.
+•
+
+A	computer	company	H	contracted	with	G	to	develop	a	package	for	its	new	
+computer	system.
+
+•
+
+The	package	for	company	H	was	late,	performed	badly	and	disliked	by	
+customers.
+
+•
+
+At	the	same	Gme	G	was	developing	a	package	for	company	I.		This	package	
+was	very	successful.
+
+What	went	wrong?	What	can	we	learn?
+
+Outsourcing
+When	work	is	out-sourced,	the	client	must	be	vigilant.
+•
+
+The	client	must	take	responsibility	for	managing	the	relaGonships	
+between	the	project	and	the	client's	organizaGon.
+
+•
+
+The	client	must	have	a	management	and	technical	team	that	can	track	
+the	work	being	done,	monitor	quality,	review	changes	to	scope,	etc.
+
+•
+
+The	contract	should	be	explicit	about	expectaGons,	deliverables,	
+ownership	of	so(ware,	and	mechanisms	for	payment.
+
+•
+
+The	client	must	be	closely	involved	with	user	tesGng	and	must	control	
+the	acceptance	tesGng.
+
+Careers	in	CompuGng
+
+What	will	you	be	doing	one	year	from	now?		Ten	years	from	now?	
+•
+
+Careers	outside	compuGng
+
+•
+
+Careers	in	which	you	personally	conGnue	to	do	technical	work
+
+•
+
+Careers	in	which	you	are	responsible	for	the	technical	work	of	others
+
+•
+
+Entrepreneur	–	your	own	company
+
+Entrepreneur
+Computer	specialist	have	founded	many	of	the	world’s	great	
+companies	(Bill	Gates,	Larry	Page,	Jeﬀ	Bezos,	Mark	Zuckerberg,	...).	
+It	is	easier	for	a	computer	specialist	to	obtain	management	experGse	
+than	for	a	management	generalist	to	become	a	technical	expert.	
+It	is	easier	to	start	young	before	you	have	mortgages,	children,	etc.	
+Do	not	be	afraid	of	failure.		It	is	quite	usual	to	fail	at	the	ﬁrst	ahempt,	
+but	succeed	later.
+
+The	ConnecGon	to	the	Client: 
+CS	5150	Model
+Course	team
+
+Client
+So(ware	
+development	team
+
+Customers
+
+The	ConnecGon	to	the	Client: 
+Typical	OrganizaGon
+MarkeGng	
+manager
+Product	
+manager
+
+Development	
+team	manager
+
+TesGng	
+manager
+
+MarkeGng
+
+Product	
+management
+
+Client
+
+Customers
+
+So(ware	
+development	
+Quality	
+assurance
+
+Leadership	and	coordinaGon	across	all	
+groups	is	essenGal
+
+Technical	Careers
+Super-technical	posi1ons
+•
+
+A	very	few	senior	posiGons	which	are	almost	enGrely	technical:	e.g.,	industrial	
+research,	universiGes
+
+•
+
+Even	these	have	substanGal	organizaGonal	aspects
+
+Mid-level	technical	posi1ons
+•
+
+Numerous	mid-level	professional	posiGons
+
+•
+
+Can	be	state-of-the-art	or	dead-end
+
+Computer	professionals	report	saGsfacGon	with	their	choice	of	careers.
+
+Product	Manager
+The	task	of	the	Product	Manager	is	to	ensure	that	the	right	product	is	built	
+and	that	the	right	trade-oﬀs	are	made	between	Gmeliness,	funcGonality,	
+and	costs.		
+This	requires	an	understanding	of:
+•
+
+MarkeGng	and	business	consideraGons
+
+•
+
+Technical	opGons	and	design	criteria
+
+•
+
+CommunicaGon	among	groups	with	diﬀerent	experGse		and	prioriGes
+
+A	good	Product	Manager	has	strong	technical	and	management	skills	(e.g.,	a	
+computer	scienGst	with	an	MBA).
+
+Careers	that	take	Responsibility	for	the	Technical	Work	
+of	Others
+A	common	career	progression	is	from	being	a	technical	expert	to	leading	
+others	who	do	technical	work
+Senior	personnel	must	be	familiar	with	both	the	strategic	organizaGonal	
+aspects	and	the	compuGng	aspects	of	the	work,	e.g.,
+	 	 Entrepreneur
+	 	 Chief	InformaGon	Oﬃcer
+	 	 Senior	consultant
+•
+
+Requires	good	technical	insight,	not	detailed	technical	experGse
+
+•
+
+Requires	organizaGonal,	markeGng,	personnel,	ﬁnancial	experGse
+
+Product	management	is	a	good	background	for	such	posiGons
+
+Chief	InformaGon	Oﬃcer
+The	senior	person	in	an	organiza1on	responsible	for	technology	
+•
+
+Usually	a	vice	president.
+
+•
+
+Other	job	Gtles	include	Chief	Technology	Oﬃcer.
+
+•
+
+Background	is	probably	a	combinaGon	of	technology	and	management.
+
+•
+
+May	have	worked	as	a	consultant	(possibly	internal	consultant).	
+
+Requires	strategical	technical	experGse
+
+Careers	outside	CompuGng
+A	compu1ng	background	can	be	valuable	in	any	career:	management,	
+government,	law,	medicine,	philanthropy,	etc.
+EducaGon	in	compuGng	is	an	asset:
+•
+
+CompuGng	is	a	vital	part	of	almost	every	organizaGon
+
+•
+
+EducaGon	in	logical	thinking	and	tackling	large	tasks	systemaGcally
+
+EducaGon	in	compuGng	is	a	potenGal	weakness:
+•
+
+Not	every	problem	can	be	solved	by	raGonal	thinking	alone
+
+•
+
+Importance	of	skills	with	people,	judgment,	etc.	
+
+Career	Flexibility
+Nobody	knows	the	future	of	compu1ng,	but	…
+If	you	do	not	learn	conGnuously,	you	are	going	out	of	date	fast
+•
+
+Go	to	seminars,	conferences,	training	courses
+
+•
+
+Be	inquisiGve	–	discover	things	for	yourself
+
+Technical	experGse	is	most	valuable	when	combined	with	other	skills
+•
+
+Understand	the	organizaGon	that	you	are	part	of,	e.g.,	budgets,	
+markeGng.
+
+•
+
+Develop	organizaGonal	skills,	e.g.,	presentaGons,	wriGng,	leadership	
+
+Changing	OrganizaGons
+If	you	change	organizaGons,	behave	in	a	professional	manner:
+Show	respect	for	the	organiza1on	that	you	leave
+•
+
+Respect	trade	secrets	(public	informaGon	is	not	conﬁdenGal)
+
+•
+
+Take	nothing	with	you	except	personal	items
+
+•
+
+Do	not	poach	customers	and	staﬀ
+
+Show	enthusiasm	for	your	new	organiza1on
+•
+
+Embrace	their	culture
+
+•
+
+Do	not	criGcize	relaGve	to	old	organizaGon
+
+

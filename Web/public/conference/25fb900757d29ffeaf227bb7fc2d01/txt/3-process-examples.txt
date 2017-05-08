@@ -1,0 +1,470 @@
+Cornell	University 
+Compu1ng	and	Informa1on	Science
+
+CS	5150	So(ware	Engineering	
+3.		Examples	of	so(ware	development	processes	
+William	Y.	Arms
+
+DeﬁniBons:	AcBvity	and	Sprint
+Ac1vity
+An	acBvity	is	a	general	term	for	any	part	of	a	project	that	takes	place	over	Bme	
+(also	known	as	a	task)	
+•
+
+Each	step	in	the	so(ware	development	process	can	be	broken	down	into	
+several	acBviBes.
+
+Sprint	
+A	sprint	is	a	set	period	of	Bme	during	which	a	team	completes	part	of	a	
+so(ware	project.	
+•
+
+Each	sprint	will	go	through	most	or	all	of	the	process	steps.	
+
+•
+
+A	typical	sprint	might	have	a	team	of	6	to	8	people	working	for	2	to	4	weeks.	
+
+IteraBve	Reﬁnement
+Concept
+•	Create	a	prototype	system	early	in	the	development	process.
+•	Review	the	prototype	with	clients	and	test	it	with	users,	to	improve	
+the	understanding	of	the	requirements	and	clarify	the	design.
+•	Reﬁne	the	prototype	in	a	series	of	iteraBons.
+Requirements	are	hard	to	understand	unBl	there	is	an	operaBonal	
+system,	parBcularly	with	user	interfaces.
+Mistakes	in	the	requirements	are	the	most	expensive	to	correct.
+Example:			
+•	ConverBng	a	naBonal	archive	from	paper	based	to	computer	based.
+
+IteraBve	Reﬁnement
+
+Design
+
+Requirements
+
+ImplementaBon
+
+Review
+Release
+
+Discussion	of	IteraBve	Reﬁnement
+This	is	a	medium	weight	process	with	documentaBon	created	during	the	
+process.
+IteraBve	reﬁnement	uses	various	techniques	that	enable	the	client	to	
+review	the	the	planned	system	early	during	development:
+•			User	interface	mock-up
+•			Throw-away	so(ware	components
+•			Dummy	modules
+•			Rapid	prototyping
+•			Successive	reﬁnement
+Get	something	working	as	quickly	as	possible,	for	client	and	user	
+evaluaBon,	but	do	not	release	it.
+
+IteraBve	Reﬁnement	with	a	Large	System
+Review		
+may	be		
+conBnuous
+Requirements
+Outline	
+DescripBon
+
+Design
+
+ImplementaBon
+
+IniBal	
+Version
+
+Intermediate	
+Versions
+
+Final	
+Version
+
+Spiral	Development
+Spiral	development	
+•	Create	a	base	system	that	has	the	overall	structure	of	the	ﬁnal	product	
+with	dummy	stubs	for	missing	components.	
+•	Create	a	comprehensive	set	of	test	cases	for	all	completed	
+components	
+•	Use	a	succession	of	sprints	to	develop	new	or	improved	components,	
+each	with	a	set	of	test	cases.		Add	these	components	to	the	source	
+code	library.		
+•	On	a	daily	cycle,	build	the	enBre	system	from	the	source	code	library	
+and	run	the	complete	set	of	test	cases.	
+With	spiral	development	there	is	always	a	fully	tested	system,	but	the	
+funcBonality	is	incomplete.	
+Example	
+Developing	a	new	version	of	an	operaBng	system.
+
+Spiral	Development
+
+New	and	
+improved	
+components
+
+Source	code		
+library
+
+Test	
+library
+
+Build	enBre		
+system	from	source
+
+Run	enBre	
+test	suite
+
+Repeat	
+every	
+day
+
+Incremental	Release	of	Online	Systems
+When	so=ware	is	released	online	it	is	o(en	possible	to	divide	the	
+development	into	a	sequence	of	sprints	that	are	developed	and	released	
+in	quick	succession.
+Example:			
+•	Start-up	company	developing	a	web	based	shopping	service.	
+Advantages
+•	Pay-back	on	investment	begins	soon.
+•	Requirement	are	more	clearly	understood	in	developing	subsequent	
+sprints	–	minimize	waste.
+•		Feedback	from	customers	and	clients	can	be	incorporated	in	later			
+phases.
+It	is	easier	for	a	small	team	to	develop	a	small	sprint	correctly	than	to	
+coordinate	large	projects	with	many	ramiﬁcaBons.
+
+Agile	Development	(Original	Version	with	Immediate	Release)
+
+Sprint	2
+
+Sprint	1
+
+Release	
+Sprint	1
+
+Sprint	3
+
+Release
+Sprint	2
+
+Release
+Sprint	3
+
+• The	project	is	divided	into	a	large	number	of	small	tasks,	known	as	sprints.
+• For	each	sprint,	a	team	works	through	a	full	so(ware	development	cycle	
+including	planning,	requirements	analysis,	design,	coding,	tesBng,	and	
+acceptance	tesBng,	and	release.
+• Each	sprint	is	completed	in	a	ﬁxed	Bme	period,	e.g.,	four	weeks.
+• The	size	of	an	sprint	is	based	on	team	size,	e.g.,	5-10	people.
+
+Discussion	of	Agile	Development
+Varia1ons	on	agile	so=ware	development	
+In	pracBce	it	is	rarely	possible	for	every	sprint	to	end	with	released	so(ware,	but	
+so(ware	development	based	on	sprints	has	many	advantages.	
+Modern	so(ware	development	includes	a	wide	range	of	processes	that	are	called	
+“agile”.		Other	processes	with	names	such	as	“heroic	programming”	or	“scrum”	use	
+many	of	the	same	concepts.	
+Characteris1cs	
+•
+
+Development	of	a	project	is	divided	into	a	large	number	of	sprints.	
+
+•
+
+Each	sprint	ends	with	fully	tested	code.	
+
+•
+
+This	is	a	lightweight	process	with	minimal	documentation	created	during	the	
+process.	
+
+A	general	deﬁni1on	(from	Wikipedia)
+Agile	so(ware	development	describes	a	set	of	principles	for	so(ware	development	
+under	which	requirements	and	soluBons	evolve	through	the	collaboraBve	eﬀort	of	
+self-organizing	cross-funcBonal	teams.	
+
+Agile	Development
+
+Sprint	2
+
+Sprint	1
+
+Tested		
+code
+
+Sprint	3
+
+Tested		
+code
+
+Tested		
+code
+
+A(er	each	sprint	the	code	may	be:	
+•
+
+released	(original	agile	method)	
+
+•
+
+combined	with	code	from	other	sprints	for	subsequent	release	
+
+•
+
+incorporated	into	a	larger	code	base	(spiral	development)	
+
+Agile	Development:	Rework
+The	challenge	of	agile	development
+The	agile	approach	is	excellent	for	the	development	or	continual	
+enhancement	of	a	system	within	an	established	architecture.
+A	high-level	team	must	establish	the	overall	architecture	and	coordinate	
+the	sprints.	
+Rework	
+With	agile	development	the	requirements	and	design	of	the	overall	
+system	emerge	incrementally.			
+• Inevitably	parts	of	some	early	sprints	will	need	to	be	reworked.	
+• This	requires	changes	to	code	that	has	already	been	fully	tested	and	
+may	have	been	released.		This	is	always	awkward.	
+If	the	volume	of	rework	is	large,	it	is	more	efficient	not	to	fully	polish	
+each	component,	but	to	use	iterative	refinement	to	minimize	the	
+amount	of	rework.
+
+SequenBal	Development:	The	Waterfall	Model
+Requirements
+
+Feasibility	study
+Requirements
+
+Design
+
+System	design
+ImplementaBon
+
+Program	design
+ImplementaBon	(coding)
+There	are	problems	
+with	this	basic	model	
+and	it	is	rarely	used	in	
+pracBce.
+
+Program	tesBng
+Acceptance	&	release
+OperaBon	&	maintenance
+
+Discussion	of	the	Waterfall	Model
+The	waterfall	model	is	a	heavyweight	process	with	full	
+documentaBon	of	each	process	step.
+Advantages:
+•				Process	visibility
+•				SeparaBon	of	tasks
+•				Quality	control	at	each	step
+•				Cost	monitoring	at	each	step
+Disadvantages:
+In	pracBce,	each	stage	in	the	process	reveals	new	understanding	
+of	the	previous	stages,	which	o(en	requires	the	earlier	stages	to	
+be	revised.
+The	Waterfall	Model	is	not	ﬂexible	enough.
+
+Discussion	of	the	Waterfall	Model
+A	pure	sequen1al	model	is	impossible
+Examples:		
+•	 A	feasibility	study	cannot	create	a	proposed	budget	and	schedule	without	a	
+preliminary	study	of	the	requirements	and	a	tentaBve	design.
+•	 Detailed	design	and	implementaBon	reveal	gaps	in	the	requirements	
+speciﬁcaBon.
+•	 Requirements	and/or	technology	may	change	during	the	development.
+The	plan	must	allow	for	some	form	of	iteraBon.
+
+Modiﬁed	Waterfall	Model
+Feasibility	study
+
+Waterfall	model	with	
+feedback	
+
+Requirements
+
+This	is	bejer
+
+System	design
+Program	design
+ImplementaBon	(coding)
+Program	tesBng
+Acceptance	&	release
+OperaBon	&	maintenance
+
+SequenBal	Development
+SequenBal	processes	work	best	when	the	requirements	are	well	understood	
+and	the	design	is	straighkorward,	e.g.,	
+•	Conversions	of	manual	data	processing	systems	where	the	requirements	
+were	well	understood	and	few	changes	were	made	during	the	development	
+(e.g.,	electricity	billing).	
+•	New	models	of	a	product	where	the	funcBonality	is	closely	derived	from	an	
+earlier	product	(e.g.	automaBc	braking	system	for	a	car).	
+•	PorBons	of	a	large	system	where	some	components	have	clearly	deﬁned	
+requirements	and	are	clearly	separated	from	the	rest	of	the	system.	
+
+Contracts
+Note	about	contracts	for	so=ware	development	
+Some	organizaBons	contract	for	so(ware	development	by	placing	separate	
+contracts	for	each	stage	of	the	Waterfall	Model	or	arrange	for	payment	a(er	
+each	stage.		This	is	a	very	bad	pracBce.
+
+Mixed	Processes
+In	pracBce,	many	large	projects	use	processes	that	mix	aspects	of	the	
+four	types	of	so(ware	process.		For	example:	
+•
+
+With	spiral	development,	new	components	may	be	developed	using	
+any	of	the	three	other	methods.	
+
+•
+
+User	interfaces	have	to	be	tested	with	users.		This	forces	iteraBve	
+development,	even	within	an	agile	or	sequenBal	process.
+
+Mixed	Processes:	Phased	Development
+Combine	sequen1al	and	itera1ve	elements	
+A	simple	system	with	basic	funcBonality	is	brought	quickly	into	
+producBon	(Phase	1).		This	system	may	be	developed	using	a	
+sequenBal	or	iteraBve	reﬁnement.	
+Subsequent	phases	are	based	on	experience	gained	from	users	of	
+the	previous	phase.	
+Advantages	
+•		Pay-back	on	investment	begins	soon.	
+•		Requirement	are	more	clearly	understood	when	developing		
+			subsequent	phases
+
+Examples	of	Mixed	Processes: 
+IteraBve	Reﬁnement	+	Waterfall	Model
+Problem:		Add	graphics	package	to	a	programming	environment
+Phase	1:	IteraBve	reﬁnement		
+Make	several	prototype	versions	by	extending	the	current	environment	with	a	
+preprocessor	and	run-Bme	support	package.		Test	with	users	unBl	users	are	
+pleased	with	funcBon.	Throw	the	code	away.
+Phase	2:	Modiﬁed	waterfall
+Use	the	results	of	Phase	1	to	specify	a	formal	set	of	requirements.		Write	new	
+compiler	and	run-Bme	system	incorporaBng	graphics	elements.		Make	minor	
+adjustments	to	requirements	as	needed.
+
+Corporate	Processes
+Large	so(ware	development	organizaBons	have	their	own	internal	processes	
+that	are	designed	for	their	needs.		For	example:
+•	 Amazon.com	(Internet	commerce)	makes	extensive	use	of	sprints.		Most	
+so(ware	development	is	divided	into	increments	of	about	four	weeks	elapsed	
+Bme.
+•	 Lockheed	MarBn	(government	contractor)	follows	a	sequenBal	process	that	
+ﬁts	with	the	way	that	the	US	government	manages	so(ware	contracts.
+•	 SAP	(business	so(ware)	emphasizes	the	funcBonality	that	is	seen	by	their	
+business	customers.		Much	of	the	development	is	suitable	for	a	sequenBal	
+process.
+•	 Microso(	(PC	so(ware)	places	great	emphasis	on	tesBng	with	a	very	wide	
+variety	of	equipment	and	backward	compaBbility.		Much	of	the	development	
+uses	a	spiral	process.
+
+Choosing	a	So(ware	Process
+Changes	during	the	so(ware	development	process	are	expensive.
+•
+
+If	the	requirements	are	poorly	understood,	or	expected	to	change,	select	a	
+process	that	keeps	ﬂexibility.		IteraBve	reﬁnement,	agile	sprints,	phased	
+implementaBon.	
+
+•
+
+If	a	big	so(ware	system	has	many	inter-related	components,	avoid	major	
+changes	to	the	design	of	a	system	during	development.		SequenBal	process,	
+such	as	the	modiﬁed	waterfall	model.
+
+•
+
+If	the	market	for	the	so(ware	is	poorly	understood,	use	a	process	that	gets	
+operaBonal	so(ware	in	front	of	customers	as	quickly	as	possible.		
+Incremental,	agile	sprints.
+
+ObservaBons	about	So(ware	Processes
+Completed	projects	should	have	included	all	the	basic	process	steps
+but	...	the	development	process	is	always	partly	evoluBonary.
+Risk	is	lowered	by:	
+•
+
+Prototyping	key	components
+
+•
+
+Frequent	releases,	or	dividing	large	projects	into	phases
+
+•
+
+Early	and	repeated	tesBng	with	users	and	customers
+
+•
+
+Following	a	visible	so(ware	process
+
+•
+
+Making	use	of	reusable	components
+
+It	is	never	possible	to	complete	each	step	without	provision	for	revision.		This	is	
+known	as	throwing	it	over	the	wall.
+
+CS	5150	Projects:	IteraBve	Reﬁnement
+
+Design
+Requirements
+ﬁrst	presentaBon
+
+ImplementaBon
+
+second	presentaBon
+third	presentaBon
+Review
+Release
+
+CS	5150	Project:	Agile	Development
+
+Sprint	1
+
+Sprint	2
+
+Tested		
+code
+ﬁrst	presentaBon
+
+Sprint	3
+
+Tested	
+
+Tested	
+code
+
+code
+second	presentaBon
+
+third	presentaBon
+
+For	each	sprint	aim	to	complete	a	secBon	of	the	code.		
+
+CS	5150	Projects:	SequenBal	Development
+1.	Requirements
+
+Feasibility	study
+Requirements
+
+2.	Design
+
+System	design
+Program	design
+ImplementaBon	(coding)
+
+3.	ImplementaBon
+
+Program	tesBng
+Acceptance	&	release
+OperaBon	&	maintenance
+If	you	follow	a	sequenBal	process	the	
+three	presentaBons	should	be	as	shown.
+
+
