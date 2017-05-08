@@ -66,23 +66,23 @@ class Conference < ApplicationRecord
 
   def logo_picture
     if !self.logo_file_name.blank?
-      return self.logo.try(:url)
+      self.logo.try(:url)
     else
-      return 'Paircon_logo.png'
+      'Paircon_logo.png'
     end
   end
 
   def logo_path
     if !self.logo.path.blank?
-      return self.logo.path
+      self.logo.path
     else
-      return Rails.root.join('app/assets/images/Paircon_logo.png')
+      Rails.root.join('app/assets/images/Paircon_logo.png')
     end
   end
 
   def cover_photo
     if !self.cover_file_name.blank?
-      return self.cover.try(:url)
+      self.cover.try(:url)
     end
   end
 
@@ -128,27 +128,15 @@ class Conference < ApplicationRecord
     self.start_date.strftime(DATETIMEFORMAT)
   end
 
-  def get_conference_pdf_path
-    return "#{Rails.root}/public/conference/#{self.id}/pdf"
-  end
-
-  def get_conference_txt_path
-    return "#{Rails.root}/public/conference/#{self.id}/txt"
-  end
-
-  def get_conference_path
-    return "#{Rails.root}/public/conference/#{self.id}"
-  end
-
   def bulk_upload spreadsheet, zip
-    FileUtils.rm_f get_conference_path
-    FileUtils.mkdir_p get_conference_path
-    zip_path = get_conference_path + '/' + zip.original_filename
+    FileUtils.rm_f get_pdf_folder_path
+    FileUtils.mkdir_p get_pdf_folder_path
+    zip_path = get_pdf_folder_path + '/' + zip.original_filename
     File.open(zip_path, 'w+') do |f|
       f.binmode
       f.puts(zip.read)
     end
-    spreadsheet_path = get_conference_path + '/' + spreadsheet.original_filename
+    spreadsheet_path = get_pdf_folder_path + '/' + spreadsheet.original_filename
     File.open(spreadsheet_path, 'w+') do |f|
       f.binmode
       f.puts(spreadsheet.read)
@@ -174,7 +162,7 @@ class Conference < ApplicationRecord
   end
 
   def self.my_organizing_conferences user
-    Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+    Conference.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   def self.my_attending_conferences user

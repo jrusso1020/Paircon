@@ -21,10 +21,10 @@ class ConferenceUtils
 
   #Parses the spreadsheet and save a paper
   def self.parse_spreadsheet spreadsheet, zip_path, conference_id
-    pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_conference_pdf_path)
+    pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_pdf_folder_path)
     xlsx = Roo::Spreadsheet.open(spreadsheet)
     tran_success = true
-    message = "Successfully Parsed Excel"
+    message = 'Successfully Parsed Excel and added Papers and Events in Bulk'
     if (xlsx.sheets.count != 0)
       sheet = xlsx.sheet(0)
       Conference.transaction do
@@ -66,28 +66,26 @@ class ConferenceUtils
               paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
               if not paper.nil?
                 tran_success = create_conference_events(params[:session], conference_id, paper.id)
-                if not tran_success
-                  message = "Problem Adding Papers"
+                unless tran_success
+                  message = 'Problem Adding Papers'
                   tran_success = false
                   raise ActiveRecord::Rollback
-                  break
                 end
               else
                 tran_success = false
-                message = "Problem Adding Papers"
+                message = 'Problem Adding Papers'
                 raise ActiveRecord::Rollback
-                break
               end
             end
           end
         rescue => e
           tran_success = false
-          message = "Problem parsing Excel"
+          message = 'Successfully Parsed Excel and added Papers and Events in Bulk'
           raise ActiveRecord::Rollback
-          break
         end
       end
     end
+
     return tran_success, message
   end
 

@@ -27,7 +27,7 @@
 
 #Ignore Public Folder
 public/conference_papers
-public/users
+public/users/
 public/docs/
 public/conferences/
 public/conference/
