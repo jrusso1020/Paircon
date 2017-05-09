@@ -33,14 +33,6 @@ function getUserRecommendations(conference_id, user_id, view_to_render, count) {
                 path = null;
             }
         }, 20 * 1000),
-        beforeSend: function () {
-            if (view_to_render == 'true') {
-                $("#main-container").empty();
-            }
-            else {
-                $("#recommendation-carousel").empty();
-            }
-        },
         success: function (text, status, xhr) {
             if (count == 0) {
                 showNotificationMsg('Your recommendations have been successfully updated.');
