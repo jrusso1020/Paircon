@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   require 'fileutils'
 
   before_action :check_session, :only => [:show]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:publication, :validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # Action used to show list of approved organizers
@@ -77,6 +77,11 @@ class UsersController < ApplicationController
     end
 
     render json: {status: :ok, message: 'Please wait while we refresh your publications.' }
+  end
+
+  # Action used to display publications
+  def publications
+    @user = User.find(params[:id])
   end
 
   # Action used to update user
@@ -209,6 +214,19 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html { redirect_to user_path(User.find(params[:id])) }
       end
+    end
+  end
+
+  # Action used to validate user
+  def validation
+    if !params[:is_login].blank?
+      render plain: current_user.nil? ? 'false' : 'true'
+    elsif !params[:user][:username].blank?
+      render plain: User.where(username: params[:user][:username]).first.nil? ? 'true' : 'false'
+    elsif !params[:user][:email].blank?
+      render plain: User.where(email: params[:user][:email]).first.nil? ? 'true' : 'false'
+    else
+      render plain: 'false'
     end
   end
 

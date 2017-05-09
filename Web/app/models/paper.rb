@@ -48,10 +48,10 @@ class Paper < ApplicationRecord
     File.delete(new_file)
   end
 
-  def get_author_information
+  def get_author_information(is_organizer)
     dict = []
     self.author.each_with_index do |item, index|
-      dict.push({author: self.author[index], affiliation: self.affiliation[index], email: self.email[index]})
+      dict.push({author: self.author[index], affiliation: self.affiliation[index], email: is_organizer ? self.email[index] : ''})
     end
 
     dict.to_json

@@ -40,7 +40,7 @@
           </tr>
           </thead>
           <tbody>
-          <%= render @conference.papers %>
+          <%= render @conference.papers, is_owner: @is_organizer %>
           </tbody>
         </table>
     <% end %>
@@ -48,5 +48,5 @@
   </div>
 </div>
 
-<%= javascript_tag 'initializePapersView()' %>
+<%= javascript_tag "initializePapersView(#{@is_organizer})" %>
 

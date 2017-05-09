@@ -167,16 +167,19 @@ function initializePaperFileUploader(conferenceid) {
     });
 }
 
-function initializePapersView() {
+function initializePapersView(is_organizer) {
 
     function format(td) {
         var child = '<table id="subDataTable" class="table paircon-table table-responsive dataTable">' +
             '<thead>' +
             '<tr role="row">' +
             '<th>Author Name</th>' +
-            '<th>Affiliation</th>' +
-            '<th>Email Address</th>' +
-            '</tr>' +
+            '<th>Affiliation</th>';
+
+        if (is_organizer)
+            child = child + '<th>Email Address</th>';
+
+        child = child + '</tr>' +
             '</thead>' +
             '<tbody>';
 
@@ -185,9 +188,12 @@ function initializePapersView() {
         for (var i = 0; i < author_information.length; i++) {
             child = child + '<tr role="row">' +
                 '<td>' + author_information[i].author + '</td>' +
-                '<td>' + author_information[i].affiliation + '</td>' +
-                '<td>' + author_information[i].email + '</td>' +
-                '</tr>';
+                '<td>' + author_information[i].affiliation + '</td>';
+
+            if (is_organizer)
+                child = child + '<td>' + author_information[i].email + '</td>';
+
+            child = child + '</tr>';
         }
 
         child = child +

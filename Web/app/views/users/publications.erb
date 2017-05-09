@@ -1,0 +1,23 @@
+<%= header_title @user.full_name %>
+
+<div id="page-heading">
+  <%= page_title @user.full_name %>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-2 col-sm-12 col-xs-12 text-center col-md-offset-1">
+      <%= image_tag @user.logo.url, class: 'profile-image dropzone static conference-logo' %>
+      <h3><%= @user.full_name %></h3>
+      <h3><%= @user.organization %></h3>
+      <h3><%= @user.industry %></h3>
+    </div>
+    <div class="col-md-8 col-sm-12 col-xs-12">
+      <% if @user.papers.length == 0 %>
+          <%= render 'layouts/application/no_result', body: @user.full_name + ' has no papers defined.' %>
+      <% else %>
+          <!-- To Be Completed (Not Possible Without Paper Information Such as Title / Author etc. -->
+      <% end %>
+    </div>
+  </div>
+</div>
