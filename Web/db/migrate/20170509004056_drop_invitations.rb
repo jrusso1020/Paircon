@@ -1,4 +1,6 @@
 class DropInvitations < ActiveRecord::Migration[5.0]
+  disable_ddl_transaction!
+  
   def change
     remove_column :users, :invitation_token
     remove_column :users, :invitation_created_at
