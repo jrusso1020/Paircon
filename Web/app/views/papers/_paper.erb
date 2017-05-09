@@ -1,4 +1,4 @@
-<tr data-authorinfo="<%= paper.get_author_information %>">
+<tr data-authorinfo="<%= paper.get_author_information(is_owner) %>">
   <td class="<%= 'details-control' if paper.author.length > 0 %>"></td>
   <td><%= link_to paper.title, pdf.full_path(file: paper.pdf.url), target: '_blank' %></td>
   <td><%= paper.abstract.blank? ? 'N/A' : paper.abstract %></td>

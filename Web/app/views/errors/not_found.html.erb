@@ -10,7 +10,7 @@
             <h1 class="text-jumbo text-ginormous hide-sm error-text-quote">Oops!</h1>
             <h2 class="error-text-quote">We can't seem to find the page you're looking for.</h2>
             <% if user_signed_in? %>
-                  <%= render 'errors/search' %>
+                  <%= render 'layouts/application/search' %>
             <% end %>
             <h6 class="error-text-code">Error code: 404</h6>
             <ul class="list-unstyled">

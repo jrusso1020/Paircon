@@ -87,25 +87,79 @@ footer {
 }
 
 .custom-flash-info {
-  //position: fixed;
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 5px !important;
-  //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
-  //transform: translate(-50%, 19px) !important;
   border: none !important;
   background-color: $color_mercury_approx !important;
   padding: 8px 10px !important;
 }
 
 .custom-flash-error {
-  //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
   border-radius: 5px !important;
-  //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
-  //transform: translate(-50%, 19px) !important;
   border: none !important;
   color: $color_monza_approx !important;
   background-color: $color_your_pink_approx !important;
   padding: 8px 10px !important;
+}
+
+/***********************************
+************************************
+Header
+************************************
+***********************************/
+.header-button {
+  min-height: 40px !important;
+  box-shadow: none !important;
+  border: none !important;
+  @media screen and (min-width: $screen-sm-min) {
+    padding: 12px 15px !important;
+  }
+
+  @media screen and (max-width: $screen-xs-max) {
+    padding: 12px 10px !important;
+  }
+  background: transparent !important;
+  color: $users-navy-text-color !important;
+  font-weight: 400 !important;
+}
+
+.header-button:hover {
+  color: $users-navy-text-color !important;
+}
+
+.header-button:focus {
+  background-color: transparent !important;
+}
+
+@media screen and (max-width: $screen-xs-max) {
+  .header-font-small {
+    font-size: 10px !important;
+  }
+}
+
+@media screen and (max-width: $screen-sm-max) and (min-width: $screen-sm-min) {
+  .header-font-small {
+    font-size: 14px !important;
+  }
+}
+
+.sidebar-footer {
+  background: transparent !important;
+  color: $color_athens_gray_approx;
+}
+
+.dropdown-menu li a {
+  padding: 12px 20px;
+}
+
+/***********************************
+************************************
+Misc
+************************************
+***********************************/
+.search-top {
+  margin-top: 5px;
+  margin-left: 10px;
+  min-width: 30%;
 }
 
 .text-center {
@@ -171,61 +225,11 @@ label {
   font-weight: 500 !important;
 }
 
-/***********************************
-************************************
-Header
-************************************
-***********************************/
-.header-button {
-  min-height: 40px !important;
-  box-shadow: none !important;
-  border: none !important;
-  @media screen and (min-width: $screen-sm-min) {
-    padding: 12px 15px !important;
-  }
-
-  @media screen and (max-width: $screen-xs-max) {
-    padding: 12px 10px !important;
-  }
-  background: transparent !important;
-  color: $users-navy-text-color !important;
-  font-weight: 400 !important;
+.logo-image {
+  max-height: 300px;
+  max-width: 300px;
 }
 
-.header-button:hover {
-  color: $users-navy-text-color !important;
-}
-
-.header-button:focus {
-  background-color: transparent !important;
-}
-
-@media screen and (max-width: $screen-xs-max) {
-  .header-font-small {
-    font-size: 10px !important;
-  }
-}
-
-@media screen and (max-width: $screen-sm-max) and (min-width: $screen-sm-min) {
-  .header-font-small {
-    font-size: 14px !important;
-  }
-}
-
-.sidebar-footer {
-  background: transparent !important;
-  color: $color_athens_gray_approx;
-}
-
-.dropdown-menu li a {
-  padding: 12px 20px;
-}
-
-/***********************************
-************************************
-Misc
-************************************
-***********************************/
 .introjs-tooltip {
   direction: ltr !important;
 }

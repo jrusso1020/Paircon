@@ -1,7 +1,7 @@
 <% page_title('Home') %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name),
-             :html => {:class => 'form-horizontal', id: 'new_user_session'}) do |form| %>
+             :html => {:class => 'form-horizontal login-form', id: 'new_user_session'}) do |form| %>
 
     <%= content_tag :div, class: 'panel-body' do %>
         <%= content_tag :h4, class: 'text-center' do %>
@@ -33,22 +33,28 @@
 
     <%= content_tag :div, class: 'form-actions clearfix' do %>
         <%= content_tag :div, class: 'pull-left' do %>
-            <%= form.check_box :remember_me, :class => 'checkbox-center' %><small> Remember Me</small>
+            <%= form.check_box :remember_me, :class => 'checkbox-center' %>
+            <small> Remember Me</small>
         <% end %>
 
         <%= content_tag :div, class: 'pull-right login-text-size' do %>
-            <small style="margin-top:-5px;"><%= link_to 'Forgot password?', recover_path(anchor: 'main-header') %></small><br>
+            <small style="margin-top:-5px;"><%= link_to 'Forgot password?', recover_path(anchor: 'main-header') %></small>
+            <br>
             <%#= link_to "Resend confirmation?", new_confirmation_path(resource_name) %>
         <% end %>
 
         <%= form.submit 'Login', :class => 'btn btn-block btn-paircon' %>
     <% end %>
 
-    <%= content_tag :div, class: 'footer-login' do %>
-        <%= content_tag :div, 'Login with', class: 'pull-left text' %>
-        <%= content_tag :div, class: 'pull-right btn-social' do %>
-            <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-facebook'), class: 'btn btn-facebook btn-footer-social', href: "#{user_facebook_omniauth_authorize_path}" %>
-            <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-google-plus'), class: 'btn btn-google-plus btn-footer-social', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
+    <%= content_tag :div, class: 'footer-login row' do %>
+        <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6' do %>
+            <%= content_tag :div, 'Login with', class: 'text text-left' %>
+        <% end %>
+        <%= content_tag :div, class: 'col-md-6 col-sm-6 col-xs-6' do %>
+          <%= content_tag :div, class: 'btn-social text-right' do %>
+              <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-facebook'), class: 'btn btn-facebook btn-footer-social', href: "#{user_facebook_omniauth_authorize_path}" %>
+              <%= content_tag :a, content_tag(:i, '', class: 'navy-text fa fa-google-plus'), class: 'btn btn-google-plus btn-footer-social', href: "#{user_google_oauth2_omniauth_authorize_path}" %>
+          <% end %>
         <% end %>
     <% end %>
 <% end %>
