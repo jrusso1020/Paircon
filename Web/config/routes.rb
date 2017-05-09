@@ -124,6 +124,7 @@ Rails.application.routes.draw do
       get :refresh_profile
       get :approved_organizers
       get :pending_organizers
+      get :publications
 
       delete :delete_account
 

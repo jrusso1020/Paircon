@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   require 'fileutils'
 
   before_action :check_session, :only => [:show]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:publication, :validation]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # Action used to show list of approved organizers
@@ -77,6 +77,11 @@ class UsersController < ApplicationController
     end
 
     render json: {status: :ok, message: 'Please wait while we refresh your publications.' }
+  end
+
+  # Action used to display publications
+  def publications
+    @user = User.find(params[:id])
   end
 
   # Action used to update user
