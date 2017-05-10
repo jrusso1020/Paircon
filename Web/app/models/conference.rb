@@ -131,12 +131,12 @@ class Conference < ApplicationRecord
   def bulk_upload spreadsheet, zip
     FileUtils.rm_f get_pdf_folder_path
     FileUtils.mkdir_p get_pdf_folder_path
-    zip_path = get_pdf_folder_path + '/' + zip.original_filename
+    zip_path = get_conference_path + '/' + zip.original_filename
     File.open(zip_path, 'w+') do |f|
       f.binmode
       f.puts(zip.read)
     end
-    spreadsheet_path = get_pdf_folder_path + '/' + spreadsheet.original_filename
+    spreadsheet_path = get_conference_path + '/' + spreadsheet.original_filename
     File.open(spreadsheet_path, 'w+') do |f|
       f.binmode
       f.puts(spreadsheet.read)
@@ -162,19 +162,23 @@ class Conference < ApplicationRecord
   end
 
   def self.my_organizing_conferences user
-    Conference.includes(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
+    Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   def self.my_attending_conferences user
     Conference.joins(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
+  def get_conference_path
+    "#{Rails.root}/public/conferences/#{self.id}"
+  end
+
   def get_pdf_text_path
-    "#{Rails.root}/public/conferences/#{self.id}/txt"
+    "#{get_conference_path}/txt"
   end
         
   def get_pdf_folder_path
-    "#{Rails.root}/public/conferences/#{self.id}/pdf"
+    "#{get_conference_path}/pdf"
   end
 
   private
