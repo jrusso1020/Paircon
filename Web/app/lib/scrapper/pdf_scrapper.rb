@@ -108,7 +108,7 @@ class PDFScrapper
           IO.copy_stream(download, f)
         end
       rescue => ex
-        Rails.logger.error(ex.inspect)
+        Rails.logger.error(ex.backtrace)
         Rails.logger.error('Could not download ' + link)
       end
 
@@ -129,7 +129,7 @@ class PDFScrapper
           end
         end
       rescue => ex
-        Rails.logger.error(ex.inspect)
+        Rails.logger.error(ex.backtrace)
         Rails.logger.error('Could not download ' + link)
       end
 
@@ -145,7 +145,7 @@ class PDFScrapper
       begin
         Docsplit.extract_text(filepath, :ocr => false, :output => txtFolder, :clean => true)
       rescue => e
-        Rails.logger.error(e)
+        Rails.logger.error(e.backtrace)
         Rails.logger.error('Error while extracting : ' + filepath)
       end
 
