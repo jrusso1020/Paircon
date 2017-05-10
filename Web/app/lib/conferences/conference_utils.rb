@@ -1,6 +1,7 @@
 require 'zip'
 require 'roo'
 require 'papers/paper_utils'
+require 'simple_xlsx_reader'
 
 class ConferenceUtils
   #Creates a map of pdf name to the path where it is extracted
@@ -21,6 +22,71 @@ class ConferenceUtils
 
   #Parses the spreadsheet and save a paper
   def self.parse_spreadsheet spreadsheet, zip_path, conference_id
+    pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_pdf_folder_path)
+    xlsx = SimpleXlsxReader.open(spreadsheet)
+    tran_success = true
+    message = 'Successfully Parsed Excel and added Papers and Events in Bulk'
+    if (xlsx.sheets.length != 0)
+      sheet = xlsx.sheets.first
+      Conference.transaction do
+        begin
+          sheet.data.each do |row| # Will exclude first (inevitably header) row
+            unless row.blank?
+              params = {}
+              if row[1].nil?
+                continue
+              end
+              params[:paper] = {}
+              params[:paper][:title] = row[1].to_s
+              params[:paper][:year] = row[2].to_s
+              params[:paper][:author] = row[3].to_s.split(";")
+              params[:paper][:affiliation] = row[4].to_s.split(";")
+              params[:paper][:email] = row[5].to_s.split(";")
+              params[:paper][:abstract] = row[6].to_s
+              params[:session] = {}
+              params[:session][:title] = row[7].to_s
+              params[:session][:session_title] = row[12].to_s
+              params[:session][:event_start_date] = DateTime.parse(row[8].to_s).change(hour: row[9].hour, min: row[9].min)
+              params[:session][:event_end_date] = DateTime.parse(row[8].to_s).change(hour: row[10].hour, min: row[10].min)
+              params[:session][:session_start_date] = DateTime.parse(row[8].to_s).change(hour: row[15].hour, min: row[15].min)
+              params[:session][:session_end_date] = DateTime.parse(row[8].to_s).change(hour: row[16].hour, min: row[16].min)
+              params[:session][:presenter] = row[13].to_s
+              params[:session][:event_type] = row[14].to_s
+              params[:session][:room] = row[11].to_s
+              pdf_name = row[17].to_s
+              paper_pdf_path = nil
+              if pdf_map.has_key?(pdf_name)
+                paper_pdf_path = pdf_map[pdf_name]
+              end
+              paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
+              if not paper.nil?
+                tran_success = create_conference_events(params[:session], conference_id, paper.id)
+                unless tran_success
+                  message = 'Problem Adding Papers'
+                  tran_success = false
+                  raise ActiveRecord::Rollback
+                end
+              else
+                tran_success = false
+                message = 'Problem Adding Papers'
+                raise ActiveRecord::Rollback
+              end
+            end
+          end
+        rescue => e
+          tran_success = false
+          message = 'Problem Adding papers in bulk'
+          raise ActiveRecord::Rollback
+        end
+      end
+    end
+
+    return tran_success, message
+  end
+
+  #Parses the spreadsheet and save a paper
+  #ROO was giving issues with time, so not using.
+  def self.parse_spreadsheet_roo spreadsheet, zip_path, conference_id
     pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_pdf_folder_path)
     xlsx = Roo::Spreadsheet.open(spreadsheet)
     tran_success = true
@@ -80,7 +146,7 @@ class ConferenceUtils
           end
         rescue => e
           tran_success = false
-          message = 'Successfully Parsed Excel and added Papers and Events in Bulk'
+          message = 'Problem Adding papers in bulk'
           raise ActiveRecord::Rollback
         end
       end
