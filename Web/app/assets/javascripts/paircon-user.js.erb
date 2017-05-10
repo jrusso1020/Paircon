@@ -180,23 +180,31 @@ function initializeUserShow(gender) {
     });
 
     $('.dropzone').html5imageupload({
-        onAfterProcessImage: function () {
-            $('.userimage').attr('src', $('#image_upload').attr('src'));
+        onAfterCompleteImage: function () {
+            $('.profile_img').attr('src', $('.logo-image').data('image'));
+            $('#userimage').attr('src', $('.logo-image').data('image'));
+        },
+        onAfterRemoveImage: function () {
+            setUserDefaultImage(gender);
         },
         onAfterCancel: function () {
-            if (gender == 1) {
-                $('#user_avatar').attr('src', "<%= asset_path('Male.jpg') %>");
-                $('.userimage').attr('src', "<%= asset_path('Male.jpg') %>");
-                $('.preview').attr('src', "<%= asset_path('Male.jpg')%>");
-            } else {
-                $('#user_avatar').attr('src', "<%= asset_path('Female.jpg') %>");
-                $('.userimage').attr('src', "<%= asset_path('Female.jpg')%>");
-                $('.preview').attr('src', "<%= asset_path('Female.jpg')%>");
-            }
-        },
+            setUserDefaultImage(gender);
+        }
     });
 
     $(".sidebar li").removeClass('active');
+}
+
+function setUserDefaultImage(gender) {
+    if (gender == 1) {
+        $('.profile_img').attr('src', "<%= asset_path('Male.jpg') %>");
+        $('#userimage').attr('src', "<%= asset_path('Male.jpg') %>");
+        $('.preview').attr('src', "<%= asset_path('Male.jpg')%>");
+    } else {
+        $('.profile_img').attr('src', "<%= asset_path('Female.jpg') %>");
+        $('#userimage').attr('src', "<%= asset_path('Female.jpg')%>");
+        $('.preview').attr('src', "<%= asset_path('Female.jpg')%>");
+    }
 }
 
 // Place all the behaviors and hooks related to the matching controller here.

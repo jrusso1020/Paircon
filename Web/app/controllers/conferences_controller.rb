@@ -249,7 +249,7 @@ class ConferencesController < ApplicationController
       @conference.save_image(params, true)
     end
 
-    render json: {status: :ok, url: @conference.logo_picture, filename: @conference.logo_file_name}
+    render json: {status: :success, url: @conference.logo_picture, filename: @conference.logo_file_name}
   end
 
   # Action used to save cover photo for the oconference
@@ -258,7 +258,7 @@ class ConferencesController < ApplicationController
       @conference.save_image(params, false)
     end
 
-    render json: {status: :ok, url: @conference.cover_photo, filename: @conference.cover_file_name}
+    render json: {status: :success, url: @conference.cover_photo, filename: @conference.cover_file_name}
   end
 
   # Action used to remove the conference permanently from the database
