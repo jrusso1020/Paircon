@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # -------------- THIS IS PRIMARY BUG FIX FOR LIB PATH ERROR IN RAILS 5 ----------------
-  config.eager_load_paths -= %W(#{config.root}/app/lib/)
+  # config.eager_load_paths -= %W(#{config.root}/app/lib/)
   # -------------------------------------------------------------------------------------
 
   # Full error reports are disabled and caching is turned on.
