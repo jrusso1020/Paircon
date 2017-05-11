@@ -3,14 +3,10 @@ Unauthorized copying of all files in this project, via any medium is strictly pr
 Proprietary and confidential
 Written by Mutahir Kazmi <kazmi.mutahir@gmail.com>
 
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
+Modifications of source code is permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice and should be known to Paircon,
-      this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice and should be known to Paircon,
-      this list of conditions and the following disclaimer in the documentation
-      and/or other materials provided with the distribution.
+    * Is not done for commercial use unless authorized by Paircon
+    * Source code must retain the above copyright notice and has been authorized by Paircon
     * Neither the name of Paircon nor the names of its contributors
       may be used to endorse or promote products derived from this software
       without specific prior written permission.
