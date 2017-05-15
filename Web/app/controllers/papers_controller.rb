@@ -7,6 +7,7 @@ class PapersController < ApplicationController
   before_action :find_paper, except: [:index, :new, :create]
 
   # Action used for showing modal for new paper
+  # @return [HTML] Renders New View
   def new
     @title = 'Add Paper / Poster'
     @body = 'Please enter information about the Paper, optional details about the author(s) and upload a PDF version of the Paper.'
@@ -14,6 +15,7 @@ class PapersController < ApplicationController
   end
 
   # Action used to process creation of paper
+  # @return [JSON] Renders status as JSON
   def create
     parameters = JSON(params[:json], symbolize_names: true)
 
@@ -34,8 +36,6 @@ class PapersController < ApplicationController
       paper_params[:affiliation] = paper_params[:affiliation].split(';')
       paper_params[:email] = paper_params[:email].split(';')
 
-      Rails.logger.debug(paper_params)
-
       if PaperUtils.create_paper(paper_params, conference.id, paper_pdf_path).nil?
         render json: {status: :internal_server_error, message: 'Error creating new paper!'}
       elsif render json: {status: :ok, message: 'Paper was successfully added to your Conference.'}
@@ -46,11 +46,13 @@ class PapersController < ApplicationController
   end
 
   # Action used to show modal for paper deletion
+  # @return [HTML] Renders Delete Modal
   def delete
     render layout: false
   end
 
   # Action used to process and delete paper from system
+  # @return [HTML] Redirects to last location
   def destroy
     Paper.transaction do
       if @paper.destroy
@@ -63,6 +65,7 @@ class PapersController < ApplicationController
   end
 
   # Action used to update paper
+  # @return [JSON] Renders status as JSON
   def update
     paper_params = paper_params()
     unless paper_params[:author].nil?

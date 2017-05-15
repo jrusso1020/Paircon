@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   etag { current_user.try :id }
 
   # Action used to destroy cache
+  # @return [None]
   def set_cache_buster
     response.headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
     response.headers['Pragma'] = 'no-cache'
@@ -27,21 +28,26 @@ class ApplicationController < ActionController::Base
   end
 
   # Action used to run rails logger debug
+  # @param data [String] Message that needs to be shown in Log
+  # @return [None]
   def log(data)
     Rails.logger.debug("\n\n==========LOG============\n\n#{data}\n\n=======================\n\n")
   end
 
   # Action used to configure sign up parameters
+  # @return [None]
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit({roles: []}, :email, :password, :password_confirmation, :first_name, :last_name) }
   end
 
   # Action executed if something is not found
+  # @return [HTML] Renders Internal Server Error
   def not_found
     render file: '/errors/internal_server_error', formats: [:html], layout: false, status: 404
   end
 
   # Action used to define the type of resource (different themes)
+  # @return [None]
   def layout_by_resource
     unless request.headers['X-PJAX']
 
@@ -67,6 +73,7 @@ class ApplicationController < ActionController::Base
   private
 
   # Method used to load left column in application layout
+  # @return [None]
   def load_left_column
     if signed_in?(:user)
       @attending_conferences = Conference.my_attending_conferences(current_user)
@@ -79,16 +86,19 @@ class ApplicationController < ActionController::Base
   end
 
   # Method used to check the type of layout
+  # @return [String] Returns Layout Name
   def layout
     request.xhr? ? false : 'application'
   end
 
   # Method used to check current page
+  # @return [String] Returns Controller_ActionName as String
   def current_page
     "#{params[:controller]}_#{params[:action]}"
   end
 
   # Method used to set user locale
+  # @return [None]
   def set_locale
     if !params[:lang].blank?
       I18n.locale = params[:lang]
@@ -100,6 +110,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Method used to set current timezone
+  # @return [None]
   def set_timezone
     if !signed_in?(:user)
       Time.zone = find_timezone()
@@ -109,6 +120,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Method used to find the current timezone of the user
+  # @return [TimeZone] Returns Timezone
   def find_timezone
     time_zone = ActiveSupport::TimeZone[cookies[:time_zone_name]] unless cookies[:time_zone_name].blank?
 
@@ -126,6 +138,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Method used to update the timezone
+  # @return [None]
   def save_timezone!
     timezone = find_timezone()
     current_user.time_zone_name = timezone.name
@@ -133,17 +146,20 @@ class ApplicationController < ActionController::Base
   end
 
   # Method to overwrite the sign_in redirect path method
+  # @return [None]
   def after_sign_in_path_for(resource_or_scope)
     save_timezone!() if current_user.time_zone_name.blank?
     stored_location_for(resource_or_scope) || dashboard_path()
   end
 
   # Method to overwrite the sign_out redirect path method
+  # @return [None]
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_url()
   end
 
   # Method executed on sign up
+  # @return [None]
   def is_app_init_for_sign_up
     ActiveRecord::Base.skip_callbacks = false
 
@@ -160,6 +176,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Method used to set mailer
+  # @return [None]
   def set_mailer_url_options
     ActionMailer::Base.default_url_options[:host] = with_subdomain(request.subdomain)
   end

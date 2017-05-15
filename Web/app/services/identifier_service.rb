@@ -9,6 +9,8 @@ class IdentifierService
     @user = user
   end
 
+  # Create Identity for a user
+  # @return [User] return the user for whom the identity is created
   def resolve
     user = nil
 
@@ -23,11 +25,15 @@ class IdentifierService
 
   private
 
+  # Create Identity for a user
   def find_or_create_identity
     Identity.where(provider: @auth.provider, uid: @auth.uid).
         create_with(auth_data: @auth).first_or_create!
   end
 
+  # Create Identity for a user
+  # @param [Identity] Identity Object
+  # @return [User] return the user for whom the identity is created
   def ensure_user identity
     @user ||= identity.user
     return @user if @user
@@ -40,15 +46,18 @@ class IdentifierService
         ).first_or_create!
 
     if @auth.provider =~ /facebook/i
-      @user.logo = URI.parse(identity.image.gsub("http","https") + "?width=200&height=200")
+      @user.logo = URI.parse(identity.image.gsub('http','https') + '?width=200&height=200')
     else
-      @user.logo = URI.parse(identity.image.gsub("https","http").gsub(/sz=50/i,'sz=200'))
+      @user.logo = URI.parse(identity.image.gsub('https','http').gsub(/sz=50/i,'sz=200'))
     end
     @user.save!(validate: false)
 
     @user
   end
 
+  # Create Link Between Identity and User
+  # @param [Identity] Identity Object
+  # @param [User] User Object
   def link identity, user
     identity.update_attribute :user, user unless identity.user == user
   end
