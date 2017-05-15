@@ -147,8 +147,8 @@ class Conference < ApplicationRecord
   end
 
   # Handle the bulk upload of schedule and papers of a conference
-  # @param spreadsheet []
-  # @param zip []
+  # @param spreadsheet [File] a spreadsheet file to parse
+  # @param zip [File] a zip file to unzip
   # @return [Boolean] whether or not the transaction was successful
   # @return [String] the error or success message of the transaction
   def bulk_upload spreadsheet, zip
