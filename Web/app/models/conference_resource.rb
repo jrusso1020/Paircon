@@ -35,6 +35,7 @@ class ConferenceResource < ApplicationRecord
 
   private
 
+  # Create Conference Resource id
   def init_id
     self.id = CodeGenerator.code(ConferenceResource.new, 'id', 30)
   end

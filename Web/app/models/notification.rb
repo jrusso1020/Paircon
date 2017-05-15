@@ -36,6 +36,7 @@ class Notification < PublicActivity::Activity
   NOTIFICATION_LIST_LIMIT = 14
   MAX_DAYS = 7
 
+  # Find the notifications for a given user
   def self.find_all_notifications(user, limit = nil)
     from_time = Time.now.utc.to_date - 1.week
     attending_conferences_id = Conference.my_attending_conferences(user).active.collect(&:id)
@@ -46,12 +47,14 @@ class Notification < PublicActivity::Activity
     (post_notifications.or(notifications_local)).order(created_at: :desc).limit(limit)
   end
 
+  # Find the newest notifacation for a user
   def self.find_new_notifications notifications, user
     notifications.where('created_at > ? AND created_at > ?', user.last_notifications_read, Date.today - Notification::MAX_DAYS).limit(Notification::NOTIFICATION_LIST_LIMIT).select('id').size
   end
 
   private
 
+  # Create Notification id
   def init_id
     self.id = CodeGenerator.code(Notification.new, 'id', 30)
   end

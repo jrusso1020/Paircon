@@ -23,6 +23,7 @@ class Similarity < ApplicationRecord
 
   private
 
+  # Create Similarity id
   def init_id
     self.id = CodeGenerator.code(Similarity.new, 'id', 30)
   end

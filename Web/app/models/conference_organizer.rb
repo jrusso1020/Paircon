@@ -22,6 +22,7 @@ class ConferenceOrganizer < ApplicationRecord
 
   private
 
+  # Create a Conference Organizer id
   def init_id
     self.id = CodeGenerator.code(ConferenceOrganizer.new, 'id', 30)
   end

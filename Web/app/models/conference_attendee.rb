@@ -20,6 +20,7 @@ class ConferenceAttendee < ApplicationRecord
 
   private
 
+  # Create Conference Attendee id
   def init_id
     self.id = CodeGenerator.code(ConferenceAttendee.new, 'id', 30)
   end

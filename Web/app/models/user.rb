@@ -78,6 +78,7 @@ class User < ApplicationRecord
 
   enum user_type: [:attendee, :organizer, :admin]
 
+  # Check if full name is equivalent to passed fullname
   def full_name=(full_name)
     full_name_tokens = full_name.split(/\s+/)
 
@@ -85,10 +86,12 @@ class User < ApplicationRecord
     self.last_name = full_name_tokens[1..-1].join(' ') if (full_name_tokens.size > 0)
   end
 
+  # Get the string version of full name of a user
   def full_name
     "#{self.first_name} #{self.last_name}".strip()
   end
 
+  # Get the profile picture of a user
   def profile_photo
     if !self.logo_file_name.blank?
       return self.logo.try(:url)
@@ -99,27 +102,33 @@ class User < ApplicationRecord
     end
   end
 
+  # Get the link to a profile picture
   def profile_photo_full_link
     return "#{PairConConfig::root_domain + ActionController::Base.helpers.asset_path(self.profile_photo)}"
   end
 
+  # Get the txt folder of a user's papers
   def get_pdf_text_path
     return "#{Rails.root}/public/users/#{self.id}/txt"
   end
 
+  # Get the pdf folder of a user's papers
   def get_pdf_folder_path
     return "#{Rails.root}/public/users/#{self.id}/pdfs"
   end
 
+  # Check if a user is a pending organizer
   def pending_organizer
     Organizer.exists?(user_id: self.id)
   end
 
+  # Get all activity for a user
   def activity key
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: self, recipient: self, params: {:user => self.to_json})
   end
 
+  # Scrape a user's profile
   def scrape_profile
     self.is_scraped = false
     self.save
@@ -133,10 +142,12 @@ class User < ApplicationRecord
     end
   end
 
+  # Check if a user is attending a conference already
   def is_attending(conference_id)
     !ConferenceAttendee.find_by(user_id: self.id, conference_id: conference_id).blank?
   end
 
+  # Check to see if all recommendation similarities have been computed for a user and conference
   def all_similarities_generated(conference_id)
     user = self
     conference = Conference.find_by(id: conference_id)
@@ -146,6 +157,7 @@ class User < ApplicationRecord
 
   private
 
+  # Create User id
   def init_user_id
     self.id = CodeGenerator.code(User.new, 'id', 30)
   end

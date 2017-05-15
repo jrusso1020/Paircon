@@ -31,6 +31,7 @@ class Paper < ApplicationRecord
   validates_attachment :pdf, content_type: { content_type: PAPER_MIME_TYPES }
   before_create :init_id
 
+  # Save a pdf version of a paper for a given conference
   def save_pdf(conference_id, filename, request_body)
     pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
     FileUtils.mkdir_p pdf_folder
@@ -48,6 +49,7 @@ class Paper < ApplicationRecord
     File.delete(new_file)
   end
 
+  # Get the author information for a this paper
   def get_author_information(is_organizer)
     dict = []
     self.author.each_with_index do |item, index|
@@ -57,6 +59,7 @@ class Paper < ApplicationRecord
     dict.to_json
   end
 
+  # Save the path of a pdf
   def save_pdf_path(filepath)
     self.pdf = File.open(filepath, 'r')
     self.md5hash = Digest::MD5.hexdigest(File.read(filepath))
@@ -65,6 +68,7 @@ class Paper < ApplicationRecord
 
   private
 
+  # Create Paper id
   def init_id
     self.id = CodeGenerator.code(Paper.new, 'id', 30)
   end

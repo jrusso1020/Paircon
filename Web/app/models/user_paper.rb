@@ -21,6 +21,7 @@ class UserPaper < ApplicationRecord
 
   private
 
+  # Create User Paper id
   def init_id
     self.id = CodeGenerator.code(UserPaper.new, 'id', 30)
   end
