@@ -10,18 +10,21 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # Action used to show list of approved organizers
+  # @return [HTML] Render Approved Organizers View
   def approved_organizers
     @user = current_user
     @approved_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :industry, :organization, 'organizers.updated_at').where(organizers: {approved: true})
   end
 
   # Action used to show list of pending organizers
+  # @return [HTML] Render Pending Organizers View
   def pending_organizers
     @user = current_user
     @pending_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :industry, :organization, 'organizers.created_at').where(organizers: {approved: false})
   end
 
   # Action used to process the approval of an organizer
+  # @return [HTML] Render Status as HTML
   def approve_organizer
     tran_success = false
     user = User.find(params[:id])
@@ -42,6 +45,7 @@ class UsersController < ApplicationController
   end
 
   # Action used to process request of an organizer
+  # @return [HTML] Redirect Back to Last Location
   def request_organizer
     @user = current_user
     @organizer = Organizer.create!(user_id: @user.id)
@@ -56,20 +60,24 @@ class UsersController < ApplicationController
   end
 
   # Action used to open modal for request of becoming organizer
+  # @return [HTML] Render Become Organizer Modal
   def become_organizer
     @user = current_user
   end
 
   # Action used to show settings for user
+  # @return [HTML] Render Show View
   def show
   end
 
   # Action used to edit settings for organizer
+  # @return [HTML] Render Edit View
   def edit
     render layout: 'sign_up' if params[:referer] == REFERERS[:app_init] && !current_user.is_app_init
   end
 
   # Action used to refresh publication profile for user
+  # @return [JSON] Render Status as JSON
   def refresh_profile
     @user = current_user
     if not @user.url.blank?
@@ -79,12 +87,15 @@ class UsersController < ApplicationController
     render json: {status: :ok, message: 'Please wait while we refresh your publications.' }
   end
 
-  # Action used to display publications
+  # Action used to display publications [Under Construction]
+  # @return [HTML] Render Publications View
   def publications
     @user = User.find(params[:id])
   end
 
   # Action used to update user
+  # @return [HTML] Redirect to previous location
+  # @return [JSON] Render status as JSON
   def update
     respond_to do |format|
       scrape_profile = false
@@ -122,6 +133,7 @@ class UsersController < ApplicationController
   end
 
   # Action used to delete user account
+  # @return [HTML] Redirect to Login Page [Success] or to User Page [Failure]
   def delete_account
     @user = current_user
     if verify_recaptcha
@@ -146,11 +158,13 @@ class UsersController < ApplicationController
   end
 
   # Action used to show modal for account deletion
+  # @return [HTML] Render Delete Modal
   def delete
     @user = current_user
   end
 
   # Action used to update and save the logo
+  # @return [JSON] Render Status as JSON
   def save_logo
     unless params[:name].blank?
       FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
@@ -176,6 +190,7 @@ class UsersController < ApplicationController
   end
 
   # Action used to destroy user logo
+  # @return [JSON] Render Status as JSON
   def destroy_logo
     current_user.logo = nil unless current_user.logo.nil?
     current_user.save!(validate: false)
@@ -183,11 +198,13 @@ class UsersController < ApplicationController
   end
 
   # Action used show modal for user password reset
+  # @return [HTML] Render Password Reset Modal
   def password_reset
     @user = current_user
   end
 
   # Action used to update email password
+  # @return [HTML] Redirect to Last location [Success] or User Show View [Failure]
   def update_email_password
 
     @user = current_user
@@ -218,6 +235,7 @@ class UsersController < ApplicationController
   end
 
   # Action used to validate user
+  # @return [boolean] True or False based on the validation
   def validation
     if !params[:is_login].blank?
       render plain: current_user.nil? ? 'false' : 'true'

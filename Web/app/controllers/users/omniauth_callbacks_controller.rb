@@ -2,8 +2,8 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   # Function executed on successful callback
-  #
   # @param [Object] provider the name of provider
+  # @return [HTML] Redirects New User Registration URL
   def self.provides_callback_for(provider)
     define_method provider do
       auth = env['omniauth.auth']
@@ -22,6 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   [:google_oauth2, :facebook].each { |provider| provides_callback_for provider }
 
   # Function executed on failure
+  # @return [HTML] Redirects New User Session URL
   def failure
     flash[:error] = 'Unable to continue as access has been denied.'
     redirect_to new_user_session_path and return
