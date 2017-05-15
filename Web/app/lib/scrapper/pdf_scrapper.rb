@@ -1,6 +1,6 @@
-# The PDFScrapper class scrapes the PDF off the internet
-# Two types of pages are supported - Google scholar and a personal web page with link to pdfs
-# The Google Scrapper gets blocked because of restrictions by google - so we may not use it at all
+# The PDFScrapper class scrapes the PDF off the internet.
+# Two types of pages are supported - Google scholar and a personal web page with link to pdfs.
+# The Google Scrapper gets blocked because of restrictions by google - so we may not use it at all.
 class PDFScrapper
   require 'nokogiri'
   require 'open-uri'
@@ -22,8 +22,8 @@ class PDFScrapper
   end
 
 
-  # Returns the link to the pdfs in an array
-  # The pdf links are scraped from the profile link provided during object instantiation
+  # Returns the link to the pdfs in an array.
+  # The pdf links are scraped from the profile link provided during object instantiation.
   # @param None
   def getPdf
     if @type == PageType[:google_scholar]
@@ -69,9 +69,9 @@ class PDFScrapper
     links
   end
 
-  # getPdfGoogleScholarPage returns the url links to all the pdfs from the google scholar page
-  # For getting pdfs from google scholar we need to get the links to papers first
-  # Then we go to each link to get link to the pdf
+  # getPdfGoogleScholarPage returns the url links to all the pdfs from the google scholar page.
+  # For getting pdfs from google scholar we need to get the links to papers first.
+  # Then we go to each link to get link to the pdf.
   # @return [Array] array of link to pdfs
   def getPdfGoogleScholarPage
     # This is a hack to use the scholar page without google blocking us, get the cookie and then use it.
@@ -97,7 +97,7 @@ class PDFScrapper
     ary.to_a
   end
 
-  # downloadAllPdfs gets all the pdf links from the web
+  # downloadAllPdfs gets all the pdf links from the web.
   # It then downloads all the pdfs and then stores them in the folder, given as function argument
   # @param folderName [String] name of the folder where pdfs will be downloaded
   def downloadAllPdfs(folderName)
@@ -117,7 +117,7 @@ class PDFScrapper
     end
   end
 
-  # Extract text from all the pdfs given the links to the pdfs
+  # Extract text from all the pdfs given the links to the pdfs.
   # Uses pdf-reader, no need to save pdfs, only give the output folder, but the quality is bad
   # @param folderName [String] name of the folder where pdfs will be downloaded
   def getAllPdfsAsText(folderName)
@@ -140,8 +140,8 @@ class PDFScrapper
     end
   end
 
-  # This is using doc split, first you have to save the pdfs then convert to text
-  # Function downloadAllPdfs needs to be called first
+  # This is using doc split, first you have to save the pdfs then convert to text.
+  # Function downloadAllPdfs needs to be called first.
   # @param pdfFolder [String] path where the pdfs were downloaded by the downloadAllPdfs function
   # @param txtFolder [String] path where txt extracted from pdfs will be stored as txt files
   def convertPdfToText(pdfFolder, txtFolder)
@@ -158,7 +158,7 @@ class PDFScrapper
     end
   end
 
-  # Extracts text from a single pdf and saves it in a folder
+  # Extracts text from a single pdf and saves it in a folder.
   # Uses Docsplit
   # @param pdf [String] path where the pdf to be extracted is present
   # @param txtFolder [String] path where txt extracted from pdfs will be stored as txt files

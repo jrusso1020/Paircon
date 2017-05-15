@@ -62,8 +62,8 @@ class Paper < ApplicationRecord
     dict.to_json
   end
 
-  # Saves the pdf file as a paperclip attachement to the paper object
-  # Also generated the MD5 hash for the pdf and stores in db
+  # Saves the pdf file as a paperclip attachement to the paper object.
+  # Also generates the MD5 hash for the pdf and stores in db
   # @param filepath [String] path to the pdf
   def save_pdf_path(filepath)
     self.pdf = File.open(filepath, 'r')

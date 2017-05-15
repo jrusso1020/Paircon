@@ -5,7 +5,7 @@ class ConferenceUtils
   require 'papers/paper_utils'
   require 'simple_xlsx_reader'
 
-  # Extracts all the files from the uploaded zip(during bulk upload of papers)
+  # Extracts all the files from the uploaded zip(during bulk upload of papers).
   # Creates a map of pdf name to the path where it is extracted
   # @param file [String] path to the zip file
   # @param destination [String] folder where the files from the zip are extracted
@@ -25,9 +25,9 @@ class ConferenceUtils
     pdf_map
   end
 
-  # Parses the uploaded spreadsheet(during bulk upload of papers)
-  # Save the conference paper and schedule in the database
-  # Uses third party gem called SimpleXlsxReader for parsing
+  # Parses the uploaded spreadsheet(during bulk upload of papers).
+  # Save the conference paper and schedule in the database.
+  # Uses third party gem called SimpleXlsxReader for parsing.
   # @param spreadsheet [String] path to the spreadsheet
   # @param zip_path [String] path to the uploaded zip file with all the conference paper pdfs
   # @param conference_id [String] id of the conference for which the spreadsheet is uploaded
@@ -95,9 +95,9 @@ class ConferenceUtils
     return tran_success, message
   end
 
-  # Parses the uploaded spreadsheet(during bulk upload of papers)
-  # Save the conference paper and schedule in the database
-  # Uses third party gem called ROO for parsing
+  # Parses the uploaded spreadsheet(during bulk upload of papers).
+  # Save the conference paper and schedule in the database.
+  # Uses third party gem called ROO for parsing.
   # @deprecated ROO was giving issues with time, so not using this function
   # @param spreadsheet [String] path to the spreadsheet
   # @param zip_path [String] path to the uploaded zip file with all the conference paper pdfs
@@ -172,8 +172,8 @@ class ConferenceUtils
     return tran_success, message
   end
 
-  # Create the event and session entries in the database for a paper
-  # Used by the parse_spreadsheet
+  # Create the event and session entries in the database for a paper.
+  # Used by the parse_spreadsheet.
   # @param session_params [Map] map containing the data related to the event and the session the paper is to be presented in
   # @param conference_id [String] id of the conference for which we are creating the events
   # @param paper_id [String] id of the paper which is to be presented during the session
@@ -241,8 +241,8 @@ class ConferenceUtils
     return true
   end
 
-  # Creates a dictionary/map for the conference schedule
-  # Used for creating detailed schedule in the UI
+  # Creates a dictionary/map for the conference schedule.
+  # Used for creating detailed schedule in the UI.
   # @param conference [Conference] conference object for which schedule dictionary is created
   # @return [Map] The output map contains information about the events and sessions in the conference and the papers associated with the sessions
   def self.create_schedule_dictionary(conference)

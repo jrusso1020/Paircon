@@ -2,7 +2,7 @@
 class PaperUtils
   require 'scrapper/pdf_scrapper'
 
-  # Extracts text from the pdf associated with the paper (Mostly for conference papers)
+  # Extracts text from the pdf associated with the paper (Mostly for conference papers).
   # Stores the text file path in the database
   # @param paper [Paper] paper object whose attachment is to be scraped and stored as text file
   # @param conference_id [String] id of the conference, paper is associated with
@@ -20,8 +20,8 @@ class PaperUtils
     end
   end
 
-  # Runs the pdf to text conversion job for a paper
-  # The background job in turn calls the extractTextFromPdf function in paper_utils
+  # Runs the pdf to text conversion job for a paper.
+  # The background job in turn calls the extractTextFromPdf function in paper_utils.
   # @param conference_id [String] id of the conference, paper is associated with
   # @param paper [Paper] paper object whose attachment is to be scraped and stored as text file
   # @return [Boolean] return true if either the scraping job is added to the queue or paper was extracted on the spot

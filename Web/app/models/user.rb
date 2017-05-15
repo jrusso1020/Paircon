@@ -128,10 +128,10 @@ class User < ApplicationRecord
     self.create_activity(key, owner: self, recipient: self, params: {:user => self.to_json})
   end
 
-  # Scrape the profile of the user
-  # Sets is_scraped attribute in user database object to false and cleans the earlier profile
-  # creates a background job for profile scrapping
-  # if a job can not be created, scrapes the profile on the spot
+  # Scrape the profile of the user.
+  # Sets is_scraped attribute in user database object to false and cleans the earlier profile.
+  # creates a background job for profile scrapping.
+  # if a job can not be created, scrapes the profile on the spot.
   def scrape_profile
     self.is_scraped = false
     self.save

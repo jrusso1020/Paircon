@@ -14,9 +14,9 @@ class UserUtils
     @user.papers.destroy_all
   end
 
-  # Downloads all the pdfs from the user profile, run pdf to txt conversion on the pdfs and stores the text files
-  # Sets the is_scraped attribute in user object to true after the profile if successfully scraped
-  # The user is notified via the activity object
+  # Downloads all the pdfs from the user profile, run pdf to txt conversion on the pdfs and stores the text files.
+  # Sets the is_scraped attribute in user object to true after the profile if successfully scraped.
+  # The user is notified via the activity object.
   def scrapeUserProfile()
     #Ensuring the folder exists
     pdf_folder = @user.get_pdf_folder_path
