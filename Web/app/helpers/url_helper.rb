@@ -12,3 +12,4 @@ module UrlHelper
     super
   end
 end
+

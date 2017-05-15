@@ -57,7 +57,7 @@
       <% if @attending_conferences.length != 0 %>
           <div class="menu_section">
             <h3>
-              <b><u>ATTENDING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'attendee'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
+              <b><u>FOLLOWING<span class="pull-right"><%= link_to icon_text('plus-circle'), conferences_path(view: 'attendee'), class: 'light-grey-text', style: 'margin-right: 5px;' %></span>
               </u></b></h3>
             <ul class="nav side-menu">
               <% @attending_conferences[0..5].each do |conference| %>

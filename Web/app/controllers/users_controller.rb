@@ -167,7 +167,7 @@ class UsersController < ApplicationController
       File.delete(new_file)
     end
 
-    render json: {status: 'success', url: current_user.profile_photo, filename: current_user.logo_file_name} if params[:referer] != REFERERS[:app_init]
+    render json: {status: :success, url: current_user.profile_photo, filename: current_user.logo_file_name} if params[:referer] != REFERERS[:app_init]
   end
 
   # Action used to destroy user
@@ -179,7 +179,7 @@ class UsersController < ApplicationController
   def destroy_logo
     current_user.logo = nil unless current_user.logo.nil?
     current_user.save!(validate: false)
-    render json: {status: 'success'}
+    render json: {status: :success}
   end
 
   # Action used show modal for user password reset

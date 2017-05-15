@@ -8,23 +8,26 @@ class ConferencesController < ApplicationController
   before_action :set_is_organizer, only: [:home, :schedule, :papers, :posts, :about_panel, :show]
   before_action :set_view, only: [:posts, :recommendations, :papers]
 
-  # Action used to display information about Organized / Attended Conferences
+  # Action used to display information about Organized / Following Conferences
+  # @return [HTML] Renders Index View
   def index
     if params[:view] == 'organizer'
       @conferences = Conference.my_organizing_conferences(current_user)
       @title = 'Conferences Organized'
     else
       @conferences = Conference.my_attending_conferences(current_user)
-      @title = 'Conferences Attended'
+      @title = 'Conferences Followed'
     end
   end
 
   # Action used to show modal for conference creation
+  # @return [HTML] Renders New View
   def new
     render layout: false
   end
 
   # Action for processing and adding conference to the system
+  # @return [HTML] Redirects Back to Old Location
   def create
     @conference = Conference.new()
     if @conference.save
@@ -45,6 +48,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action to update information about a conference
+  # @return [JSON] Renders Success
   def update
     redirect_bool = !conference_params[:redirect].blank?
     conference_params.delete('redirect')
@@ -79,6 +83,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to show information relative to a conference
+  # @return [HTML] Renders Show View
   def show
     logged_in = user_signed_in?
     if logged_in and !current_user.all_similarities_generated(@conference.id)
@@ -101,11 +106,13 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to display modal for conference deletion
+  # @return [HTML] Renders Delete View
   def delete
     render layout: false
   end
 
   # Action used to mark user attendance
+  # @return [HTML] Redirects Back to Last Location
   def attend_conference
     attendee = @conference.conference_attendees.where(user_id: current_user.id)
 
@@ -120,7 +127,8 @@ class ConferencesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
-  # Action used to return recommendationsbased on a user
+  # Action used to return recommendations based on a user
+  # @return [JS] Responds with User Recommendations (JS)
   def user_recommendations
     user = current_user
     @view_to_render = (params[:view_to_render] == 'true')
@@ -137,6 +145,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to show invitation modal
+  # @return [HTML] Renders Invite View
   def invite
     if user_signed_in?
       conferences_ids = Conference.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:id)
@@ -150,6 +159,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to process invite creation
+  # @return [HTML] redirects back to last location
   def create_invites
     emails = params[:emails].split(',')
     if user_signed_in?
@@ -187,11 +197,13 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to show modal for bulk uploading
+  # @return [HTML] Renders Bulk Upload View
   def bulk_upload
     render layout: false
   end
 
   # Action used to process bulk uploading
+  # @return [JSON] Renders Status as JSON
   def process_bulk_upload
     bulk_params = params[:bulk]
 
@@ -208,12 +220,14 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to show Home Tab Pane (AJAX)
+  # @return [HTML] Renders Home Tab Pane
   def home
     @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
     render template: 'conferences/tab_panes/home'
   end
 
   # Action used to show Schedule Tab Pane (AJAX)
+  # @return [HTML] Renders Schedule Tab Pane
   def schedule
     @total_resources, @total_events = @conference.get_counts(false, false, true, true)
     @schedule_data = ConferenceUtils.create_schedule_dictionary(@conference)
@@ -221,29 +235,34 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to show Posts Tab Pane (AJAX)
+  # @return [HTML] Renders Posts Tab Pane
   def posts
     @post_count = @conference.get_counts(true, false, false, false)[0]
     render template: 'conferences/tab_panes/posts'
   end
 
   # Action used to show Recommendations Tab Pane (AJAX)
+  # @return [HTML] Renders Recommendations Tab Pane
   def recommendations
     render template: 'conferences/tab_panes/recommendations'
   end
 
   # Action used to show About Tab Pane (AJAX)
+  # @return [HTML] Renders About Tab Pane
   def about_panel
     @interested_count = @conference.get_counts(false, true, false, false)[0]
     render template: 'conferences/tab_panes/about_panel'
   end
 
   # Action used to show Papers Tab Pane (AJAX)
+  # @return [HTML] Renders Papers Tab Pane
   def papers
     @total_resources, @total_events = @conference.get_counts(false, false, true, true)
     render template: 'conferences/tab_panes/papers'
   end
 
   # Action used to save logo for the oconference
+  # @return [JSON] Renders Status as JSON
   def save_logo
     unless params[:name].blank?
       @conference.save_image(params, true)
@@ -253,6 +272,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to save cover photo for the oconference
+  # @return [JSON] Renders Status as JSON
   def save_cover
     unless params[:name].blank?
       @conference.save_image(params, false)
@@ -262,6 +282,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to remove the conference permanently from the database
+  # @return [HTML] Redirects to Root Path
   def destroy
     Conference.transaction do
       name = @conference.get_name
@@ -277,6 +298,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to destroy the logo completely
+  # @return [JSON] Renders Status as JSON
   def destroy_logo
     @conference.logo = nil unless @conference.logo.nil?
     @conference.save!(validate: false)
@@ -284,6 +306,7 @@ class ConferencesController < ApplicationController
   end
 
   # Action used to destroy cover photo completely
+  # @return [JSON] Renders Status as JSON
   def destroy_cover
     @conference.cover = nil unless @conference.cover.nil?
     @conference.save!(validate: false)

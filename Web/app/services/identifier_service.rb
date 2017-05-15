@@ -1,4 +1,9 @@
+# Service that handles OAuth Identification
 class IdentifierService
+
+  # Constructor for a recommendation service take the user and authentication hash
+  # @param auth [Hash] Information from the service as a Hash
+  # @param user [User] User for which the service needs initialization
   def initialize auth, user=nil
     @auth = Hashie::Mash.new auth
     @user = user

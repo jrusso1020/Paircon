@@ -26,12 +26,11 @@
 #  email              :string(255)      default("")
 #  lat                :decimal(, )
 #  long               :decimal(, )
-#
-
-require 'fileutils'
-require 'conferences/conference_utils'
 
 class Conference < ApplicationRecord
+  require 'fileutils'
+  require 'conferences/conference_utils'
+
   include PublicActivity::Common
 
   has_many :notification, foreign_key: :trackable_id, class_name: 'Notification', dependent: :destroy

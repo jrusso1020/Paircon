@@ -1,9 +1,12 @@
+# Helper used to handle Notifications
 module NotificationsHelper
 
+  # Method used to define notification options
   def notifications_options
     I18n.t(:notifications_options).map { |key, value| [value, key] }
   end
 
+  # Method used to
   def mini_listing?
     params[:referer] == REFERERS[:mini_activity_listing]
   end
