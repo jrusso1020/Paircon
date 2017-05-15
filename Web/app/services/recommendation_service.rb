@@ -1,3 +1,4 @@
+# Service that handles creation and calculation of paper similarity
 class RecommendationService
 
   # Constructor for a recommendation service take the user id and conference id to compute similarities for
