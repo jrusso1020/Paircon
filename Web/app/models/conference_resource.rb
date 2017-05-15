@@ -17,6 +17,7 @@
 #  index_conference_resources_on_parent_id      (parent_id)
 #
 
+# Model responsible for ConferenceResource objects
 class ConferenceResource < ApplicationRecord
   belongs_to :conference
   has_many :conference_events
