@@ -52,7 +52,7 @@ class PDFScrapper
   end
 
   # getAllLinksFromGoogleScholar is a helper function for getPdfGoogleScholarPage
-  # @params cookie [Cookie] cookie object for google.com
+  # @param cookie [Cookie] cookie object for google.com
   # @return [Array] array of links to individual pages, where pdfs are
   def getAllLinksFromGoogleScholar(cookie)
     links = Array.new
@@ -99,7 +99,7 @@ class PDFScrapper
 
   # downloadAllPdfs gets all the pdf links from the web
   # It then downloads all the pdfs and then stores them in the folder, given as function argument
-  # @params folderName [String] name of the folder where pdfs will be downloaded
+  # @param folderName [String] name of the folder where pdfs will be downloaded
   def downloadAllPdfs(folderName)
     links = getPdf
     links.each do |link|
@@ -119,7 +119,7 @@ class PDFScrapper
 
   # Extract text from all the pdfs given the links to the pdfs
   # Uses pdf-reader, no need to save pdfs, only give the output folder, but the quality is bad
-  # @params folderName [String] name of the folder where pdfs will be downloaded
+  # @param folderName [String] name of the folder where pdfs will be downloaded
   def getAllPdfsAsText(folderName)
     links = getPdf
     links.each do |link|

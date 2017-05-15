@@ -31,9 +31,9 @@ class Paper < ApplicationRecord
   before_create :init_id
 
   # Saves the uploaded conference paper pdf to the conference pdf folder
-  # @params conference_id [String] id of the conference the paper is related to
-  # @params filename [String] name of the pdf file
-  # @params request_body [HttpRequest Body] http request body which contains the actual pdf content
+  # @param conference_id [String] id of the conference the paper is related to
+  # @param filename [String] name of the pdf file
+  # @param request_body [HttpRequest Body] http request body which contains the actual pdf content
   def save_pdf(conference_id, filename, request_body)
     pdf_folder = Rails.root.join('public', 'conference', conference_id, 'pdf')
     FileUtils.mkdir_p pdf_folder
@@ -64,7 +64,7 @@ class Paper < ApplicationRecord
 
   # Saves the pdf file as a paperclip attachement to the paper object
   # Also generated the MD5 hash for the pdf and stores in db
-  # @params filepath [String] path to the pdf
+  # @param filepath [String] path to the pdf
   def save_pdf_path(filepath)
     self.pdf = File.open(filepath, 'r')
     self.md5hash = Digest::MD5.hexdigest(File.read(filepath))

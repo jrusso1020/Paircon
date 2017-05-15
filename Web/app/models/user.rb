@@ -146,14 +146,14 @@ class User < ApplicationRecord
   end
 
   # Checks whether the user is attending a conference
-  # @params conference_id [String] conference id for which we need to verify
+  # @param conference_id [String] conference id for which we need to verify
   # @return [Boolean] status of whether the user is attending the conference
   def is_attending(conference_id)
     !ConferenceAttendee.find_by(user_id: self.id, conference_id: conference_id).blank?
   end
 
   # Checks whether the recommendations/similarities of the user for a conference has been generated or not
-  # @params conference_id [String] conference id for which we need to verify
+  # @param conference_id [String] conference id for which we need to verify
   # @return [Boolean] status of whether the recommendations were generated
   def all_similarities_generated(conference_id)
     user = self

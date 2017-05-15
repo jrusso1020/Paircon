@@ -3,13 +3,13 @@ class UserUtils
   require 'scrapper/pdf_scrapper'
 
   # Initializes the class object
-  # @params user [User] user object
+  # @param user [User] user object
   def initialize(user)
     @user = user
   end
 
   # deletes all the paper associated with the user profile, required when the profile of the user is refreshed or updated
-  # @params None
+  # @param None
   def cleanUserProfile()
     @user.papers.destroy_all
   end

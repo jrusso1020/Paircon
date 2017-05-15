@@ -7,8 +7,8 @@ class ConferenceUtils
 
   # Extracts all the files from the uploaded zip(during bulk upload of papers)
   # Creates a map of pdf name to the path where it is extracted
-  # @params file [String] path to the zip file
-  # @params destination [String] folder where the files from the zip are extracted
+  # @param file [String] path to the zip file
+  # @param destination [String] folder where the files from the zip are extracted
   # @return [Map] Map of pdf file name to the file path
   def self.extract_zip(file, destination)
     FileUtils.mkdir_p(destination)
@@ -28,9 +28,9 @@ class ConferenceUtils
   # Parses the uploaded spreadsheet(during bulk upload of papers)
   # Save the conference paper and schedule in the database
   # Uses third party gem called SimpleXlsxReader for parsing
-  # @params spreadsheet [String] path to the spreadsheet
-  # @params zip_path [String] path to the uploaded zip file with all the conference paper pdfs
-  # @params conference_id [String] id of the conference for which the spreadsheet is uploaded
+  # @param spreadsheet [String] path to the spreadsheet
+  # @param zip_path [String] path to the uploaded zip file with all the conference paper pdfs
+  # @param conference_id [String] id of the conference for which the spreadsheet is uploaded
   # @return [Boolean, String] Boolean value tells whether the parse was successful or not, String is the message returned
   def self.parse_spreadsheet spreadsheet, zip_path, conference_id
     pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_pdf_folder_path)
@@ -99,9 +99,9 @@ class ConferenceUtils
   # Save the conference paper and schedule in the database
   # Uses third party gem called ROO for parsing
   # @deprecated ROO was giving issues with time, so not using this function
-  # @params spreadsheet [String] path to the spreadsheet
-  # @params zip_path [String] path to the uploaded zip file with all the conference paper pdfs
-  # @params conference_id [String] id of the conference for which the spreadsheet is uploaded
+  # @param spreadsheet [String] path to the spreadsheet
+  # @param zip_path [String] path to the uploaded zip file with all the conference paper pdfs
+  # @param conference_id [String] id of the conference for which the spreadsheet is uploaded
   # @return [Boolean, String] Boolean value tells whether the parse was successful or not, String is the message returned
   def self.parse_spreadsheet_roo spreadsheet, zip_path, conference_id
     pdf_map = extract_zip(zip_path, Conference.find(conference_id).get_pdf_folder_path)
@@ -174,9 +174,9 @@ class ConferenceUtils
 
   # Create the event and session entries in the database for a paper
   # Used by the parse_spreadsheet
-  # @params session_params [Map] map containing the data related to the event and the session the paper is to be presented in
-  # @params conference_id [String] id of the conference for which we are creating the events
-  # @params paper_id [String] id of the paper which is to be presented during the session
+  # @param session_params [Map] map containing the data related to the event and the session the paper is to be presented in
+  # @param conference_id [String] id of the conference for which we are creating the events
+  # @param paper_id [String] id of the paper which is to be presented during the session
   # @return [Boolean] the boolean value tells whether the addition of event and session was a success or not
   def self.create_conference_events(session_params, conference_id, paper_id)
     event_start_date = session_params[:event_start_date]
@@ -243,7 +243,7 @@ class ConferenceUtils
 
   # Creates a dictionary/map for the conference schedule
   # Used for creating detailed schedule in the UI
-  # @params conference [Conference] conference object for which schedule dictionary is created
+  # @param conference [Conference] conference object for which schedule dictionary is created
   # @return [Map] The output map contains information about the events and sessions in the conference and the papers associated with the sessions
   def self.create_schedule_dictionary(conference)
     output = {}
