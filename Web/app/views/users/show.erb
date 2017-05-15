@@ -87,7 +87,7 @@
           <td class="profile-title table-accountinfo">User Type:</td>
           <td class="table-accountinfo">
             <% if @user.attendee? and !@user.pending_organizer %>
-                <div>Attendee <%= link_to_modal '(Become an Organizer)', become_organizer_user_path(@user.id) %></div>
+                <div>Basic User <%= link_to_modal '(Become an Organizer)', become_organizer_user_path(@user.id) %></div>
             <% elsif @user.attendee? and @user.pending_organizer %>
                 <div style="opacity: 0.8">Your Organizer Request is Pending</div>
             <% elsif @user.organizer? %>

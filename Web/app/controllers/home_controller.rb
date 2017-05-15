@@ -4,6 +4,7 @@ class HomeController < ApplicationController
   before_action :authenticate_user!, only: [:home, :search]
 
   # Action to display dashboard upon signing in
+  # @return [HTML] Renders Index View
   def index
     authenticate_user!
     @notifications = Notification.find_all_notifications(current_user, Notification::NOTIFICATION_LIST_LIMIT)
@@ -52,22 +53,25 @@ class HomeController < ApplicationController
   end
 
   # Action used to display privacy policy
+  # @return [HTML] Renders Privacy Policy View
   def privacy_policy
     render layout: false
   end
 
   # Action used to display terms and conditions
+  # @return [HTML] Renders Terms and Conditions View
   def terms
     render layout: false
   end
 
   # Action for carrying out search and displaying results
+  # @return [HTML] Renders Search View
   def search
     query = params[:search_val]
     @objects = []
-    @objects |= Conference.not_archived.where('lower(name) like ?', "%#{query.downcase}%")
-    @objects |= Conference.not_archived.where('lower(location) like ?', "%#{query.downcase}%")
-    @objects |= Conference.not_archived.where('lower(domain) like ?', "%#{query.downcase}%")
+    @objects |= Conference.published.where('lower(name) like ?', "%#{query.downcase}%")
+    @objects |= Conference.published.where('lower(location) like ?', "%#{query.downcase}%")
+    @objects |= Conference.published.where('lower(domain) like ?', "%#{query.downcase}%")
   end
 
 

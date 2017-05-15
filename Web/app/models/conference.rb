@@ -26,12 +26,12 @@
 #  email              :string(255)      default("")
 #  lat                :decimal(, )
 #  long               :decimal(, )
-#
 
-require 'fileutils'
-require 'conferences/conference_utils'
-
+# Model responsible for Conference objects
 class Conference < ApplicationRecord
+  require 'fileutils'
+  require 'conferences/conference_utils'
+
   include PublicActivity::Common
 
   has_many :notification, foreign_key: :trackable_id, class_name: 'Notification', dependent: :destroy
@@ -65,6 +65,7 @@ class Conference < ApplicationRecord
   BULK_ARCHIVE_MIME_TYPE = ['application/zip']
 
   # Get the conference's logo
+  # @return [String] the filename of the logo picture
   def logo_picture
     if !self.logo_file_name.blank?
       self.logo.try(:url)
@@ -74,6 +75,7 @@ class Conference < ApplicationRecord
   end
 
   # Get the path to the conference's logo
+  # @return [String] the file path of the logo image
   def logo_path
     if !self.logo.path.blank?
       self.logo.path
@@ -83,13 +85,16 @@ class Conference < ApplicationRecord
   end
 
   # Get the conference's cover photo
+  # @return [String] the file path of the cover photo
   def cover_photo
     if !self.cover_file_name.blank?
       self.cover.try(:url)
     end
   end
 
-  # Save the logo or cover photo of a conference 
+  # Save the logo or cover photo of a conference
+  # @param params [Hash] the parameters hash with name and data to save
+  # @param is_logo=true [Boolean] optional parameter to tell if it is a logo or cover photo
   def save_image(params, is_logo=true)
     FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
     FileUtils.mkdir_p "#{Rails.root}/tmp/cover"
@@ -115,27 +120,37 @@ class Conference < ApplicationRecord
   end
 
   # Save an activity to this conference
+  # @param key [String] the key of the activity
+  # @param current_user [User] the current user object
   def activity key, current_user
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: current_user, recipient: current_user, params: {:conference => self.to_json})
   end
 
   # Get the name of this conference
+  # @param id=nil [String] the identifier of the conference
+  # @return [String] the name of the conference
   def get_name id=nil
     self.name.blank? ? "Conference #{id}".strip : self.name.strip
   end
 
   # Get string of the end date of this conference
+  # @return [String] the end date of the conference
   def end_date_str
     self.end_date.strftime(DATETIMEFORMAT)
   end
 
   # Get string of the start date of this conference
+  # @return [String] the start date of the conference
   def start_date_str
     self.start_date.strftime(DATETIMEFORMAT)
   end
 
   # Handle the bulk upload of schedule and papers of a conference
+  # @param spreadsheet [File] a spreadsheet file to parse
+  # @param zip [File] a zip file to unzip
+  # @return [Boolean] whether or not the transaction was successful
+  # @return [String] the error or success message of the transaction
   def bulk_upload spreadsheet, zip
     FileUtils.rm_f get_pdf_folder_path
     FileUtils.mkdir_p get_pdf_folder_path
@@ -156,6 +171,11 @@ class Conference < ApplicationRecord
   end
 
   # Get the number of posts, attendees, resources, and events for a conference
+  # @param post=true [Boolean] boolean saying whether or not to return the post count
+  # @param interested=true [Boolean] boolean saying whether or not to return the attendee count
+  # @param resources=true [Boolean] boolean saying whether or not to return the resources count
+  # @param events=true [Boolean] boolean saying whether or not to return the events count
+  # @return [Array] the counts for the past parameters
   def get_counts(post = true, interested = true, resources = true, events = true)
     result = []
     result = result + [self.posts.count] if post
@@ -167,31 +187,40 @@ class Conference < ApplicationRecord
   end
 
   # Tell if a given user is an organizer of this conference
+  # @param user [User] user object
+  # @return [Boolean] whether or not a user is an organizer for this conference
   def is_organizer user
     self.conference_organizers.exists?(user_id: user.id) and !user.attendee?
   end
 
   # Get all conferences a user organizes
+  # @param user [User] user object
+  # @return [Array] all the conferences the given user organizes
   def self.my_organizing_conferences user
     Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
   # Get all conferences a user attends
+  # @param user [User] user object
+  # @return [Array] all the conferences the given user attends
   def self.my_attending_conferences user
     Conference.joins(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
   # Get the path to a conference's folder
+  # @return [String] the path to the this conference's folder
   def get_conference_path
     "#{Rails.root}/public/conferences/#{self.id}"
   end
 
   # Get the path to a conference's folder containing txt versions of papers
+  # @return [String] the path to this conference's txt document folder
   def get_pdf_text_path
     "#{get_conference_path}/txt"
   end
   
   # Get the path to a conference's folder containing pdf versions of papers
+  # @return [String] the path to this conference's pdf document folder
   def get_pdf_folder_path
     "#{get_conference_path}/pdf"
   end

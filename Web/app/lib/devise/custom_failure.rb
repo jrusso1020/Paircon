@@ -1,4 +1,8 @@
+# This library handles Custom Failures
 class CustomFailure < Devise::FailureApp
+
+  # Method handles URL redirection
+  # @return [HTML] Redirects to URL if the scope is user or admin
   def redirect_url
     #return super unless [:worker, :employer, :user].include?(scope) #make it specific to a scope
     
@@ -9,7 +13,8 @@ class CustomFailure < Devise::FailureApp
     end
   end
 
-  # You need to override respond to eliminate recall
+  # Method executed on Responding of failure
+  # @return [HTML]
   def respond
     if http_auth?
       http_auth

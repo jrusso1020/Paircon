@@ -467,11 +467,15 @@ function instantiateInvites(id, json) {
             success: function (text, status, xhr) {
                 $.pjax.reload('#wrap');
                 showNotificationMsg(text);
+                $('#closeButton').click();
             },
             error: function (xhr, status, text) {
                 showErrorMsg(xhr.responseText);
+                $('#closeButton').click();
             }
         });
+
+
     });
 }
 
