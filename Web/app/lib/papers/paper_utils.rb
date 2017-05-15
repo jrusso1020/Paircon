@@ -1,6 +1,6 @@
-require 'scrapper/pdf_scrapper'
-
+# Utility file for Paper related functionality
 class PaperUtils
+  require 'scrapper/pdf_scrapper'
 
   # Extracts text from the pdf associated with the paper (Mostly for conference papers)
   # Stores the text file path in the database

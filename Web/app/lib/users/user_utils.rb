@@ -1,3 +1,4 @@
+# Utility file for User related functionality
 class UserUtils
   require 'scrapper/pdf_scrapper'
 

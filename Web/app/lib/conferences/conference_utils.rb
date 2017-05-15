@@ -1,9 +1,9 @@
-require 'zip'
-require 'roo'
-require 'papers/paper_utils'
-require 'simple_xlsx_reader'
-
+# Utility file for conference related functionality
 class ConferenceUtils
+  require 'zip'
+  require 'roo'
+  require 'papers/paper_utils'
+  require 'simple_xlsx_reader'
 
   # Extracts all the files from the uploaded zip(during bulk upload of papers)
   # Creates a map of pdf name to the path where it is extracted

@@ -19,9 +19,8 @@
 #  email            :text             default([]), is an Array
 #
 
-require 'digest/md5'
-
 class Paper < ApplicationRecord
+  require 'digest/md5'
   has_one :conference_paper, dependent: :destroy
   has_one :user_paper, dependent: :destroy
 

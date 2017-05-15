@@ -1,8 +1,3 @@
-=begin
-Author : MAHAK GARG (mg2288)
-Class to extract all the pdf links from the google scholar page or a personal web page
-=end
-
 # The PDFScrapper class scrapes the PDF off the internet
 # Two types of pages are supported - Google scholar and a personal web page with link to pdfs
 # The Google Scrapper gets blocked because of restrictions by google - so we may not use it at all

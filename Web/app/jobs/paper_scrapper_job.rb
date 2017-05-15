@@ -1,5 +1,6 @@
-require 'papers/paper_utils'
+# Job for scraping text from paper pdf
 class PaperScrapperJob < ApplicationJob
+  require 'papers/paper_utils'
   queue_as :default
 
   # Paper scrapper job perform function that is called whenever this job is enqueued as a background job
