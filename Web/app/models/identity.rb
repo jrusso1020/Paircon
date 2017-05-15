@@ -35,6 +35,7 @@ class Identity < ActiveRecord::Base
 
   private
 
+  # Create Identity id
   def init_id
     self.id = CodeGenerator.code(Identity.new, 'id', 30)
   end

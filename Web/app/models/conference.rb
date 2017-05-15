@@ -64,6 +64,7 @@ class Conference < ApplicationRecord
   BULK_SPREADSHEET_MIME_TYPE = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
   BULK_ARCHIVE_MIME_TYPE = ['application/zip']
 
+  # Get the conference's logo
   def logo_picture
     if !self.logo_file_name.blank?
       self.logo.try(:url)
@@ -72,6 +73,7 @@ class Conference < ApplicationRecord
     end
   end
 
+  # Get the path to the conference's logo
   def logo_path
     if !self.logo.path.blank?
       self.logo.path
@@ -80,13 +82,14 @@ class Conference < ApplicationRecord
     end
   end
 
+  # Get the conference's cover photo
   def cover_photo
     if !self.cover_file_name.blank?
       self.cover.try(:url)
     end
   end
 
-
+  # Save the logo or cover photo of a conference 
   def save_image(params, is_logo=true)
     FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
     FileUtils.mkdir_p "#{Rails.root}/tmp/cover"
@@ -111,23 +114,28 @@ class Conference < ApplicationRecord
     File.delete(new_file)
   end
 
+  # Save an activity to this conference
   def activity key, current_user
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: current_user, recipient: current_user, params: {:conference => self.to_json})
   end
 
+  # Get the name of this conference
   def get_name id=nil
     self.name.blank? ? "Conference #{id}".strip : self.name.strip
   end
 
+  # Get string of the end date of this conference
   def end_date_str
     self.end_date.strftime(DATETIMEFORMAT)
   end
 
+  # Get string of the start date of this conference
   def start_date_str
     self.start_date.strftime(DATETIMEFORMAT)
   end
 
+  # Handle the bulk upload of schedule and papers of a conference
   def bulk_upload spreadsheet, zip
     FileUtils.rm_f get_pdf_folder_path
     FileUtils.mkdir_p get_pdf_folder_path
@@ -147,6 +155,7 @@ class Conference < ApplicationRecord
     return tran_success, message
   end
 
+  # Get the number of posts, attendees, resources, and events for a conference
   def get_counts(post = true, interested = true, resources = true, events = true)
     result = []
     result = result + [self.posts.count] if post
@@ -157,36 +166,44 @@ class Conference < ApplicationRecord
     result
   end
 
+  # Tell if a given user is an organizer of this conference
   def is_organizer user
     self.conference_organizers.exists?(user_id: user.id) and !user.attendee?
   end
 
+  # Get all conferences a user organizes
   def self.my_organizing_conferences user
     Conference.joins(:conference_organizers).where(conference_organizers: {user_id: user.id}).order(:name)
   end
 
+  # Get all conferences a user attends
   def self.my_attending_conferences user
     Conference.joins(:conference_attendees).where(conference_attendees: {user_id: user.id}).order(:name)
   end
 
+  # Get the path to a conference's folder
   def get_conference_path
     "#{Rails.root}/public/conferences/#{self.id}"
   end
 
+  # Get the path to a conference's folder containing txt versions of papers
   def get_pdf_text_path
     "#{get_conference_path}/txt"
   end
-        
+  
+  # Get the path to a conference's folder containing pdf versions of papers
   def get_pdf_folder_path
     "#{get_conference_path}/pdf"
   end
 
   private
 
+  # Create conference id
   def init_conference_id
     self.id = CodeGenerator.code(Conference.new, 'id', 30)
   end
 
+  # Set the default start and end time of conference
   def set_default_time
     self.start_date = Time.now
     self.end_date = Time.now + 1.days

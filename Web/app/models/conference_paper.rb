@@ -23,6 +23,7 @@ class ConferencePaper < ApplicationRecord
 
   private
 
+  # Create Conference Paper id
   def init_id
     self.id = CodeGenerator.code(ConferencePaper.new, 'id', 30)
   end
