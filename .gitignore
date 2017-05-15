@@ -1,0 +1,7 @@
+# Ignore Byebug command history file.
+.byebug_history
+
+/dump.rdb
+
+.idea*
+.idea/
