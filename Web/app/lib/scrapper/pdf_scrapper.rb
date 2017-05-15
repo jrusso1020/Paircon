@@ -18,17 +18,18 @@ class PDFScrapper
       google_scholar: 'google-scholar',
       personal: 'personal'
   }
-
-  # The initialize function takes the link to the profile
-  # Type defines whether the url is "google scholar" or "personal"
+  # Initialize the pdf scrapping profile
+  # @param link [String] the link to the user profile url
+  # @param type [String] the type of link, can be "google-scholar", "personal" or "dummy" (in case of single pdf scrape)
   def initialize(link, type)
     @link = link
     @type = type
   end
 
 
-  # The getPdf function returns the link to the pdfs in an array
-  # The instance variables needs to be set to use this
+  # Returns the link to the pdfs in an array
+  # The pdf links are scraped from the profile link provided during object instantiation
+  # @param None
   def getPdf
     if @type == PageType[:google_scholar]
         getPdfGoogleScholarPage
@@ -37,7 +38,9 @@ class PDFScrapper
     end
   end
 
-  # getPdfPersonalPage returns the url links to all the pdfs on a personal page of the user
+  # Returns the url links to all the pdfs on a personal page of the user
+  # @param None
+  # @return [Array] array of link to pdfs
   def getPdfPersonalPage
     ary = Set.new()
     begin
@@ -54,6 +57,8 @@ class PDFScrapper
   end
 
   # getAllLinksFromGoogleScholar is a helper function for getPdfGoogleScholarPage
+  # @params cookie [Cookie] cookie object for google.com
+  # @return [Array] array of links to individual pages, where pdfs are
   def getAllLinksFromGoogleScholar(cookie)
     links = Array.new
     last_len = -1
@@ -72,6 +77,7 @@ class PDFScrapper
   # getPdfGoogleScholarPage returns the url links to all the pdfs from the google scholar page
   # For getting pdfs from google scholar we need to get the links to papers first
   # Then we go to each link to get link to the pdf
+  # @return [Array] array of link to pdfs
   def getPdfGoogleScholarPage
     # This is a hack to use the scholar page without google blocking us, get the cookie and then use it.
     h1 = open('http://google.com')
@@ -98,6 +104,7 @@ class PDFScrapper
 
   # downloadAllPdfs gets all the pdf links from the web
   # It then downloads all the pdfs and then stores them in the folder, given as function argument
+  # @params folderName [String] name of the folder where pdfs will be downloaded
   def downloadAllPdfs(folderName)
     links = getPdf
     links.each do |link|
@@ -115,7 +122,9 @@ class PDFScrapper
     end
   end
 
-  # Using pdf-reader , no need to save pdfs, only give the output folder, but the quality is bad
+  # Extract text from all the pdfs given the links to the pdfs
+  # Uses pdf-reader, no need to save pdfs, only give the output folder, but the quality is bad
+  # @params folderName [String] name of the folder where pdfs will be downloaded
   def getAllPdfsAsText(folderName)
     links = getPdf
     links.each do |link|
@@ -138,6 +147,8 @@ class PDFScrapper
 
   # This is using doc split, first you have to save the pdfs then convert to text
   # Function downloadAllPdfs needs to be called first
+  # @param pdfFolder [String] path where the pdfs were downloaded by the downloadAllPdfs function
+  # @param txtFolder [String] path where txt extracted from pdfs will be stored as txt files
   def convertPdfToText(pdfFolder, txtFolder)
     Dir.foreach(pdfFolder) do |item|
       next if item == '.' or item == '..'
@@ -152,6 +163,10 @@ class PDFScrapper
     end
   end
 
+  # Extracts text from a single pdf and saves it in a folder
+  # Uses Docsplit
+  # @param pdf [String] path where the pdf to be extracted is present
+  # @param txtFolder [String] path where txt extracted from pdfs will be stored as txt files
   def convertSinglePdfToText(pdf, txtFolder)
     Docsplit.extract_text(pdf, :ocr => false, :output => txtFolder, :clean => true)
   end

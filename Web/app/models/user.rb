@@ -85,6 +85,8 @@ class User < ApplicationRecord
     self.last_name = full_name_tokens[1..-1].join(' ') if (full_name_tokens.size > 0)
   end
 
+  # Generates the full name based on First and last name of the user
+  # @return [String] full name
   def full_name
     "#{self.first_name} #{self.last_name}".strip()
   end
@@ -99,14 +101,20 @@ class User < ApplicationRecord
     end
   end
 
+  # gets the full link to the profile picture
+  # @return [String] link to the profile picture
   def profile_photo_full_link
     return "#{PairConConfig::root_domain + ActionController::Base.helpers.asset_path(self.profile_photo)}"
   end
 
+  # Gets the path of folder where the text files extracted from pdfs(scrapped from user profile) are stored
+  # @return [String] path of the folder
   def get_pdf_text_path
     return "#{Rails.root}/public/users/#{self.id}/txt"
   end
 
+  # Gets the path of folder where the pdf scrapped from user profile are stored
+  # @return [String] path of the folder
   def get_pdf_folder_path
     return "#{Rails.root}/public/users/#{self.id}/pdfs"
   end
@@ -120,6 +128,10 @@ class User < ApplicationRecord
     self.create_activity(key, owner: self, recipient: self, params: {:user => self.to_json})
   end
 
+  # Scrape the profile of the user
+  # Sets is_scraped attribute in user database object to false and cleans the earlier profile
+  # creates a background job for profile scrapping
+  # if a job can not be created, scrapes the profile on the spot
   def scrape_profile
     self.is_scraped = false
     self.save
@@ -133,10 +145,16 @@ class User < ApplicationRecord
     end
   end
 
+  # Checks whether the user is attending a conference
+  # @params conference_id [String] conference id for which we need to verify
+  # @return [Boolean] status of whether the user is attending the conference
   def is_attending(conference_id)
     !ConferenceAttendee.find_by(user_id: self.id, conference_id: conference_id).blank?
   end
 
+  # Checks whether the recommendations/similarities of the user for a conference has been generated or not
+  # @params conference_id [String] conference id for which we need to verify
+  # @return [Boolean] status of whether the recommendations were generated
   def all_similarities_generated(conference_id)
     user = self
     conference = Conference.find_by(id: conference_id)
@@ -146,6 +164,7 @@ class User < ApplicationRecord
 
   private
 
+  # Initializes the user id, by assigning a unique 30 character id
   def init_user_id
     self.id = CodeGenerator.code(User.new, 'id', 30)
   end
