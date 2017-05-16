@@ -79,6 +79,8 @@ class User < ApplicationRecord
 
   enum user_type: [:attendee, :organizer, :admin]
 
+  self.primary_key = :user_id
+
   # Check if full name is equivalent to passed fullname
   def full_name=(full_name)
     full_name_tokens = full_name.split(/\s+/)
@@ -168,7 +170,7 @@ class User < ApplicationRecord
 
   # Initializes the user id, by assigning a unique 30 character id
   def init_user_id
-    self.id = CodeGenerator.code(User.new, 'id', 30)
+    self.id = CodeGenerator.code(User.new, User.primary_key.to_s, 30)
   end
 
 end

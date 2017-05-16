@@ -21,11 +21,13 @@ class ConferenceOrganizer < ApplicationRecord
 
   before_create :init_id
 
+  self.primary_key = :conference_organizer_id
+
   private
 
   # Create a Conference Organizer id
   def init_id
-    self.id = CodeGenerator.code(ConferenceOrganizer.new, 'id', 30)
+    self.id = CodeGenerator.code(ConferenceOrganizer.new, ConferenceOrganizer.primary_key.to_s, 30)
   end
 
 end

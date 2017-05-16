@@ -22,11 +22,13 @@ class ConferencePaper < ApplicationRecord
 
   before_create :init_id
 
+  self.primary_key = :conference_paper_id
+
   private
 
   # Create Conference Paper id
   def init_id
-    self.id = CodeGenerator.code(ConferencePaper.new, 'id', 30)
+    self.id = CodeGenerator.code(ConferencePaper.new, ConferencePaper.primary_key.to_s, 30)
   end
 
 end

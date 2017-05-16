@@ -22,10 +22,12 @@ class Similarity < ApplicationRecord
 
   before_create :init_id
 
+  self.primary_key = :similarity_id
+
   private
 
   # Create Similarity id
   def init_id
-    self.id = CodeGenerator.code(Similarity.new, 'id', 30)
+    self.id = CodeGenerator.code(Similarity.new, Similarity.primary_key.to_s, 30)
   end
 end

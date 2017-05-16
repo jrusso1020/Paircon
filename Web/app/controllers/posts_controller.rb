@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   # @return [HTML] Renders Index View
   # @return [JS] Renders Index View [JS]
   def index
-    @is_organizer = user_signed_in? and Conference.find_by_id(params[:conference_id]).is_organizer(current_user)
+    @is_organizer = user_signed_in? and Conference.find(params[:conference_id]).is_organizer(current_user)
     @posts = Post.where(conference_id: params[:conference_id]).page(params[:page]).order(created_at: :desc)
     respond_to do |format|
       format.html

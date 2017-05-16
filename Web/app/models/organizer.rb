@@ -21,11 +21,13 @@ class Organizer < ApplicationRecord
 
   before_create :init_id
 
+  self.primary_key = :organizer_id
+
   private
 
   # Create organizer id
   def init_id
-    self.id = CodeGenerator.code(Organizer.new, 'id', 30)
+    self.id = CodeGenerator.code(Organizer.new, self.Organizer.to_s, 30)
   end
 
 end

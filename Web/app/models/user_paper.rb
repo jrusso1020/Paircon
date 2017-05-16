@@ -20,11 +20,13 @@ class UserPaper < ApplicationRecord
 
   before_create :init_id
 
+  self.primary_key = :user_paper_id
+
   private
 
   # Create User Paper id
   def init_id
-    self.id = CodeGenerator.code(UserPaper.new, 'id', 30)
+    self.id = CodeGenerator.code(UserPaper.new, UserPaper.primary_key.to_s, 30)
   end
 
 end

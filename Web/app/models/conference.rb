@@ -64,6 +64,8 @@ class Conference < ApplicationRecord
   BULK_SPREADSHEET_MIME_TYPE = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
   BULK_ARCHIVE_MIME_TYPE = ['application/zip']
 
+  self.primary_key = :conference_id
+
   # Get the conference's logo
   # @return [String] the filename of the logo picture
   def logo_picture
@@ -229,7 +231,7 @@ class Conference < ApplicationRecord
 
   # Create conference id
   def init_conference_id
-    self.id = CodeGenerator.code(Conference.new, 'id', 30)
+    self.id = CodeGenerator.code(Conference.new, Conference.primary_key.to_s, 30)
   end
 
   # Set the default start and end time of conference

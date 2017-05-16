@@ -31,15 +31,16 @@ ActiveRecord::Schema.define(version: 20170509004056) do
     t.index ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
   end
 
-  create_table "conference_attendees", force: :cascade do |t|
+  create_table "conference_attendees", primary_key: "conference_attendee_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "conference_id", limit: 30
     t.string   "user_id",       limit: 30
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["conference_attendee_id"], name: "index_conference_attendees_on_conference_attendee_id", unique: true, using: :btree
     t.index ["user_id", "conference_id"], name: "index_conference_attendees_on_user_id_and_conference_id", unique: true, using: :btree
   end
 
-  create_table "conference_events", force: :cascade do |t|
+  create_table "conference_events", primary_key: "conference_event_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "conference_resource_id", limit: 30
     t.string   "title"
     t.datetime "start_date"
@@ -50,27 +51,30 @@ ActiveRecord::Schema.define(version: 20170509004056) do
     t.string   "conference_id",          limit: 30
     t.string   "presenter"
     t.integer  "event_type",                        default: 0
-    t.string   "paper_id"
+    t.string   "paper_id",               limit: 30
+    t.index ["conference_event_id"], name: "index_conference_events_on_conference_event_id", unique: true, using: :btree
     t.index ["conference_resource_id"], name: "index_conference_events_on_conference_resource_id", using: :btree
   end
 
-  create_table "conference_organizers", force: :cascade do |t|
+  create_table "conference_organizers", primary_key: "conference_organizer_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "conference_id", limit: 30
     t.string   "user_id",       limit: 30
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["conference_organizer_id"], name: "index_conference_organizers_on_conference_organizer_id", unique: true, using: :btree
     t.index ["user_id", "conference_id"], name: "index_conference_organizers_on_user_id_and_conference_id", unique: true, using: :btree
   end
 
-  create_table "conference_papers", force: :cascade do |t|
+  create_table "conference_papers", primary_key: "conference_paper_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "paper_id",      limit: 30
     t.string   "conference_id", limit: 30
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.index ["conference_paper_id"], name: "index_conference_papers_on_conference_paper_id", unique: true, using: :btree
     t.index ["paper_id", "conference_id"], name: "index_conference_papers_on_paper_id_and_conference_id", unique: true, using: :btree
   end
 
-  create_table "conference_resources", force: :cascade do |t|
+  create_table "conference_resources", primary_key: "conference_resource_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "conference_id", limit: 30
     t.string   "room"
     t.string   "title"
@@ -79,10 +83,11 @@ ActiveRecord::Schema.define(version: 20170509004056) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.index ["conference_id"], name: "index_conference_resources_on_conference_id", using: :btree
+    t.index ["conference_resource_id"], name: "index_conference_resources_on_conference_resource_id", unique: true, using: :btree
     t.index ["parent_id"], name: "index_conference_resources_on_parent_id", using: :btree
   end
 
-  create_table "conferences", force: :cascade do |t|
+  create_table "conferences", primary_key: "conference_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "name"
     t.datetime "start_date"
     t.datetime "end_date"
@@ -106,27 +111,30 @@ ActiveRecord::Schema.define(version: 20170509004056) do
     t.string   "email",              limit: 255, default: ""
     t.decimal  "lat"
     t.decimal  "long"
+    t.index ["conference_id"], name: "index_conferences_on_conference_id", unique: true, using: :btree
   end
 
-  create_table "identities", force: :cascade do |t|
+  create_table "identities", primary_key: "identity_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "user_id",    limit: 30
     t.string   "provider"
     t.string   "uid"
     t.text     "auth_data"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.index ["identity_id"], name: "index_identities_on_identity_id", unique: true, using: :btree
     t.index ["user_id"], name: "index_identities_on_user_id", using: :btree
   end
 
-  create_table "organizers", force: :cascade do |t|
-    t.string   "user_id"
-    t.boolean  "approved",   default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+  create_table "organizers", primary_key: "organizer_id", id: :string, limit: 30, force: :cascade do |t|
+    t.string   "user_id",    limit: 30
+    t.boolean  "approved",              default: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.index ["organizer_id"], name: "index_organizers_on_organizer_id", unique: true, using: :btree
     t.index ["user_id"], name: "index_organizers_on_user_id", unique: true, using: :btree
   end
 
-  create_table "papers", force: :cascade do |t|
+  create_table "papers", primary_key: "paper_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "title"
     t.string   "md5hash"
     t.text     "path"
@@ -141,33 +149,37 @@ ActiveRecord::Schema.define(version: 20170509004056) do
     t.text     "author",           default: [],              array: true
     t.text     "affiliation",      default: [],              array: true
     t.text     "email",            default: [],              array: true
+    t.index ["paper_id"], name: "index_papers_on_paper_id", unique: true, using: :btree
   end
 
-  create_table "posts", force: :cascade do |t|
+  create_table "posts", primary_key: "post_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "conference_id", limit: 30
     t.text     "description"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.index ["conference_id"], name: "index_posts_on_conference_id", using: :btree
+    t.index ["post_id"], name: "index_posts_on_post_id", unique: true, using: :btree
   end
 
-  create_table "similarities", force: :cascade do |t|
+  create_table "similarities", primary_key: "similarity_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "user_paper_id",       limit: 30
     t.string   "conference_paper_id", limit: 30
     t.decimal  "similarity_score"
     t.string   "md5hash"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.index ["similarity_id"], name: "index_similarities_on_similarity_id", unique: true, using: :btree
     t.index ["user_paper_id", "conference_paper_id"], name: "index_similarities_on_user_paper_id_and_conference_paper_id", unique: true, using: :btree
   end
 
-  create_table "user_papers", force: :cascade do |t|
+  create_table "user_papers", primary_key: "user_paper_id", id: :string, limit: 30, force: :cascade do |t|
     t.string "user_id"
     t.string "paper_id"
     t.index ["paper_id", "user_id"], name: "index_user_papers_on_paper_id_and_user_id", unique: true, using: :btree
+    t.index ["user_paper_id"], name: "index_user_papers_on_user_paper_id", unique: true, using: :btree
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", primary_key: "user_id", id: :string, limit: 30, force: :cascade do |t|
     t.string   "email",                              default: "",    null: false
     t.string   "encrypted_password",                 default: "",    null: false
     t.string   "reset_password_token"
@@ -208,6 +220,7 @@ ActiveRecord::Schema.define(version: 20170509004056) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["user_id"], name: "index_users_on_user_id", unique: true, using: :btree
   end
 
 end

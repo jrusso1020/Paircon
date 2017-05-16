@@ -24,6 +24,8 @@ class Identity < ActiveRecord::Base
   serialize :auth_data, JSON
   before_create :init_id
 
+  self.primary_key = :identity_id
+
   def auth
     Hashie::Mash.new auth_data
   end
@@ -38,6 +40,6 @@ class Identity < ActiveRecord::Base
 
   # Create Identity id
   def init_id
-    self.id = CodeGenerator.code(Identity.new, 'id', 30)
+    self.id = CodeGenerator.code(Identity.new, Identity.primary_key.to_s, 30)
   end
 end

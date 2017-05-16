@@ -28,6 +28,8 @@ class ConferenceEvent < ApplicationRecord
 
   enum event_type: [:presentation, :keynote, :poster, :other]
 
+  self.primary_key = :conference_event_id
+
   # Get string of conference end date
   def end_date_str
     self.end_date.strftime(DATETIMEFORMAT)
@@ -42,7 +44,7 @@ class ConferenceEvent < ApplicationRecord
 
   # Create a Conference Event id
   def init_id
-    self.id = CodeGenerator.code(ConferenceEvent.new, 'id', 30)
+    self.id = CodeGenerator.code(ConferenceEvent.new, ConferenceEvent.primary_key.to_s, 30)
   end
 
 end

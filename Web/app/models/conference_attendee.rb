@@ -19,11 +19,13 @@ class ConferenceAttendee < ApplicationRecord
   belongs_to :user
   before_create :init_id
 
+  self.primary_key = :conference_attendee_id
+
   private
 
   # Create Conference Attendee id
   def init_id
-    self.id = CodeGenerator.code(ConferenceAttendee.new, 'id', 30)
+    self.id = CodeGenerator.code(ConferenceAttendee.new, ConferenceAttendee.primary_key.to_s, 30)
   end
 
 end

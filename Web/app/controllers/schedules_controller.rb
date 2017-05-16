@@ -10,7 +10,7 @@ class SchedulesController < ApplicationController
   # Action for showing modal for new resource creation
   # @return [HTML] Renders New Resource Modal
   def new_resource
-    @conference = Conference.find_by_id(params[:conference_id])
+    @conference = Conference.find(params[:conference_id])
     if params[:view] == ConferenceResource::TYPE[:event]
       @title = 'Add Event'
       @body = 'Please enter information about the Event you are hosting and add the name of the Room to which this Event belongs.'
@@ -89,7 +89,7 @@ class SchedulesController < ApplicationController
   end
 
   # def new_event
-  #   @conference = Conference.find_by_id(params[:conference_id])
+  #   @conference = Conference.find(params[:conference_id])
   #
   #   events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
   #   @events = events.map { |obj| [obj.title, obj.id] }

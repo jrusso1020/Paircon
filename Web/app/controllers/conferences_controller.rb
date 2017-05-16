@@ -172,7 +172,7 @@ class ConferencesController < ApplicationController
 
     emails.each do |email|
       if email != user_email
-        user = User.find_by_id(email)
+        user = User.find_by_email(email)
         if !user.blank?
           @conference.activity(:invite, user)
         end

@@ -23,6 +23,7 @@ class Post < ApplicationRecord
   scope :post_subscribers, lambda { |conference_ids| where(conference_id: conference_ids) }
 
   self.per_page = 5
+  self.primary_key = :post_id
 
   # Save the activity of a post
   # @param key [String] the identifier for an activity
@@ -36,7 +37,7 @@ class Post < ApplicationRecord
 
   # Create Post id
   def init_post_id
-    self.id = CodeGenerator.code(Post.new, 'id', 30)
+    self.id = CodeGenerator.code(Post.new, Post.primary_key.to_s, 30)
   end
 
 end

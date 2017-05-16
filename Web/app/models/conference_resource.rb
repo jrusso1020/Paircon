@@ -34,11 +34,13 @@ class ConferenceResource < ApplicationRecord
       session: 'session'
   }
 
+  self.primary_key = :conference_resource_id
+
   private
 
   # Create Conference Resource id
   def init_id
-    self.id = CodeGenerator.code(ConferenceResource.new, 'id', 30)
+    self.id = CodeGenerator.code(ConferenceResource.new, ConferenceResource.primary_key.to_s, 30)
   end
 
 end
