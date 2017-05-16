@@ -1,0 +1,11 @@
+---
+kilian:
+  email: 'kilian@example.com'
+  first_name: Kilian
+  last_name: Weinberger
+  encrypted_password: <%= Devise::Encryptor.digest(User, "supersecret") %>
+  confirmed_at: now
+  reset_password_token: "reset-password-token"
+  user_type: :admin
+  organization: 'Cornell'
+  url: 'http://www.cs.cornell.edu/~kilian/publications/publications.html'

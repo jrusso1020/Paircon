@@ -154,3 +154,7 @@ yard server --reload
 ```
 
 You can view your documentation and changes live at 127.0.0.1:8808
+
+## Testing
+To run the entire test suite use the commands
+`bundle exec rspec` or `bundle exec rake`

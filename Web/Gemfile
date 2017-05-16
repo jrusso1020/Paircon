@@ -96,9 +96,20 @@ group :development, :test do
   gem 'passenger', '~> 5.0.7'                                     # Web Server (Best)
   # gem 'puma'                                                      # Web Server (Lighter)
   gem 'web-console', '>= 3.3.0'                                   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  # gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'                                                    # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring-watcher-listen', '~> 2.0.0'
-
+  gem 'fakeredis'                                                 # Fake redis for testing
+  gem 'rspec-rails'                                               # Rspec testing gem
+  gem 'guard-rspec'                                               # Allows you to run tets individually
+  gem 'spring-commands-rspec'                                     # Allows you to use rspec with spring
+  gem 'table_print'                                               # Pretty Print model objects
   gem 'ruby-lint'                                                 # For Detecting any mistakes in Ruby Code
   gem 'bullet'                                                    # For Avoiding N+1 Queries
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'shoulda-matchers', require: false
+  gem 'rspec-sidekiq'
+  gem 'factory_girl_rails'
 end
