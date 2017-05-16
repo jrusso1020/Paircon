@@ -2,13 +2,14 @@
 #
 # Table name: user_papers
 #
-#  id       :string           not null, primary key
-#  user_id  :string
-#  paper_id :string
+#  user_paper_id :string(30)       not null, primary key
+#  user_id       :string
+#  paper_id      :string
 #
 # Indexes
 #
 #  index_user_papers_on_paper_id_and_user_id  (paper_id,user_id) UNIQUE
+#  index_user_papers_on_user_paper_id         (user_paper_id) UNIQUE
 #
 
 # Model responsible for UserPaper objects

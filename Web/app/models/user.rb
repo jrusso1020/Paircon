@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id                      :string(30)       not null, primary key
+#  user_id                 :string(30)       not null, primary key
 #  email                   :string           default(""), not null
 #  encrypted_password      :string           default(""), not null
 #  reset_password_token    :string
@@ -46,6 +46,7 @@
 #  index_users_on_confirmation_token    (confirmation_token) UNIQUE
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_user_id               (user_id) UNIQUE
 #
 
 # Model responsible for User objects
@@ -58,8 +59,8 @@ class User < ApplicationRecord
          :trackable, :validatable, :timeoutable, :omniauthable,
          omniauth_providers: [:google_oauth2, :facebook]
 
-  validates :email, presence: true
-  validates :password, confirmation: true
+  validates_presence_of :email
+  validates_confirmation_of :password
 
   has_many :conference_attendees, dependent: :destroy
   has_many :conference_organizers, dependent: :destroy
@@ -68,8 +69,6 @@ class User < ApplicationRecord
   has_one :organizer, dependent: :destroy
   has_many :identities, dependent: :destroy
 
-  has_many :conferences, through: :conference_attendees
-  has_many :conferences, through: :conference_organizers
   has_many :papers, through: :user_papers
 
   has_attached_file :logo, styles: {medium: '300x300>', thumb: '100x100>'}, default_url: 'Male.jpg'

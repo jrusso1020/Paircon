@@ -2,17 +2,18 @@
 #
 # Table name: identities
 #
-#  id         :string(30)       not null, primary key
-#  user_id    :string(30)
-#  provider   :string
-#  uid        :string
-#  auth_data  :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  identity_id :string(30)       not null, primary key
+#  user_id     :string(30)
+#  provider    :string
+#  uid         :string
+#  auth_data   :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #
-#  index_identities_on_user_id  (user_id)
+#  index_identities_on_identity_id  (identity_id) UNIQUE
+#  index_identities_on_user_id      (user_id)
 #
 
 # Model responsible for Identity objects

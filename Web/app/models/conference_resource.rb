@@ -2,19 +2,20 @@
 #
 # Table name: conference_resources
 #
-#  id            :string(30)       not null, primary key
-#  conference_id :string(30)
-#  room          :string
-#  title         :string
-#  eventColor    :string
-#  parent_id     :string(30)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  conference_resource_id :string(30)       not null, primary key
+#  conference_id          :string(30)
+#  room                   :string
+#  title                  :string
+#  eventColor             :string
+#  parent_id              :string(30)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
 #
 # Indexes
 #
-#  index_conference_resources_on_conference_id  (conference_id)
-#  index_conference_resources_on_parent_id      (parent_id)
+#  index_conference_resources_on_conference_id           (conference_id)
+#  index_conference_resources_on_conference_resource_id  (conference_resource_id) UNIQUE
+#  index_conference_resources_on_parent_id               (parent_id)
 #
 
 # Model responsible for ConferenceResource objects

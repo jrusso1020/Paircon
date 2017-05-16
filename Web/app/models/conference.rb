@@ -2,7 +2,7 @@
 #
 # Table name: conferences
 #
-#  id                 :string(30)       not null, primary key
+#  conference_id      :string(30)       not null, primary key
 #  name               :string
 #  start_date         :datetime
 #  end_date           :datetime
@@ -26,6 +26,11 @@
 #  email              :string(255)      default("")
 #  lat                :decimal(, )
 #  long               :decimal(, )
+#
+# Indexes
+#
+#  index_conferences_on_conference_id  (conference_id) UNIQUE
+#
 
 # Model responsible for Conference objects
 class Conference < ApplicationRecord

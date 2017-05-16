@@ -4,6 +4,7 @@ kilian:
   email: 'kilian@example.com'
   first_name: Kilian
   last_name: Weinberger
+  gender: 1
   encrypted_password: <%= Devise::Encryptor.digest(User, "supersecret") %>
   confirmed_at: now
   reset_password_token: "reset-password-token"

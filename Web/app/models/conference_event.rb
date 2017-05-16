@@ -2,7 +2,7 @@
 #
 # Table name: conference_events
 #
-#  id                     :string(30)       not null, primary key
+#  conference_event_id    :string(30)       not null, primary key
 #  conference_resource_id :string(30)
 #  title                  :string
 #  start_date             :datetime
@@ -13,10 +13,11 @@
 #  conference_id          :string(30)
 #  presenter              :string
 #  event_type             :integer          default("presentation")
-#  paper_id               :string
+#  paper_id               :string(30)
 #
 # Indexes
 #
+#  index_conference_events_on_conference_event_id     (conference_event_id) UNIQUE
 #  index_conference_events_on_conference_resource_id  (conference_resource_id)
 #
 

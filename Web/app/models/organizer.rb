@@ -2,15 +2,16 @@
 #
 # Table name: organizers
 #
-#  id         :string(30)       not null, primary key
-#  user_id    :string
-#  approved   :boolean          default(FALSE)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  organizer_id :string(30)       not null, primary key
+#  user_id      :string(30)
+#  approved     :boolean          default(FALSE)
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #
-#  index_organizers_on_user_id  (user_id) UNIQUE
+#  index_organizers_on_organizer_id  (organizer_id) UNIQUE
+#  index_organizers_on_user_id       (user_id) UNIQUE
 #
 
 # Model responsible for Organizer objects

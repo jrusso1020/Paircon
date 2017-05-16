@@ -2,7 +2,7 @@
 #
 # Table name: similarities
 #
-#  id                  :string(30)       not null, primary key
+#  similarity_id       :string(30)       not null, primary key
 #  user_paper_id       :string(30)
 #  conference_paper_id :string(30)
 #  similarity_score    :decimal(, )
@@ -12,6 +12,7 @@
 #
 # Indexes
 #
+#  index_similarities_on_similarity_id                          (similarity_id) UNIQUE
 #  index_similarities_on_user_paper_id_and_conference_paper_id  (user_paper_id,conference_paper_id) UNIQUE
 #
 

@@ -2,7 +2,7 @@
 #
 # Table name: papers
 #
-#  id               :string(30)       not null, primary key
+#  paper_id         :string(30)       not null, primary key
 #  title            :string
 #  md5hash          :string
 #  path             :text
@@ -17,6 +17,10 @@
 #  author           :text             default([]), is an Array
 #  affiliation      :text             default([]), is an Array
 #  email            :text             default([]), is an Array
+#
+# Indexes
+#
+#  index_papers_on_paper_id  (paper_id) UNIQUE
 #
 
 # Model responsible for Paper objects

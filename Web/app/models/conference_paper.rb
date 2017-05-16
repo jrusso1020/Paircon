@@ -2,14 +2,15 @@
 #
 # Table name: conference_papers
 #
-#  id            :integer          not null, primary key
-#  paper_id      :string(30)
-#  conference_id :string(30)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  conference_paper_id :string(30)       not null, primary key
+#  paper_id            :string(30)
+#  conference_id       :string(30)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #
+#  index_conference_papers_on_conference_paper_id         (conference_paper_id) UNIQUE
 #  index_conference_papers_on_paper_id_and_conference_id  (paper_id,conference_id) UNIQUE
 #
 

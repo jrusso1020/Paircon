@@ -2,14 +2,15 @@
 #
 # Table name: conference_organizers
 #
-#  id            :string(30)       not null, primary key
-#  conference_id :string(30)
-#  user_id       :string(30)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  conference_organizer_id :string(30)       not null, primary key
+#  conference_id           :string(30)
+#  user_id                 :string(30)
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 # Indexes
 #
+#  index_conference_organizers_on_conference_organizer_id    (conference_organizer_id) UNIQUE
 #  index_conference_organizers_on_user_id_and_conference_id  (user_id,conference_id) UNIQUE
 #
 

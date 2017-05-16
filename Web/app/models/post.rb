@@ -2,7 +2,7 @@
 #
 # Table name: posts
 #
-#  id            :string(30)       not null, primary key
+#  post_id       :string(30)       not null, primary key
 #  conference_id :string(30)
 #  description   :text
 #  created_at    :datetime         not null
@@ -11,6 +11,7 @@
 # Indexes
 #
 #  index_posts_on_conference_id  (conference_id)
+#  index_posts_on_post_id        (post_id) UNIQUE
 #
 
 # Model responsible for Post objects
