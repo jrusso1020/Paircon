@@ -1,15 +1,22 @@
+# Utility file for User related functionality
 class UserUtils
   require 'scrapper/pdf_scrapper'
 
+  # Initializes the class object
+  # @param user [User] user object
   def initialize(user)
     @user = user
   end
 
-  #delete all the papers that were saved earlier
+  # deletes all the paper associated with the user profile, required when the profile of the user is refreshed or updated
+  # @param None
   def cleanUserProfile()
     @user.papers.destroy_all
   end
 
+  # Downloads all the pdfs from the user profile, run pdf to txt conversion on the pdfs and stores the text files.
+  # Sets the is_scraped attribute in user object to true after the profile if successfully scraped.
+  # The user is notified via the activity object.
   def scrapeUserProfile()
     #Ensuring the folder exists
     pdf_folder = @user.get_pdf_folder_path

@@ -1,6 +1,12 @@
-require 'scrapper/pdf_scrapper'
-
+# Utility file for Paper related functionality
 class PaperUtils
+  require 'scrapper/pdf_scrapper'
+
+  # Extracts text from the pdf associated with the paper (Mostly for conference papers).
+  # Stores the text file path in the database
+  # @param paper [Paper] paper object whose attachment is to be scraped and stored as text file
+  # @param conference_id [String] id of the conference, paper is associated with
+  # @return None
   def self.extractTextFromPdf(paper, conference_id)
     pdf_path = paper.pdf.path
     conference = Conference.find(conference_id)
@@ -14,6 +20,11 @@ class PaperUtils
     end
   end
 
+  # Runs the pdf to text conversion job for a paper.
+  # The background job in turn calls the extractTextFromPdf function in paper_utils.
+  # @param conference_id [String] id of the conference, paper is associated with
+  # @param paper [Paper] paper object whose attachment is to be scraped and stored as text file
+  # @return [Boolean] return true if either the scraping job is added to the queue or paper was extracted on the spot
   def self.create_conference_papers(conference_id, paper)
     if Conference.find(conference_id).conference_papers.create!(paper_id: paper.id)
       begin
@@ -28,6 +39,11 @@ class PaperUtils
     end
   end
 
+  # Create a paper object in the database
+  # @param paper_params [Map] map containing paper parameters that are stored in the database
+  # @param conference_id [String] id of the conference, paper is associated with
+  # @param paper_path [String] path to the pdf of the paper
+  # @return [Paper] returns the paper object created or return nil in case of failure
   def self.create_paper(paper_params, conference_id, paper_path)
     paper_params[:year] = DateTime.new(paper_params[:year].to_i)
     # "Create a new paper"
