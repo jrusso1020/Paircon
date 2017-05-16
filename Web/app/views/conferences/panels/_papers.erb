@@ -26,7 +26,7 @@
   </div>
   <div class="<%= 'x_content' if partial_view %>">
     <% if @conference.papers.length == 0 %>
-        <%= render 'layouts/application/no_result', body: @conference.get_name + ' is yet to post post any papers ... Add some papers to make this view available to Attendees.' %>
+        <%= render 'layouts/application/no_result', body: @conference.get_name + ' is yet to post post any papers ... Add some papers to make this view available to Followers.' %>
     <% else %>
         <table id="datatable-papers" class="table paircon-table table-condensed table-responsive dataTable">
           <thead>

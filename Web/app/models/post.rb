@@ -13,6 +13,7 @@
 #  index_posts_on_conference_id  (conference_id)
 #
 
+# Model responsible for Post objects
 class Post < ApplicationRecord
   include PublicActivity::Common
 
@@ -23,6 +24,9 @@ class Post < ApplicationRecord
 
   self.per_page = 5
 
+  # Save the activity of a post
+  # @param key [String] the identifier for an activity
+  # @param user [User] a user object
   def activity key, user
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: user, params: {:post => self.to_json})
@@ -30,6 +34,7 @@ class Post < ApplicationRecord
 
   private
 
+  # Create Post id
   def init_post_id
     self.id = CodeGenerator.code(Post.new, 'id', 30)
   end

@@ -13,6 +13,7 @@
 #  index_conference_attendees_on_user_id_and_conference_id  (user_id,conference_id) UNIQUE
 #
 
+# Model responsible for ConferenceAttendee objects
 class ConferenceAttendee < ApplicationRecord
   belongs_to :conference
   belongs_to :user
@@ -20,6 +21,7 @@ class ConferenceAttendee < ApplicationRecord
 
   private
 
+  # Create Conference Attendee id
   def init_id
     self.id = CodeGenerator.code(ConferenceAttendee.new, 'id', 30)
   end

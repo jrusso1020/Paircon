@@ -13,6 +13,7 @@
 #  index_conference_papers_on_paper_id_and_conference_id  (paper_id,conference_id) UNIQUE
 #
 
+# Model responsible for ConferencePaper objects
 class ConferencePaper < ApplicationRecord
   belongs_to :conference
   belongs_to :paper
@@ -23,6 +24,7 @@ class ConferencePaper < ApplicationRecord
 
   private
 
+  # Create Conference Paper id
   def init_id
     self.id = CodeGenerator.code(ConferencePaper.new, 'id', 30)
   end

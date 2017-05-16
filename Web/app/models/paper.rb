@@ -19,6 +19,7 @@
 #  email            :text             default([]), is an Array
 #
 
+# Model responsible for Paper objects
 class Paper < ApplicationRecord
   require 'digest/md5'
   has_one :conference_paper, dependent: :destroy

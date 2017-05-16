@@ -21,6 +21,7 @@
 #  index_activities_on_trackable_id_and_trackable_type  (trackable_id,trackable_type)
 #
 
+# Model responsible for Notification objects
 class Notification < PublicActivity::Activity
   belongs_to :creator, :class_name => 'User', :foreign_key => 'owner_id'
 
@@ -36,6 +37,10 @@ class Notification < PublicActivity::Activity
   NOTIFICATION_LIST_LIMIT = 14
   MAX_DAYS = 7
 
+  # Find the notifications for a given user
+  # @param user [User] a user object
+  # @param limit=nil [Integer] the limit of notifications to return
+  # @return [Array] array of notification objects
   def self.find_all_notifications(user, limit = nil)
     from_time = Time.now.utc.to_date - 1.week
     attending_conferences_id = Conference.my_attending_conferences(user).active.collect(&:id)
@@ -46,12 +51,17 @@ class Notification < PublicActivity::Activity
     (post_notifications.or(notifications_local)).order(created_at: :desc).limit(limit)
   end
 
+  # Find the newest notifacation for a user
+  # @param notifications [Array] array of notification objects
+  # @param user [User] a user object
+  # @return [Array] array of notification objects
   def self.find_new_notifications notifications, user
     notifications.where('created_at > ? AND created_at > ?', user.last_notifications_read, Date.today - Notification::MAX_DAYS).limit(Notification::NOTIFICATION_LIST_LIMIT).select('id').size
   end
 
   private
 
+  # Create Notification id
   def init_id
     self.id = CodeGenerator.code(Notification.new, 'id', 30)
   end

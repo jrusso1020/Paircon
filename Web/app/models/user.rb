@@ -48,6 +48,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
+# Model responsible for User objects
 class User < ApplicationRecord
   require 'users/user_utils'
 
@@ -78,6 +79,7 @@ class User < ApplicationRecord
 
   enum user_type: [:attendee, :organizer, :admin]
 
+  # Check if full name is equivalent to passed fullname
   def full_name=(full_name)
     full_name_tokens = full_name.split(/\s+/)
 
@@ -85,12 +87,12 @@ class User < ApplicationRecord
     self.last_name = full_name_tokens[1..-1].join(' ') if (full_name_tokens.size > 0)
   end
 
-  # Generates the full name based on First and last name of the user
-  # @return [String] full name
+  # Get the string version of full name of a user
   def full_name
     "#{self.first_name} #{self.last_name}".strip()
   end
 
+  # Get the profile picture of a user
   def profile_photo
     if !self.logo_file_name.blank?
       return self.logo.try(:url)
@@ -119,10 +121,12 @@ class User < ApplicationRecord
     return "#{Rails.root}/public/users/#{self.id}/pdfs"
   end
 
+  # Check if a user is a pending organizer
   def pending_organizer
     Organizer.exists?(user_id: self.id)
   end
 
+  # Get all activity for a user
   def activity key
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: self, recipient: self, params: {:user => self.to_json})
@@ -152,9 +156,7 @@ class User < ApplicationRecord
     !ConferenceAttendee.find_by(user_id: self.id, conference_id: conference_id).blank?
   end
 
-  # Checks whether the recommendations/similarities of the user for a conference has been generated or not
-  # @param conference_id [String] conference id for which we need to verify
-  # @return [Boolean] status of whether the recommendations were generated
+  # Check to see if all recommendation similarities have been computed for a user and conference
   def all_similarities_generated(conference_id)
     user = self
     conference = Conference.find_by(id: conference_id)

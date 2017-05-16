@@ -1,10 +1,15 @@
+# Service that handles creation and calculation of paper similarity
 class RecommendationService
 
+  # Constructor for a recommendation service take the user id and conference id to compute similarities for
+  # @param user_id [String] the identifier of a user
+  # @param conference_id [String] the identifier of a conference
   def initialize(user_id, conference_id)
     @user = User.find_by(id: user_id)
     @conference = Conference.find_by(id: conference_id)
   end
 
+  # Function that calls Similarity engine to compute similarity scores for each user paper and all conference papers
   def getRecommendationsForEachPaper
     conference_dir = @conference.get_pdf_text_path
     @user.papers.all.each do |user_paper|

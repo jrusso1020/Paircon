@@ -20,6 +20,7 @@
 #  index_conference_events_on_conference_resource_id  (conference_resource_id)
 #
 
+# Model responsible for ConferenceEvent objects
 class ConferenceEvent < ApplicationRecord
   belongs_to :conference
   belongs_to :conference_resource
@@ -27,16 +28,19 @@ class ConferenceEvent < ApplicationRecord
 
   enum event_type: [:presentation, :keynote, :poster, :other]
 
+  # Get string of conference end date
   def end_date_str
     self.end_date.strftime(DATETIMEFORMAT)
   end
 
+  # Get string of conference start date
   def start_date_str
     self.start_date.strftime(DATETIMEFORMAT)
   end
 
   private
 
+  # Create a Conference Event id
   def init_id
     self.id = CodeGenerator.code(ConferenceEvent.new, 'id', 30)
   end

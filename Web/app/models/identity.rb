@@ -15,6 +15,7 @@
 #  index_identities_on_user_id  (user_id)
 #
 
+# Model responsible for Identity objects
 class Identity < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :uid, :provider
@@ -35,6 +36,7 @@ class Identity < ActiveRecord::Base
 
   private
 
+  # Create Identity id
   def init_id
     self.id = CodeGenerator.code(Identity.new, 'id', 30)
   end

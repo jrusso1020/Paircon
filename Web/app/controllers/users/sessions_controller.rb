@@ -4,11 +4,13 @@ class Users::SessionsController < Devise::SessionsController
   layout 'home'
 
   # Function handling making a new devise session
+  # @return [HTML] Renders New View
   def new
     super
   end
 
   # Function handling successful creation of session
+  # @return [HTML] Redirects to successful session creation root
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message(:notice, :signed_in) if is_navigational_format?

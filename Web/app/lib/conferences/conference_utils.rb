@@ -73,20 +73,20 @@ class ConferenceUtils
               if not paper.nil?
                 tran_success = create_conference_events(params[:session], conference_id, paper.id)
                 unless tran_success
-                  message = 'Problem Adding Papers'
+                  message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
                   tran_success = false
                   raise ActiveRecord::Rollback
                 end
               else
                 tran_success = false
-                message = 'Problem Adding Papers'
+                message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
                 raise ActiveRecord::Rollback
               end
             end
           end
         rescue => e
           tran_success = false
-          message = 'Problem Adding papers in bulk'
+          message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
           raise ActiveRecord::Rollback
         end
       end
@@ -150,20 +150,20 @@ class ConferenceUtils
               if not paper.nil?
                 tran_success = create_conference_events(params[:session], conference_id, paper.id)
                 unless tran_success
-                  message = 'Problem Adding Papers'
+                  message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
                   tran_success = false
                   raise ActiveRecord::Rollback
                 end
               else
                 tran_success = false
-                message = 'Problem Adding Papers'
+                message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
                 raise ActiveRecord::Rollback
               end
             end
           end
         rescue => e
           tran_success = false
-          message = 'Problem Adding papers in bulk'
+          message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
           raise ActiveRecord::Rollback
         end
       end

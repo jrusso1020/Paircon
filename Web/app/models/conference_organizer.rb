@@ -13,6 +13,7 @@
 #  index_conference_organizers_on_user_id_and_conference_id  (user_id,conference_id) UNIQUE
 #
 
+# Model responsible for ConferenceOrganizer objects
 class ConferenceOrganizer < ApplicationRecord
   alias_attribute :organizers, :users
   belongs_to :conference
@@ -22,6 +23,7 @@ class ConferenceOrganizer < ApplicationRecord
 
   private
 
+  # Create a Conference Organizer id
   def init_id
     self.id = CodeGenerator.code(ConferenceOrganizer.new, 'id', 30)
   end
