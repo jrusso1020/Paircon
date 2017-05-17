@@ -32,7 +32,7 @@ class IdentifierService
   end
 
   # Create Identity for a user
-  # @param [Identity] Identity Object
+  # @param identity [Identity] Object
   # @return [User] return the user for whom the identity is created
   def ensure_user identity
     @user ||= identity.user
@@ -56,8 +56,8 @@ class IdentifierService
   end
 
   # Create Link Between Identity and User
-  # @param [Identity] Identity Object
-  # @param [User] User Object
+  # @param identity [Identity] Object
+  # @param user [User] Object
   def link identity, user
     identity.update_attribute :user, user unless identity.user == user
   end

@@ -30,6 +30,7 @@ class ConferenceResource < ApplicationRecord
   attr_accessor :event_type
   attr_accessor :paper_id
 
+  # Map for Types of Conference Resources
   TYPE = {
       event: 'event',
       session: 'session'

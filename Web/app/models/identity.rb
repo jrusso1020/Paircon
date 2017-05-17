@@ -27,6 +27,7 @@ class Identity < ActiveRecord::Base
 
   self.primary_key = :identity_id
 
+  # Used to generated hash from Authentication Data
   def auth
     Hashie::Mash.new auth_data
   end

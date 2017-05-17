@@ -33,13 +33,18 @@ class Notification < PublicActivity::Activity
 
   before_create :init_id
 
+  # Notification limit for full view
   NOTIFICATION_PAGE_LIMIT = 49
+
+  # Notification limit for partial view
   NOTIFICATION_LIST_LIMIT = 14
+
+  # Max number of days notifications to allow
   MAX_DAYS = 7
 
   # Find the notifications for a given user
   # @param user [User] a user object
-  # @param limit=nil [Integer] the limit of notifications to return
+  # @param limit [Integer] the limit of notifications to return
   # @return [Array] array of notification objects
   def self.find_all_notifications(user, limit = nil)
     from_time = Time.now.utc.to_date - 1.week

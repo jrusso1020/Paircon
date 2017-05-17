@@ -66,7 +66,10 @@ class Conference < ApplicationRecord
   validates_attachment :logo, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
   validates_attachment :cover, content_type: {content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']}
 
+  # Allowed Types For Spread Sheets in Bulk Upload
   BULK_SPREADSHEET_MIME_TYPE = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+
+  # Allowed Types For Zip Files in Bulk Upload
   BULK_ARCHIVE_MIME_TYPE = ['application/zip']
 
   self.primary_key = :conference_id
@@ -101,7 +104,7 @@ class Conference < ApplicationRecord
 
   # Save the logo or cover photo of a conference
   # @param params [Hash] the parameters hash with name and data to save
-  # @param is_logo=true [Boolean] optional parameter to tell if it is a logo or cover photo
+  # @param is_logo [Boolean] optional parameter to tell if it is a logo or cover photo
   def save_image(params, is_logo=true)
     FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
     FileUtils.mkdir_p "#{Rails.root}/tmp/cover"
@@ -135,7 +138,7 @@ class Conference < ApplicationRecord
   end
 
   # Get the name of this conference
-  # @param id=nil [String] the identifier of the conference
+  # @param id [String] the identifier of the conference
   # @return [String] the name of the conference
   def get_name id=nil
     self.name.blank? ? "Conference #{id}".strip : self.name.strip
@@ -178,10 +181,10 @@ class Conference < ApplicationRecord
   end
 
   # Get the number of posts, attendees, resources, and events for a conference
-  # @param post=true [Boolean] boolean saying whether or not to return the post count
-  # @param interested=true [Boolean] boolean saying whether or not to return the attendee count
-  # @param resources=true [Boolean] boolean saying whether or not to return the resources count
-  # @param events=true [Boolean] boolean saying whether or not to return the events count
+  # @param post [Boolean] boolean saying whether or not to return the post count
+  # @param interested [Boolean] boolean saying whether or not to return the attendee count
+  # @param resources [Boolean] boolean saying whether or not to return the resources count
+  # @param events [Boolean] boolean saying whether or not to return the events count
   # @return [Array] the counts for the past parameters
   def get_counts(post = true, interested = true, resources = true, events = true)
     result = []

@@ -9,7 +9,6 @@ class UserUtils
   end
 
   # deletes all the paper associated with the user profile, required when the profile of the user is refreshed or updated
-  # @param None
   def cleanUserProfile()
     @user.papers.destroy_all
   end
@@ -55,7 +54,7 @@ class UserUtils
 
     FileUtils::rm_rf pdf_folder
 
-    #setting the status to true
+    # setting the status to true
     @user.is_scraped = true
     @user.save
 

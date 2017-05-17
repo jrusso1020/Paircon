@@ -6,7 +6,7 @@ class CodeGenerator
   # Create Unique HEX Codes
   # @param klass [Class] Name of class
   # @param field [String] Name of Field
-  # @param Size [Int] of the random code
+  # @param size [Int] of the random code
   # @return [Boolean] True if unique
   def self.code(klass, field, size)
     code = self.random_code(size)
@@ -30,7 +30,7 @@ class CodeGenerator
   end
 
   # Generate Random Code
-  # @param Size [Int] of the random code
+  # @param size [Int] of the random code
   # @return [String] Return Hex of Size / 2
   def self.random_code(size)
     SecureRandom.hex(size/2)

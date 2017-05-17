@@ -29,6 +29,7 @@ class Paper < ApplicationRecord
   has_one :conference_paper, dependent: :destroy
   has_one :user_paper, dependent: :destroy
 
+  # Allowed Types for Paper Upload
   PAPER_MIME_TYPES = ['application/pdf']
 
   has_attached_file :pdf

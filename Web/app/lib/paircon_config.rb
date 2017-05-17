@@ -1,3 +1,4 @@
+# Class that handles constants defined in Local Settings (YAML)
 class PairConConfig
   class << self
 

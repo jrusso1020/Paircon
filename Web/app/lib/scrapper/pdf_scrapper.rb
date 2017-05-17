@@ -7,12 +7,15 @@ class PDFScrapper
   require 'pdf-reader'
   require 'docsplit'
 
+  # User agent to consider while running scrapper
   USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:51.0) Gecko/20100101 Firefox/51.0'
 
-  PageType = {
+  # Allowed types for pages
+  PAGETYPE = {
       google_scholar: 'google-scholar',
       personal: 'personal'
   }
+
   # Initialize the pdf scrapping profile
   # @param link [String] the link to the user profile url
   # @param type [String] the type of link, can be "google-scholar", "personal" or "dummy" (in case of single pdf scrape)
@@ -24,9 +27,8 @@ class PDFScrapper
 
   # Returns the link to the pdfs in an array.
   # The pdf links are scraped from the profile link provided during object instantiation.
-  # @param None
   def getPdf
-    if @type == PageType[:google_scholar]
+    if @type == PAGETYPE[:google_scholar]
         getPdfGoogleScholarPage
     else
         getPdfPersonalPage
@@ -34,7 +36,6 @@ class PDFScrapper
   end
 
   # Returns the url links to all the pdfs on a personal page of the user
-  # @param None
   # @return [Array] array of link to pdfs
   def getPdfPersonalPage
     ary = Set.new()
