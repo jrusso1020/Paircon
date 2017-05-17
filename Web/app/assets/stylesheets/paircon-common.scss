@@ -365,7 +365,12 @@ a.disabled {
 }
 
 .btn-disabled {
-  @extend .disabled;
+  pointer-events: inherit;
+  cursor: default;
+
+  &:hover, &:active, &:focus {
+    opacity: 0.65 !important;
+  }
 }
 
 /***********************************
