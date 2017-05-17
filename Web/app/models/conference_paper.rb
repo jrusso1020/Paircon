@@ -13,8 +13,6 @@
 #  index_conference_papers_on_conference_paper_id         (conference_paper_id) UNIQUE
 #  index_conference_papers_on_paper_id_and_conference_id  (paper_id,conference_id) UNIQUE
 #
-
-# Model responsible for ConferencePaper objects
 class ConferencePaper < ApplicationRecord
   belongs_to :conference
   belongs_to :paper

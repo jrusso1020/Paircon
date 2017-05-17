@@ -11,8 +11,6 @@
 #  index_user_papers_on_paper_id_and_user_id  (paper_id,user_id) UNIQUE
 #  index_user_papers_on_user_paper_id         (user_paper_id) UNIQUE
 #
-
-# Model responsible for UserPaper objects
 class UserPaper < ApplicationRecord
   belongs_to :user
   belongs_to :paper, dependent: :destroy

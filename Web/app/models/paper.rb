@@ -22,8 +22,6 @@
 #
 #  index_papers_on_paper_id  (paper_id) UNIQUE
 #
-
-# Model responsible for Paper objects
 class Paper < ApplicationRecord
   require 'digest/md5'
   has_one :conference_paper, dependent: :destroy

@@ -13,8 +13,6 @@
 #  index_conference_attendees_on_conference_attendee_id     (conference_attendee_id) UNIQUE
 #  index_conference_attendees_on_user_id_and_conference_id  (user_id,conference_id) UNIQUE
 #
-
-# Model responsible for ConferenceAttendee objects
 class ConferenceAttendee < ApplicationRecord
   belongs_to :conference
   belongs_to :user

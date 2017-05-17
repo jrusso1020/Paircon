@@ -48,8 +48,6 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_user_id               (user_id) UNIQUE
 #
-
-# Model responsible for User objects
 class User < ApplicationRecord
   require 'users/user_utils'
 

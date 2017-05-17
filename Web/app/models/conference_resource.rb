@@ -17,18 +17,10 @@
 #  index_conference_resources_on_conference_resource_id  (conference_resource_id) UNIQUE
 #  index_conference_resources_on_parent_id               (parent_id)
 #
-
-# Model responsible for ConferenceResource objects
 class ConferenceResource < ApplicationRecord
   belongs_to :conference
   has_many :conference_events
   before_create :init_id
-  attr_accessor :date
-  attr_accessor :start_time
-  attr_accessor :end_time
-  attr_accessor :presenter
-  attr_accessor :event_type
-  attr_accessor :paper_id
 
   # Map for Types of Conference Resources
   TYPE = {

@@ -13,8 +13,6 @@
 #  index_posts_on_conference_id  (conference_id)
 #  index_posts_on_post_id        (post_id) UNIQUE
 #
-
-# Model responsible for Post objects
 class Post < ApplicationRecord
   include PublicActivity::Common
 

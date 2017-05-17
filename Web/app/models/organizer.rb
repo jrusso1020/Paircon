@@ -13,8 +13,6 @@
 #  index_organizers_on_organizer_id  (organizer_id) UNIQUE
 #  index_organizers_on_user_id       (user_id) UNIQUE
 #
-
-# Model responsible for Organizer objects
 class Organizer < ApplicationRecord
   belongs_to :user
   has_many :conference_organizers

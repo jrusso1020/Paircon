@@ -20,8 +20,6 @@
 #  index_activities_on_recipient_id_and_recipient_type  (recipient_id,recipient_type)
 #  index_activities_on_trackable_id_and_trackable_type  (trackable_id,trackable_type)
 #
-
-# Model responsible for Notification objects
 class Notification < PublicActivity::Activity
   belongs_to :creator, :class_name => 'User', :foreign_key => 'owner_id'
 

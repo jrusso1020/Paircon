@@ -20,8 +20,6 @@
 #  index_conference_events_on_conference_event_id     (conference_event_id) UNIQUE
 #  index_conference_events_on_conference_resource_id  (conference_resource_id)
 #
-
-# Model responsible for ConferenceEvent objects
 class ConferenceEvent < ApplicationRecord
   belongs_to :conference
   belongs_to :conference_resource
@@ -32,11 +30,13 @@ class ConferenceEvent < ApplicationRecord
   self.primary_key = :conference_event_id
 
   # Get string of conference end date
+  # @return [String] String format for End Date
   def end_date_str
     self.end_date.strftime(DATETIMEFORMAT)
   end
 
   # Get string of conference start date
+  # @return [String] String format for Start Date
   def start_date_str
     self.start_date.strftime(DATETIMEFORMAT)
   end

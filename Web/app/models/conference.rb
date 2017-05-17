@@ -31,8 +31,6 @@
 #
 #  index_conferences_on_conference_id  (conference_id) UNIQUE
 #
-
-# Model responsible for Conference objects
 class Conference < ApplicationRecord
   require 'fileutils'
   require 'conferences/conference_utils'
@@ -105,6 +103,7 @@ class Conference < ApplicationRecord
   # Save the logo or cover photo of a conference
   # @param params [Hash] the parameters hash with name and data to save
   # @param is_logo [Boolean] optional parameter to tell if it is a logo or cover photo
+  # @return None
   def save_image(params, is_logo=true)
     FileUtils.mkdir_p "#{Rails.root}/tmp/logo"
     FileUtils.mkdir_p "#{Rails.root}/tmp/cover"
@@ -132,6 +131,7 @@ class Conference < ApplicationRecord
   # Save an activity to this conference
   # @param key [String] the key of the activity
   # @param current_user [User] the current user object
+  # @return None
   def activity key, current_user
     self.save!(validate: false) unless self.persisted?
     self.create_activity(key, owner: current_user, recipient: current_user, params: {:conference => self.to_json})
