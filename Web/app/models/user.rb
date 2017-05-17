@@ -160,7 +160,7 @@ class User < ApplicationRecord
   # Check to see if all recommendation similarities have been computed for a user and conference
   def all_similarities_generated(conference_id)
     user = self
-    conference = Conference.find_by(id: conference_id)
+    conference = Conference.find_by(conference_id: conference_id)
     result = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id), conference_paper_id: conference.conference_papers.pluck(:paper_id))
     result.size == (user.user_papers.size * conference.conference_papers.size)
   end
