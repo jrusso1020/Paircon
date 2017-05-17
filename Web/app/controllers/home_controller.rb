@@ -14,9 +14,9 @@ class HomeController < ApplicationController
     @user = current_user
 
     upcoming_conferences = Conference.my_attending_conferences(current_user).active.where(Conference.arel_table[:start_date].gt(DateTime.now()))
-    upcoming_conferences_ids = upcoming_conferences.pluck(:id)
-    upcoming_conferences_paper_ids = upcoming_conferences.includes(:papers).select(papers: :id).pluck('papers.id')
-    user_paper_ids = current_user.papers.pluck(:id)
+    upcoming_conferences_ids = upcoming_conferences.pluck(:conference_id)
+    upcoming_conferences_paper_ids = upcoming_conferences.includes(:papers).select(papers: :paper_id).pluck('papers.paper_id')
+    user_paper_ids = current_user.papers.pluck(:paper_id)
 
     next_conference = upcoming_conferences.limit(1).order(start_date: :asc)[0]
     recommended_similarity = Similarity.includes(:paper_conference).where(user_paper_id: user_paper_ids, conference_paper_id: upcoming_conferences_paper_ids).order(similarity_score: :desc).limit(5)[Random.new.rand(5)]

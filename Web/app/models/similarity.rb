@@ -18,8 +18,8 @@
 
 # Model responsible for Similarity objects
 class Similarity < ApplicationRecord
-  has_one :paper_user, class_name: 'Paper', foreign_key: :id, primary_key: :user_paper_id
-  has_one :paper_conference, class_name: 'Paper', foreign_key: :id, primary_key: :conference_paper_id
+  has_one :paper_user, class_name: 'Paper', foreign_key: :paper_id, primary_key: :user_paper_id
+  has_one :paper_conference, class_name: 'Paper', foreign_key: :paper_id, primary_key: :conference_paper_id
 
   before_create :init_id
 

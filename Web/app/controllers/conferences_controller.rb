@@ -148,9 +148,9 @@ class ConferencesController < ApplicationController
   # @return [HTML] Renders Invite View
   def invite
     if user_signed_in?
-      conferences_ids = Conference.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:id)
+      conferences_ids = Conference.includes(:conference_organizers).where(conference_organizers: {user_id: current_user.id}).collect(&:conference_id)
       user_ids = ConferenceAttendee.where(conference_id: conferences_ids).select(:user_id).distinct
-      @emails_json = User.where(id: user_ids).map { |obj| {id: obj.id, name: obj.email} }.to_json
+      @emails_json = User.where(id: user_ids).map { |obj| {id: obj.user_id, name: obj.email} }.to_json
     else
       @email_json = {}
     end

@@ -43,8 +43,8 @@ class Notification < PublicActivity::Activity
   # @return [Array] array of notification objects
   def self.find_all_notifications(user, limit = nil)
     from_time = Time.now.utc.to_date - 1.week
-    attending_conferences_id = Conference.my_attending_conferences(user).active.collect(&:id)
-    post_ids = Post.post_subscribers(attending_conferences_id).collect(&:id)
+    attending_conferences_id = Conference.my_attending_conferences(user).active.collect(&:conference_id)
+    post_ids = Post.post_subscribers(attending_conferences_id).collect(&:post_id)
 
     post_notifications = Notification.post_subscribers(post_ids).recent(from_time).order(created_at: :desc).limit(limit)
     notifications_local = Notification.where(recipient_id: user.id).filter_only.recent(from_time).order(created_at: :desc).limit(limit)

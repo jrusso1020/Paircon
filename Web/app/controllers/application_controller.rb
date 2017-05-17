@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   before_action :load_left_column
   skip_before_action :set_mobile_format
 
-  etag { current_user.try :id }
+  etag { current_user.try :user_id }
 
   # Action used to destroy cache
   # @return [None]
@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
   # Action executed if something is not found
   # @return [HTML] Renders Internal Server Error
   def not_found
-    render file: '/errors/internal_server_error', formats: [:html], layout: false, status: 404
+    render file: '/errors/internal_server_error', formats: [:html], status: 404, layout: user_signed_in? ? 'application' : 'error'
   end
 
   # Action used to define the type of resource (different themes)
