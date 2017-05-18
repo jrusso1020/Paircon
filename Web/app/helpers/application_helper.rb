@@ -49,7 +49,7 @@ module ApplicationHelper
   end
 
   # Initializes error flash on login
-  # @return [Flash] Returns Flash Message
+  # @return [HTML] Returns Flash Message
   def init_error_flash_for_login()
     flash_errors = [flash[:error], flash[:alert], flash[:notice]]
     flash_errors = flash_errors + resource.errors.full_messages if defined? resource
@@ -58,7 +58,7 @@ module ApplicationHelper
   end
 
   # Initializes error flash after logging in
-  # @return [Flash] Returns Flash Message
+  # @return [HTML] Returns Flash Message
   def init_error_flash()
     flash_errors = [flash[:error], flash[:alert]]
     flash_errors = flash_errors + resource.errors.full_messages if defined? resource

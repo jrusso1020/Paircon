@@ -2,7 +2,7 @@
 #
 # Table name: posts
 #
-#  id            :string(30)       not null, primary key
+#  post_id       :string(30)       not null, primary key
 #  conference_id :string(30)
 #  description   :text
 #  created_at    :datetime         not null
@@ -11,9 +11,8 @@
 # Indexes
 #
 #  index_posts_on_conference_id  (conference_id)
+#  index_posts_on_post_id        (post_id) UNIQUE
 #
-
-# Model responsible for Post objects
 class Post < ApplicationRecord
   include PublicActivity::Common
 
@@ -23,6 +22,7 @@ class Post < ApplicationRecord
   scope :post_subscribers, lambda { |conference_ids| where(conference_id: conference_ids) }
 
   self.per_page = 5
+  self.primary_key = :post_id
 
   # Save the activity of a post
   # @param key [String] the identifier for an activity
@@ -36,7 +36,7 @@ class Post < ApplicationRecord
 
   # Create Post id
   def init_post_id
-    self.id = CodeGenerator.code(Post.new, 'id', 30)
+    self.id = CodeGenerator.code(Post.new, Post.primary_key.to_s, 30)
   end
 
 end

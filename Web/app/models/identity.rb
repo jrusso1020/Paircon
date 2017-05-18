@@ -2,20 +2,19 @@
 #
 # Table name: identities
 #
-#  id         :string(30)       not null, primary key
-#  user_id    :string(30)
-#  provider   :string
-#  uid        :string
-#  auth_data  :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  identity_id :string(30)       not null, primary key
+#  user_id     :string(30)
+#  provider    :string
+#  uid         :string
+#  auth_data   :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 # Indexes
 #
-#  index_identities_on_user_id  (user_id)
+#  index_identities_on_identity_id  (identity_id) UNIQUE
+#  index_identities_on_user_id      (user_id)
 #
-
-# Model responsible for Identity objects
 class Identity < ActiveRecord::Base
   belongs_to :user
   validates_presence_of :uid, :provider
@@ -24,6 +23,9 @@ class Identity < ActiveRecord::Base
   serialize :auth_data, JSON
   before_create :init_id
 
+  self.primary_key = :identity_id
+
+  # Used to generated hash from Authentication Data
   def auth
     Hashie::Mash.new auth_data
   end
@@ -38,6 +40,6 @@ class Identity < ActiveRecord::Base
 
   # Create Identity id
   def init_id
-    self.id = CodeGenerator.code(Identity.new, 'id', 30)
+    self.id = CodeGenerator.code(Identity.new, Identity.primary_key.to_s, 30)
   end
 end

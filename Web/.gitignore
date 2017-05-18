@@ -79,3 +79,4 @@ bower.json
 # Documentation
 .yardoc/
 doc/
+/spec/examples.txt

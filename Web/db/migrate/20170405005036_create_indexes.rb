@@ -6,6 +6,5 @@ class CreateIndexes < ActiveRecord::Migration[5.0]
     add_index :conference_attendees, [:user_id, :conference_id], unique: true
     add_index :conference_organizers, [:user_id, :conference_id], unique: true
     add_index :conference_papers, [:paper_id, :conference_id], unique: true
-    add_index :paper_authors, [:paper_id, :user_id], unique: true
   end
 end

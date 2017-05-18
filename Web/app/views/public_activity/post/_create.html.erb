@@ -1,6 +1,6 @@
 <% post = Hashie::Mash.new(YAML::load(@activity.parameters[:post])) %>
 
-<% @post = Post.find_by_id(post.id) %>
+<% @post = Post.find(post.post_id) %>
 <% unless @post.nil? %>
     <li class="item-success border-left-blue notification-box">
       <div class="notification-time label label-success pull-right"><%= notification_created_time %></div>

@@ -5,8 +5,8 @@ class RecommendationService
   # @param user_id [String] the identifier of a user
   # @param conference_id [String] the identifier of a conference
   def initialize(user_id, conference_id)
-    @user = User.find_by(id: user_id)
-    @conference = Conference.find_by(id: conference_id)
+    @user = User.find(user_id)
+    @conference = Conference.find(conference_id)
   end
 
   # Function that calls Similarity engine to compute similarity scores for each user paper and all conference papers

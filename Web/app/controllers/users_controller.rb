@@ -13,14 +13,14 @@ class UsersController < ApplicationController
   # @return [HTML] Render Approved Organizers View
   def approved_organizers
     @user = current_user
-    @approved_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :industry, :organization, 'organizers.updated_at').where(organizers: {approved: true})
+    @approved_organizers = User.joins(:organizer).select(:user_id, :first_name, :last_name, :email, :industry, :organization, 'organizers.updated_at').where(organizers: {approved: true})
   end
 
   # Action used to show list of pending organizers
   # @return [HTML] Render Pending Organizers View
   def pending_organizers
     @user = current_user
-    @pending_organizers = User.joins(:organizer).select(:id, :first_name, :last_name, :email, :industry, :organization, 'organizers.created_at').where(organizers: {approved: false})
+    @pending_organizers = User.joins(:organizer).select(:user_id, :first_name, :last_name, :email, :industry, :organization, 'organizers.created_at').where(organizers: {approved: false})
   end
 
   # Action used to process the approval of an organizer

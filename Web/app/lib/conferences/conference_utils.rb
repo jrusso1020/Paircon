@@ -247,7 +247,7 @@ class ConferenceUtils
   # @return [Map] The output map contains information about the events and sessions in the conference and the papers associated with the sessions
   def self.create_schedule_dictionary(conference)
     output = {}
-    all_resources = conference.conference_resources.map { |obj| {id: obj.id, parent_id: obj.parent_id, room: obj.room, title: obj.title} }
+    all_resources = conference.conference_resources.map { |obj| {id: obj.conference_resource_id, parent_id: obj.parent_id, room: obj.room, title: obj.title} }
     #separate the events and sessions
     events = {}
     sessions = {}
@@ -260,7 +260,7 @@ class ConferenceUtils
       end
     end
 
-    all_papers = conference.papers.map { |obj| {id: obj.id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url, abstract: obj.abstract} }
+    all_papers = conference.papers.map { |obj| {id: obj.paper_id, author: obj.author, affiliation: obj.affiliation, title: obj.title, url: obj.pdf.url, abstract: obj.abstract} }
     papers = {}
     all_papers.each do |paper|
       papers[paper[:id]] = paper

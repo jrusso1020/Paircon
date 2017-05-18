@@ -1,0 +1,12 @@
+---
+aaai:
+  conference_id: '1'
+  name: AAAI
+  url: 'www.aaai.com'
+  location: New York, NY
+  description: 'This is the tripl AAAI conference on artificial intelligence'
+  domain: 'Artificial Intelligence'
+  email: 'test@aaai.com'
+  start_date: <%= Time.now %>
+  end_date: <%= Time.now + 1.days %>
+

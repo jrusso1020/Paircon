@@ -154,3 +154,19 @@ yard server --reload
 ```
 
 You can view your documentation and changes live at 127.0.0.1:8808
+
+## Testing
+To run the entire test suite use the commands
+`bundle exec rake` or `bundle exec rspec`
+
+#### Using Guard
+While creating testcases you can use the command `bundle exec guard` which runs guard.
+This gem will automatically run whatever `*_spec.rb` file you just saved so you don't have to run the whole test suite each time.
+
+#### Loading Fixtures
+You can use fixtures in the rails console instead of your own database to test, this is down with the commands
+```
+bundle exec rake db:fixtures:load RAILS_ENV=test
+bundle exec rails c test
+```
+

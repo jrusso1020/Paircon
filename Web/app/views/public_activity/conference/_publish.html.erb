@@ -1,6 +1,6 @@
 <% conference = Hashie::Mash.new(YAML::load(@activity.parameters[:conference])) %>
 
-<% @conference = Conference.find_by_id(conference.id) %>
+<% @conference = Conference.find(conference.conference_id) %>
 <% unless @conference.nil? %>
     <li class="item-success border-left-blue notification-box">
       <div class="notification-time label label-success pull-right"><%= notification_created_time %></div>

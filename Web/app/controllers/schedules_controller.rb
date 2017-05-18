@@ -10,7 +10,7 @@ class SchedulesController < ApplicationController
   # Action for showing modal for new resource creation
   # @return [HTML] Renders New Resource Modal
   def new_resource
-    @conference = Conference.find_by_id(params[:conference_id])
+    @conference = Conference.find(params[:conference_id])
     if params[:view] == ConferenceResource::TYPE[:event]
       @title = 'Add Event'
       @body = 'Please enter information about the Event you are hosting and add the name of the Room to which this Event belongs.'
@@ -18,8 +18,8 @@ class SchedulesController < ApplicationController
     else
       @title = 'Add Session'
       @body = 'Please information about the Session along with the type of Session, name of Paper and the Event to which this Session belongs.'
-      @events = @conference.conference_resources.select(:title, :id).distinct().where({:parent_id => nil}).map { |obj| [obj.title, obj.id] }
-      papers = @conference.papers.select(:title, :id).order(:title)
+      @events = @conference.conference_resources.select(:title, :conference_resource_id).distinct().where({:parent_id => nil}).map { |obj| [obj.title, obj.conference_resource_id] }
+      papers = @conference.papers.select(:title, :paper_id).order(:title)
       @papers = papers.map { |obj| [obj.title, obj.id] }
     end
     render layout: false
@@ -89,7 +89,7 @@ class SchedulesController < ApplicationController
   end
 
   # def new_event
-  #   @conference = Conference.find_by_id(params[:conference_id])
+  #   @conference = Conference.find(params[:conference_id])
   #
   #   events = @conference.conference_resources.where(parent_id: nil).select(:title, :id).distinct().order(:title)
   #   @events = events.map { |obj| [obj.title, obj.id] }
@@ -256,7 +256,7 @@ class SchedulesController < ApplicationController
   # @return [JSON] Returns Resources e.g. Event, Session Information as JSON
   def get_resources
     @conference = Conference.find(params[:id])
-    resources = @conference.conference_resources.where(parent_id: nil).order(:title).map { |obj| {id: obj.id, title: obj.title, room: obj.room, eventColor: obj.eventColor} }
+    resources = @conference.conference_resources.where(parent_id: nil).order(:title).map { |obj| {id: obj.conference_resource_id, title: obj.title, room: obj.room, eventColor: obj.eventColor} }
 
     if resources.length == 0
       sample_resource = [{id: 'a', room: 'Sample Room', title: 'Sample Event', children: [{id: 'a1', title: 'Sample Session A'}, {id: 'a2', title: 'Sample Session B'}]}]
@@ -267,7 +267,7 @@ class SchedulesController < ApplicationController
       sessions.each do |session|
         event = resources.find { |x| x[:id] == session.parent_id }
         event[:children] = [] if event[:children].nil?
-        event[:children] = event[:children] + [{id: session.id, title: session.title, eventColor: session.eventColor}]
+        event[:children] = event[:children] + [{id: session.conference_resource_id, title: session.title, eventColor: session.eventColor}]
       end
 
       render json: resources.to_json
@@ -309,7 +309,7 @@ class SchedulesController < ApplicationController
   # Action used to provide json containing information about ConferenceResource [Session]
   # @return [JSON] Returns Session Resource Information as JSON
   def get_sessions
-    sessions = [{text: 'No session', value: 'No session'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
+    sessions = [{text: 'No session', value: 'No session'}] + ConferenceResource.where(parent_id: params[:id]).select(:title, :conference_resource_id).distinct().order(:title).map { |obj| {text: obj.title, value: obj.id} }
     render json: sessions.to_json
   end
 

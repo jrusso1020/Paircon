@@ -2,18 +2,17 @@
 #
 # Table name: conference_papers
 #
-#  id            :integer          not null, primary key
-#  paper_id      :string(30)
-#  conference_id :string(30)
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
+#  conference_paper_id :string(30)       not null, primary key
+#  paper_id            :string(30)
+#  conference_id       :string(30)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 # Indexes
 #
+#  index_conference_papers_on_conference_paper_id         (conference_paper_id) UNIQUE
 #  index_conference_papers_on_paper_id_and_conference_id  (paper_id,conference_id) UNIQUE
 #
-
-# Model responsible for ConferencePaper objects
 class ConferencePaper < ApplicationRecord
   belongs_to :conference
   belongs_to :paper
@@ -22,11 +21,13 @@ class ConferencePaper < ApplicationRecord
 
   before_create :init_id
 
+  self.primary_key = :conference_paper_id
+
   private
 
   # Create Conference Paper id
   def init_id
-    self.id = CodeGenerator.code(ConferencePaper.new, 'id', 30)
+    self.id = CodeGenerator.code(ConferencePaper.new, ConferencePaper.primary_key.to_s, 30)
   end
 
 end

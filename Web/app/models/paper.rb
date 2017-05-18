@@ -2,7 +2,7 @@
 #
 # Table name: papers
 #
-#  id               :string(30)       not null, primary key
+#  paper_id         :string(30)       not null, primary key
 #  title            :string
 #  md5hash          :string
 #  path             :text
@@ -18,18 +18,23 @@
 #  affiliation      :text             default([]), is an Array
 #  email            :text             default([]), is an Array
 #
-
-# Model responsible for Paper objects
+# Indexes
+#
+#  index_papers_on_paper_id  (paper_id) UNIQUE
+#
 class Paper < ApplicationRecord
   require 'digest/md5'
   has_one :conference_paper, dependent: :destroy
   has_one :user_paper, dependent: :destroy
 
+  # Allowed Types for Paper Upload
   PAPER_MIME_TYPES = ['application/pdf']
 
   has_attached_file :pdf
   validates_attachment :pdf, content_type: { content_type: PAPER_MIME_TYPES }
   before_create :init_id
+
+  self.primary_key = :paper_id
 
   # Saves the uploaded conference paper pdf to the conference pdf folder
   # @param conference_id [String] id of the conference the paper is related to
@@ -76,7 +81,7 @@ class Paper < ApplicationRecord
 
   # Initializes the user id, by assigning a unique 30 character id
   def init_id
-    self.id = CodeGenerator.code(Paper.new, 'id', 30)
+    self.id = CodeGenerator.code(Paper.new, Paper.primary_key.to_s, 30)
   end
 
 end
