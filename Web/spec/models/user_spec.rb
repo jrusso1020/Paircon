@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe User do
+describe User, type: :model do
   fixtures :all
 
   let(:user) { users(:kilian) }
