@@ -48,6 +48,7 @@ class Cosine_Similiarity:
       with open(doc, 'r') as my_file:
         conference_papers.append(my_file.read())
 
+
     # change to numpy arrays for list indexing
     both_papers = np.array(user_papers + conference_papers)
     user_docs = np.array(user_docs)

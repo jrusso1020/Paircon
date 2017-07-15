@@ -11,4 +11,6 @@
   <div id= "recommendation-carousel" class="x_content"></div>
 </div>
 
-<%= javascript_tag "requestUserRecommendations('" + @conference.id + "','" + current_user.id + "','" + false.to_s + "')" %>
+<% if !current_user.all_similarities_generated(@conference.id) %>
+  <%= javascript_tag "requestUserRecommendations('" + @conference.id + "','" + current_user.id + "','" + false.to_s + "')" %>
+<% end %>

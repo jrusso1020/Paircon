@@ -26,7 +26,7 @@ class Organizer < ApplicationRecord
 
   # Create organizer id
   def init_id
-    self.id = CodeGenerator.code(Organizer.new, self.Organizer.to_s, 30)
+    self.id = CodeGenerator.code(Organizer.new, Organizer.primary_key.to_s, 30)
   end
 
 end

@@ -24,7 +24,7 @@
               <p>
                 <b>Related To: </b><%= result[:user_paper][:title] %>
               </p>
-              <button class="btn btn-paircon btn-center" type="button" data-toggle="modal" data-target=<%= "##{result[:conference_paper][:title]}" %>>More</button>
+              <button class="btn btn-paircon btn-center" type="button" data-toggle="modal" data-target=<%= "#{result[:conference_paper][:title]}" %>>More</button>
             </div>
             <div class="modal fade" id=<%= "#{result[:conference_paper][:title]}" %> tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog" role="document">
