@@ -125,9 +125,9 @@ function initializeConference(id, description, start_date, end_date) {
     });
 
     $('.read-more-description-' + id).on('click', function (e) {
-        e.preventDefault()
-        $(this).parent().html("'" + description + "'")
-    })
+        e.preventDefault();
+        $(this).parent().html("'" + description + "'");
+    });
 
     $('.inputfit').inputfit({
         maxSize: 20,
@@ -139,13 +139,12 @@ var map, autocomplete, conference_id;
 
 function initAutocomplete(input_field, id) {
     autocomplete = new google.maps.places.Autocomplete(
-        /** @type {!HTMLInputElement} */(input_field),
+        (input_field),
         {types: ['geocode']});
 
-    conference_id = id
+    conference_id = id;
 
 //    autocomplete.bindTo('bounds', map);
-
     autocomplete.addListener('place_changed', fillInAddress);
 }
 
@@ -161,7 +160,6 @@ function fillInAddress() {
             'redirect': false
         }
     });
-
 }
 
 function geolocate() {
@@ -183,20 +181,23 @@ function geolocate() {
 function initializeInPlaceEditing(id) {
     $(".best_in_place").best_in_place();
 
-    $(".best_in_place").click(function () {
-        if ($(this).attr('id') == 'phone-number') {
-            $('#phone-number input').inputmask("phone");
-        } else if ($(this).attr('id') == 'address-in-place') {
-            initAutocomplete($('#address-in-place input')[0], id);
-            geolocate();
-        }
+    $('#phone-number').bind('best_in_place:activate', function () {
+        $('#phone-number input').inputmask("phone");
+    });
 
+    $('#address-in-place').bind('best_in_place:activate', function () {
+        initAutocomplete($('#address-in-place input')[0], id);
+//            geolocate();
+    });
+
+    $(".best_in_place").click(function () {
         $(this).css({
             "border-color": "#none",
             "border-width": "none",
             "border-style": "none"
         })
     });
+
     $(".best_in_place").hover(function () {
         if ($(this).children().length)
             return;
@@ -212,7 +213,7 @@ function initializeInPlaceEditing(id) {
             "border-width": "none",
             "border-style": "none"
         })
-    })
+    });
 
     $('.best_in_place').bind("ajax:success", function (data, jqXHR, status) {
         var conference_name = $.parseJSON(jqXHR).text;
@@ -232,7 +233,6 @@ function retrievePosts(id) {
         },
         success: function (html) {
             $('.post_div').html(html);
-            initializeInPlaceEditing(id);
         }
     });
 }

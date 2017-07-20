@@ -1,6 +1,7 @@
 similiarity_algo.egg-info/
 build/
 .eggs/
+*.pyc
 dist/
 .idea/
 __pycache__
