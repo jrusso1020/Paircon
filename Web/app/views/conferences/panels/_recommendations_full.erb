@@ -3,6 +3,11 @@
 
 <div class="clearfix"></div>
 <div id="main-container" class="x_content">
+<% if current_user.all_similarities_generated(@conference.id) %>
+  <%= j render 'conferences/panels/user_recommendations' %>
+<% end %>
 </div>
 
-<%= javascript_tag "requestUserRecommendations('" + @conference.id + "','" + current_user.id + "','true')" %>
+<% if !current_user.all_similarities_generated(@conference.id) %>
+  <%= javascript_tag "requestUserRecommendations('" + @conference.id + "','" + current_user.id + "','true')" %>
+<% end %>
