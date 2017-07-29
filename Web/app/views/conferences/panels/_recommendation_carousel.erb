@@ -1,12 +1,14 @@
 <div id="owl-demo" class="owl-carousel top-buffer">
   <% if current_user.is_attending(@conference.id) and !current_user.papers.blank? and !@conference.papers.blank? %>
-    <% @papers_with_scores.each do |result| %>
-      <div class="usage-graph" style="transform: scale(1.2,1.2);">
-        <div class="easypiechart" id="returningvisits" data-percent="<%= result[:similarity_score].nan? ? 0 : (result[:similarity_score]*100).round(2) %>">
-          <span class="percent"><%= result[:similarity_score].nan? ? 0 : (result[:similarity_score]*100).round(2) %></span>
-        </div>
-      </div>
-    <% end %>
+      <% if (@papers_with_scores != nil) %>
+        <% @papers_with_scores.each do |result| %>
+          <div class="usage-graph" style="transform: scale(1.2,1.2);">
+            <div class="easypiechart" id="returningvisits" data-percent="<%= result[:similarity_score].nan? ? 0 : (result[:similarity_score]*100).round(2) %>">
+              <span class="percent"><%= result[:similarity_score].nan? ? 0 : (result[:similarity_score]*100).round(2) %></span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
   <% elsif !current_user.is_attending(@conference.id)%>
     <p> Please Press the Interested Button to Have Your Recommendations Generated</p>
   <% elsif current_user.papers.blank? %>
@@ -15,4 +17,6 @@
     <p>This Conference Has Not Uploaded Any Academic Papers Yet</p>
   <% end %>
 </div>
-<%= javascript_tag "initCharts(#{@papers_with_scores.count})"%>
+<% if (@papers_with_scores != nil) then %>
+  <%= javascript_tag "initCharts(#{@papers_with_scores.count})"%>
+<% end %>
