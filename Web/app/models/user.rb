@@ -160,7 +160,7 @@ class User < ApplicationRecord
     user = self
     conference = Conference.find(conference_id)
     result = Similarity.where(user_paper_id: user.user_papers.pluck(:paper_id), conference_paper_id: conference.conference_papers.pluck(:paper_id))
-    result.size == (user.user_papers.size * conference.conference_papers.size)
+    result.size == (user.user_papers.size * conference.conference_papers.size) and result.size!=0
   end
 
   private

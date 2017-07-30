@@ -10,7 +10,7 @@
   </div>
   <div id= "recommendation-carousel" class="x_content">
     <% if current_user.all_similarities_generated(@conference.id) %>
-      <%= j render 'conferences/panels/recommendation_carousel' %>
+      <%= render 'conferences/panels/recommendation_carousel' %>
     <% end %>
   </div>
 </div>
