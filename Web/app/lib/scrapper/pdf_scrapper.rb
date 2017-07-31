@@ -106,7 +106,10 @@ class PDFScrapper
     links.each do |link|
       begin
         download = open(link, 'User-Agent' => USER_AGENT)
-        filePath = folderName + '/' + link.split('/').last + ".pdf"
+        filePath = folderName + '/' + link.split('/').last 
+        if !filepath.include? '.pdf'
+          filepath << '.pdf'
+        end
         File.open(filePath, 'w') do |f|
           IO.copy_stream(download, f)
         end

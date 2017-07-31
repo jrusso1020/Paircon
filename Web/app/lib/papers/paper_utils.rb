@@ -11,7 +11,7 @@ class PaperUtils
     pdf_path = paper.pdf.path
     conference = Conference.find(conference_id)
     unless pdf_path.nil?
-      scrapper = PDFScrapper.new('dummy', PDFScrapper::PageType[:personal])
+      scrapper = PDFScrapper.new('dummy', PDFScrapper::PAGETYPE[:personal])
       txt_folder = conference.get_pdf_text_path
       txt_file = Rails.root.join(txt_folder, File.basename(paper.pdf_file_name, File.extname(paper.pdf_file_name)) + '.txt')
       FileUtils::mkdir_p txt_folder
