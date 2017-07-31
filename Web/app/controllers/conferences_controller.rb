@@ -82,6 +82,17 @@ class ConferencesController < ApplicationController
     end
   end
 
+  def get_paper_scores
+    logged_in = user_signed_in?
+    if logged_in
+      similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: current_user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
+      @papers_with_scores = []
+      similarities.each do |similarity|
+        @papers_with_scores << {user_paper: similarity.paper_user, conference_paper: similarity.paper_conference, similarity_score: similarity.similarity_score}
+      end
+    end
+  end
+
   # Action used to show information relative to a conference
   # @return [HTML] Renders Show View
   def show
@@ -94,13 +105,9 @@ class ConferencesController < ApplicationController
         RecommendationService.new(current_user.id, @conference.id).getRecommendationsForEachPaper()
       end
     end
-    if logged_in
-      similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: current_user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
-      @papers_with_scores = []
-      similarities.each do |similarity|
-        @papers_with_scores << {user_paper: similarity.paper_user, conference_paper: similarity.paper_conference, similarity_score: similarity.similarity_score}
-      end
-    end
+    
+    get_paper_scores
+
     if (!@is_organizer and !@conference.publish and logged_in) or (!logged_in and !@conference.publish)
       respond_to do |format|
         format.html { render template: 'errors/unauthorized_access', layout: logged_in ? 'layouts/application' : 'layouts/error', status: 403 }
@@ -140,11 +147,7 @@ class ConferencesController < ApplicationController
     user = current_user
     @view_to_render = (params[:view_to_render] == 'true')
 
-    similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
-    @papers_with_scores = []
-    similarities.each do |similarity|
-      @papers_with_scores << {user_paper: similarity.paper_user, conference_paper: similarity.paper_conference, similarity_score: similarity.similarity_score}
-    end
+    get_paper_scores
 
     respond_to do |format|
       format.js
@@ -229,14 +232,7 @@ class ConferencesController < ApplicationController
   # Action used to show Home Tab Pane (AJAX)
   # @return [HTML] Renders Home Tab Pane
   def home
-    logged_in = user_signed_in?
-    if logged_in
-      similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: current_user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
-      @papers_with_scores = []
-      similarities.each do |similarity|
-        @papers_with_scores << {user_paper: similarity.paper_user, conference_paper: similarity.paper_conference, similarity_score: similarity.similarity_score}
-      end
-    end
+    get_paper_scores
     @post_count, @interested_count, @total_resources, @total_events = @conference.get_counts()
     render template: 'conferences/tab_panes/home'
   end
@@ -259,14 +255,7 @@ class ConferencesController < ApplicationController
   # Action used to show Recommendations Tab Pane (AJAX)
   # @return [HTML] Renders Recommendations Tab Pane
   def recommendations
-    logged_in = user_signed_in?
-    if logged_in
-      similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: current_user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
-      @papers_with_scores = []
-      similarities.each do |similarity|
-        @papers_with_scores << {user_paper: similarity.paper_user, conference_paper: similarity.paper_conference, similarity_score: similarity.similarity_score}
-      end
-    end
+    get_paper_scores
     render template: 'conferences/tab_panes/recommendations'
   end
 
