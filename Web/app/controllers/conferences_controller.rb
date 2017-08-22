@@ -85,7 +85,7 @@ class ConferencesController < ApplicationController
   def get_paper_scores
     logged_in = user_signed_in?
     if logged_in
-      similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: current_user.user_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
+      similarities = Similarity.includes(:paper_user, :paper_conference).where(user_paper_id: current_user.user_papers.pluck(:paper_id)).where(conference_paper_id: @conference.conference_papers.pluck(:paper_id)).order(similarity_score: :desc).limit(100)
       @papers_with_scores = []
       similarities.each do |similarity|
         @papers_with_scores << {user_paper: similarity.paper_user, conference_paper: similarity.paper_conference, similarity_score: similarity.similarity_score}
