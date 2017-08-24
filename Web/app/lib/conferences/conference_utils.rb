@@ -75,6 +75,9 @@ class ConferenceUtils
                 paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
               else
                 paper = Paper.where(pdf_file_name: pdf_name).first
+                if ConferencePaper.where('conference_id=? AND paper_id=?', conference_id, paper.id).blank?
+                  PaperUtils.create_conference_papers(conference_id, paper)
+                end
               end
               if not paper.nil?
                 tran_success = create_conference_events(params[:session], conference_id, paper.id)
@@ -92,7 +95,8 @@ class ConferenceUtils
           end
         rescue => e
           tran_success = false
-          message = 'Ouch! We were not able to process your request because of some error with our server. Please try again later.'
+          raise e
+          message = ' Ouch! We were not able to process your request because of some error with our server. Please try again later.'
           raise ActiveRecord::Rollback
         end
       end
