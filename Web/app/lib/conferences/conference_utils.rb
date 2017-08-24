@@ -45,7 +45,7 @@ class ConferenceUtils
             unless row.blank?
               params = {}
               if row[1].nil?
-                continue
+                next
               end
               params[:paper] = {}
               params[:paper][:title] = row[1].to_s
@@ -68,25 +68,31 @@ class ConferenceUtils
               paper_pdf_path = nil
               if pdf_map.has_key?(pdf_name)
                 paper_pdf_path = pdf_map[pdf_name]
+              else
+                message = 'Ouch! The paper #{pdf_name} in your template file is not in your zip file!'
               end
-              paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
+              if Paper.where(pdf_file_name: pdf_name).blank?
+                paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
+              else
+                paper = Paper.where(pdf_file_name: pdf_name).first
+              end
               if not paper.nil?
                 tran_success = create_conference_events(params[:session], conference_id, paper.id)
                 unless tran_success
-                  message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
+                  message = 'Ouch! We were not able to process your request because of an error creating your conference schedule. Please try again later.'
                   tran_success = false
                   raise ActiveRecord::Rollback
                 end
               else
                 tran_success = false
-                message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
+                message = 'Ouch! We were not able to process your request because of an error uploading your papers. Please try again later.'
                 raise ActiveRecord::Rollback
               end
             end
           end
         rescue => e
           tran_success = false
-          message = 'Ouch! We were not able to process your request because of some error. Please try again later.'
+          message = 'Ouch! We were not able to process your request because of some error with our server. Please try again later.'
           raise ActiveRecord::Rollback
         end
       end
