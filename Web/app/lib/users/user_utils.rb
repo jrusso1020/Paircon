@@ -37,18 +37,31 @@ class UserUtils
     Dir.foreach(txt_folder) do |item|
       next if item == '.' or item == '..'
       txt_file = txt_folder + '/' + item
-      filepath = pdf_folder + '/' + File.basename(item, File.extname(item)) + '.pdf'
-      params = {}
-      params[:pdf] = File.open(filepath, 'r')
-      params[:path] = txt_file
-      paper = Paper.new(params)
-      if paper.save
+      filepath = pdf_folder + '/' + File.basename(item, File.extname(item))
+      if !filepath.include? '.pdf'
+        filepath << '.pdf'
+      end
+      md5hash = Digest::MD5.hexdigest(File.read(filepath))
+      paper = Paper.find_by_md5hash(md5hash)
+      if paper.blank?
+        params = {}
+        params[:pdf] = File.open(filepath, 'r')
+        params[:path] = txt_file
+        params[:md5hash] = Digest::MD5.hexdigest(File.read(filepath))
+        paper = Paper.new(params)
+        if paper.save
+          File.delete(filepath)
+          if not @user.user_papers.create!({paper_id: paper.id})
+            Rails.logger.error('Can not save the user_paper')
+          end
+        else
+          Rails.logger.error('Can not save the paper')
+        end
+      else
         File.delete(filepath)
         if not @user.user_papers.create!({paper_id: paper.id})
           Rails.logger.error('Can not save the user_paper')
         end
-      else
-        Rails.logger.error('Can not save the paper')
       end
     end
 
