@@ -235,6 +235,12 @@ class Conference < ApplicationRecord
     "#{get_conference_path}/pdf"
   end
 
+  # Get the paths to a conference's text versions of it's files
+  # @return Array[String] an array of paths to files
+  def get_text_paths
+    self.papers.pluck(:path)
+  end
+
   private
 
   # Create conference id
