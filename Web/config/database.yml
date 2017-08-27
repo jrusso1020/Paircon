@@ -8,7 +8,7 @@ development:
   <<: *default
   database: paircon_development
   username: paircon
-  password: 8D2E6C2EF56D71795323532D16F42E2F33979D6B91B780F269878584B4D046EAB062E65CC010F7EEAF1A0C22BD9A613AF19F68C95EFD4F27AE58F5FEBC89002D
+  password: paircon
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -17,7 +17,7 @@ test:
   <<: *default
   database: paircon_test
   username: paircon
-  password: 8D2E6C2EF56D71795323532D16F42E2F33979D6B91B780F269878584B4D046EAB062E65CC010F7EEAF1A0C22BD9A613AF19F68C95EFD4F27AE58F5FEBC89002D
+  password: paircon
 
 production:
   <<: *default

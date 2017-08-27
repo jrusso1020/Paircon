@@ -74,4 +74,4 @@ def after(response):
 
 # run in production multithreaded
 if __name__ == "__main__":
-  app.run(host='0.0.0.0', multithreaded='true')
+  app.run(host='0.0.0.0', threaded='true')

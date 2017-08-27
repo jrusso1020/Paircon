@@ -2,7 +2,7 @@
 #different environments ie staging, production.
 
 production_environment: 'https://www.paircon.com'
-development_environment: 'http://devparicon.com:3000'
+development_environment: 'http://devpaircon.com:3000'
 
 product_name: 'PairCon'
 product_url: 'https://www.paircon.com'
