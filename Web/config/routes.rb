@@ -5,13 +5,13 @@ Rails.application.routes.draw do
   get 'errors/internal_server_error'
 
   get '*path' => redirect { |_, request|
-    "https://#{request.host_with_port.sub(/^www\./, '')}#{request.fullpath}" },
-      constraints: lambda { |request| request.subdomain =~ /^www\./i }
+    "https://#{request.host_with_port.sub(/^www\./, '')}#{request.fullpath}" }
+      #constraints: lambda { |request| request.subdomain =~ /^www\./i }
 
-  root to: redirect { |_, request| PainConConfig.root_domain },
-       constraints: lambda { |request|
-         request.subdomain =~ /^www$/i && request.query_parameters.blank?
-       }
+  #root to: redirect { |_, request| PairConConfig.root_domain },
+       #constraints: lambda { |request|
+         #request.subdomain =~ /^www$/i && request.query_parameters.blank?
+       #}
 
   devise_for :users, path: '', path_names: { sign_in: 'login', sign_up: 'register', sign_out: 'logout'}, controllers: {
       omniauth_callbacks: 'users/omniauth_callbacks',

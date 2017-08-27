@@ -259,7 +259,7 @@ GEM
       ast (~> 2.2)
     parsley-rails (2.7.0.0)
       railties (>= 3.0.0)
-    passenger (5.0.30)
+    passenger (5.1.7)
       rack
       rake (>= 0.8.1)
     pdf-reader (2.0.0)
@@ -466,7 +466,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-google-oauth2
   paperclip
-  passenger (~> 5.0.7)
+  passenger (~> 5.1.7)
   pdf-reader
   pdfjs_viewer-rails
   pg
@@ -502,4 +502,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   1.14.6
+   1.15.3

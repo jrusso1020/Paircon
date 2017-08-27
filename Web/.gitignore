@@ -26,14 +26,7 @@
 .DS_Store
 
 #Ignore Public Folder
-public/conference_papers
-public/users/
-public/docs/
-public/conferences/
-public/conference/
-/public/system/users/
-/public/system/papers/
-/public/system/conferences/
+public/*
 
 
 *subl*
@@ -80,3 +73,4 @@ bower.json
 .yardoc/
 doc/
 /spec/examples.txt
+*.lock
