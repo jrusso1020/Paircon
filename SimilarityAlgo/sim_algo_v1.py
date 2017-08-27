@@ -29,7 +29,7 @@ class Cosine_Similiarity:
     """
     return self.stem_tokens(nltk.word_tokenize(text.lower().translate(self.punctuation_dict)))
 
-  def compute_cosine_sim_one(self, user_file_path, conference_paths):
+  def compute_cosine_sim_one(self, user_file_path, conference_dir):
     """
     compute the cosine similiarity between one user document and the entire confernce directory
     PARAMS: user_file_path = the absolute path to a txt file of a user document
@@ -42,8 +42,9 @@ class Cosine_Similiarity:
       with open(doc, 'r') as my_file:
         user_papers.append(my_file.read())
 
+    conference_docs = glob.glob(conference_dir + "/*.txt")
     conference_papers = []
-    for doc in conference_paths:
+    for doc in conference_docs:
       with open(doc, 'r') as my_file:
         conference_papers.append(my_file.read())
 
