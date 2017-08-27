@@ -1,6 +1,7 @@
 # Utility file for User related functionality
 class UserUtils
   require 'scrapper/pdf_scrapper'
+  require 'docsplit'
 
   # Initializes the class object
   # @param user [User] user object
@@ -47,6 +48,8 @@ class UserUtils
         params = {}
         params[:pdf] = File.open(filepath, 'r')
         params[:path] = txt_file
+        params[:title] = Docsplit.extract_title(filepath)
+        params[:author] = Docsplit.extract_author(filepath).split(/, /)
         params[:md5hash] = Digest::MD5.hexdigest(File.read(filepath))
         paper = Paper.new(params)
         if paper.save
