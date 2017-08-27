@@ -71,10 +71,12 @@ class ConferenceUtils
               else
                 message = 'Ouch! The paper #{pdf_name} in your template file is not in your zip file!'
               end
-              paper = Paper.find_by_pdf_file_name(pdf_name)
+              md5hash = Digest::MD5.hexdigest(File.read(paper_pdf_path))
+              paper = Paper.find_by_md5hash(md5hash)
               if paper.blank?
                 paper = PaperUtils.create_paper(params[:paper], conference_id, paper_pdf_path)
               else
+                paper.update(params[:paper])
                 if ConferencePaper.where('conference_id=? AND paper_id=?', conference_id, paper.id).blank?
                   PaperUtils.create_conference_papers(conference_id, paper)
                 end

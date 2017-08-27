@@ -42,7 +42,7 @@ def compare_paper_to_conference():
     app.logger.debug(request.data)
     data = request.get_json()
     try:
-      similiarities = Cosine_Similiarity().compute_cosine_sim_one(data["user_file"], data["conference_dir"])
+      similiarities = Cosine_Similiarity().compute_cosine_sim_one(data["user_file"], data["conference_paths"])
       resp = jsonify(similiarities)
       resp.status_code = 200
     except Exception as e:
