@@ -18,7 +18,7 @@ en:
       unconfirmed: "You are pending email verification for your account. Click<strong><span style='cursor: pointer' onclick='window.location=\"users/confirmation/new\"' target='_blank'>here</span></strong> to resend verification email. "
     mailer:
       confirmation_instructions:
-        subject: "Complete Your PairCon Sign Up"
+        subject: "Complete Your Paircon Sign Up"
       reset_password_instructions:
         subject: "Reset Your Password"
       unlock_instructions:

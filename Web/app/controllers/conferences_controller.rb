@@ -56,10 +56,10 @@ class ConferencesController < ApplicationController
       if redirect_bool
         if params[:commit] == 'Publish'
           @conference.activity(:publish, current_user)
-          flash[:notice] = 'Your Conference has been successfully published and can now be found in PairCon.'
+          flash[:notice] = 'Your Conference has been successfully published and can now be found in Paircon.'
         elsif params[:commit] == 'Hide'
           @conference.activity(:publish, current_user)
-          flash[:notice] = 'Your Conference has been hidden from PairCon users and is unavailable to them.'
+          flash[:notice] = 'Your Conference has been hidden from Paircon users and is unavailable to them.'
         elsif params[:commit] == 'Archive'
           @conference.activity(:archive, current_user)
           flash[:notice] = 'Your Conference has been successfully marked as archived.'

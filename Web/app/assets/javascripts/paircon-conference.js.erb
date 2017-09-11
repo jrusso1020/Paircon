@@ -217,7 +217,7 @@ function initializeInPlaceEditing(id) {
 
     $('.best_in_place').bind("ajax:success", function (data, jqXHR, status) {
         var conference_name = $.parseJSON(jqXHR).text;
-        document.title = conference_name + ' - PairCon';
+        document.title = conference_name + ' - Paircon';
         $('#conference_' + id).text(conference_name);
         showNotificationMsg('Your Conference has been successfully updated.');
     });

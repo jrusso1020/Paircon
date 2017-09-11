@@ -4,7 +4,7 @@
 production_environment: 'https://www.paircon.com'
 development_environment: 'http://devpaircon.com:3000'
 
-product_name: 'PairCon'
+product_name: 'Paircon'
 product_url: 'https://www.paircon.com'
 
 machine_learning_development_api_url: 'http://127.0.0.1:5000/similiarity/v1/compare'
@@ -35,12 +35,12 @@ contact_us_recipients: 'support@paircon.com'
 support_email: 'support@paircon.com'
 exception_recipients: 'support@paircon.com'
 exception_sender: 'support@paircon.com'
-email_prefix: '[PairCon]:'
+email_prefix: '[Paircon]:'
 long_support_email: 'support@paircon.com'
 feed_back_recipients: 'support@paircon.com'
 paypal_invoice_recipients: 'support@paircon.com'
 billing_recipients: 'support@paircon.com'
-notification_email: "PairCon <noreply@paircon.com>"
+notification_email: "Paircon <noreply@paircon.com>"
 marketing_email: 'support@paircon.com'
 
 # Others

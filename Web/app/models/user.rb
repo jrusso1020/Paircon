@@ -105,7 +105,7 @@ class User < ApplicationRecord
   # gets the full link to the profile picture
   # @return [String] link to the profile picture
   def profile_photo_full_link
-    return "#{PairConConfig::root_domain + ActionController::Base.helpers.asset_path(self.profile_photo)}"
+    return "#{PairconConfig::root_domain + ActionController::Base.helpers.asset_path(self.profile_photo)}"
   end
 
   # Gets the path of folder where the text files extracted from pdfs(scrapped from user profile) are stored

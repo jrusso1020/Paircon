@@ -79,7 +79,7 @@ footer {
 
 .flex-autoresize-middle {
   @extend .flex-grow;
-  flex: 1;
+  flex-grow: 1;
 }
 
 .main_container {
@@ -199,7 +199,7 @@ Misc
 
 .navbar-image {
   height: 50px;
-  margin: auto;
+  margin-left: 10%;
 }
 
 .navbar-right {

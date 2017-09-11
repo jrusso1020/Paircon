@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     "https://#{request.host_with_port.sub(/^www\./, '')}#{request.fullpath}" },
       constraints: lambda { |request| request.subdomain =~ /^www\./i }
 
-  #root to: redirect { |_, request| PairConConfig.root_domain },
+  #root to: redirect { |_, request| PairconConfig.root_domain },
   #     constraints: lambda { |request|
   #       request.subdomain =~ /^www$/i && request.query_parameters.blank?
   #     }

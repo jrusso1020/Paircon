@@ -14,7 +14,7 @@ class RecommendationService
     conference_dir = @conference.get_pdf_text_path
     @user.papers.all.each do |user_paper|
       unless @conference.conference_papers.size == Similarity.where(user_paper_id: user_paper.id, conference_paper_id: @conference.conference_papers.pluck(:paper_id)).size
-        uri = URI("#{PairConConfig.recommendation_system_domain}/single")
+        uri = URI("#{PairconConfig.recommendation_system_domain}/single")
         req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
         req.body = { user_file: user_paper.path, conference_dir: conference_dir }.to_json
         res = Net::HTTP.start(uri.hostname, uri.port) do |http|

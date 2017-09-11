@@ -15,7 +15,7 @@ module ApplicationHelper
   # @return [HTML] Set Title Tag
   def header_title(title)
     @page_title = title
-    content_tag(:title, @page_title + ' - PairCon')
+    content_tag(:title, @page_title + ' - Paircon')
   end
 
   # Creates a jS Setting for Locale
