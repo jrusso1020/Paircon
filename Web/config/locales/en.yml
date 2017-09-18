@@ -109,7 +109,7 @@ en:
 
   # Emails Begin
   notifier:
-  user_verify_email_subject: PairCon Account Activation
+  user_verify_email_subject: Paircon Account Activation
   delivered_via: Delivered via
   shared_source: " through the link you shared via %{source}. "
   email_footer: 'To change your settings for email notifications, <a href="%{href_path}">click here</a>'
@@ -363,10 +363,10 @@ en:
   apply: Apply
   reset_password_verify_message: To verify your new password, please enter it once in each field below
   set_password_verify_message: To activate your account, please set your password
-  welcome_email_message: "Welcome to PairCon"
+  welcome_email_message: "Welcome to Paircon"
   account_page: account page
   cc_info: Credit Card Information
-  thanks_for_using_paircon: Thank you for using PairCon.
+  thanks_for_using_paircon: Thank you for using Paircon.
   quantity: Quantity
   share: Share
   show_quoted_text: '- Show quoted text -'
@@ -383,7 +383,7 @@ en:
   all_job: All jobs
   sign_up_for_free: Sign Up for Free.
   take_a_tour: Take a tour
-  paircon: PairCon
+  paircon: Paircon
   about_us: About Us
   faq: Frequently Asked Questions
   personal_information: Personal Information
@@ -445,9 +445,9 @@ en:
   activate_your_account: Activate Your Account
   thank_you_verifying_email_address: Thank you for verifying your email address.
   company: Company
-  enter_password_to_activate_account: Please enter a password to activate your PairCon account.
+  enter_password_to_activate_account: Please enter a password to activate your Paircon account.
   activate_account: Activate Account
-  cloudmerge_copyright: © 2015 PairCon.
+  cloudmerge_copyright: © 2015 Paircon.
   back_to: « back to
   tags: Tags
   notifications_options:
@@ -468,7 +468,7 @@ en:
   user_status: User Status
   active: Active
   inactive: Inactive
-  already_have_account: Already have a PairCon account?
+  already_have_account: Already have a Paircon account?
   log_in_here: Log In here.
   ok: OK
   view_all_notifications: View All Notifications

@@ -2,8 +2,8 @@
   <div class="nav_menu">
     <nav>
       <div class="nav navbar-paircon">
-        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: is_mobile_browser? ? 'margin: initial; margin-left: 20px;' : '' %>
-        <ul id="user-dropdown" class="navbar-user nav navbar-nav navbar-right pull-right">
+        <%= image_tag 'Top-Header-notext.png', alt: '', class: 'navbar-image', style: is_mobile_browser? ? 'margin-left: 20px;' : '' %>
+        <ul id="user-dropdown" class="navbar-user nav navbar-nav navbar-right pull-right" >
           <li class="">
             <a href="javascript:" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               <img src="<%= asset_path(current_user.profile_photo) %>" id="userimage" alt=""><span id="username"><%= current_user.full_name %></span>
@@ -18,10 +18,10 @@
                   </div>
                 </div>
               </li>
-              <li><a href="<%= PairConConfig::url[:support] %>" target="_blank">Support
+              <li><a href="<%= PairconConfig::url[:support] %>" target="_blank">Support
                 <i class="pull-right fa fa-comments dropdown-user-icons"></i></a>
               </li>
-              <li><a href="<%= PairConConfig::url[:help] %>" target="_blank">Help
+              <li><a href="<%= PairconConfig::url[:help] %>" target="_blank">Help
                 <i class="pull-right fa fa-question-circle dropdown-user-icons"></i></a>
               </li>
               <li class="divider"></li>

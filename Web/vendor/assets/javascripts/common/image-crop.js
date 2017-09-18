@@ -24,7 +24,7 @@
 
         //buttons
         this.button				= {}
-        this.button.upload		= '<div class="btn btn-paircon btn-upload" title="' + ('Upload') + '"><i class="glyphicon glyphicon-upload"></i></div>'
+        this.button.upload		= '<div id="uploadImage" class="btn btn-paircon btn-upload" title="' + ('Upload') + '"><i class="glyphicon glyphicon-upload"></i></div>'
         this.button.edit		= '<div class="btn btn-info btn-edit" title="' + (this.options.editTitle || 'Edit') + '"><i class="glyphicon glyphicon-pencil"></i></div>'
         this.button.saving		= '<div class="btn btn-warning saving">' + (this.options.saveLabel || 'Saving...') + ' <i class="glyphicon glyphicon-time"></i></div>';
         this.button.zoomin		= '<div class="btn btn-default btn-zoom-in" title="' + (this.options.zoominTitle || 'Zoom in') + '"><i class="glyphicon glyphicon-resize-full"></i></div>';
@@ -182,13 +182,13 @@
             }
 
             var tools			= $('<div class="preview tools"></div>');
-            var upload			= $('' + this.button.upload + '');
-            $(tools).append(upload)
+            // var upload			= $('' + this.button.upload + '');
+            // $(tools).append(upload)
             $(element).append(tools);
 
-            $(upload).click(function () {
-               $(input).click();
-            });
+            // $(upload).click(function () {
+            //    $(input).click();
+            // });
 
             if (!empty(options.image) && options.editstart == false) {
 
@@ -705,8 +705,13 @@
 
             //create tools element
             var tools		= $('<div class="tools final">');
-            var upload			= $('' + this.button.upload + '');
-            $(tools).append(upload)
+            // var upload			= $('' + this.button.upload + '');
+            // $(tools).append(upload)
+
+            // $(upload).click(function () {
+            //     $(input).click();
+            // });
+
 
             //edit option after crop
             if (options.buttonEdit != false) {
@@ -786,13 +791,13 @@
             if (_self.options.onAfterCancel) _self.options.onAfterCancel.call(_self);
 
             var tools			= $('<div class="preview tools"></div>');
-            var upload			= $('' + this.button.upload + '');
-            $(tools).append(upload)
+            // var upload			= $('' + this.button.upload + '');
+            // $(tools).append(upload)
             $(element).append(tools);
 
-            $(upload).click(function () {
-                $(input).click();
-            });
+            // $(upload).click(function () {
+            //     $(input).click();
+            // });
         },
         resize: function() {
             var _self			= this;

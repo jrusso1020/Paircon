@@ -1,12 +1,12 @@
 <head>
   <meta http-equiv="x-pjax-version" content="v123">
-  <title><%= @page_title %> - PairCon</title>
+  <title><%= @page_title %> - Paircon</title>
 
   <%= favicon_link_tag 'favicon.ico' %>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="PairCon">
-  <meta name="author" content="PairCon">
+  <meta name="description" content="Paircon">
+  <meta name="author" content="Paircon">
   <META Http-Equiv="Cache-Control" Content="no-cache"/>
   <META Http-Equiv="Pragma" Content="no-cache"/>
   <META Http-Equiv="Expires" Content="0"/>
@@ -19,7 +19,7 @@
 
 
   <%= javascript_include_tag 'application-layout' %>
-  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=<%= PairConConfig.google_api_key %>" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=<%= PairconConfig.google_api_key %>" async defer></script>
 
   <%= locale_setting_js() %>
   <%= time_zone_setting_js() %>

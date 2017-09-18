@@ -119,7 +119,7 @@ class UsersController < ApplicationController
           unless Identity.find_by_user_id(@user.id).nil?
             sign_in @user, :bypass => true
           end
-          format.html { redirect_to dashboard_path(), notice: "Hi #{@user.full_name.capitalize}! Welcome to PairCon ... Look at upcoming research conferences and get personalized recommendations today!" }
+          format.html { redirect_to dashboard_path(), notice: "Hi #{@user.full_name.capitalize}! Welcome to Paircon ... Look at upcoming research conferences and get personalized recommendations today!" }
         else
           # @user.activity(:update)
           format.html { redirect_to @user, notice: 'Your personal information has been updated successfully.' }
@@ -140,7 +140,7 @@ class UsersController < ApplicationController
       if @user.valid_password?(params[:user][:current_password])
         @user.destroy
         sign_out @user
-        flash[:notice] = 'Your account has been successfully deleted from PairCon.'
+        flash[:notice] = 'Your account has been successfully deleted from Paircon.'
         redirect_to new_user_session_url() and return
       else
         flash[:error] = 'Your current password appears to be incorrect. Please try again later ...'

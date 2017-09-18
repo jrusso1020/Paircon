@@ -1,5 +1,5 @@
 # Class that handles constants defined in Local Settings (YAML)
-class PairConConfig
+class PairconConfig
   class << self
 
     # Loads Local Settings in Global Variable

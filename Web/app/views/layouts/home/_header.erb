@@ -1,12 +1,12 @@
 <head>
   <meta http-equiv="x-pjax-version" content="v123">
-  <title><%= @page_title %> - PairCon</title>
+  <title><%= @page_title %> - Paircon</title>
 
   <%= favicon_link_tag 'favicon.ico' %>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="PairCon">
-  <meta name="author" content="PairCon">
+  <meta name="description" content="Paircon">
+  <meta name="author" content="Paircon">
   <META Http-Equiv="Cache-Control" Content="no-cache"/>
   <META Http-Equiv="Pragma" Content="no-cache"/>
   <META Http-Equiv="Expires" Content="0"/>
@@ -31,7 +31,7 @@
           </button>
           <a class="navbar-brand" style="margin-left: 15px;" href="<%= root_path %>">Pair<span class="logo-dec">Con</span></a>
         </div>
-        <div class="collapse navbar-collapse" id="myNavbar" <% if is_mobile_browser? %> <% end %>>
+        <div class="collapse navbar-collapse" id="myNavbar" >
           <ul class="nav navbar-nav navbar-right navbar-background-color">
             <li class=""><%= link_to 'Home', root_path(anchor: 'main-header'), :'data-no-pjax' => '' %></li>
             <li class=""><%= link_to 'Feature', root_path(anchor: 'feature'), :'data-no-pjax' => '' %></li>

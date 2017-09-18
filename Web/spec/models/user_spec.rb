@@ -38,7 +38,7 @@ describe User, type: :model do
 
   describe "#profile_photo_full_link" do
     it "returns the full path of the profile photo" do
-      expect(users(:kilian).profile_photo_full_link).to eq "#{PairConConfig::root_domain + ActionController::Base.helpers.asset_path(users(:kilian).profile_photo)}"
+      expect(users(:kilian).profile_photo_full_link).to eq "#{PairconConfig::root_domain + ActionController::Base.helpers.asset_path(users(:kilian).profile_photo)}"
     end
   end
 
