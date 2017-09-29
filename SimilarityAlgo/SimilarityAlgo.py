@@ -25,7 +25,7 @@ def compare_papers():
   else:
     message = {
             'status': 404,
-            'message': 'Incorrect Content-Type',
+            'message': 'Incorrect Content-Type' + request.headers['Content-Type'],
     }
     resp = jsonify(message)
     resp.status_code = 404
@@ -52,7 +52,7 @@ def compare_paper_to_conference():
   else:
     message = {
             'status': 404,
-            'message': 'Incorrect Content-Type',
+            'message': 'Incorrect Content-Type ' + request.headers['Content-Type'],
     }
     resp = jsonify(message)
     resp.status_code = 404
