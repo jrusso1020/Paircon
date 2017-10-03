@@ -119,7 +119,7 @@ python setup.py clean
 
 Then to run do
 ```
-python app.py
+python SimilarityAlgo.py
 ```
 
 This will run the app at 127.0.0.1:5000
